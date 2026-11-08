@@ -136,13 +136,16 @@ button:disabled{opacity:.45;cursor:not-allowed}
   </div>
 
   <div class="sheet"><h2><span class="no">0</span>Büyük soru</h2>
-    <p style="font-size:1.12em"><b>Bir mekâna dair bütün raster, vektör ve tablo verisini birlikte okuyan bir karar destek motoru, bir PED projesi hakkında kesin karar verebilir mi?</b></p>
-    <p>Laplace'ın cini (1814): evrendeki her şeyi bilen bir zekâ geleceği ve geçmişi kesin bilir. Bu tez cinin iddiasını <b>sınanabilir</b> hâle getirir. Her yeni veri ailesinin kararı ne kadar iyileştirdiğini ve nerede doyduğunu gerçek PED'ler üzerinde ölçer (bilginin değeri; Howard, 1966).</p>
-    <div class="grid2">
-      <div class="cell"><h3>Veri neyi azaltır?</h3>Bilgisizliği (epistemik belirsizlik): nüfus, yapı, iklim ve enerji tahminlerinin hatası katman eklendikçe küçülür.</div>
-      <div class="cell"><h3>Veri neyi azaltamaz?</h3>Rastlantıyı (aleatorik belirsizlik), kararın geleceği değiştirmesini (öz-göndermelilik), ölçüm hatasının birikmesini ve korelasyonun nedensellik olmamasını.</div>
+    <p style="font-size:1.12em"><b>Laplace'ın cininden AGI'ye giden yolda: kentsel planlamada PED kararları için alana sınırlı bir zekâ kurulabilir mi?</b></p>
+    <p>Her şeyi bilen zekâ (Laplace, 1814) fiziksel olarak imkânsızdır. Bugünün yapay zekâsı ise genel değil, alana sınırlıdır. Bu tez tek bir alan için böyle bir zekâ kurar ve <b>zekâyı ölçülebilir kılar</b>: görmediği kentlerde gerçek PED'leri ne kadar doğru tanıyor (genelleme; Chollet, 2019) ve veri arttıkça kararı ne kadar kesinleşiyor (bilginin değeri; Howard, 1966)?</p>
+    <div class="flow">
+      <div><b>Algılar</b>küresel açık veri: raster, vektör, tablo</div>
+      <div><b>Modeller</b>fizik çekirdeği: enerji dengesi</div>
+      <div><b>Öğrenir</b>gerçek PED'lerden, görmediği kentte sınanır</div>
+      <div><b>Karar verir</b>ÇKKDS, kararlılık, Pareto</div>
+      <div><b>Açıklar</b>kesin katkılar, XAI</div>
+      <div><b>Sınırını bilir</b>belirsizlik ve veri ölçekleme eğrisi</div>
     </div>
-    <p class="note">Sistem "her şeyi biliyorum" demez; "ne kadar bildiğini, neyi bilmediğini ve bir sonraki verinin neye değeceğini" söyler. Bu yanıtın ölçümü: §7.3 veri ölçekleme eğrisi.</p>
   </div>
 
   <div class="sheet"><h2><span class="no">1</span>İki hedef, iki disiplin</h2>
@@ -273,13 +276,11 @@ button:disabled{opacity:.45;cursor:not-allowed}
     <div class="eyebrow">Önerilen tez yapısı · İTÜ Fen Bilimleri Enstitüsü YL tez yazım düzeni</div>
     <h2 style="margin-top:6px">Bölüm başlıkları</h2>
     <ol>
-      <li><b>GİRİŞ: Laplace'ın cininden kentsel karar desteğine</b><ol>
-        <li>Laplace'ın cini (1814): mutlak determinizm ve "her şeyi bilen zekâ"</li>
-        <li>Cinin çöküşü: Heisenberg belirsizlik ilkesi, kaos (Lorenz 1963), termodinamiğin ikinci yasası ve tersinmezlik, çıkarımın fiziksel sınırları (Wolpert 2008)</li>
-        <li>Fizikten kente: örgütlü karmaşıklık (Jacobs 1961; Batty 2013), çetrefil problemler (Rittel ve Webber 1973), kararın geleceği değiştirmesi (öz-göndermelilik)</li>
-        <li>Veri çağının yeni cini: "kuramın sonu" iddiası (Anderson 2008) ve eleştirisi (Kitchin 2014)</li>
-        <li>Belirsizlik altında karar: risk ve belirsizlik (Knight 1921), sınırlı rasyonellik (Simon 1955), bilginin değeri (Howard 1966)</li>
-        <li><b>Tezin sorusu:</b> Bir mekâna dair bütün raster, vektör ve tablo verisini okuyan bir karar destek sistemi, bir PED projesi hakkında ne kadar kesin karar verebilir? Bu kesinlik verinin kendisiyle nasıl ölçülür?</li>
+      <li><b>GİRİŞ: Laplace'ın cininden AGI'ye giden yolda alana sınırlı bir planlama zekâsı</b><ol>
+        <li>Çıkış noktası (kısa): Laplace'ın cini ve sınırları; Heisenberg, kaos, tersinmezlik, çıkarımın fiziksel sınırları (Wolpert 2008)</li>
+        <li>Cinden yapay zekâya: rasyonel ajan (Russell ve Norvig), sınırlı rasyonellik (Simon 1955), zekânın ölçüsü olarak genelleme (Legg ve Hutter 2007; Chollet 2019)</li>
+        <li>Genel zekâ değil, alana sınırlı zekâ: PED planlaması için algılayan (açık veri), modelleyen (fizik), öğrenen (gerçek PED'ler), karar veren (ÇKKDS), açıklayan (XAI) ve belirsizliğini bilen (bilginin değeri) bir sistem</li>
+        <li><b>Tezin sorusu:</b> Bu sınırlı zekâ, görmediği kentlerde gerçek PED'leri ne kadar doğru tanır ve kararının kesinliği veri arttıkça nasıl değişir?</li>
         <li>Amaç, kapsam, üç iddia (A güvenilirlik · B PED imzası · C karar desteği), özgün katkılar, tezin yapısı</li></ol></li>
       <li><b>LİTERATÜR ARAŞTIRMASI</b><ol>
         <li>Pozitif Enerji Bölgesi kavramı, tanımlar ve gerçek PED projeleri (PED Booklet, Annex 83, SCC öncü projeleri)</li>
@@ -303,7 +304,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
         <li>Veri ölçekleme eğrisi: veri arttıkça karar ne kadar kesinleşiyor?</li>
         <li>Caferağa proje adayı: kriterler, ağırlıklar, en ucuz müdahale</li></ol></li>
       <li><b>TARTIŞMA</b><ol>
-        <li>Cine yeniden dönüş: veri neyi bilir, neyi bilemez? (epistemik ve aleatorik belirsizlik)</li>
+        <li>Sınırlı zekânın sınırları: veri neyi bilir, neyi bilemez; AGI'ye giden yolda alana sınırlı sistemlerin yeri</li>
         <li>Açık verinin temsil gücü ve yanlılıkları</li>
         <li>Benimseme ile fiziksel fizibilite ayrımı; küresel aktarılabilirlik</li></ol></li>
       <li><b>SONUÇ VE ÖNERİLER</b><ol>

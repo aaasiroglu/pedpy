@@ -23,7 +23,14 @@ Laplace (1814), evrenin bütün durumunu ve yasalarını bilen bir zekânın gel
    - nedensellik korelasyondan çıkmaz (Pearl 2009).
 4. **Evrimsel ve olasılıksal modelleme:** Bayesçi güncelleme her yeni kentte posteriordaki belirsizliği daraltır. Evrimsel arama (ör. NSGA-II) ise belirsizlik altında sağlam proje seçenekleri üretir. Sistem tek bir "doğru" vermez; dağılım ve bu dağılımın gerekçesini verir.
 
-**Giriş bölümünün akışı (kullanıcı önerisi, K-045):**
+**Konumlandırma (K-046):** Tez felsefeye boğulmaz. Laplace'ın cini yalnızca çıkış noktasıdır; asıl çerçeve **cinden AGI'ye giden yolda alana sınırlı bir zekâdır**:
+- Zekâ tanımı: rasyonel ajan (Russell ve Norvig 2021).
+- Zekânın ölçüsü: genelleme ve beceri edinme verimliliği (Legg ve Hutter 2007; Chollet 2019).
+- Bu tezdeki sınanma: sistem görmediği kentlerde (bir kent dışarıda doğrulama) ve bilmediği ölçüde (belirsizlik, bilginin değeri) sınanır.
+
+Kaynaklar: Russell, S., & Norvig, P. (2021). *Artificial Intelligence: A Modern Approach* (4. bs.). · Legg, S., & Hutter, M. (2007). Universal intelligence. *Minds and Machines*, 17, 391–444. · Chollet, F. (2019). On the measure of intelligence. arXiv:1911.01547.
+
+**Giriş bölümünün akışı (K-045, K-046 ile kısaltıldı):**
 1. Laplace'ın cini (1814).
 2. Cinin çöküşü:
    - Heisenberg (1927): konum ve momentum aynı anda kesin bilinemez;

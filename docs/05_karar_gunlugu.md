@@ -275,6 +275,15 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Tartışma bölümü:** Cine geri dönülüyor. Veri ölçekleme eğrisi, "veri neyi bilir, neyi bilemez?" sorusunun ampirik yanıtı olarak sunuluyor.
 - **Durum:** Kabul
 
+### K-046: Çerçeve: Laplace'ın cininden AGI'ye, alana sınırlı planlama zekâsı
+- **Bağlam:** Kullanıcı tezin felsefeye boğulmasını istemiyor; "cinden AGI'ye giden yolda, sınırlı bir tema için kurulan kentsel planlama PED zekâsı" çerçevesini istiyor.
+- **Karar:**
+  - Felsefe girişte 2–3 sayfa.
+  - Zekâ, ajan bileşenleriyle tanımlanıyor: algı, model, öğrenme, karar, açıklama, sınırını bilme.
+  - Zekâ iki ölçüyle sınanıyor: görmediği kentlerde gerçek PED'leri tanıma (Chollet 2019 genellemesi) ve veri ölçekleme eğrisi.
+  - Sunum ve tez planındaki giriş buna göre güncellendi.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

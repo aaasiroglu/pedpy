@@ -2,9 +2,9 @@
 
 *Güncelleme: 2026-11-08 · Bu belge diğer bütün belgelerin önündedir. Çelişki olursa bu belge geçerlidir.*
 
-## Büyük soru (giriş felsefeyle açılır, K-044/K-045)
+## Büyük soru (K-046)
 
-> Laplace'ın cini her şeyi bildiği için geleceği kesin bilirdi; Heisenberg, kaos ve termodinamik bunun imkânsız olduğunu gösterdi. **Bir mekâna dair bütün açık veriyi okuyan bir karar destek sistemi, bir PED projesi hakkında ne kadar kesin karar verebilir ve bu kesinlik nasıl ölçülür?** Bu sorunun ölçümü veri ölçekleme eğrisidir: veri aileleri eklendikçe gerçek PED'leri tanıma başarısı ve bu başarının belirsizliği.
+> **Laplace'ın cininden AGI'ye giden yolda, kentsel planlamada PED kararları için alana sınırlı bir zekâ.** Felsefe yalnızca çıkış noktasıdır (girişte 2–3 sayfa); tezin gövdesi ölçülebilir bir sistemdir. Sistem algılar (küresel açık veri), modeller (fizik), öğrenir (gerçek PED'ler), karar verir (ÇKKDS), açıklar (XAI) ve sınırını bilir (belirsizlik). Zekâ iki ölçüyle sınanır: görmediği kentlerde gerçek PED'leri tanıma (genelleme; Chollet 2019) ve veri arttıkça kararın kesinleşmesi (veri ölçekleme eğrisi; Howard 1966).
 
 ## Tek cümle
 
