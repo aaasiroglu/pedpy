@@ -49,6 +49,24 @@ Kaynaklar: Russell, S., & Norvig, P. (2021). *Artificial Intelligence: A Modern 
 
 Kaynaklar: Heisenberg, W. (1927). Über den anschaulichen Inhalt der quantentheoretischen Kinematik und Mechanik. *Z. Physik*, 43, 172–198. · Wolpert, D. H. (2008). Physical limits of inference. *Physica D*, 237(9), 1257–1281. · Jacobs, J. (1961). *The Death and Life of Great American Cities*. · Batty, M. (2013). *The New Science of Cities*. MIT Press. · Rittel, H. W. J., & Webber, M. M. (1973). Dilemmas in a general theory of planning. *Policy Sciences*, 4, 155–169. · Anderson, C. (2008). The end of theory. *Wired*, 16(7). · Kitchin, R. (2014). Big Data, new epistemologies and paradigm shifts. *Big Data & Society*, 1(1). · Knight, F. H. (1921). *Risk, Uncertainty and Profit*. · Simon, H. A. (1955). A behavioral model of rational choice. *QJE*, 69(1), 99–118. · Laplace, P.-S. (1814). *Essai philosophique sur les probabilités*. · Howard, R. A. (1966). Information value theory. *IEEE Trans. Systems Science and Cybernetics*, 2(1), 22–26. · Pearl, J. (2009). *Causality* (2. bs.). · Kiureghian, A. D., & Ditlevsen, O. (2009). Aleatory or epistemic? *Structural Safety*, 31(2), 105–112. · Lorenz, E. N. (1963). Deterministic nonperiodic flow. *J. Atmos. Sci.*, 20, 130–141. · Deb, K., vd. (2002). NSGA-II. *IEEE Trans. Evol. Comput.*, 6(2), 182–197.
 
+## 1c. Otonom CBS ve pedx-agent (K-047)
+
+pedx, Li ve Ning'in (2023) otonom CBS hedeflerine göre konumlandırılır:
+
+| Hedef | pedx | Durum |
+|---|---|---|
+| Kendini oluşturan | Tıklanan nokta için veri gölü ve kent ızgarası kendiliğinden kurulur | ✅ |
+| Kendini düzenleyen | Veri sözleşmesi, katalog, H3 depo | ✅ |
+| Kendini doğrulayan | Gerçek PED vaka–kontrol, veri ölçekleme eğrisi, hata raporu | ✅ |
+| Kendini yürüten | **pedx-agent:** LLM soruyu araç planına çevirir; sayılar yalnız araçlardan gelir | ⏳ Faz 3 |
+| Kendini büyüten | Yeni PED vakalarıyla yeniden eğitim | ⏳ Faz 2–3 |
+
+Ajanın sınanması: 16 (Faz 2'de daha fazla) gerçek PED'den türetilen görevler kullanılır, ör. "bu kentte PED'e en uygun sahayı bul". Ölçü, bulunan sahanın gerçek PED'e uzaklığı ve yüzdeliği. Kaynaklar: Li, Z., & Ning, H. (2023). Autonomous GIS. *IJDE*, 16(2), 4668–4686. · Mai, G., vd. (2024). Foundation models for GeoAI. *ACM TSAS*. · Manvi, R., vd. (2024). GeoLLM. *ICLR*.
+
+## 1d. Analiz birimi (K-048)
+
+Bina = fizik ve müdahale · H3 r10 = veri birleştirme · proje sahası (bina kümesi) = karar. MAUP duyarlılığı r9/r10/r11 ve k = 1/2/3 için raporlanır (Openshaw, S. 1984. *The Modifiable Areal Unit Problem*).
+
 ## 2. Kesişim: neden "dünyanın en güncel konuları" bu projede doğal olarak buluşuyor?
 
 | Alan | pedx'teki karşılığı | Durum | Ana kaynak |

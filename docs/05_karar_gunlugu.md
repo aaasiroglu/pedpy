@@ -284,6 +284,29 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Sunum ve tez planındaki giriş buna göre güncellendi.
 - **Durum:** Kabul
 
+### K-047: Eksen: otonom CBS / coğrafi karar ajanı (pedx-agent)
+- **Bağlam:** "Geospatial AGI" fikri değerlendirildi. AGI'nin üzerinde uzlaşılmış, ölçülebilir bir tanımı yok ve bir YL tezi için savunulamaz.
+- **Karar:**
+  - Literatürdeki karşılık olan otonom CBS çerçevesi benimsendi (Li ve Ning 2023: kendini oluşturan, düzenleyen, doğrulayan, yürüten ve büyüten CBS). AGI girişte ufuk olarak kalıyor.
+  - Faz 3'e `pedx-agent` modülü eklendi. Bir LLM doğal dil soruyu araç çağrılarına çeviriyor: kent ızgarası → PED imzası → ÇKKDS → tersine analiz.
+  - **LLM sayı üretmez**; her sayı fizik çekirdeğinden, doğrulanmış modelden ya da kaynaklı veriden gelir.
+  - Ajan, gerçek PED'lerden türetilen bir görev setiyle sınanıyor (bulunan sahanın gerçek PED'e uzaklığı).
+- **Yayın:** Makale 1, "Otonom CBS'ye doğru: gerçek PED'lerle sınanan coğrafi karar ajanı" (*IJDE* ya da *CEUS*).
+- **Durum:** Kabul
+
+### K-048: Analiz birimi: bina (fizik) · H3 (veri birleştirme) · proje sahası (karar)
+- **Bağlam:** H3 altıgenleri PED değerlendirmesi için yeterince küçük mü? PED, bir bina kümesidir.
+- **Karar:** Üç ölçekli hiyerarşi.
+  1. **Bina:** fiziğin ve müdahalenin birimi (çatı, talep, yenileme).
+  2. **H3 r10 (~1,5 ha):** küresel veri birleştirme ve karşılaştırma birimi (raster, nüfus, uydu).
+  3. **Proje sahası:** karar birimi. Bina kümesi olarak tanımlanır (çizilen poligon, yapı adası ya da hücre kümesi). Göstergeler binaların toplamından tam olarak hesaplanır (denge = toplam PV / toplam talep).
+
+  Altıgen PED'in kendisi değil, onun yapı taşıdır.
+- **Doğrulama (MAUP; Openshaw 1984):**
+  - Sonuçlar H3 çözünürlüğüne (r9, r10, r11) ve proje sahası boyutuna (k = 1, 2, 3) karşı duyarlılık analiziyle raporlanır.
+  - Caferağa'da yapı adası toplamıyla altıgen toplamı karşılaştırılır.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
