@@ -121,3 +121,4 @@
 | --- | --- | --- |
 | 2026-11-08 | — | Planlama klasörü oluşturuldu; literatür ön taraması yapıldı; MARCOS ≡ κ·WSM sayısal olarak doğrulandı; geliştirme danışman onayına kadar durduruldu |
 | 2026-11-08 | — | Danışman Hande Demirel; öncelik XAI ve graf. Kırılganlık analizi (07) yazıldı: 7 ölümcül, 12 ciddi, 7 orta bulgu. Paket adı çakışması (PyPI'da Jülich PedPy) tespit edildi |
+| 2026-11-08 | Faz 2–3 (v0) | `pedx` v0: H3, mutlak indeks, graf-XAI, fizik kenetli tersine analiz, OSM ve PVGIS hattı; 44 test; Caferağa'da ilk koşu (2876 OSM binası). **Takvim artık `10_sprint_plani.md` dosyasında** |

@@ -35,3 +35,19 @@ Yanıtlandıkça buraya not düşülecek ve ilgili karar [05_karar_gunlugu.md](0
 4. PEB kapsamı: "elektrik odaklı PEB potansiyeli" sınırlaması kabul edilebilir mi? (R6)
 5. Müdahale birim maliyetleri için Türkiye'de kabul gören kaynak hangisi? (Bakanlık birim fiyatları, piyasa teklifleri vb.)
 6. Hedef dergi ve konferans (ör. ISPRS, Applied Energy, SCS).
+
+## İBB'den talep edilecek veri listesi (öneri, mahalle ölçeği; 2026-11-08)
+
+Kullanıcı İBB'de çalıştığı için mahalle ölçeğinde birçok veriye erişebiliyor. Öncelik sırasıyla:
+
+1. **Bina envanteri:** kat sayısı, yükseklik, yapım yılı, kullanım türü, taban alanı (OSM'de %85 eksik).
+2. **LiDAR, DSM ve 3B şehir modeli:** çatı geometrisi, eğim, yön ve gölge (C1 ve çatı kullanım oranı).
+3. **Mahalle sınırları:** Caferağa'nın resmî poligonu (v0'da yaklaşık bir sınırlayıcı kutu kullanılıyor).
+4. **Tüketim:** İBB tesisleri veya mahalle düzeyinde toplulaştırılmış elektrik tüketimi (saatlik ya da aylık). İBB'de yoksa: **Hande Hoca'nın önceki projeleri** veya dağıtım şirketinden toplulaştırılmış anonim veri.
+5. **Mevcut PV ve GES envanteri** (çatı santralleri).
+6. **Trafo konumları** (OSM'de büyük ölçüde eksik; isteğe bağlı altyapı ekseni).
+7. **Isıtma türü ve doğalgaz abonelik oranı** (yalıtımın elektrik etkisi ve ısı pompası senaryosu için).
+
+## Hande Hoca'ya ek soru
+
+- Önceki PEB ve Caferağa projelerinizden hangi veri ve çıktıları (3B çatı ışınımı, tüketim, anket) tezde kullanabiliriz? Lisans ve atıf koşulları nedir?

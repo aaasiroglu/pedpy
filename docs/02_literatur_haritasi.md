@@ -109,6 +109,30 @@
 | 48 | DistrictGenerator (TEASER ve richardsonpy tabanlı mahalle talep üretici) | ⚠️ | Alternatif talep profili kaynağı → **07, C1** |
 | 49 | *Resolving Rank Reversal in TOPSIS: A Comprehensive Analysis of Distance Metrics and Normalization Methods.* Informatica (2024) | ⚠️ | Sıra tersinmesinin ana nedeni normalizasyonun kümeye bağlılığı → **07, B1** |
 
+## T11. Danışman çalışma hattı ve dünya PEB projeleri (2026-11-08 eklendi)
+
+Tezin omurgası Hande Demirel ve çalışma grubunun yayın hattıdır. Bu kaynakların **tam metin okuma notları ve kaynakçalarında en çok atıf verdikleri temel kaynaklar** Sprint 1'de çıkarılacak (`docs/lit/`).
+
+| # | Kaynak | Durum | Teze katkısı |
+| --- | --- | --- | --- |
+| 50 | Koçyiğit, A., Aksu, K., Terzi, F., Karadağ, ?, Demirel, H. (2025). *Investigating the Role of GIS in Advancing Positive Energy Districts.* WSEAS Trans. Environment and Development 21, 1280–1291 | ⚠️ | PEB'de CBS'nin rolü; grubun güncel yaklaşımı |
+| 51 | Koçyiğit, Terzi, Aksu, Demirel (2025). *Mapping Positive Energy: A GIS Approach to Defining PEDs.* AESOP 2025 Kongresi, poster (YTÜ, İstanbul) | ⚠️ | PEB sınır tanımı |
+| 52 | Terzi, Aksu, Koçyiğit, Demirel (2026). *Mapping Social Vulnerability Through Accessibility Patterns: The Istanbul Case.* ISPRS Archives | ⚠️ | Erişilebilirlik → altyapı ekseni (T3) için yöntem |
+| 53 | Shoman, W., Demirel, H. (2019/2020). İstanbul'da ulaşım erişilebilirliğinin mekânsal-zamansal analizi (sağlık hizmetleri, Metrobüs hattı) | ⚠️ | Hocamızın erişilebilirlik yöntemleri → C6 ve altyapı ekseni |
+| 54 | *Towards a Synthetic Positive Energy District (PED) in İstanbul: Balancing Cost, Mobility, and Environmental Impact* (structurae kaydı) | ❓ | **İstanbul'da PEB.** Yazarlar ve dergi teyit edilecek |
+| 55 | Gollner, C. vd. / Bossi, S. vd. (2020). *Towards 100 Positive Energy Districts in Europe: Preliminary Data Analysis of 61 European Cases.* Energies 13(22), 6083 | ⚠️ | Dünya PEB projelerinden çıkarım: 61 vaka |
+| 56 | Civiero, P. vd. (2021). *Characterizing PED through a preliminary review of 60 existing projects in Europe.* Buildings 11(8), 318 | ⚠️ | 60 proje. **Not:** #4'teki "Lindholm 2021" kaydı muhtemelen bu makaleyle karıştırılmış; teyit edilecek |
+| 57 | *A Comprehensive PED-Database for Mapping and Comparing PED Experiences at European Level.* Sustainability 14(1), 427 (2022) | ⚠️ | **PED Veritabanı (COST PED-EU-NET, JPI UE, IEA Annex 83)** → S1–S10 çıkarım kaynağı |
+| 58 | *Positive Energy District Database (PED DB).* Energies 17(4), 899 (2024) | ⚠️ | PED DB web aracı |
+| 59 | IEA EBC Annex 83, *A database for positive energy districts (PED)* | ⚠️ | Veritabanı yapısı |
+
+**"Dünyadaki PEB projelerinden çıkarım" planı (S1–S10):** PED DB'deki projelerden (a) alan ve bina sayısı dağılımları, (b) kullanılan müdahaleler (PV, depolama, ısı pompası, bölgesel ısıtma), (c) hedef ve gerçekleşen enerji dengeleri çıkarılacak. Bunlar şu üç amaçla kullanılacak:
+1. pedx'in müdahale kollarını ve üst sınırlarını gerçek projelere dayandırmak.
+2. pedx'in önerdiği PEB kümelerinin boyutlarını gerçek PEB'lerle karşılaştırmak (makullük testi).
+3. "Bu küme en çok hangi gerçek PEB projesine benziyor?" sorusuna dayanan **örnek tabanlı açıklama** (XAI) üretmek.
+
+Veritabanının dışa aktarım ve lisans koşulları S1'de kontrol edilecek.
+
 ---
 
 ## Yapılacaklar (Faz 1)

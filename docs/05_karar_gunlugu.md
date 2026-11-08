@@ -73,31 +73,54 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 ### K-013: Paket adı değişmeli
 - **Bağlam:** `pedpy` adı PyPI'da Jülich'in yaya dinamiği kütüphanesine ait (07, A1).
 - **Seçenekler:** `pedscape`, `pedkit`, `posidistrict`, `plusdistrict`, `pedx` (müsaitlik kontrol edilecek). Repo adı `pedpy` olarak kalabilir; PyPI ve `import` adı değişir.
-- **Durum:** Önerildi. **Kullanıcı kararı bekleniyor; paket iskeletinden önce verilmeli.**
+- **Durum:** Kabul (kullanıcı onayı 2026-11-08)
 
 ### K-014: Mutlak, fiziksel hedefe bağlı PEB Hazırlık İndeksi
 - **Karar:** Ana çıktı, sabit referanslarla [0,1]'e eşlenen değer fonksiyonlarından oluşan, şehirler arası karşılaştırılabilir bir indeks olacak. Kümeye göreli ÇKKDS (MARCOS, TOPSIS, PROMETHEE) "şehir içi önceliklendirme" görünümü olarak kalacak.
 - **Gerekçe:** 07, B1 (sıra tersinmesi; küresel karşılaştırılamazlık).
-- **Durum:** Önerildi (tartışmada)
+- **Durum:** Kabul (kullanıcı onayı 2026-11-08)
 
 ### K-015: Kriter seti iki eksende yeniden yapılanacak
 - **Karar:** Enerji ekseni: G/D yıllık denge, SSR, şebeke stresi (yüzdelik). Dönüşüm ekseni: ısıl iyileştirme ihtiyacı, işlev karması, altyapı. C1 (kWh/m²) ana kriterden çıkarılıp tanısal göstergeye dönüşecek. C6 isteğe bağlı olacak.
 - **Gerekçe:** 07, B2, C2, D3.
-- **Durum:** Önerildi (tartışmada)
+- **Durum:** Kabul (kullanıcı onayı 2026-11-08)
 
 ### K-016: Reçete kriter uzayında değil, eylem uzayında kurulacak
 - **Karar:** Karar değişkenleri müdahale seviyeleri (PV m², batarya kWh, yalıtım, EV) olacak. Hedef fiziksel olacak (G/D ≥ 1, SSR ≥ s*). Her aday çözüm için saatlik simülasyon yeniden çalıştırılacak. K-005'teki "kesin knapsack çözücü" fikri bu kararla geçersiz kalıyor.
 - **Gerekçe:** 07, E1.
-- **Durum:** Önerildi (tartışmada)
+- **Durum:** Kabul (kullanıcı onayı 2026-11-08)
 
 ### K-017: Mekânsal gecikme ve Smooth-MARCOS bırakılıyor
 - **Gerekçe:** 07, B5 ve B6.
-- **Durum:** Önerildi
+- **Durum:** Kabul (kullanıcı onayı 2026-11-08)
 
 ### K-018: Graf katkısı "toplamsal olmayan bölgeselleştirme" ve "Shapley ile graf-XAI" olarak çerçevelenecek
 - **Karar:** Küme öz-yeterliliği işbirlikçi bir oyun olarak tanımlanacak. Her adanın Shapley katkısı kesin olarak hesaplanacak (küme ≤ 12 ada). Karşılaştırma yöntemleri: max-p, rastgele bitişik büyütme, küçük n için tam sayım.
 - **Gerekçe:** 07, E3.
-- **Durum:** Önerildi
+- **Durum:** Kabul (kullanıcı onayı 2026-11-08)
+
+### K-019: Ana mekânsal birim H3 altıgenleri; yapı adası kaldırıldı
+- **Kaynak:** Kullanıcı kararı (2026-11-08).
+- **Gerekçe:** Yapı adası sınırları ülkeden ülkeye değişiyor ve keyfi. H3, küresel ölçekte tek tip 6 komşulu bir graf sağlıyor; bu da graf yöntemlerini ve çok çözünürlüklü (MAUP) analizi kolaylaştırıyor. PEB sınırı, altıgenlerin graf üzerinde kümelenmesiyle **ortaya çıkan** bir çıktı oluyor.
+- **Bilinen sınırlılıklar:** Binalar ağırlık merkezine göre hücreye atanıyor; boş hücrelerin (park, deniz) bağlantısı ayrıca ele alınmalı; H3 komşuluğu elektrik şebekesi topolojisiyle aynı değil (sanal PEB çerçevesi).
+- **Durum:** Kabul
+
+### K-020: Türevlenebilirlik MARCOS'ta değil, fiziksel modelde
+- **Karar:** Gradyan, müdahale → saatlik akışlar → göstergeler → mutlak indeks zinciri üzerinden alınıyor (JAX). Yumuşatma yalnızca aramada kullanılıyor; raporlanan her sonuç kesin modelle yeniden hesaplanıp denetleniyor. Sadakat, ρ > 0,999 yerine **kanıtlanabilir hata sınırıyla** gösteriliyor.
+- **Gerekçe:** docs/08, bölüm 2.
+- **Durum:** Kabul
+
+### K-021: Ana veri kaynağı OSM ve diğer ücretsiz açık veriler; şebeke stresi CVaR ile ölçülüyor
+- **Karar:** Binalar OSM'den (Overpass), ışınım PVGIS'ten alınıyor. İBB verisi doğrulama katmanı (G2) olarak kullanılıyor. Şebeke stresi, tek bir maksimum saat yerine en yüksek %1'lik saatlerin ortalamasıyla (CVaR_0.99) hesaplanıyor. Tepe rahatlaması = 1 − CVaR(I)/CVaR(D); keyfi bir referans değer gerektirmiyor.
+- **Durum:** Kabul
+
+### K-022: Bulut ortamı
+- **Karar:** Yalnızca bu repo için kişisel `pedpy` ortamı oluşturuldu: PyPI erişimi açık; izin verilen sunucular `overpass-api.de` ve `re.jrc.ec.europa.eu`.
+- **Durum:** Kabul
+
+### K-023: Takvim
+- **Karar:** 2 haftalık sprintler; Haziran 2027 başında tez teslimi, 2 makale ve 1 bildiri (`10_sprint_plani.md`).
+- **Durum:** Kabul
 
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.

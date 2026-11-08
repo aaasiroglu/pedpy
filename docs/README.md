@@ -10,6 +10,9 @@ Bu klasör, `pedpy` kütüphanesi ve ona bağlı yüksek lisans tezinin **planla
 | [04_yol_haritasi.md](04_yol_haritasi.md) | Adım adım iş paketleri, çıktılar, kabul ölçütleri, tez bölümleriyle eşleşme | Her faz sonunda |
 | [05_karar_gunlugu.md](05_karar_gunlugu.md) | Teknik ve metodolojik kararlar (ADR biçiminde) | Her kararda |
 | [06_acik_sorular.md](06_acik_sorular.md) | Sizin ve danışmanınızın yanıtlaması gereken sorular | Yanıt geldikçe |
+| [08_tersine_analiz.md](08_tersine_analiz.md) | Tersine (reçeteleyici) analiz: hedefler, paylaşılan kodun incelemesi, uygulanan matematik, doğrulama | Tersine modül değiştikçe |
+| [09_v0_sunum.md](09_v0_sunum.md) | **Hande Hoca'ya v0 sunumu**: yapılanlar, ilk sonuçlar, dürüst bulgular, istenen kararlar | Her sürümde |
+| [10_sprint_plani.md](10_sprint_plani.md) | 2 haftalık sprintler (Kasım 2026 – Haziran 2027), yayın planı, görüşme notları | Her sprint sonunda |
 | [07_kirilganlik_analizi.md](07_kirilganlik_analizi.md) | Kırmızı takım incelemesi: kırılgan, anlamsız ve değersiz bileşenler; tut, düzelt, bırak kararları; "kült araç" konumlandırması | Her büyük tasarım değişikliğinde |
 | [references.bib](references.bib) | Doğrulanmış BibTeX kayıtları (Zotero'ya aktarılabilir) | Her yeni kaynakta |
 
