@@ -135,6 +135,19 @@ Veritabanının dışa aktarım ve lisans koşulları S1'de kontrol edilecek.
 
 ---
 
+## T12. Proje elverişliliği: megaproje, inşaat riski ve PED başarı faktörleri (2026-11-08)
+
+| # | Kaynak | Durum | Katkısı |
+| --- | --- | --- | --- |
+| 60 | Flyvbjerg, B. (2014). *What You Should Know About Megaprojects and Why: An Overview.* Project Management Journal 45(2), 6–19. doi:10.1002/pmj.21409 | ✅ | Referans sınıf tahmini, "dış bakış", demir yasa |
+| 61 | Krangsås, S.G. vd. (2021). *Positive Energy Districts: Identifying Challenges and Interdependencies.* Sustainability 13, 10551 | ✅ (DOI eklenecek) | 7 zorluk alanı → ölçüt aileleri |
+| 62 | Steemers, K., Krangsås, S.G. vd. (2022). *Challenges for a Positive Energy District Framework* (Cambridge deposu) | ⚠️ | Öncelik sıralaması |
+| 63 | Egwim, C. (2024). *Applied AI for Delay Risk Prediction of BIM-Based Construction Projects* (Hertfordshire, doktora tezi) | ⚠️ | SHAP ile proje riski |
+| 64 | Kentsel dönüşümde maliyet tahmini sistematik derlemesi, Buildings (2026), doi:10.3390/buildings16163167 | ⚠️ | Aktarılabilirlik sorunu |
+| 65 | Doğu Hindistan'da dönüşüm uygunluğu için makine öğrenmesi ve CBS, Scientific Reports (Şubat 2025) | ⚠️ | Makine öğrenmesi ile uygunluk |
+| 66 | Makine öğrenmesi özellik önemlerinin CBS-ÇKKDS ağırlığı olarak kullanılması, Land 13(8), 1288 (2024) | ⚠️ | Makine öğrenmesi ve ÇKKDS köprüsü |
+| 67 | *PED Success Factors: Learning from Global Challenges and Success Stories* (Vaasa Üniversitesi) ve *Unraveling the implementation processes of PEDs* (Northumbria) | ⚠️ | Başarı faktörleri |
+
 ## Yapılacaklar (Faz 1)
 
 - [ ] ❓ ve ⚠️ işaretli tüm kaynakların künyesini ve DOI'sini tamamlamak

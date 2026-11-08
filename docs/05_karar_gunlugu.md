@@ -176,6 +176,15 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Atlas: `14_acik_kaynak_atlasi.md`.
 - **Durum:** Kabul
 
+### K-033: Analiz birimi "proje adayı"; tez proje elverişliliği olarak çerçevelendi
+- **Kaynak:** Kullanıcı (2026-11-08): "amaç mekânsal analiz değil, PED bir proje; projeye elverişlilik analizi".
+- **Karar:**
+  - Birim P = (sınır, müdahale paketi, bağlam, finansman).
+  - Ölçüt aileleri Krangsås vd. (2021)'in 7 alanına eşlendi.
+  - Gerçek PED projeleri Flyvbjerg (2014) anlamında bir referans sınıfı olarak kullanılacak ("dış bakış").
+  - Önerilen başlık güncellendi (00, 15).
+- **Durum:** Kabul (kullanıcı onayı bekleniyor: başlık)
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

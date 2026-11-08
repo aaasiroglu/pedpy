@@ -4,9 +4,11 @@
 
 ## Tek cümle
 
-> **Dünyanın herhangi bir mahallesi için, yalnızca küresel açık veriyle, saatlik fiziğe dayanan, açıklanabilir ve "ne yapmalı?" sorusuna yanıt veren bir Pozitif Enerji Bölgesi (PEB) analizi; İstanbul'un resmî verileriyle doğrulanmış.**
+> **Dünyanın herhangi bir yerinde önerilen bir Pozitif Enerji Bölgesi *projesinin* elverişliliğini (yapılabilir mi, neden olmaz, ne yapılırsa olur, değer mi?) yalnızca küresel açık veriyle, saatlik fiziğe dayanarak, gerçek PED projelerini referans sınıfı alarak ve açıklanabilir biçimde değerlendiren bir çerçeve; İstanbul'un resmî verileriyle doğrulanmış.**
 
-**Başlık önerisi:** *Küresel Açık Veriyle Açıklanabilir ve Fizik Kenetli Pozitif Enerji Bölgesi Analizi: H3 Tabanlı Bir Çerçeve ve İstanbul Doğrulaması*
+*Analiz birimi hücre değil, **proje adayıdır**: sınır, müdahale paketi, bağlam ve finansman (bkz. 15_proje_elverislilik.md).*
+
+**Başlık önerisi:** *Pozitif Enerji Bölgesi Projeleri için Açıklanabilir ve Fizik Kenetli Elverişlilik Analizi: Küresel Açık Veri, Referans Sınıf Tahmini ve İstanbul Doğrulaması*
 
 ## Üç soru, üç katkı, üç yayın
 
@@ -50,6 +52,7 @@ PVGIS saatlik PV ────┤   saatlik G, D     ├─► graf: paylaşım o
 | Alpagut vd. (2021): CBS ile ÇKKDS ile PEB sınırı | **Karşılaştırma yöntemi** (statik ve yıllık katmanlar ile saatlik ve açıklanabilir yaklaşım) |
 | Kullanıcının 2024 tasarım projesi (60 + 60 şehir, RF) | Aşama 1 ve motivasyon: "benimseme" ile "fiziksel potansiyel" ayrımı; düzeltilmiş hâli isteğe bağlı |
 | Kullanıcının İBB'deki konumu | G2 verisine erişim: bina envanteri, mahalle nüfusu, çatı |
+| Flyvbjerg (2014) referans sınıf tahmini, Krangsås vd. (2021) 7 zorluk alanı | **Proje elverişliliği çerçevesi:** dış bakış ve ölçüt aileleri (15) |
 | Bruck vd. (2022) açık kaynak PV-PEB yer seçimi | **En yakın çalışma**; farkımız: saatlik, H3, XAI, tersine analiz, G1/G2 |
 | Schneider vd. (2023) bağlamsal hedefler | Mutlak indeksin referans değerleri |
 | Salom (2014), Luthander (2015) | SSR ve denge göstergeleri |

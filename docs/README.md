@@ -15,6 +15,7 @@ Bu klasör, `pedpy` kütüphanesi ve ona bağlı yüksek lisans tezinin **planla
 | *(arşiv)* [09_v0_sunum.md](09_v0_sunum.md) | **Hande Hoca'ya v0 sunumu**: yapılanlar, ilk sonuçlar, dürüst bulgular, istenen kararlar | Her sürümde |
 | [10_sprint_plani.md](10_sprint_plani.md) | 2 haftalık sprintler (Kasım 2026 – Haziran 2027), yayın planı, görüşme notları | Her sprint sonunda |
 | [13_sistem_mimarisi.md](13_sistem_mimarisi.md) | **Sistem mimarisi**: gereksinimler, L0–L6 katmanları, veri sözleşmesi, karar motoru, sosyal katman, ROI | Mimari değiştikçe |
+| [15_proje_elverislilik.md](15_proje_elverislilik.md) | **Mekânsal uygunluktan proje elverişliliğine:** literatür (megaproje, XAI ile inşaat riski, kentsel dönüşüm, PED başarı faktörleri), çerçeve, karar ve doğrulama | — |
 | [14_acik_kaynak_atlasi.md](14_acik_kaynak_atlasi.md) | **Açık kaynak atlası**: insan, bina, sokak, kent, enerji, çevre, görüntü, ekonomi, sosyal ve PED etiketleri; lisans, durum, öncelik | Her yeni kaynakta |
 | [LOCAL_SETUP.md](LOCAL_SETUP.md) | Yerelde kurulum ve çalıştırma | — |
 | [11_veri_kaynaklari.md](11_veri_kaynaklari.md) | **Veri kaynağı kütüğü**: her katmanın kaynağı, lisansı, rolü (G1 veya G2) ve gerekçesi; araştırma günlüğü; eksikler | Her yeni veri katmanında |
