@@ -6,9 +6,11 @@
 
 | Katman | Anlamı | İçerik |
 | --- | --- | --- |
-| 🟥 **Zorunlu** | Tez bu olmadan savunulamaz | Enerji çekirdeği, ağırlıklandırma, MARCOS, T1–T5, G1/G2/G3 doğrulaması, XAI-1, XAI-3 |
-| 🟧 **Güçlü** | Tezi "çok iyi" yapar, makale çekirdeği | Graf-1 sınır genişletme, XAI-2 reçete, XAI-1b sıra açıklaması, H3 ve MAUP |
-| 🟩 **Bonus** | Etkileyici, ama zaman kalırsa | NLP-1, NLP-2, Graf-2 GNN, ikinci şehir aktarımı |
+| 🟥 **Zorunlu** | Tez bu olmadan savunulamaz | Enerji çekirdeği, mutlak PEB Hazırlık İndeksi (K-014), ağırlık belirsizliği, T1–T5, G1/G2 veri sadakati ve model geçerliliği, XAI-3 (sıra aralıkları), **Graf-1 ve Shapley ile graf-XAI (K-018)**, **XAI-2 eylem uzayında yollar (K-016)** |
+| 🟧 **Güçlü** | Tezi "çok iyi" yapar, makale çekirdeği | XAI-1b sıra düzeyi açıklama, H3 ve MAUP, çok-şehirli benchmark (07, D1), tek satırlık `assess()` API'si |
+| 🟩 **Bonus** | Etkileyici, ama zaman kalırsa | NLP-1, NLP-2, Graf-2 GNN, JOSS makalesi |
+
+> **2026-11-08 güncellemesi:** Kullanıcı önceliği XAI ve graf olarak belirledi (K-011). Kırılganlık analizi (07) sonucunda K-013 ile K-018 arası kararlar önerildi. Faz 2 ile Faz 6'nın içeriği bu kararlar kabul edilince yeniden yazılacak.
 
 **Kural:** Bir üst katmandaki işler kabul ölçütlerini karşılamadan alt katmana geçilmez.
 
@@ -118,3 +120,4 @@
 | Tarih | Faz | Not |
 | --- | --- | --- |
 | 2026-11-08 | — | Planlama klasörü oluşturuldu; literatür ön taraması yapıldı; MARCOS ≡ κ·WSM sayısal olarak doğrulandı; geliştirme danışman onayına kadar durduruldu |
+| 2026-11-08 | — | Danışman Hande Demirel; öncelik XAI ve graf. Kırılganlık analizi (07) yazıldı: 7 ölümcül, 12 ciddi, 7 orta bulgu. Paket adı çakışması (PyPI'da Jülich PedPy) tespit edildi |

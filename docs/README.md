@@ -10,6 +10,7 @@ Bu klasör, `pedpy` kütüphanesi ve ona bağlı yüksek lisans tezinin **planla
 | [04_yol_haritasi.md](04_yol_haritasi.md) | Adım adım iş paketleri, çıktılar, kabul ölçütleri, tez bölümleriyle eşleşme | Her faz sonunda |
 | [05_karar_gunlugu.md](05_karar_gunlugu.md) | Teknik ve metodolojik kararlar (ADR biçiminde) | Her kararda |
 | [06_acik_sorular.md](06_acik_sorular.md) | Sizin ve danışmanınızın yanıtlaması gereken sorular | Yanıt geldikçe |
+| [07_kirilganlik_analizi.md](07_kirilganlik_analizi.md) | Kırmızı takım incelemesi: kırılgan, anlamsız ve değersiz bileşenler; tut, düzelt, bırak kararları; "kült araç" konumlandırması | Her büyük tasarım değişikliğinde |
 | [references.bib](references.bib) | Doğrulanmış BibTeX kayıtları (Zotero'ya aktarılabilir) | Her yeni kaynakta |
 
 ## Doğrulama işaretleri

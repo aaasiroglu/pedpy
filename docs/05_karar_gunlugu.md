@@ -56,6 +56,49 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Gerekçe:** R3; Zhu vd. (2020).
 - **Durum:** Önerildi
 
+### K-010: Danışman Hande Demirel
+- **Kaynak:** Kullanıcının beyanı (2026-11-08). Tez, Demirel vd. (2025) ve Alpagut vd. (2021) hattının devamı olarak konumlanacak.
+- **Durum:** Kabul
+
+### K-011: Öncelik XAI ve graf; NLP Bonus katmana iniyor
+- **Kaynak:** Kullanıcı kararı (2026-11-08).
+- **Sonuç:** Graf-1 (sınır genişletme ve graf-XAI) ile XAI-2 (eylem uzayında karşı-olgusal yollar) Güçlü katmandan **Zorunlu** katmana çıkıyor. NLP-1 ve NLP-2 Bonus katmanda kalıyor. Yol haritası (04) güncellendi.
+- **Durum:** Kabul
+
+### K-012: Kaynaksız sabit kuralı
+- **Karar:** Koddaki her sayısal varsayımın (katsayı, eşik, azalma mesafesi) ya bir kaynağı olacak ya da duyarlılık analizine girecek. Sabitler tek bir `assumptions` tablosunda, kaynak sütunuyla tutulacak.
+- **Gerekçe:** 07, D5.
+- **Durum:** Önerildi
+
+### K-013: Paket adı değişmeli
+- **Bağlam:** `pedpy` adı PyPI'da Jülich'in yaya dinamiği kütüphanesine ait (07, A1).
+- **Seçenekler:** `pedscape`, `pedkit`, `posidistrict`, `plusdistrict`, `pedx` (müsaitlik kontrol edilecek). Repo adı `pedpy` olarak kalabilir; PyPI ve `import` adı değişir.
+- **Durum:** Önerildi. **Kullanıcı kararı bekleniyor; paket iskeletinden önce verilmeli.**
+
+### K-014: Mutlak, fiziksel hedefe bağlı PEB Hazırlık İndeksi
+- **Karar:** Ana çıktı, sabit referanslarla [0,1]'e eşlenen değer fonksiyonlarından oluşan, şehirler arası karşılaştırılabilir bir indeks olacak. Kümeye göreli ÇKKDS (MARCOS, TOPSIS, PROMETHEE) "şehir içi önceliklendirme" görünümü olarak kalacak.
+- **Gerekçe:** 07, B1 (sıra tersinmesi; küresel karşılaştırılamazlık).
+- **Durum:** Önerildi (tartışmada)
+
+### K-015: Kriter seti iki eksende yeniden yapılanacak
+- **Karar:** Enerji ekseni: G/D yıllık denge, SSR, şebeke stresi (yüzdelik). Dönüşüm ekseni: ısıl iyileştirme ihtiyacı, işlev karması, altyapı. C1 (kWh/m²) ana kriterden çıkarılıp tanısal göstergeye dönüşecek. C6 isteğe bağlı olacak.
+- **Gerekçe:** 07, B2, C2, D3.
+- **Durum:** Önerildi (tartışmada)
+
+### K-016: Reçete kriter uzayında değil, eylem uzayında kurulacak
+- **Karar:** Karar değişkenleri müdahale seviyeleri (PV m², batarya kWh, yalıtım, EV) olacak. Hedef fiziksel olacak (G/D ≥ 1, SSR ≥ s*). Her aday çözüm için saatlik simülasyon yeniden çalıştırılacak. K-005'teki "kesin knapsack çözücü" fikri bu kararla geçersiz kalıyor.
+- **Gerekçe:** 07, E1.
+- **Durum:** Önerildi (tartışmada)
+
+### K-017: Mekânsal gecikme ve Smooth-MARCOS bırakılıyor
+- **Gerekçe:** 07, B5 ve B6.
+- **Durum:** Önerildi
+
+### K-018: Graf katkısı "toplamsal olmayan bölgeselleştirme" ve "Shapley ile graf-XAI" olarak çerçevelenecek
+- **Karar:** Küme öz-yeterliliği işbirlikçi bir oyun olarak tanımlanacak. Her adanın Shapley katkısı kesin olarak hesaplanacak (küme ≤ 12 ada). Karşılaştırma yöntemleri: max-p, rastgele bitişik büyütme, küçük n için tam sayım.
+- **Gerekçe:** 07, E3.
+- **Durum:** Önerildi
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

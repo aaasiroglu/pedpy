@@ -99,6 +99,16 @@
 | 43 | Overture Maps, OSM, Microsoft Global Building Footprints, GHSL | ⚠️ | Lisanslar (ODbL, CDLA) ve tarihler kayda geçirilmeli |
 | 44 | Openshaw, S. (1984). *The Modifiable Areal Unit Problem.* | ❓ | **R10** |
 
+## T10. Yazılım ekosistemi, rakipler ve "kült araç" örnekleri
+
+| # | Kaynak | Durum | Not |
+| --- | --- | --- | --- |
+| 45 | Boeing, G. (2017). *OSMnx: New methods for acquiring, constructing, analyzing, and visualizing complex street networks.* Computers, Environment and Urban Systems 65, 126–139. doi:10.1016/j.compenvurbsys.2017.05.004 | ✅ | Tek satırla gerçek sonuç veren araç örneği → **07, F** |
+| 46 | PedPy (Forschungszentrum Jülich), yaya dinamiği analizi, PyPI `pedpy`, Zenodo doi:10.5281/zenodo.7194992 | ✅ | **Ad çakışması → K-013** |
+| 47 | City Energy Analyst (ETH Zürich), açık kaynak UBEM platformu, PyPI `cityenergyanalyst` | ✅ | Rakip ve girdi kaynağı → **07, A3** |
+| 48 | DistrictGenerator (TEASER ve richardsonpy tabanlı mahalle talep üretici) | ⚠️ | Alternatif talep profili kaynağı → **07, C1** |
+| 49 | *Resolving Rank Reversal in TOPSIS: A Comprehensive Analysis of Distance Metrics and Normalization Methods.* Informatica (2024) | ⚠️ | Sıra tersinmesinin ana nedeni normalizasyonun kümeye bağlılığı → **07, B1** |
+
 ---
 
 ## Yapılacaklar (Faz 1)
