@@ -29,6 +29,9 @@ FAMILIES = {
     "mobility": "Ulaşım",
     "environment": "Çevre",
     "climate": "İklim",
+    "morphology": "Kentsel morfoloji",
+    "imagery": "Uydu ve sokak görüntüsü",
+    "social": "Sosyal",
 }
 
 
@@ -89,10 +92,30 @@ _ACTIVE: List[FeatureSpec] = [
                 note="Yük tamamlayıcılığı için vekil gösterge; gündüz ve gece işlev dengesi"),
     FeatureSpec("poi_night_share", "poi", "Akşam ve gece işlevli POI payı (bar, pub, gece kulübü, restoran)", "-", *_OSM),
 ] + [
+    FeatureSpec("morph_shared_wall_ratio", "morphology", "Ortak duvar oranı (bitişik nizam)", "-", "OSM + momepy (Fleischmann 2019); 0,3 m tolerans", "ODbL; BSD-3",
+                note="Isı kaybı ve kabuk alanı için fiziksel gösterge"),
+    FeatureSpec("morph_perimeter_area_ratio", "morphology", "Çevre / alan oranı (kabuk kompaktlığı, 2B)", "1/m", "OSM + momepy", "ODbL; BSD-3"),
+    FeatureSpec("morph_compactness_mean", "morphology", "Ortalama dairesel kompaktlık", "0–1", "OSM + momepy", "ODbL; BSD-3"),
+    FeatureSpec("morph_elongation_mean", "morphology", "Ortalama uzama", "0–1", "OSM + momepy", "ODbL; BSD-3"),
+    FeatureSpec("morph_rectangularity_mean", "morphology", "Ortalama dikdörtgensellik", "0–1", "OSM + momepy", "ODbL; BSD-3"),
+    FeatureSpec("morph_corners_mean", "morphology", "Ortalama köşe sayısı", "adet", "OSM + momepy", "ODbL; BSD-3"),
+    FeatureSpec("morph_orientation_std", "morphology", "Yönelim sapması (ızgara düzensizliği)", "°", "OSM + momepy", "ODbL; BSD-3",
+                note="Çatı azimutu dağılımı → PV verimi değişkenliği"),
+] + [
     FeatureSpec(f"poi_n_{k}", "poi", f"POI: {v}", "adet", *_OSM) for k, v in _POI_FAMS.items()
 ]
 
 _PLANNED: List[FeatureSpec] = [
+    FeatureSpec("img_s2_ndvi_mean", "imagery", "Sentinel-2 NDVI ortalaması", "-", "Copernicus Sentinel-2 L2A (10 m), Earth Search STAC", "Copernicus açık lisansı", "planned"),
+    FeatureSpec("img_s2_ndbi_mean", "imagery", "Sentinel-2 NDBI ortalaması (yapılaşma)", "-", "Copernicus Sentinel-2 L2A", "Copernicus açık lisansı", "planned"),
+    FeatureSpec("img_albedo_mean", "imagery", "Yüzey albedosu (çatı ve zemin)", "-", "Sentinel-2 / Landsat 8-9 (USGS, kamu malı)", "açık", "planned"),
+    FeatureSpec("img_emb_pca_1", "imagery", "Uydu gömme vektörü, 1. bileşen (64-B AlphaEarth ya da açık temel model)", "-",
+                "AlphaEarth Satellite Embedding (Earth Engine; lisans teyit) veya Clay/Prithvi + Sentinel-2", "teyit edilecek", "planned",
+                note="Tam gömmeler ayrı bir vektör deposunda tutulur; tabloya PCA ile yorumlanabilir bileşenler girer"),
+    FeatureSpec("img_svi_levels_est", "imagery", "Sokak görüntüsünden kat sayısı tahmini", "kat", "Mapillary (CC BY-SA 4.0), erişim anahtarı gerekli", "CC BY-SA 4.0", "planned",
+                note="OSM'de %83 eksik olan kat bilgisini tamamlar → kat alanı ve talep"),
+    FeatureSpec("img_svi_wwr_est", "imagery", "Cephe pencere/duvar oranı tahmini", "-", "Mapillary + segmentasyon modeli", "CC BY-SA 4.0", "planned"),
+    FeatureSpec("soc_gdelt_energy_tone", "social", "Enerji ve iklim haberlerinin tonu", "-", "GDELT (açık)", "açık; teyit", "planned"),
     FeatureSpec("econ_gdp_ppp", "economy", "Izgara GSYH (SGP)", "USD", "Kummu vd. 2018, Dryad doi:10.5061/dryad.dk1j0 (30″/5′)", "CC0 1.0 (2018 sürümü)", "planned"),
     FeatureSpec("econ_hdi", "economy", "İnsani Gelişme Endeksi", "0–1", "Kummu vd. 2018 (5′)", "CC0 1.0", "planned"),
     FeatureSpec("econ_gdp_1km", "economy", "1 km gerçek GSYH (gece ışığına kalibre)", "USD", "Chen vd. 2022, figshare doi:10.6084/m9.figshare.17004523", "lisans teyit edilecek", "planned"),

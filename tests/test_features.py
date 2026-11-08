@@ -10,7 +10,7 @@ from pedx.features import CATALOG, building_features, catalog_frame, poi_family,
 def test_every_feature_has_source_licence_and_known_family():
     cat = catalog_frame()
     assert cat["source"].str.len().gt(0).all() and cat["license"].str.len().gt(0).all()
-    assert set(cat["family"]) <= {"energy", "built", "demography", "poi", "economy", "mobility", "environment", "climate"}
+    assert set(cat["family"]) <= {"energy", "built", "demography", "poi", "economy", "mobility", "environment", "climate", "morphology", "imagery", "social"}
     assert set(cat["status"]) <= {"active", "planned"}
 
 
@@ -50,4 +50,23 @@ def test_building_features_shares_sum_to_one():
     assert s == pytest.approx(1.0)
     assert f.loc["a", "built_coverage"] == pytest.approx(200 / 1e4)
     assert f.loc["a", "built_levels_known_share"] == pytest.approx(1 / 3)
+    validate_columns(f.columns)
+
+
+def test_morphology_shared_walls_detects_attached_buildings():
+    pytest.importorskip("momepy")
+    import geopandas as gpd
+    from shapely.geometry import box
+
+    from pedx.features.morphology import morphology_features
+
+    # two attached 10x10 m squares (sharing a 10 m wall, 1 cm gap) and one detached square
+    g = gpd.GeoDataFrame({"osm_id": ["a", "b", "c"]},
+                         geometry=[box(0, 0, 10, 10), box(10.01, 0, 20, 10), box(50, 50, 60, 60)], crs=32635)
+    f = morphology_features(g, pd.Series({"a": "h1", "b": "h1", "c": "h2"}))
+    # exact 20/80; the 0.3 m tolerance adds ≤ 2·tol at each end of each shared wall (known, bounded bias)
+    r = f.loc["h1", "morph_shared_wall_ratio"]
+    assert 20 / 80 <= r <= (20 + 4 * 0.3) / 80 + 1e-9
+    assert f.loc["h2", "morph_shared_wall_ratio"] == 0.0
+    assert f.loc["h1", "morph_compactness_mean"] > 0
     validate_columns(f.columns)

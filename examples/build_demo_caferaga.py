@@ -74,7 +74,10 @@ def main() -> None:
     F_built = building_features(bld, area_ha)
     F_demo = demography_features(pop, area_ha, F_built["built_footprint_m2"])
     F_poi = poi_features(pois, area_ha, pop)
-    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi])
+    from pedx.features.morphology import buildings_gdf, morphology_features
+
+    F_morph = morphology_features(buildings_gdf(bpay, bld["osm_id"]), bld.set_index("osm_id")["cell"])
+    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph])
     for c in ("built_n_buildings", "built_footprint_m2", "demo_population", "poi_total") + tuple(x for x in F if x.startswith("poi_n_")):
         F[c] = F[c].fillna(0.0)
 
