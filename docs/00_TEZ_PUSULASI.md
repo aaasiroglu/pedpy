@@ -91,4 +91,4 @@ Tezin üç katkısı, "A noktasında PED olur mu, neden olmaz, ne yapılırsa ol
 
 | Geçerli | Arşiv (yalnızca tarihçe) |
 | --- | --- |
-| 00 (bu belge), 02 literatür, 05 kararlar, 06 sorular, 07 kırılganlık analizi, 08 tersine analiz, 10 sprint planı, 11 veri kütüğü, 12 önceki çalışmalar | 01 ilk değerlendirme, 03 eski araştırma tasarımı, 04 eski yol haritası, 09 eski v0 sunumu |
+| PROJE_DOSYASI (Hande Hoca için ana belge), 00 (bu belge), 02 literatür, 05 kararlar, 06 sorular, 07 kırılganlık, 08 tersine analiz, 10 sprint planı, 11 veri kütüğü, 12 önceki çalışmalar, 13 mimari, 14 atlas, 15 elverişlilik | `arsiv/`: 01, 03, 04, 09 |

@@ -1,4 +1,4 @@
-> ⚠️ **ARŞİV: bu belge artık güncel değil.** Neden: yapı adası, MARCOS merkezli kriterler ve NLP kapsamı K-014..K-019 ve K-025 ile değişti. Güncel tez tanımı için **[00_TEZ_PUSULASI.md](00_TEZ_PUSULASI.md)** dosyasına bakın.
+> ⚠️ **ARŞİV: bu belge artık güncel değil.** Neden: yapı adası, MARCOS merkezli kriterler ve NLP kapsamı K-014..K-019 ve K-025 ile değişti. Güncel tez tanımı için **[00_TEZ_PUSULASI.md](../00_TEZ_PUSULASI.md)** dosyasına bakın.
 
 # 03: Araştırma Tasarımı
 

@@ -60,7 +60,7 @@
 ## 5. Yeniden üretim
 
 ```bash
-python examples/build_demo_caferaga.py
+python scripts/build_features.py
 ```
 
 ```bash

@@ -1,4 +1,4 @@
-> ⚠️ **ARŞİV: bu belge artık güncel değil.** Neden: takvim 10_sprint_plani.md ile, kapsam 00_TEZ_PUSULASI.md ile değişti. Güncel tez tanımı için **[00_TEZ_PUSULASI.md](00_TEZ_PUSULASI.md)** dosyasına bakın.
+> ⚠️ **ARŞİV: bu belge artık güncel değil.** Neden: takvim 10_sprint_plani.md ile, kapsam 00_TEZ_PUSULASI.md ile değişti. Güncel tez tanımı için **[00_TEZ_PUSULASI.md](../00_TEZ_PUSULASI.md)** dosyasına bakın.
 
 # 04: Yol Haritası (Adım Adım Plan)
 

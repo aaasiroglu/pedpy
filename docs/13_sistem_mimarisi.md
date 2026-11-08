@@ -68,7 +68,7 @@
 | L3 | `pedx.energy`, `pedx.graph`; öğrenen motor S5–S7'de |
 | L4 | `pedx.index`, `pedx.xai`, `pedx.inverse` |
 | L5 | `pedx.decision` (S6–S9) |
-| L6 | `web/`, `examples/build_demo_caferaga.py` |
+| L6 | `web/`, `scripts/build_features.py` |
 
 ## 4. Veri sözleşmesi (L2)
 

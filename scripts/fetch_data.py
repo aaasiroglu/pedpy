@@ -35,6 +35,9 @@ JOBS = [
     ("sources/pvgis_pv_caferaga_2023.json", "get",
      "https://re.jrc.ec.europa.eu/api/v5_3/seriescalc?lat=40.986&lon=29.028&startyear=2023&endyear=2023&pvcalculation=1"
      "&peakpower=1&loss=14&pvtechchoice=crystSi&mountingplace=building&optimalangles=1&outputformat=json"),
+    ("sources/openmeteo_era5_caferaga_2023.json", "get",
+     "https://archive-api.open-meteo.com/v1/archive?latitude=40.986&longitude=29.028&start_date=2023-01-01&end_date=2023-12-31"
+     "&hourly=temperature_2m,relative_humidity_2m,surface_pressure,wind_speed_10m,shortwave_radiation&wind_speed_unit=ms&timezone=UTC"),
     ("sources/undata_tr_1231.html", "get", "https://data.un.org/Data.aspx?d=EDATA&f=cmID%3aEL%3btrID%3a1231%3bcrID%3a792"),
     ("sources/undata_tr_1235.html", "get", "https://data.un.org/Data.aspx?d=EDATA&f=cmID%3aEL%3btrID%3a1235%3bcrID%3a792"),
     ("sources/owid-energy-data.csv", "get", "https://raw.githubusercontent.com/owid/energy-data/master/owid-energy-data.csv"),

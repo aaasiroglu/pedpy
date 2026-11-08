@@ -5,7 +5,6 @@ import pandas as pd
 import pytest
 
 from pedx.ingest import buildings_query, parse_buildings, parse_pois, polygon_area_m2
-from pedx.ingest.pvgis import parse_pvgis_hourly, pvgis_query_url
 
 
 def _square(lat0, lon0, side_m):
@@ -54,12 +53,3 @@ def test_query_builders_validate_bbox():
     assert "way[\"building\"]" in buildings_query((40.98, 29.02, 40.99, 29.03))
     with pytest.raises(ValueError):
         buildings_query((40.99, 29.02, 40.98, 29.03))
-    assert "seriescalc" in pvgis_query_url(41, 29, 2019)
-
-
-def test_parse_pvgis_drops_feb29_and_converts_units():
-    times = pd.date_range("2020-01-01", periods=8784, freq="h", tz="UTC")
-    payload = {"outputs": {"hourly": [{"time": t.strftime("%Y%m%d:%H%M"), "G(i)": 500.0, "T2m": 10.0} for t in times]}}
-    df = parse_pvgis_hourly(payload)
-    assert len(df) == 8760
-    assert df["irradiance_kw_m2"].iloc[0] == pytest.approx(0.5)

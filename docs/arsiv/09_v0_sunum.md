@@ -1,4 +1,4 @@
-> ⚠️ **ARŞİV: bu belge artık güncel değil.** Neden: buradaki sayılar sentetik talep profilli v0 koşusuna aitti ve geçersizdir; sunum web demo v0.1 (gerçek açık veri) üzerinden yapılacak. Güncel tez tanımı için **[00_TEZ_PUSULASI.md](00_TEZ_PUSULASI.md)** dosyasına bakın.
+> ⚠️ **ARŞİV: bu belge artık güncel değil.** Neden: buradaki sayılar sentetik talep profilli v0 koşusuna aitti ve geçersizdir; sunum web demo v0.1 (gerçek açık veri) üzerinden yapılacak. Güncel tez tanımı için **[00_TEZ_PUSULASI.md](../00_TEZ_PUSULASI.md)** dosyasına bakın.
 
 # 09: pedx v0: Danışman Sunumu (Prof. Dr. Hande Demirel)
 

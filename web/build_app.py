@@ -1,7 +1,7 @@
 """Assemble web/pedx_app.html: a single self-contained page (presentation + thesis outline + MVP).
 
 Inputs: web/data/{cells,boundary,buildings,streets}.geojson, web/data/summary.json (built by
-examples/build_demo_caferaga.py), web/vendor/leaflet.css, web/app_template.html, web/app_main.js.
+scripts/build_features.py), web/vendor/leaflet.css, web/app_template.html, web/app_main.js.
 Run:  python web/build_app.py
 """
 

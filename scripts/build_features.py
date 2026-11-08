@@ -171,12 +171,20 @@ def main() -> None:
     write_json(cells_geojson(F.round(5)), OUT_WEB / "cells.geojson")
     write_json(rings_geojson(b["outer"], b["inner"], {"name": b["tags"].get("name"), "osm_id": b["osm_id"]}), OUT_WEB / "boundary.geojson")
     write_json(buildings_geojson(bpay, bld["osm_id"]), OUT_WEB / "buildings.geojson")
-    summary = {"definitional_excluded": sorted(definitional), "total": T, "validation": validation, "provenance": provenance, "catalog": catalog, "associations": assoc[:20],
+    # ---------------- hourly demand components (K-034): Demand.ninja on ERA5 2023
+    from pedx.demand import era5_to_ninja_inputs, weather_driven_demand
+
+    dn = weather_driven_demand(era5_to_ninja_inputs(json.loads((SRC / "openmeteo_era5_caferaga_2023.json").read_text())))
+    dn_monthly = dn.groupby(dn.index.month)[["heating_demand", "cooling_demand"]].sum()
+    demand_status = {
+        "weather_model": "Demand.ninja (Staffell, Pfenninger & Johnson 2023), ERA5 2023 via Open-Meteo",
+        "monthly_heating_index": {int(k): round(float(v), 2) for k, v in dn_monthly["heating_demand"].items()},
+        "monthly_cooling_index": {int(k): round(float(v), 2) for k, v in dn_monthly["cooling_demand"].items()},
+        "national_load": "EPİAŞ gerçek zamanlı tüketim 2023 — hesap gerekli (scripts/fetch_epias.py); bekleniyor",
+    }
+    summary = {"demand_status": demand_status, "definitional_excluded": sorted(definitional), "total": T, "validation": validation, "provenance": provenance, "catalog": catalog, "associations": assoc[:20],
                "monthly_pv_kwh_per_kwp": {int(k): float(v) for k, v in pv["pv_kwh_per_kwp"].groupby(pv.index.month).sum().items()}}
     write_json(summary, OUT_WEB / "summary.json")
-    bundle = {"cells": cells_geojson(F.round(5)), "boundary": json.loads((OUT_WEB / "boundary.geojson").read_text()),
-              "buildings": json.loads((OUT_WEB / "buildings.geojson").read_text()), "summary": summary}
-    (OUT_WEB / "demo_data.js").write_text("window.PEDX_DATA=" + json.dumps(bundle, ensure_ascii=False, separators=(",", ":")) + ";")
     print(f"cells={T['n_cells']} buildings={T['n_buildings']} pois={T['n_pois']} pop={T['population_ghs_2020']:.0f} "
           f"balance={T['balance']:.2f} ({T['balance_low']:.2f}-{T['balance_high']:.2f}) features={F.shape[1]}")
     print("top associations:", assoc[:6])
