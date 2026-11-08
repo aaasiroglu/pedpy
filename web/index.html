@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pedx Caferağa Demo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#f7f7f5;--panel:#ffffff;--ink:#1d2228;--muted:#5b6570;--line:#e2e5e8;--accent:#1f5f8b;--warn:#9a5b00;--ok:#2e6b3a;--chip:#eef2f5}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121518;--panel:#1b1f24;--ink:#e8ebee;--muted:#a3adb7;--line:#2c333a;--accent:#7fb6dc;--warn:#e0a24a;--ok:#7cc48a;--chip:#232a31}}
+:root[data-theme="dark"]{--bg:#121518;--panel:#1b1f24;--ink:#e8ebee;--muted:#a3adb7;--line:#2c333a;--accent:#7fb6dc;--warn:#e0a24a;--ok:#7cc48a;--chip:#232a31}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline}
+header h1{font-size:18px;margin:0}header .sub{color:var(--muted);font-size:13px}
+main{display:grid;grid-template-columns:minmax(0,1fr) 420px;height:calc(100% - 56px)}
+#map{height:100%;min-height:360px}
+aside{background:var(--panel);border-left:1px solid var(--line);overflow:auto}
+nav.tabs{display:flex;flex-wrap:wrap;gap:4px;padding:10px 12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel);z-index:2}
+nav.tabs button{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer}
+nav.tabs button[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+section.tab{padding:12px 16px;display:none}section.tab.active{display:block}
+h2{font-size:15px;margin:14px 0 6px}h3{font-size:13px;margin:12px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.card{border:1px solid var(--line);border-radius:8px;padding:8px 10px}.card .v{font-size:20px;font-weight:600}.card .k{color:var(--muted);font-size:12px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600}.num{text-align:right;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;padding:1px 7px;border-radius:999px;font-size:11.5px;border:1px solid var(--line);background:var(--chip)}
+.badge.g1{border-color:var(--accent);color:var(--accent)}.badge.g2{border-color:var(--ok);color:var(--ok)}.badge.gap{border-color:var(--warn);color:var(--warn)}
+.note{color:var(--muted);font-size:12.5px}
+select{width:100%;padding:6px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.legend{background:var(--panel);color:var(--ink);padding:8px 10px;border-radius:6px;border:1px solid var(--line);font-size:12px;line-height:1.3}
+.legend .bar{height:10px;width:180px;border-radius:3px;margin:4px 0}
+.legend .ticks{display:flex;justify-content:space-between;width:180px;color:var(--muted)}
+.leaflet-popup-content{font-size:12.5px}
+svg text{fill:var(--muted);font-size:10px}
+@media (max-width:900px){main{grid-template-columns:1fr;height:auto}#map{height:60vh}aside{border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>pedx · Caferağa (Kadıköy) PEB potansiyeli</h1>
+  <span class="sub">v0.1 demo · girdiler yalnızca küresel açık veri (G1) · İstanbul verisi yalnızca doğrulamada (G2)</span>
+</header>
+<main>
+  <div id="map" role="region" aria-label="Harita"></div>
+  <aside>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="ozet" aria-selected="true">Özet</button>
+      <button role="tab" data-tab="yontem">Yöntem</button>
+      <button role="tab" data-tab="kaynak">Veri kaynakları</button>
+      <button role="tab" data-tab="dogrulama">Doğrulama (G2)</button>
+      <button role="tab" data-tab="eksik">Eksikler</button>
+    </nav>
+    <section class="tab active" id="ozet">
+      <h3>Harita katmanı</h3>
+      <select id="metric" aria-label="Gösterge">
+        <option value="balance">Yıllık konut elektriği dengesi (PV / talep)</option>
+        <option value="roof_share_needed">Denge = 1 için gereken çatı payı</option>
+        <option value="population">Nüfus (GHS-POP 2020)</option>
+        <option value="pv_kwh">Yıllık PV potansiyeli (kWh)</option>
+        <option value="demand_res_kwh">Yıllık konut elektriği talebi (kWh)</option>
+      </select>
+      <h2>Mahalle toplamı</h2>
+      <div class="cards" id="cards"></div>
+      <p class="note" id="balnote"></p>
+      <h2>PV üretiminin aylara dağılımı (PVGIS 2023, kWh/kWp)</h2>
+      <div id="chart"></div>
+      <h2>Seçilen hücre</h2>
+      <div id="cellinfo" class="note">Ayrıntı için haritada bir altıgene tıklayın.</div>
+    </section>
+    <section class="tab" id="yontem">
+      <h2>Hesap zinciri</h2>
+      <ol>
+        <li><b>Sınır:</b> OSM'deki resmî mahalle sınırı (relation 9441032).</li>
+        <li><b>Binalar:</b> OSM bina poligonları; ağırlık merkezi sınır içinde kalanlar.</li>
+        <li><b>Mekânsal birim:</b> H3 çözünürlük 10 altıgenleri (yaklaşık 1,5 ha).</li>
+        <li><b>Nüfus:</b> GHS-POP 2020 pikselleri (yaklaşık 90 m), piksel merkezine göre hücrelere toplandı.</li>
+        <li><b>Konut talebi:</b> hücre nüfusu × Türkiye kişi başı konut elektriği. Bu değer UNSD'deki hane tüketiminin (2023) BM nüfusuna bölünmesiyle bulundu.</li>
+        <li><b>PV potansiyeli:</b> taban alanı × çatı kullanım katsayısı × modül verimi (kWp/m²) × PVGIS yıllık verimi (kWh/kWp, 2023, optimum eğim).</li>
+        <li><b>Denge:</b> PV / konut talebi. 1'in üzeri, o hücrenin konut elektriğini yıllık bazda karşılayabildiği anlamına gelir.</li>
+        <li><b>Tersine (fiziksel):</b> dengenin 1 olması için taban alanının ne kadarına PV kurulması gerektiği.</li>
+      </ol>
+      <p class="note">Belirsizlik: çatı kullanım katsayısı 0,26–0,50 ve modül verimi 0,17–0,25 aralıklarının alt ve üst uçları birlikte hesaplandı. Haritadaki değer ana senaryodur (0,26 ve 0,20).</p>
+      <p class="note">Bu sürüm yalnızca yıllık göstergeleri içeriyor. Saatlik göstergeler (öz-yeterlilik, tepe rahatlaması, Shapley, batarya), küresel ve açık bir saatlik talep kaynağı seçilince açılacak (bkz. Eksikler).</p>
+    </section>
+    <section class="tab" id="kaynak"><div id="sources"></div></section>
+    <section class="tab" id="dogrulama"><div id="validation"></div></section>
+    <section class="tab" id="eksik"><div id="gaps"></div></section>
+  </aside>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data/demo_data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

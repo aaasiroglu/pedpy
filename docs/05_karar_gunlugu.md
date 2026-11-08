@@ -128,6 +128,21 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Teknik öneri (henüz uygulanmadı):** pedx çıktılarını GeoJSON ve JSON olarak dışa aktaran bir `pedx.export` modülü ve sunucusuz bir statik web sayfası (Leaflet ile OSM karoları, H3 altıgenleri, grafikler). Böylece demo tekrarlanabilir olur ve paylaşılabilir bir bağlantıyla açılabilir.
 - **Durum:** Kabul (uygulama sonraya)
 
+### K-025: Girdiler yalnızca küresel ölçekte açık veriden alınacak
+- **Kaynak:** Kullanıcı kuralları (2026-11-08): "global olarak open olmayan verileri kullanmamalıyız"; "hiçbir veri dummy olmamalı"; "İstanbul ölçeğinde özel verilerle yalnızca validasyon yapılacak".
+- **Karar:** G1 girdileri OSM, JRC GHS-POP, UNSD/UNdata, UN WPP ve Ember (OWID üzerinden), PVGIS ile literatür parametreleri (aralıklarıyla). TEDAŞ, EPİAŞ, İBB ve TÜİK yalnızca G2 doğrulaması. Sentetik profil ve yer tutucu değerler hiçbir çıktıya girmiyor; eksik veri "eksik" olarak gösteriliyor. Ayrıntı: `11_veri_kaynaklari.md`.
+- **Sonuç:** `pedx.synthetic` yalnızca testlerde kalıyor; v0 iş akışındaki varsayım tablosu (K-012) yerini kaynaklı parametrelere bırakıyor.
+- **Durum:** Kabul
+
+### K-026: Web demo v0.1 yalnızca yıllık göstergeleri içeriyor
+- **Gerekçe:** Küresel ve açık bir saatlik konut talep kaynağı henüz seçilmedi (11, §3).
+- **Karar:** Demo yıllık denge, PV potansiyeli, gereken çatı payı, belirsizlik aralığı ve G2 doğrulama panelini içeriyor. Saatlik göstergeler kaynak seçilince eklenecek.
+- **Durum:** Kabul
+
+### K-027: Önceki çalışma (2024) "Aşama 1: sosyo-kurumsal hazırlık" katmanı olarak yeniden kurulacak
+- **Karar:** RF tabanlı PED benimseme modeli şu düzeltmelerle B1 bildirisine aday: PED Veritabanı koordinatları, H3 özellikleri, gruplu mekânsal çapraz doğrulama, OSM tamlık kontrolü, SHAP. pedx'in fiziksel skoruyla çakıştırılacak (12, §3).
+- **Durum:** Önerildi
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

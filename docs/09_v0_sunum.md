@@ -1,6 +1,6 @@
 # 09: pedx v0: Danışman Sunumu (Prof. Dr. Hande Demirel)
 
-*Hazırlayan: Abdurrahim Arif Asiroglu · Tarih: Kasım 2026 · Sürüm: v0.1.0.dev0 · Repo: `aaasiroglu/pedpy`, dal `claude/dreamy-allen-fvtsux`*
+*Hazırlayan: Abdurrahim Arif Aşıroğlu · Tarih: Kasım 2026 · Sürüm: v0.1.0.dev0 · Repo: `aaasiroglu/pedpy`, dal `claude/dreamy-allen-fvtsux`*
 
 > **Sunum biçimi (K-024):** Bu belge içeriğin metin kaynağıdır. Sunum, OSM haritası ve bilimsel arayüz içeren web tabanlı bir demo (MVP) üzerinden yapılacak; demo daha sonra hazırlanacak.
 

@@ -47,3 +47,5 @@
 | Sprint | Tarih | Hande Hoca'nın yönlendirmeleri | Alınan kararlar (05'e bağlantı) |
 | --- | --- | --- | --- |
 | S1 | | | |
+
+**S1 ilerleme (2026-11-08):** Web demo v0.1 hazır (`web/`). Girdiler yalnızca küresel açık veri; G2 doğrulamasında GHS-POP ile resmî nüfus arasındaki fark +%2,7.

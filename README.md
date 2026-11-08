@@ -18,6 +18,18 @@ pip install -e ".[dev]"
 
 Ek paket grupları: `h3` (altıgen hücreler), `diff` (JAX ile türevlenebilir tersine analiz), `mcdm` (SciPy ile BWM ve ağırlık kararlılığı).
 
+## Web demo (v0.1): yalnızca küresel açık veri
+
+```bash
+python examples/build_demo_caferaga.py
+```
+
+```bash
+python -m http.server 8765 -d web
+```
+
+Ardından tarayıcıda `http://localhost:8765` adresini açın. Demo, OSM haritası üzerinde H3 altıgenlerinde yıllık konut elektriği dengesini, PV potansiyelini ve gereken çatı payını gösteriyor; yanında yöntem, veri kaynakları, G2 doğrulaması ve eksikler panelleri var. Kaynak kütüğü: `docs/11_veri_kaynaklari.md`.
+
 ## Hızlı başlangıç: Caferağa v0
 
 ```bash
