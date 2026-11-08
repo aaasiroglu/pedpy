@@ -2,6 +2,8 @@
 
 *Hazırlayan: Abdurrahim Arif Asiroglu · Tarih: Kasım 2026 · Sürüm: v0.1.0.dev0 · Repo: `aaasiroglu/pedpy`, dal `claude/dreamy-allen-fvtsux`*
 
+> **Sunum biçimi (K-024):** Bu belge içeriğin metin kaynağıdır. Sunum, OSM haritası ve bilimsel arayüz içeren web tabanlı bir demo (MVP) üzerinden yapılacak; demo daha sonra hazırlanacak.
+
 > **Tek cümle:** pedx, dünyanın herhangi bir şehrinde **yalnızca ücretsiz ve açık veriyle** (OSM, PVGIS) Pozitif Enerji Bölgesi potansiyelini **saatlik fizikle** hesaplıyor, H3 altıgenlerinde **mutlak bir indeksle** puanlıyor, sonucu **açıklıyor** ve **fiziksel müdahale uzayında en ucuz dönüşüm yollarını** öneriyor.
 
 ## 1. Neden bu tez? (Hocamızın çalışma hattının devamı)

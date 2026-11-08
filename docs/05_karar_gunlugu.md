@@ -122,6 +122,12 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Karar:** 2 haftalık sprintler; Haziran 2027 başında tez teslimi, 2 makale ve 1 bildiri (`10_sprint_plani.md`).
 - **Durum:** Kabul
 
+### K-024: Danışman sunumu web tabanlı bir demo (MVP) olarak yapılacak
+- **Kaynak:** Kullanıcı kararı (2026-11-08). Sunum daha sonraki bir oturumda hazırlanacak.
+- **Biçim:** OSM altlık haritası üzerinde H3 hücre katmanı ve bilimsel bir arayüz: skorlar, sıra aralıkları, katkılar, PEB sınırı ve Shapley katkıları, bütçe–skor Pareto eğrisi. `docs/09_v0_sunum.md` içeriğin metin kaynağı olarak kalıyor.
+- **Teknik öneri (henüz uygulanmadı):** pedx çıktılarını GeoJSON ve JSON olarak dışa aktaran bir `pedx.export` modülü ve sunucusuz bir statik web sayfası (Leaflet ile OSM karoları, H3 altıgenleri, grafikler). Böylece demo tekrarlanabilir olur ve paylaşılabilir bir bağlantıyla açılabilir.
+- **Durum:** Kabul (uygulama sonraya)
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

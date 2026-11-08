@@ -17,7 +17,7 @@
 
 | Sprint | Tarih | Hedef | Teslim | Yayın bağlantısı |
 | --- | --- | --- | --- | --- |
-| **S1** | 9–22 Kas 2026 | v0 sunumu; İBB veri talebi; PED veritabanı çalışması başlıyor | `docs/09` sunumu; veri talep listesi; PED DB'den alanlar çıkarılmış tablo | B1 kapsamı |
+| **S1** | 9–22 Kas 2026 | v0 sunumu (**web demo MVP**: OSM haritası ve bilimsel arayüz, K-024); İBB veri talebi; PED veritabanı çalışması başlıyor | Web demo; `pedx.export`; veri talep listesi; PED DB'den alanlar çıkarılmış tablo | B1 kapsamı |
 | **S2** | 23 Kas – 6 Ara | Gerçek ya da yarı-gerçek tüketim profilleri (Hande Hoca projeleri, İBB); talep modülü v1 | `pedx.demand` (arketip × profil × ERA5 sıcaklığı); varsayım tablosunun güncellenmesi | B1 ve M-A |
 | **S3** | 7–20 Ara | Tepe rahatlamasının yeniden tanımı (mevsimsel ve depolamalı); 3B çatı ve gölge girdisi (SEBE veya Demirel vd. 2025 çıktıları) | Gösterge v1; "kendi ışınım verini getir" arayüzü | **B1 özetinin gönderimi** (son tarihe göre) |
 | **S4** | 21 Ara – 3 Oca | İBB katmanlarının içe aktarılması (G2): kat, yaş, kullanım | `ingest/ibb.py`; bina eşleşme oranı | M-A |
