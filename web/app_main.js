@@ -37,10 +37,16 @@
     if (!el) return;
     if (!V.rows) { el.innerHTML = "<p class='note'>Henüz çalıştırılmadı: python scripts/validate_ped_sites.py</p>"; return; }
     const s = V.summary, dev = { brownfield: "kahverengi alan", new: "yeni yapım", existing: "mevcut stok" };
-    el.innerHTML = `<p><b>Havuzlanmış AUC: ${nf(s.auc_pooled, 2)}</b> · ${s.sites_above_median}/${s.n_sites} saha kontrol medyanının üstünde · işaret testi p = ${nf(s.sign_test_p_one_sided, 3)}</p>` +
-      "<table><tr><th>Saha</th><th>Program</th><th>Tip</th><th class='num'>Saha dengesi</th><th class='num'>Kontrol medyanı (n)</th><th class='num'>Yüzdelik</th></tr>" +
+    const caf = s.caferaga_in_istanbul || {};
+    el.innerHTML = `<div class="kpis"><div class="kpi sun"><div class="v">${nf(s.auc_pooled, 2)}</div><div class="k">AUC · yalnız enerji dengesi (${s.sites_above_median}/${s.n_sites} saha medyan üstü, p = ${nf(s.sign_test_p_one_sided, 3)})</div></div>
+      <div class="kpi"><div class="v">${nf(s.auc_multi_loco, 2)}</div><div class="k">AUC · tüm katmanlar, bir kent dışarıda (${s.sites_above_median_multi}/${s.n_sites}, p = ${nf(s.sign_test_p_multi, 3)})</div></div>
+      <div class="kpi"><div class="v">${nf(caf.percentile_multi, 2)}</div><div class="k">Caferağa'nın İstanbul içindeki yüzdeliği (tüm katmanlar; denge ile ${nf(caf.percentile_balance, 2)})</div></div></div>` +
+      "<table><tr><th>Saha</th><th>Program</th><th>Tip</th><th class='num'>Saha dengesi</th><th class='num'>Kontrol medyanı (n)</th><th class='num'>Yüzdelik: denge</th><th class='num'>Yüzdelik: tüm katmanlar</th></tr>" +
       V.rows.map(r => `<tr><td>${r.site} <span class="note">${r.city} · OSM ${r.osm}</span></td><td class="note">${r.programme}</td><td>${dev[r.development] || r.development}</td>
-        <td class="num">${nf(r.case_balance, 2)}</td><td class="num">${nf(r.controls_median_balance, 2)} (${r.controls_n})</td><td class="num">${nf(r.percentile, 2)}</td></tr>`).join("") + "</table>";
+        <td class="num">${nf(r.case_balance, 2)}</td><td class="num">${nf(r.controls_median_balance, 2)} (${r.controls_n})</td><td class="num">${nf(r.percentile, 2)}</td><td class="num">${nf(r.percentile_multi, 2)}</td></tr>`).join("") + "</table>" +
+      `<h3>Gerçek PED'leri ayıran katmanlar (kent içi z-puanı, lojistik katsayı)</h3><table><tr><th>Özellik</th><th class='num'>Katsayı</th></tr>` +
+      (s.coefficients_full_fit || []).map(c => `<tr><td class="mono">${c.feature}</td><td class="num">${nf(c.coef, 2)}</td></tr>`).join("") + "</table>" +
+      `<p class="note">Pozitif katsayı: gerçek PED sahaları o özellikte kendi kentlerinin sıradan yerleşik alanlarından yüksek. İlişki, nedensellik değil. 16 vaka küçük bir örneklem.</p>`;
   })();
 
   // ------------------------------------------------------------------ data & method view

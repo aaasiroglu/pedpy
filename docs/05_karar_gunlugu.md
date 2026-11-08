@@ -248,6 +248,17 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Karar:** Hedef mimari docs/16'da tanımlandı: altıgen = token, öz-denetimli ön eğitim, gerçek PED'lerle pozitif-etiketsiz (PU) ince ayar, fiziksel XAI. Bunun önünde zorunlu bir taban çizgisi var: PCA imzası ve fiziksel model. Transformer bu taban çizgisini gruplu doğrulamada geçemezse teze girmez.
 - **Durum:** Kabul (tasarım)
 
+### K-043: Odak üç iddia; doğrulama v2: kent ızgarası ve tüm katmanlar
+- **Bağlam:** Kullanıcıyla değerlendirme sonrası kapsam üç iddiaya indirildi:
+  - (A) Küresel açık veriyle mahalle ölçeğinde PED dengesi ne kadar güvenilir? (G1/G2)
+  - (B) Gerçek PED'ler hangi açık veri imzasını taşıyor?
+  - (C) Tıkla→hesapla karar destek aracı ve Caferağa vaka çalışması.
+
+  Transformer, kentsel dönüşüm senaryosu ve ROI "gelecek çalışma" olarak kalıyor.
+- **Doğrulama v1'in sorunları:** Kontrollerin yarısı su ya da boş alana düştü. Saha başına 5–8 kontrol kaldı. Buiksloterham iki koşu arasında 0,60'tan 0,375'e oynadı.
+- **Karar (v2):** `pedx.citygrid` ile her kent için 16 × 16 km'lik pencerede bütün katmanlar bir kez H3 r10'a işleniyor: HRSL, Overture, Sentinel-2, Landsat LST, Copernicus DEM (çok döşemeli), PVGIS, UNSD/OWID. Kontroller yalnız yerleşik ve dolu hücrelerden seçiliyor (HRSL ≥ 20 kişi, taban alanı > 0); saha başına 30 kontrol. İki model karşılaştırılıyor: (a) enerji dengesi; (b) kent içi z-puanlarıyla L2 lojistik regresyon, her seferinde bir kent dışarıda bırakılarak. Ek olarak Caferağa, İstanbul içinde puanlanıyor (gerçek bir PED değil).
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

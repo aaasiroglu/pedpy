@@ -95,10 +95,16 @@ def zonal_array_h3(arr: np.ndarray, transform, crs, resolution: int, stat: str =
     return agg.rename(name)
 
 
-def landsat_lst_h3(bbox: BBox, start: str, end: str, resolution: int, mask=None, max_cloud: float = 20.0) -> Tuple[pd.Series, dict]:
-    """Warm-season mean LST [°C] per H3 cell from Landsat 8/9 C2 L2 (Planetary Computer)."""
+def landsat_lst_h3(bbox: BBox, start: str, end: str, resolution: int, mask=None, max_cloud: float = 20.0,
+                   max_scenes: Optional[int] = None) -> Tuple[pd.Series, dict]:
+    """Warm-season mean LST [°C] per H3 cell from Landsat 8/9 C2 L2 (Planetary Computer).
+
+    ``max_scenes``: keep only the least-cloudy N scenes (city-scale runs); None = all.
+    """
     items = [f for f in stac_search(PC_STAC, ["landsat-c2-l2"], bbox, start, end, max_cloud)
              if f["properties"].get("platform") in ("landsat-8", "landsat-9")]
+    if max_scenes:
+        items = sorted(items, key=lambda f: f["properties"].get("eo:cloud_cover", 100))[:max_scenes]
     with urllib.request.urlopen(PC_TOKEN.format(collection="landsat-c2-l2"), timeout=60) as r:  # noqa: S310
         token = json.load(r)["token"]
     stack, used, ref = [], [], None
@@ -164,19 +170,46 @@ def sentinel2_indices_h3(bbox: BBox, start: str, end: str, resolution: int, mask
 
 
 def dem_h3(bbox: BBox, resolution: int, mask=None) -> Tuple[pd.DataFrame, dict]:
-    """Elevation [m] and slope [°] per H3 cell from Copernicus DEM GLO-30 (single 1°×1° tile)."""
+    """Elevation [m] and slope [°] per H3 cell from Copernicus DEM GLO-30 (all 1°×1° tiles under the bbox).
+
+    Each tile is read for its part of the bbox only; slope is computed per tile window; cells cut by a
+    tile edge get the pixel-weighted mean of both parts. Missing (ocean-only) tiles are skipped.
+    """
     w, s, e, n = bbox
-    lat, lon = math.floor(s), math.floor(w)
-    url = COP_DEM.format(ns="N" if lat >= 0 else "S", lat=abs(lat), ew="E" if lon >= 0 else "W", lon=abs(lon))
-    z, tr, crs = _read_window(url, bbox)
-    lat_c = (s + n) / 2
-    dy = abs(tr.e) * 111_320.0
-    dx = abs(tr.a) * 111_320.0 * math.cos(math.radians(lat_c))
-    gy, gx = np.gradient(z, dy, dx)
-    slope = np.degrees(np.arctan(np.hypot(gx, gy)))
-    out = pd.DataFrame({
-        "env_elev_m": zonal_array_h3(z, tr, crs, resolution, "mean", mask),
-        "env_slope_deg": zonal_array_h3(slope, tr, crs, resolution, "mean", mask),
-        "env_relief_m": zonal_array_h3(z, tr, crs, resolution, "std", mask),
-    })
-    return out, {"tile": url.rsplit("/", 1)[-1]}
+    z_parts, s_parts, tiles = [], [], []
+    for la in range(math.floor(s), math.floor(n - 1e-9) + 1):
+        for lo in range(math.floor(w), math.floor(e - 1e-9) + 1):
+            sub = (max(w, lo), max(s, la), min(e, lo + 1), min(n, la + 1))
+            url = COP_DEM.format(ns="N" if la >= 0 else "S", lat=abs(la), ew="E" if lo >= 0 else "W", lon=abs(lo))
+            try:
+                z, tr, crs = _read_window(url, sub)
+            except Exception:  # noqa: BLE001  (no tile over open sea)
+                continue
+            lat_c = (sub[1] + sub[3]) / 2
+            dy = abs(tr.e) * 111_320.0
+            dx = abs(tr.a) * 111_320.0 * math.cos(math.radians(lat_c))
+            gy, gx = np.gradient(z, dy, dx) if min(z.shape) > 1 else (np.zeros_like(z), np.zeros_like(z))
+            slope = np.degrees(np.arctan(np.hypot(gx, gy)))
+            z_parts.append((z, tr, crs))
+            s_parts.append(slope)
+            tiles.append(url.rsplit("/", 1)[-1])
+    if not z_parts:
+        raise RuntimeError("no Copernicus DEM tile under bbox")
+
+    def comb(arrs, stat, name):
+        sums, cnts = [], []
+        for a, (_, tr, crs) in zip(arrs, z_parts):
+            sums.append(zonal_array_h3(a, tr, crs, resolution, "sum", mask, name))
+            cnts.append(zonal_array_h3(np.where(np.isfinite(a), 1.0, np.nan), tr, crs, resolution, "sum", mask, name))
+        S, C = pd.concat(sums, axis=1).sum(axis=1), pd.concat(cnts, axis=1).sum(axis=1)
+        return (S / C).rename(name)
+
+    zs = [p[0] for p in z_parts]
+    mean_z = comb(zs, "mean", "env_elev_m")
+    if len(zs) == 1:
+        relief = zonal_array_h3(zs[0], z_parts[0][1], z_parts[0][2], resolution, "std", mask, "env_relief_m")
+    else:  # std across tiles from pooled moments
+        sq = comb([a * a for a in zs], "mean", "sq")
+        relief = np.sqrt((sq - mean_z**2).clip(lower=0)).rename("env_relief_m")
+    out = pd.DataFrame({"env_elev_m": mean_z, "env_slope_deg": comb(s_parts, "mean", "env_slope_deg"), "env_relief_m": relief})
+    return out, {"tiles": tiles}

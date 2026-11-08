@@ -8,7 +8,7 @@ Model, gerçek Pozitif Enerji Bölgelerini (PED) ve Akıllı Şehir öncü (ligh
 
 Bu, modelin tek dış referansıdır. Model, kendi tanımladığı bir idealle değil, gerçekte seçilmiş ve yatırım yapılmış sahalarla sınanır.
 
-## 2. Tasarım (sonuçlar görülmeden sabitlendi)
+## 2. Tasarım v1 (K-041; v2 için bkz. §2b)
 
 | Öğe | Seçim | Gerekçe |
 |---|---|---|
@@ -22,6 +22,25 @@ Bu, modelin tek dış referansıdır. Model, kendi tanımladığı bir idealle d
 **Bilinen yanlılık:** kahverengi alanlar (eski liman ya da sanayi alanları) bugünkü durumlarıyla ölçülür. Az nüfus ve büyük çatılar dengeyi yükseltir. Bu yüksek skor kısmen "henüz insan yok" anlamına gelir. Bu yüzden sonuçlar tabakalara ayrılarak verilir ve gizlenmez.
 
 **Yasak olanlar:** sonucu gördükten sonra parametre, saha listesi ya da kontrol yarıçapı değiştirilmez. Değiştirilirse yeni karar kaydı açılır ve iki sonuç da raporlanır.
+
+## 2b. Tasarım v2 (K-043, geçerli olan)
+
+| Öğe | v2 |
+|---|---|
+| Kent ızgarası | `pedx.citygrid.city_grid`: 16 × 16 km pencere, H3 r10 (~17 bin hücre/kent). Katmanlar: HRSL (nüfus, 60+, 0–5), Overture (taban alanı, mekân), Sentinel-2 (NDVI, NDBI), Landsat (en az bulutlu 4 sahnenin LST'si, kent medyanına göre anomali), Copernicus DEM (eğim, rölyef; çok döşemeli), PVGIS ve UNSD/OWID (enerji). Kent başına ~35 s. |
+| Saha | Saha hücresi çevresinde k = 2 disk (19 hücre ≈ 0,28 km²) |
+| Kontroller | Saha başına 30; disk merkezi yerleşik ve dolu (HRSL ≥ 20 kişi, taban alanı > 0), sahadan ≥ 1,5 km; tohum 20261108 |
+| Model (a) | Yıllık konut elektriği dengesi (fiziksel çekirdek) |
+| Model (b) | 15 yoğun (intensive) özelliğin kent içi z-puanı, L2 lojistik regresyon (C = 0,5, dengeli sınıf ağırlığı). Her seferinde bir kent dışarıda bırakılıyor: o kentin puanını o kentin verisi hiç görmüyor |
+| Ölçü | Vakanın kendi kontrolleri içindeki yüzdeliği; ortalaması tabakalı AUC; tek yönlü işaret testi |
+| Ek | Caferağa İstanbul içinde, tüm PED kentleriyle eğitilmiş modelle puanlanıyor (Caferağa gerçek bir PED değil, aday) |
+
+**Sınırlılıklar:**
+- 16 vaka küçük bir örneklem.
+- Nüfus her yerde HRSL; düzey yanlılığı vaka ve kontrolde ortak.
+- Copernicus DEM bir yüzey modeli (DSM), bu yüzden eğime binalar da karışıyor.
+- Kahverengi alanlar 2023 durumuyla ölçülüyor.
+- Overture'da yükseklik ve kat bilgisi seyrek.
 
 ## 3. Sonuçlar
 
