@@ -46,7 +46,8 @@ DEV = {  # development type and programme (sources: docs/17)
 }
 FEATURES = ["log_energy_balance", "pop_density_per_ha", "footprint_coverage", "log_footprint_per_capita_m2", "places_per_1000",
             "elderly_share", "children_share", "env_ndvi_mean", "env_ndbi_mean", "env_lst_anomaly_c", "env_slope_deg",
-            "env_relief_m", "ov_floors_coverage", "ov_nonosm_share", "ov_places_categories"]
+            "env_relief_m", "ov_floors_coverage", "ov_nonosm_share", "ov_places_categories",
+            "env_wc_green_share", "env_wc_water_share", "transit_per_km2", "grid_assets_per_km2", "ev_chargers_per_km2"]
 
 
 def slug(s: str) -> str:
@@ -85,6 +86,15 @@ def percentile(case, ctl):
     if not np.isfinite(case) or ctl.size == 0:
         return np.nan
     return float((ctl < case).mean() + 0.5 * (ctl == case).mean())
+
+
+def _matched(c, k):
+    d = c["pop_density_per_ha"]
+    m = k[(k["pop_density_per_ha"] >= d / 2) & (k["pop_density_per_ha"] <= d * 2)]
+    ok = len(m) >= 5
+    return {"case_density_per_ha": d, "controls_median_density_per_ha": float(k["pop_density_per_ha"].median()), "controls_matched_n": int(len(m)),
+            "percentile_matched": percentile(c["energy_balance"], m["energy_balance"]) if ok else np.nan,
+            "percentile_multi_matched": percentile(c["score_multi"], m["score_multi"]) if ok else np.nan}
 
 
 def sign_p(x):
@@ -129,7 +139,10 @@ if __name__ == "__main__":
                     "case_balance": c["energy_balance"], "case_population": c["vul_pop_hrsl"], "controls_n": int(len(k)),
                     "controls_median_balance": float(k["energy_balance"].median()),
                     "percentile": percentile(c["energy_balance"], k["energy_balance"]),
-                    "percentile_multi": percentile(c["score_multi"], k["score_multi"])})
+                    "percentile_multi": percentile(c["score_multi"], k["score_multi"]),
+                    # sensitivity: controls with population density within ×/÷ 2 of the case (removes the
+                    # mechanical advantage of sparsely inhabited sites; NaN if < 5 such controls)
+                    **_matched(c, k)})
     R = pd.DataFrame(res)
     R.to_csv(VAL / "ped_validation.csv", index=False)
     full = model().fit(Z, y)
@@ -148,6 +161,9 @@ if __name__ == "__main__":
             "sign_test_p_one_sided": sign_p(R["percentile"]),
             "auc_multi_loco": float(R["percentile_multi"].mean()), "sites_above_median_multi": int((R["percentile_multi"] > 0.5).sum()),
             "sign_test_p_multi": sign_p(R["percentile_multi"]),
+            "auc_matched": float(R["percentile_matched"].mean()), "n_matched": int(R["percentile_matched"].notna().sum()),
+            "auc_multi_matched": float(R["percentile_multi_matched"].mean()),
+            "sign_test_p_multi_matched": sign_p(R["percentile_multi_matched"]),
             "by_development": R.groupby("development")[["percentile", "percentile_multi"]].mean().round(3).to_dict(),
             "coefficients_full_fit": [{"feature": f, "coef": round(float(b), 3)} for f, b in coefs],
             "caferaga_in_istanbul": caf, "provenance": provs}

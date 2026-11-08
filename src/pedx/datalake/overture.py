@@ -23,7 +23,7 @@ from urllib.parse import urlparse
 import numpy as np
 import pandas as pd
 
-__all__ = ["RELEASE", "rowgroup_index", "read_bbox", "building_features", "place_features"]
+__all__ = ["RELEASE", "rowgroup_index", "read_bbox", "building_features", "place_features", "infrastructure_features"]
 
 BUCKET = "overturemaps-us-west-2"
 RELEASE = "2026-10-21.0"  # pinned for reproducibility; provenance records it
@@ -195,4 +195,37 @@ def place_features(df: pd.DataFrame, cells: Iterable[str], resolution: int, mask
     top = pd.crosstab(d["cell"], d["top"]).reindex(cells).fillna(0)
     for c in top.columns:
         out[f"ov_places_{c}"] = top[c]
+    return out
+
+
+INFRA_GROUPS = {
+    "ov_grid_assets_n": ("power", ("substation", "transformer")),
+    "ov_ev_chargers_n": (None, ("charging_station",)),
+    "ov_generators_n": ("power", ("generator", "plant")),
+    "ov_transit_stops_n": ("transit", ("bus_stop", "subway_station", "railway_station", "ferry_terminal", "platform", "bus_station")),
+    "ov_bike_n": ("transit", ("bicycle_parking", "bicycle_rental")),
+}
+
+
+def infrastructure_features(df: pd.DataFrame, cells: Iterable[str], resolution: int, mask=None) -> pd.DataFrame:
+    """Per-cell counts of energy and mobility infrastructure (Overture base/infrastructure, ODbL)."""
+    import shapely
+
+    from ..ingest.global_data import points_in_polygon
+    from ..spatial.h3grid import assign_cells
+
+    cells = list(cells)
+    out = pd.DataFrame(index=pd.Index(cells, name="cell"))
+    if df.empty:
+        for k in INFRA_GROUPS:
+            out[k] = 0.0
+        return out
+    c = shapely.centroid(df["geometry"].to_numpy())
+    d = pd.DataFrame({"lat": shapely.get_y(c), "lon": shapely.get_x(c), "sub": df["subtype"].to_numpy(), "cls": df["class"].to_numpy()})
+    if mask is not None:
+        d = d[points_in_polygon(d["lat"].to_numpy(), d["lon"].to_numpy(), mask["outer"], mask.get("inner", ()))]
+    d["cell"] = assign_cells(d["lat"].to_numpy(), d["lon"].to_numpy(), resolution)
+    for k, (sub, cls) in INFRA_GROUPS.items():
+        m = d["cls"].isin(cls) & ((d["sub"] == sub) if sub else True)
+        out[k] = d[m].groupby("cell").size().reindex(cells).fillna(0.0)
     return out

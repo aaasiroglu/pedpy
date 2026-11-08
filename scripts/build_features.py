@@ -204,7 +204,7 @@ def main() -> None:
                    "pvgis_mounting": pvj["inputs"]["mounting_system"]},
         "params": PARAMS,
         "gaps": [
-            "Saatlik konut talep şekli: küresel ve açık kaynak seçimi bekliyor → SSR, tepe rahatlaması, Shapley ve batarya bu sürümde yok.",
+            "Saatlik konut talebi: Faz 1 küresel hava bileşeni (Demand.ninja) hazır; taban günlük şekil için küresel açık kaynak (ör. Demand.ninja tam profil) Faz 1 sonunda; EPİAŞ yalnız Faz 2 doğrulaması.",
             "Hizmet sektörü talebi (UNSD 'commercial and public services') henüz mekâna dağıtılmadı → denge yalnızca konut elektriği içindir.",
             "Gölgeleme ve çatı geometrisi modellenmedi → çatı kullanım katsayısı aralığıyla (0,26–0,50) temsil ediliyor.",
             "Ekonomi, çevre, iklim, görüntü ve sosyal katmanlar katalogda 'planlanan' durumunda (docs/13, docs/14).",
@@ -231,7 +231,7 @@ def main() -> None:
         "weather_model": "Demand.ninja (Staffell, Pfenninger & Johnson 2023), ERA5 2023 via Open-Meteo",
         "monthly_heating_index": {int(k): round(float(v), 2) for k, v in dn_monthly["heating_demand"].items()},
         "monthly_cooling_index": {int(k): round(float(v), 2) for k, v in dn_monthly["cooling_demand"].items()},
-        "national_load": "EPİAŞ gerçek zamanlı tüketim 2023 — hesap gerekli (scripts/fetch_epias.py); bekleniyor",
+        "national_load": "Faz 1 küresel: Demand.ninja (ERA5). EPİAŞ ulusal yükü yalnızca Faz 2 yerel doğrulamasında kullanılır.",
     }
     from pedx.datalake import catalog_frame as lake_catalog
 

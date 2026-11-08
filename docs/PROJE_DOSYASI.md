@@ -40,7 +40,7 @@ Bu yanıtlar yalnızca **küresel açık veriyle (G1)** üretilir ve **İstanbul
 │ L4 XAI ve TERSİNE  kesin katkılar · sıra aralıkları · Shapley (graf) · fiziksel tersine  │
 │                    analiz (JAX) · karşı-olgusal analiz                                   │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ L3 MOTORLAR     fizik (yıllık + saatlik, batarya) · talep (EPİAŞ + Demand.ninja) ·       │
+│ L3 MOTORLAR     fizik (yıllık + saatlik, batarya) · talep (Demand.ninja, ERA5) ·       │
 │                 graf (paylaşım oyunu) · referans sınıf modeli (planlı)                   │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
 │ L2 H3 ÖZELLİK DEPOSU  82 kayıtlı özellik/hücre · veri sözleşmesi (kayıtsız sütun          │
@@ -49,7 +49,7 @@ Bu yanıtlar yalnızca **küresel açık veriyle (G1)** üretilir ve **İstanbul
 │ L1 VERİ GÖLÜ    35 küresel veri seti kataloğu · AOI bağlayıcıları · raster→H3 motoru ·    │
 │                 köken ve lisans                                                          │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ L0 KAYNAKLAR    OSM · JRC GHSL · UNSD · OWID/Ember · PVGIS · ERA5 · EPİAŞ · …             │
+│ L0 KAYNAKLAR    OSM · Overture · GHSL · HRSL · WorldCover · S2 · Landsat · DEM · PVGIS · … │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
           ▲ G2 doğrulama (yalnızca okunur): İBB · TEDAŞ · EPİAŞ mesken profili · Demirel vd. 2025
 ```
@@ -85,7 +85,7 @@ Toplam **63 otomatik test** var. Kurulum: `make install data build serve` (`docs
 | Yüzey sıcaklığı (LST) | Landsat 8/9 C2 L2 (Planetary Computer), 16 sahne, Haz–Eyl 2023 | 30 m | kamu malı | G1 | ısı adası, soğutma, PV sıcaklığı |
 | NDVI, NDBI | Sentinel-2 L2A (Earth Search), 26.07.2023 | 10–20 m | Copernicus açık | G1 | yeşil alan, yapılaşma |
 | Yükseklik, eğim | Copernicus DEM GLO-30 | 30 m | Copernicus | G1 | arazi |
-| Ulusal saatlik yük | EPİAŞ şeffaflık platformu | saatlik | atıfla; hesap gerekli | G1 | talebin taban şekli (**bekleniyor**) |
+| Ulusal saatlik yük | EPİAŞ şeffaflık platformu | saatlik | atıfla; hesap gerekli | **Faz 2 (yerel)** | yalnızca saatlik profil doğrulaması |
 | İstanbul kişi başı tüketim | TEDAŞ 2023, Tablo 7 | il | kamu | **G2** | doğrulama |
 | Caferağa nüfusu | Kadıköy Belediyesi / TÜİK | mahalle | kamu | **G2** | doğrulama |
 | Konut saatlik profili | EPİAŞ profil katsayıları (mesken, AYEDAŞ) | saatlik | kamu | **G2** | doğrulama |
@@ -109,7 +109,7 @@ Tam envanter: 49 veri seti; 24'ü sisteme alındı, 4 bağlayıcı hazır, 17 pl
 | A3 | Raster → H3 | GHS-POP, GHS-BUILT-* | Piksel merkezi ataması, toplam veya ortalama | nüfus, alan, hacim | GHS-POP ile resmî nüfus (G2) | ✅ |
 | A4 | Özellik deposu | A2–A3, POI, ağ, EO | Katman fonksiyonları; morfoloji (momepy); erişim (Dijkstra, 800 m); yol ağı karmaşıklığı (Boeing 2019); Landsat LST, Sentinel-2, DEM; PCA imzası | 82 özellik/hücre | veri sözleşmesi | ✅ |
 | A5 | Yıllık enerji | A4, UNSD, PVGIS | Konut talebi = nüfus × kişi başı; PV = taban alanı × u × η × verim | denge, gereken çatı payı | aralık analizi | ✅ |
-| A6 | Saatlik talep | EPİAŞ, ERA5, Demand.ninja | Ulusal yükün taban ve hava bileşenlerine ayrıştırılması; D_t = E[(1−w)b_t + w m_t] | saatlik konut talebi | EPİAŞ mesken profili (G2) | ⏳ EPİAŞ verisi |
+| A6 | Saatlik talep | ERA5, Demand.ninja (küresel) | Hava duyarlı talep bileşeni; taban şekil küresel açık kaynaktan | saatlik konut talebi | EPİAŞ mesken profili (Faz 2) | hava bileşeni ✅ |
 | A7 | Saatlik göstergeler | A6, PVGIS saatlik | SSR, CVaR ile şebeke stresi, batarya | proje göstergeleri | T1, T2 | kod ✅ / veri ⏳ |
 | A8 | Proje adayı | A4–A7, komşuluk | Graf büyütme; paylaşım oyunu; Shapley | sınır ve katkılar | Shapley aksiyomları | yıllık ✅ / saatlik ⏳ |
 | A9 | Tersine analiz ve ROI | A8, maliyetler | Fizik kenetli arama (JAX), kesin modelle denetim | reçete, Pareto eğrisi | 7 fiziksel denetim | kod ✅ / maliyet ⏳ |
@@ -168,16 +168,14 @@ Tam envanter: 49 veri seti; 24'ü sisteme alındı, 4 bağlayıcı hazır, 17 pl
 9. Yayınlar
 10. Tez yazımı
 
-**Kilometre taşları** (2 haftalık sprintler; ayrıntı `docs/10`):
+**Fazlar ve kilometre taşları** (2 haftalık sprintler; ayrıntı `docs/10`). Hedefler: (1) bilgisayar bilimi ve AI mühendisliği, (2) yöneylem araştırması ve endüstri mühendisliği.
 
-| Tarih | Kilometre taşı | Çıktı |
-| --- | --- | --- |
-| Kasım 2026 (S1) | v0.4 sunumu (bu dosya ve uygulama) | Danışman onayı: başlık ve çerçeve |
-| Aralık 2026 (S2–S3) | Saatlik talep (EPİAŞ + Demand.ninja), G2 profil doğrulaması | **B1 bildiri özeti** |
-| Şubat 2027 (S6–S7) | G1/G2 tam karşılaştırma, OSM ve GHSL duyarlılığı | **Makale A taslağı** |
-| Mart 2027 (S8–S10) | Shapley ile proje sınırı, tersine analiz ve ROI, referans sınıfı | **Makale B taslağı** |
-| Nisan–Mayıs 2027 (S11–S14) | Tez bölümleri, gönderimler | Tez taslakları |
-| Haziran 2027 (S15) | Teslim | Tez |
+| Faz | Tarih | İş | Çıktı | Geçiş ölçütü |
+| --- | --- | --- | --- | --- |
+| **1. Küresel açık sistem + küçük doğrulama** | Kas–Ara 2026 | Veri gölü, kent ızgarası (tüm raster ve vektör katmanlar), fizik, ÇKKDS, tıkla → hesapla; 16 gerçek PED vaka–kontrol | Çalışan sistem, uygulama, **bildiri özeti** | Testler; lisans kaydı; tekrarlanabilir doğrulama |
+| **2. Yerel ve küresel çalışmalarla doğrulama** | Oca–Mar 2027 | İBB, TÜİK, EPİAŞ, Demirel vd. (2025) ile karşılaştırma (salt okunur); PED Veritabanı ile genişletilmiş vaka seti | Hata payları, duyarlılık | Doğrulama kurulumu sonuçlardan önce kayıtlı |
+| **3. Yayınlar** | Mar–May 2027 | **Makale 1 (AI/BB):** gerçek PED imzası, PU öğrenme, XAI · **Makale 2 (YA/EM):** ÇKKDS, ağırlık kararlılığı, Pareto, tersine optimizasyon | İki gönderim | Model basit taban çizgisini geçer |
+| **4. Tez** | Haz 2027 | Yazım, pedx 1.0 | Tez | Danışman onayı |
 
 **Kalite kapıları** (her sprint sonunda):
 1. Bütün testler geçiyor.
@@ -190,12 +188,12 @@ Tam envanter: 49 veri seti; 24'ü sisteme alındı, 4 bağlayıcı hazır, 17 pl
 
 | Risk | Olasılık | Etki | Önlem |
 | --- | --- | --- | --- |
-| EPİAŞ verisi gecikir | Orta | Yüksek | Hesap açılınca tek komutla çekilir (`make epias`); yedek: kayıtlı ülkelerin açık verisiyle yöntem gösterimi |
+| Yerel veri gecikir (EPİAŞ, İBB) | Orta | Düşük | Faz 1 yalnızca küresel açık veriyle tamamlanır; yerel veri yalnız Faz 2 doğrulaması |
 | OSM tamlığı sonuçları saptırır | Yüksek | Yüksek | GHSL ile çift kaynak; tamlık özelliği; G2 ile İBB bina envanteri |
 | PED Veritabanı lisansı | Orta | Orta | Erken teyit (S2); yoksa JPI kitapçığı ve Zhang vd. (2021) |
 | Kapsam genişlemesi | Yüksek | Yüksek | Pusula (`docs/00`), planlı katmanlar ancak öncelik sırasıyla |
 
-**Açık kararlar (danışmandan):** başlık; EPİAŞ hesabı; İBB veri talebi önceliği; hedef dergiler.
+**Açık kararlar (danışmandan):** başlık; iki makalenin dergileri; Faz 2 yerel veri önceliği (İBB, Demirel vd. 2025).
 
 ---
 

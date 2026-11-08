@@ -1,0 +1,397 @@
+{
+ "n_sites": 11,
+ "n_controls_per_site": 30,
+ "seed": 20261108,
+ "auc_pooled": 0.8606060606060606,
+ "sites_above_median": 11,
+ "sign_test_p_one_sided": 0.00048828125,
+ "auc_multi_loco": 0.8583333333333333,
+ "sites_above_median_multi": 15,
+ "sign_test_p_multi": 0.0002593994140625,
+ "by_development": {
+  "percentile": {
+   "brownfield": 0.833,
+   "existing": 0.867,
+   "new": 0.917
+  },
+  "percentile_multi": {
+   "brownfield": 0.867,
+   "existing": 0.813,
+   "new": 0.911
+  }
+ },
+ "coefficients_full_fit": [
+  {
+   "feature": "log_energy_balance",
+   "coef": 0.961
+  },
+  {
+   "feature": "footprint_coverage",
+   "coef": -0.949
+  },
+  {
+   "feature": "ov_places_categories",
+   "coef": 0.897
+  },
+  {
+   "feature": "log_footprint_per_capita_m2",
+   "coef": 0.81
+  },
+  {
+   "feature": "ov_floors_coverage",
+   "coef": 0.61
+  },
+  {
+   "feature": "env_slope_deg",
+   "coef": -0.536
+  },
+  {
+   "feature": "env_lst_anomaly_c",
+   "coef": 0.489
+  },
+  {
+   "feature": "env_ndbi_mean",
+   "coef": -0.412
+  },
+  {
+   "feature": "env_ndvi_mean",
+   "coef": -0.382
+  },
+  {
+   "feature": "elderly_share",
+   "coef": -0.337
+  },
+  {
+   "feature": "pop_density_per_ha",
+   "coef": 0.303
+  },
+  {
+   "feature": "places_per_1000",
+   "coef": 0.249
+  },
+  {
+   "feature": "ov_nonosm_share",
+   "coef": 0.129
+  },
+  {
+   "feature": "children_share",
+   "coef": -0.075
+  },
+  {
+   "feature": "env_relief_m",
+   "coef": 0.073
+  }
+ ],
+ "caferaga_in_istanbul": {
+  "percentile_balance": NaN,
+  "percentile_multi": 0.7333333333333333,
+  "balance": NaN,
+  "note": "HRSL population (common source); Cafera\u011fa is a candidate, not a realised PED"
+ },
+ "provenance": {
+  "Buiksloterham": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 4.3,
+    "overture_buildings": 10.8,
+    "overture_places": 4.2,
+    "sentinel2": 4.3,
+    "landsat": 10.4,
+    "dem": 4.9,
+    "energy": 0.0
+   },
+   "sentinel2": {
+    "scene": "S2A_31UFT_20230614_0_L2A",
+    "cloud_cover": 0.010265,
+    "date": "2023-06-14T10:56:41.621000Z"
+   },
+   "landsat_scenes": 4
+  },
+  "Zorrotzaurre": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 4.5,
+    "overture_buildings": 6.5,
+    "overture_places": 2.4,
+    "sentinel2": 11.7,
+    "landsat": 6.6,
+    "dem": 5.3,
+    "energy": 0.0
+   },
+   "sentinel2": {
+    "scene": "S2B_30TVN_20230821_0_L2A",
+    "cloud_cover": 0.000247,
+    "date": "2023-08-21T11:09:28.102000Z"
+   },
+   "landsat_scenes": 1
+  },
+  "Kera": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 3.0,
+    "overture_buildings": 8.0,
+    "overture_places": 2.0,
+    "sentinel2": 8.7,
+    "landsat": 9.8,
+    "dem": 3.6,
+    "energy": 0.0
+   },
+   "sentinel2": {
+    "scene": "S2A_34VFM_20230613_0_L2A",
+    "cloud_cover": 0.003681,
+    "date": "2023-06-13T09:44:00.794000Z"
+   },
+   "landsat_scenes": 3
+  },
+  "Fornebu": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 2.9,
+    "overture_buildings": 8.4,
+    "overture_places": 2.7,
+    "sentinel2": 10.6,
+    "landsat": 10.0,
+    "dem": 3.9,
+    "energy": 40.1
+   },
+   "sentinel2": {
+    "scene": "S2A_32VNM_20230604_0_L2A",
+    "cloud_cover": 0.009021,
+    "date": "2023-06-04T10:54:19.756000Z"
+   },
+   "landsat_scenes": 4
+  },
+  "Kaukovainio": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 2.0,
+    "overture_buildings": 4.3,
+    "overture_places": 1.4,
+    "sentinel2": 12.0,
+    "landsat": 10.0,
+    "dem": 5.4,
+    "energy": 42.5
+   },
+   "sentinel2": {
+    "scene": "S2A_35WMN_20230818_0_L2A",
+    "cloud_cover": 2.7e-05,
+    "date": "2023-08-18T10:02:27.979000Z"
+   },
+   "landsat_scenes": 3
+  },
+  "Paddepoel": {
+   "failures": {
+    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   },
+   "timing_s": {
+    "hrsl": 2.7,
+    "overture_buildings": 6.2,
+    "overture_places": 2.2,
+    "sentinel2": 8.1,
+    "landsat": 9.7,
+    "dem": 3.8,
+    "energy": 16.5
+   },
+   "sentinel2": {
+    "scene": "S2A_32ULD_20230909_0_L2A",
+    "cloud_cover": 0.003324,
+    "date": "2023-09-09T10:46:26.720000Z"
+   },
+   "landsat_scenes": 3
+  },
+  "Fontaine d'Ouche": {
+   "failures": {
+    "landsat": "RuntimeError: no usable Landsat scene"
+   },
+   "timing_s": {
+    "hrsl": 4.2,
+    "overture_buildings": 4.9,
+    "overture_places": 1.7,
+    "sentinel2": 12.7,
+    "landsat": 8.3,
+    "dem": 5.2,
+    "energy": 27.0
+   },
+   "sentinel2": {
+    "scene": "S2B_31TFN_20230924_0_L2A",
+    "cloud_cover": 0.000401,
+    "date": "2023-09-24T10:47:56.451000Z"
+   },
+   "landsat_scenes": 0
+  },
+  "Linnakaupunki": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 2.6,
+    "overture_buildings": 5.8,
+    "overture_places": 1.4,
+    "sentinel2": 4.3,
+    "landsat": 10.6,
+    "dem": 3.7,
+    "energy": 26.8
+   },
+   "sentinel2": {
+    "scene": "S2B_34VEM_20230607_0_L2A",
+    "cloud_cover": 0.001156,
+    "date": "2023-06-07T10:13:58.051000Z"
+   },
+   "landsat_scenes": 4
+  },
+  "Confluence": {
+   "failures": {
+    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   },
+   "timing_s": {
+    "hrsl": 2.5,
+    "overture_buildings": 9.3,
+    "overture_places": 3.1,
+    "sentinel2": 11.6,
+    "landsat": 9.4,
+    "dem": 4.5,
+    "energy": 14.4
+   },
+   "sentinel2": {
+    "scene": "S2A_31TFL_20230909_0_L2A",
+    "cloud_cover": 0.013683,
+    "date": "2023-09-09T10:48:26.948000Z"
+   },
+   "landsat_scenes": 4
+  },
+  "Seestadt Aspern": {
+   "failures": {
+    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   },
+   "timing_s": {
+    "hrsl": 3.3,
+    "overture_buildings": 7.0,
+    "overture_places": 1.9,
+    "sentinel2": 13.3,
+    "landsat": 11.3,
+    "dem": 4.3,
+    "energy": 12.7
+   },
+   "sentinel2": {
+    "scene": "S2B_33UXP_20230909_1_L2A",
+    "cloud_cover": 0.001085,
+    "date": "2023-09-09T09:57:23.122000Z"
+   },
+   "landsat_scenes": 3
+  },
+  "Brunnsh\u00f6g": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 2.8,
+    "overture_buildings": 4.8,
+    "overture_places": 15.7,
+    "sentinel2": 14.5,
+    "landsat": 9.4,
+    "dem": 4.4,
+    "energy": 42.3
+   },
+   "sentinel2": {
+    "scene": "S2B_33UUB_20230921_0_L2A",
+    "cloud_cover": 0.003945,
+    "date": "2023-09-21T10:35:28.288000Z"
+   },
+   "landsat_scenes": 2
+  },
+  "Coronaci\u00f3n": {
+   "failures": {
+    "landsat": "RuntimeError: no usable Landsat scene"
+   },
+   "timing_s": {
+    "hrsl": 3.2,
+    "overture_buildings": 3.0,
+    "overture_places": 2.0,
+    "sentinel2": 14.4,
+    "landsat": 8.1,
+    "dem": 3.9,
+    "energy": 45.5
+   },
+   "sentinel2": {
+    "scene": "S2B_30TWN_20230811_0_L2A",
+    "cloud_cover": 0.000441,
+    "date": "2023-08-11T11:09:25.708000Z"
+   },
+   "landsat_scenes": 0
+  },
+  "Rosendal": {
+   "failures": {
+    "landsat": "RuntimeError: no usable Landsat scene"
+   },
+   "timing_s": {
+    "hrsl": 3.0,
+    "overture_buildings": 3.5,
+    "overture_places": 1.8,
+    "sentinel2": 13.8,
+    "landsat": 8.3,
+    "dem": 4.1,
+    "energy": 54.7
+   },
+   "sentinel2": {
+    "scene": "S2B_34VCM_20230607_0_L2A",
+    "cloud_cover": 0.030945,
+    "date": "2023-06-07T10:14:08.851000Z"
+   },
+   "landsat_scenes": 0
+  },
+  "Kalasatama": {
+   "failures": {
+    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   },
+   "timing_s": {
+    "hrsl": 2.5,
+    "overture_buildings": 7.2,
+    "overture_places": 2.7,
+    "sentinel2": 11.2,
+    "landsat": 9.4,
+    "dem": 4.1,
+    "energy": 14.3
+   },
+   "sentinel2": {
+    "scene": "S2A_35VLG_20230613_0_L2A",
+    "cloud_cover": 0.004473,
+    "date": "2023-06-13T09:43:59.698000Z"
+   },
+   "landsat_scenes": 2
+  },
+  "\u00cele de Nantes": {
+   "failures": {
+    "energy": "HTTPError: HTTP Error 502: Bad Gateway"
+   },
+   "timing_s": {
+    "hrsl": 3.3,
+    "overture_buildings": 10.2,
+    "overture_places": 3.1,
+    "sentinel2": 12.7,
+    "landsat": 9.7,
+    "dem": 4.7,
+    "energy": 14.6
+   },
+   "sentinel2": {
+    "scene": "S2B_30TXT_20230602_0_L2A",
+    "cloud_cover": 0.001234,
+    "date": "2023-06-02T11:08:07.775000Z"
+   },
+   "landsat_scenes": 3
+  },
+  "Lepp\u00e4vaara": {
+   "failures": {},
+   "timing_s": {
+    "hrsl": 1.3,
+    "overture_buildings": 7.8,
+    "overture_places": 2.6,
+    "sentinel2": 6.1,
+    "landsat": 10.0,
+    "dem": 2.8,
+    "energy": 2.1
+   },
+   "sentinel2": {
+    "scene": "S2A_34VFM_20230613_0_L2A",
+    "cloud_cover": 0.003681,
+    "date": "2023-06-13T09:44:00.794000Z"
+   },
+   "landsat_scenes": 2
+  }
+ }
+}

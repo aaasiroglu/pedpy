@@ -31,7 +31,7 @@ Bu, modelin tek dış referansıdır. Model, kendi tanımladığı bir idealle d
 | Saha | Saha hücresi çevresinde k = 2 disk (19 hücre ≈ 0,28 km²) |
 | Kontroller | Saha başına 30; disk merkezi yerleşik ve dolu (HRSL ≥ 20 kişi, taban alanı > 0), sahadan ≥ 1,5 km; tohum 20261108 |
 | Model (a) | Yıllık konut elektriği dengesi (fiziksel çekirdek) |
-| Model (b) | 15 yoğun (intensive) özelliğin kent içi z-puanı, L2 lojistik regresyon (C = 0,5, dengeli sınıf ağırlığı). Her seferinde bir kent dışarıda bırakılıyor: o kentin puanını o kentin verisi hiç görmüyor |
+| Model (b) | 20 yoğun (intensive) özelliğin (WorldCover yeşil ve su payı, toplu taşıma, şebeke varlığı ve EV şarj yoğunluğu dahil) kent içi z-puanı, L2 lojistik regresyon (C = 0,5, dengeli sınıf ağırlığı). Her seferinde bir kent dışarıda bırakılıyor: o kentin puanını o kentin verisi hiç görmüyor |
 | Ölçü | Vakanın kendi kontrolleri içindeki yüzdeliği; ortalaması tabakalı AUC; tek yönlü işaret testi |
 | Ek | Caferağa İstanbul içinde, tüm PED kentleriyle eğitilmiş modelle puanlanıyor (Caferağa gerçek bir PED değil, aday) |
 

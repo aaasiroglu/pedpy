@@ -213,3 +213,35 @@ def dem_h3(bbox: BBox, resolution: int, mask=None) -> Tuple[pd.DataFrame, dict]:
         relief = np.sqrt((sq - mean_z**2).clip(lower=0)).rename("env_relief_m")
     out = pd.DataFrame({"env_elev_m": mean_z, "env_slope_deg": comb(s_parts, "mean", "env_slope_deg"), "env_relief_m": relief})
     return out, {"tiles": tiles}
+
+
+WORLDCOVER = "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_{ns}{lat:02d}{ew}{lon:03d}_Map.tif"
+WC_CLASSES = {"green": (10, 20, 30, 90, 95, 100), "built": (50,), "water": (80,), "crop": (40,), "bare": (60,)}
+
+
+def worldcover_h3(bbox: BBox, resolution: int, mask=None) -> Tuple[pd.DataFrame, dict]:
+    """Land-cover shares per H3 cell from ESA WorldCover 2021 v200 (10 m, CC BY 4.0, 3°×3° COG tiles).
+
+    green = tree, shrub, grass, wetland, mangrove, moss/lichen; built = built-up; water = permanent water.
+    """
+    w, s, e, n = bbox
+    sums, tiles = {k: [] for k in WC_CLASSES}, []
+    cnts = []
+    for la in range(3 * math.floor(s / 3), 3 * math.floor((n - 1e-9) / 3) + 1, 3):
+        for lo in range(3 * math.floor(w / 3), 3 * math.floor((e - 1e-9) / 3) + 1, 3):
+            sub = (max(w, lo), max(s, la), min(e, lo + 3), min(n, la + 3))
+            url = WORLDCOVER.format(ns="N" if la >= 0 else "S", lat=abs(la), ew="E" if lo >= 0 else "W", lon=abs(lo))
+            try:
+                lc, tr, crs = _read_window(url, sub)
+            except Exception:  # noqa: BLE001  (no tile over open ocean)
+                continue
+            valid = lc > 0
+            tiles.append(url.rsplit("/", 1)[-1])
+            cnts.append(zonal_array_h3(np.where(valid, 1.0, np.nan), tr, crs, resolution, "sum", mask, "n"))
+            for k, cls in WC_CLASSES.items():
+                sums[k].append(zonal_array_h3(np.where(valid, np.isin(lc, cls).astype(float), np.nan), tr, crs, resolution, "sum", mask, k))
+    if not tiles:
+        raise RuntimeError("no WorldCover tile under bbox")
+    N = pd.concat(cnts, axis=1).sum(axis=1)
+    out = pd.DataFrame({f"env_wc_{k}_share": pd.concat(v, axis=1).sum(axis=1) / N for k, v in sums.items()})
+    return out, {"product": "ESA WorldCover 10 m 2021 v200", "license": "CC BY 4.0", "tiles": tiles}

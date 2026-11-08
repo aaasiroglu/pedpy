@@ -124,67 +124,96 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <section class="view" id="v-sunum">
  <div class="doc">
   <div class="sheet title-block">
-    <div class="eyebrow">Yüksek lisans tezi · danışman görüşmesi · Kasım 2026</div>
-    <h1>Pozitif Enerji Bölgesi Projeleri için Açıklanabilir ve Fizik Kenetli Elverişlilik Analizi</h1>
-    <div class="en">Explainable, physics-coupled feasibility analysis of Positive Energy District projects: global open data, reference-class forecasting and an Istanbul validation</div>
+    <div class="eyebrow">Yüksek lisans tezi · danışman görüşmesi · Kasım 2026 · pedx v0.6</div>
+    <h1>Pozitif Enerji Bölgesi Projeleri için Küresel, Açık Veriye Dayalı ve Açıklanabilir Karar Destek Sistemi</h1>
+    <div class="en">A global, open-data and explainable decision-support system for Positive Energy District projects: learning from real PEDs, multi-criteria decision making, and an Istanbul case</div>
     <div class="meta">
       <div><span>Hazırlayan</span>Abdurrahim Arif Aşıroğlu</div>
       <div><span>Danışman</span>Prof. Dr. Hande Demirel</div>
       <div><span>Bölüm</span>İTÜ Geomatik Mühendisliği</div>
-      <div><span>Çalışma alanı</span>Caferağa Mahallesi, Kadıköy (OSM relation 9441032)</div>
+      <div><span>Kapsam</span>Dünyanın her yeri (tıkla → hesapla) · ilk vaka: Caferağa, Kadıköy</div>
     </div>
   </div>
 
-  <div class="sheet"><h2><span class="no">1</span>Problem ve motivasyon</h2>
-    <p>PED'ler yıllık yenilenebilir enerji fazlası üreten kentsel alanlardır. Ancak tanımları, sınırları ve başarı ölçütleri hâlâ tartışmalıdır (Brozovsky vd., 2021). Uygulamadaki zorluklar yalnızca teknik değildir: yönetişim, teşvik, sosyal, süreç, piyasa, teknoloji ve bağlam olmak üzere birbirine bağlı yedi alanda toplanır (Krangsås vd., 2021).</p>
-    <p>Caferağa'daki 3B CBS çalışması, güneş potansiyeli tahminlerinin platformlar arasında %22,29 farklılaştığını göstermiştir (Demirel vd., 2025). PED sınırı belirlemede CBS ve ÇKKDS yaklaşımı ise statik, yıllık katmanlarla çalışmaktadır (Alpagut vd., 2021).</p>
-    <p><b>Boşluk:</b> PED'i mekânsal bir alan olarak değil, <b>bir proje olarak</b> ele alan; saatlik fiziğe dayanan; gerçek PED projelerini <b>referans sınıf</b> olarak kullanan (Flyvbjerg, 2014); sonuçlarını açıklayan ve küresel açık veriyle çalışan bir elverişlilik çerçevesi bulunmamaktadır.</p>
-  </div>
-
-  <div class="sheet"><h2><span class="no">2</span>Araştırma soruları</h2>
+  <div class="sheet"><h2><span class="no">1</span>İki hedef, iki disiplin</h2>
     <div class="grid2">
-      <div class="cell"><h3>AS1 · Temsil gücü</h3>Yalnızca küresel açık veriyle hesaplanan PED elverişliliği, İstanbul'un resmî verisini ne ölçüde temsil eder?</div>
-      <div class="cell"><h3>AS2 · Sınır ve katkı</h3>Saatlik tamamlayıcılık PED proje sınırını nasıl değiştirir ve her alt birimin katkısı nedir (Shapley)?</div>
-      <div class="cell"><h3>AS3 · Reçete ve değer</h3>Bir proje adayını elverişli kılan en küçük fiziksel müdahale nedir, getirisi (ROI) nedir?</div>
+      <div class="cell"><h3>Bilgisayar bilimi · yapay zekâ mühendisliği</h3>Küresel açık veriden altıgen (H3) özellik deposu kuran, gerçek PED'lerden öğrenen ve kararını açıklayan bir yapay zekâ sistemi: veri mühendisliği, uzaktan algılama, makine öğrenmesi, XAI.</div>
+      <div class="cell"><h3>Yöneylem araştırması · endüstri mühendisliği</h3>Çok kriterli karar destek sistemi: kriter ağırlıkları (CRITIC, Entropi, BWM), sıralama (MARCOS, TOPSIS), sıra dönmesiz mutlak endeks, ağırlık kararlılığı (LP/QP), bütçe–performans Pareto'su ve tersine optimizasyon.</div>
     </div>
   </div>
 
-  <div class="sheet"><h2><span class="no">3</span>Yöntem: tek hat</h2>
-    <div class="flow">
-      <div><b>G1 küresel açık veri</b>OSM, JRC GHS-POP, UNSD, PVGIS, Ember</div>
-      <div><b>H3 özellik deposu</b>55 kayıtlı özellik / hücre; veri sözleşmesi</div>
-      <div><b>Fizik motoru</b>bina → hücre; yıllık ve saatlik enerji dengesi</div>
-      <div><b>Proje adayı</b>sınır + müdahale paketi + bağlam + finansman</div>
-      <div><b>Açıklama (XAI)</b>kesin katkılar, Shapley, SHAP, sıra aralıkları</div>
-      <div><b>Karar</b>yapılabilir mi · neden · ne yapılırsa · değer mi</div>
-      <div class="g2"><b>G2 doğrulama</b>İBB, TEDAŞ, EPİAŞ, Demirel vd. (2025)</div>
-    </div>
-    <p class="note">Kural: yerel veri model girdisi değildir, yalnızca doğrulamada kullanılır. Böylece aynı hat dünyanın her şehrinde çalışır.</p>
-  </div>
-
-  <div class="sheet"><h2><span class="no">4</span>İlk bulgular (v0.3, gerçek açık veri)</h2>
-    <div class="kpis" id="pres-kpis"></div>
-    <div class="tbl" id="pres-val" style="margin-top:12px"></div>
-    <p class="note">Denge yalnızca konut elektriğini kapsar. Önemli bulgu: denge tahmini OSM tamlığına duyarlı (ρ = 0,86); GHSL yapı alanı bağımsız kontrol olarak kullanılıyor. Saatlik göstergeler EPİAŞ verisi gelince açılacak.</p>
-  </div>
-
-  <div class="sheet"><h2><span class="no">5</span>Beklenen katkılar ve yayın planı</h2>
+  <div class="sheet"><h2><span class="no">2</span>Problem, boşluk ve üç iddia</h2>
+    <p>PED'ler yıllık yenilenebilir enerji fazlası üreten kentsel alanlardır. Tanımları ve başarı ölçütleri hâlâ tartışmalıdır (Brozovsky vd., 2021); uygulamadaki zorluklar yedi alanda toplanır (Krangsås vd., 2021). Mevcut CBS ve ÇKKDS çalışmaları yerel veriye bağlıdır ve tek bir yerde kalır (Alpagut vd., 2021; Demirel vd., 2025).</p>
+    <p><b>Boşluk:</b> PED'i <b>bir proje</b> olarak ele alan, <b>gerçek PED'lerle sınanan</b>, <b>dünyanın her yerinde aynı kodla</b> çalışan ve kararını <b>açıklayan</b> bir sistem yok.</p>
     <div class="tbl"><table>
-      <tr><th>Çıktı</th><th>Katkı</th><th>Hedef</th></tr>
-      <tr><td>Bildiri (B1)</td><td>Küresel açık veri hattı ve G1/G2 protokolü; Caferağa</td><td>Aralık 2026</td></tr>
-      <tr><td>Makale A</td><td>Açık verinin yerel veriyi temsil gücü; OSM tamlığının etkisi</td><td>Şubat taslak, Nisan gönderim</td></tr>
-      <tr><td>Makale B</td><td>Toplamsal olmayan paylaşım oyunu ve fizik kenetli tersine analiz</td><td>Mart taslak, Mayıs gönderim</td></tr>
-      <tr><td>Tez</td><td>Proje elverişlilik çerçevesi</td><td>Haziran 2027</td></tr>
+      <tr><th>İddia</th><th>Soru</th><th>Kanıt</th><th>Çıktı</th></tr>
+      <tr><td><b>A</b> Güvenilirlik</td><td>Küresel açık veriyle mahalle ölçeğinde PED dengesi ne kadar güvenilir?</td><td>Açık ve yerel karşılaştırması: nüfus (GHS-POP +%2,7; HRSL +%65), OSM ile GHSL yapı alanı farkı, duyarlılık</td><td>Bildiri + tez bölümü</td></tr>
+      <tr><td><b>B</b> PED imzası (AI)</td><td>Gerçek PED'ler hangi açık veri imzasını taşıyor; model onları tanıyor mu?</td><td>16 gerçek PED × 30 kontrol, bir kent dışarıda doğrulama, XAI katsayıları</td><td>Makale 1: AI / bilgisayar bilimi</td></tr>
+      <tr><td><b>C</b> Karar desteği (YA/EM)</td><td>Bir aday saha için hangi kriterler, hangi ağırlıklar, hangi en ucuz müdahale?</td><td>ÇKKDS + ağırlık kararlılığı + Pareto + tersine optimizasyon; Caferağa vakası</td><td>Makale 2: yöneylem / karar bilimi</td></tr>
     </table></div>
   </div>
 
-  <div class="sheet"><h2><span class="no">6</span>Hocamızın yönlendirmesini istediğimiz konular</h2>
+  <div class="sheet"><h2><span class="no">3</span>Sistem mimarisi</h2>
+    <div id="arch"></div>
+    <p class="note">Kural: modelin girdisi yalnızca küresel açık veridir. Yerel veriler (İBB, TÜİK, EPİAŞ, TEDAŞ) Faz 2'de yalnızca doğrulamada kullanılır. Böylece aynı kod dünyanın her kentinde çalışır.</p>
+  </div>
+
+  <div class="sheet"><h2><span class="no">4</span>Kullanılan veriler (küresel ve açık)</h2>
+    <div class="kpis" id="pres-lakekpi"></div>
+    <div class="tbl" id="pres-data" style="margin-top:10px"></div>
+  </div>
+
+  <div class="sheet"><h2><span class="no">5</span>Yazılım ve donanım</h2>
+    <div class="grid2">
+      <div class="cell"><h3>Yazılım (tamamı açık kaynak)</h3><div class="tbl"><table>
+        <tr><td>Dil ve paket</td><td>Python 3.12+, <span class="mono">pedx</span> (pip, MIT); 80 birim testi</td></tr>
+        <tr><td>Mekânsal</td><td>Uber H3, GDAL/rasterio (COG pencere okuma), shapely, geopandas, momepy</td></tr>
+        <tr><td>Veri</td><td>pyarrow (Overture GeoParquet), STAC (Planetary Computer, Earth Search)</td></tr>
+        <tr><td>Ağ ve AI</td><td>networkx, scipy, scikit-learn, JAX (türevlenebilir tersine analiz)</td></tr>
+        <tr><td>Karar</td><td>scipy linprog (BWM, kararlılık LP/QP), kesin Shapley</td></tr>
+        <tr><td>Servis ve arayüz</td><td>FastAPI + uvicorn (tıkla → hesapla), Leaflet, tek dosyalık web uygulaması, Docker</td></tr>
+      </table></div></div>
+      <div class="cell"><h3>Donanım</h3><div class="tbl"><table>
+        <tr><td>Faz 1–2</td><td>Dizüstü: 4+ çekirdek, 16 GB RAM, ~10 GB disk; GPU gerekmez</td></tr>
+        <tr><td>Bir kent ızgarası</td><td>16 × 16 km, ~17 bin altıgen, 30–70 s; tüm katmanlar</td></tr>
+        <tr><td>Tıkla → hesapla</td><td>Önbellekle 6–16 s; ilk tıklamada 15–50 s</td></tr>
+        <tr><td>Faz 3 (isteğe bağlı)</td><td>Tek GPU (24 GB) uydu gömmeleri ve altıgen transformer'ı için</td></tr>
+        <tr><td>Ağ</td><td>Anahtarsız açık uç noktalar: AWS, Planetary Computer, JRC, Overpass, UNdata</td></tr>
+      </table></div></div>
+    </div>
+  </div>
+
+  <div class="sheet"><h2><span class="no">6</span>Aşama aşama süreç</h2>
+    <div class="flow" id="phases">
+      <div><b>Faz 1 · Kas–Ara 2026</b>Küresel açık sistem çalışıyor + küçük doğrulama: 16 gerçek PED, Caferağa<span class="badge ok">sürüyor</span></div>
+      <div><b>Faz 2 · Oca–Mar 2027</b>Doğrulama: yerel veri (İBB, TÜİK, EPİAŞ, Demirel vd. 2025) + küresel çalışmalar (PED Veritabanı, Annex 83)</div>
+      <div><b>Faz 3 · Mar–May 2027</b>Yayınlar: Makale 1 (AI/BB), Makale 2 (ÇKKDS/YA), bildiri</div>
+      <div><b>Faz 4 · Haz 2027</b>Tez, açık kaynak sürüm 1.0, savunma</div>
+    </div>
+    <div class="tbl" style="margin-top:12px"><table>
+      <tr><th>Faz</th><th>Girdi</th><th>İşlem</th><th>Çıktı</th><th>Geçiş ölçütü</th></tr>
+      <tr><td>1</td><td>Yalnızca küresel açık veri</td><td>Veri gölü → kent ızgarası → fizik → ÇKKDS → XAI → tıkla → hesapla</td><td>Çalışan sistem, uygulama, 16 PED vaka–kontrol sonucu</td><td>Testler geçer; her kaynak lisanslı; sonuç tekrarlanabilir (sabit tohum)</td></tr>
+      <tr><td>2</td><td>Faz 1 + yerel veri (yalnızca okunur)</td><td>Açık ve yerel karşılaştırması; PED Veritabanı ile genişletilmiş vaka seti</td><td>Hata payları, duyarlılık, düzeltme katsayıları</td><td>Nüfus ve talep hataları raporlanır; doğrulama kurulumu sonuçlar görülmeden kaydedilir</td></tr>
+      <tr><td>3</td><td>Faz 1–2</td><td>PU öğrenme (gerçek PED'ler), ağırlık kararlılığı, Pareto, tersine analiz</td><td>İki makale + bildiri</td><td>Model basit taban çizgisini bir kent dışarıda doğrulamada geçer</td></tr>
+      <tr><td>4</td><td>Tümü</td><td>Yazım, sürüm</td><td>Tez, pedx 1.0</td><td>Danışman onayı</td></tr>
+    </table></div>
+  </div>
+
+  <div class="sheet"><h2><span class="no">7</span>Sonuçlar</h2>
+    <h3>7.1 Caferağa (H3 r10, küresel açık veri)</h3>
+    <div class="kpis" id="pres-kpis"></div>
+    <div class="tbl" id="pres-val" style="margin-top:12px"></div>
+    <h3>7.2 Gerçek PED'ler aynı kentteki sıradan yerleşik alanlardan ayrışıyor mu?</h3>
+    <div id="pres-pedchart"></div>
+    <p class="note">Her çubuk bir gerçek PED sahasının kendi kentindeki 30 yerleşik kontrol noktası arasındaki yüzdeliğidir (0,5 = sıradan, 1 = hepsinden iyi). Ayrıntı: Veri ve yöntem → Dış doğrulama.</p>
+  </div>
+
+  <div class="sheet"><h2><span class="no">8</span>Hocamızın yönlendirmesini istediğimiz konular</h2>
     <ol>
-      <li>Başlık ve proje elverişliliği çerçevesi uygun mu?</li>
-      <li>Saatlik konut talebi için kaynak: EPİAŞ ulusal yük verisi ile Demand.ninja'nın birleşimi.</li>
-      <li>Önceki projelerinizden kullanılabilecek tüketim ve 3B çatı verisi.</li>
-      <li>İBB'den talep edilecek veri katmanlarının önceliği.</li>
-      <li>Hedef dergi ve konferanslar.</li>
+      <li>Üç iddia (A, B, C) ve iki disiplinli yayın planı uygun mu?</li>
+      <li>Makale 1 için hedef dergi: <i>Computers, Environment and Urban Systems</i> ya da <i>Sustainable Cities and Society</i>; Makale 2 için: <i>Expert Systems with Applications</i> ya da <i>Computers &amp; Industrial Engineering</i>.</li>
+      <li>Faz 2'de kullanılacak yerel veri: İBB katmanları ve Demirel vd. (2025) 3B çatı sonuçları.</li>
+      <li>Gerçek PED vaka setinin genişletilmesi: PED Veritabanı erişimi.</li>
     </ol>
   </div>
  </div>
@@ -199,10 +228,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <tr><td><b>L6 Sunum</b></td><td>Sunum, mimari, MVP (proje adayı), veri, kaynakça</td><td class="mono">web/</td></tr>
       <tr><td><b>L5 Karar</b></td><td>Yapılabilir mi · neden · ne yapılırsa · değer mi (Krangsås'ın 7 alanı; Flyvbjerg referans sınıfı)</td><td class="mono">pedx.decision (planlı)</td></tr>
       <tr><td><b>L4 XAI ve tersine</b></td><td>Kesin katkılar, sıra aralıkları, Shapley, fiziksel tersine analiz (JAX)</td><td class="mono">pedx.index · xai · inverse</td></tr>
-      <tr><td><b>L3 Motorlar</b></td><td>Fizik (yıllık ve saatlik), talep (EPİAŞ + Demand.ninja), graf (paylaşım oyunu)</td><td class="mono">pedx.energy · demand · graph</td></tr>
+      <tr><td><b>L3 Motorlar</b></td><td>Fizik (yıllık ve saatlik), talep (Demand.ninja + ERA5), graf (paylaşım oyunu)</td><td class="mono">pedx.energy · demand · graph</td></tr>
       <tr><td><b>L2 Özellik deposu</b></td><td>H3 r10; hücre başına kayıtlı özellikler; veri sözleşmesi</td><td class="mono">pedx.features</td></tr>
       <tr><td><b>L1 Veri gölü</b></td><td>Küresel katalog, AOI bağlayıcıları, raster → H3 motoru, köken ve lisans</td><td class="mono">pedx.datalake · ingest</td></tr>
-      <tr><td><b>L0 Kaynaklar</b></td><td>OSM · JRC GHSL · UNSD · OWID · PVGIS · ERA5 · EPİAŞ</td><td class="note">yalnızca küresel açık (G1)</td></tr>
+      <tr><td><b>L0 Kaynaklar</b></td><td>OSM · Overture · JRC GHSL · Meta HRSL · ESA WorldCover · Sentinel-2 · Landsat · Copernicus DEM · UNSD · OWID · PVGIS · ERA5</td><td class="note">yalnızca küresel açık (G1)</td></tr>
       <tr><td><b>G2 doğrulama</b></td><td>İBB · TEDAŞ · EPİAŞ mesken profili · Demirel vd. 2025</td><td class="note">yalnızca okunur</td></tr>
     </table></div></div>
   <div class="sheet"><h2>İşlem adımları</h2><div class="tbl"><table>
@@ -213,7 +242,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
     <tr><td class="mono">A3</td><td>Raster → H3</td><td>GHS-POP, GHS-BUILT-S/V/H</td><td>nüfus, alan, hacim, yükseklik</td><td>resmî nüfus (G2)</td><td><span class="badge ok">tamam</span></td></tr>
     <tr><td class="mono">A4</td><td>Özellik deposu</td><td>POI, morfoloji, 800 m yaya erişimi</td><td id="nfeat">— özellik/hücre</td><td>veri sözleşmesi</td><td><span class="badge ok">tamam</span></td></tr>
     <tr><td class="mono">A5</td><td>Yıllık enerji</td><td>nüfus × kişi başı; taban alanı × u × η × PVGIS</td><td>denge, gereken çatı payı</td><td>aralık analizi</td><td><span class="badge ok">tamam</span></td></tr>
-    <tr><td class="mono">A6</td><td>Saatlik talep</td><td>EPİAŞ ulusal yük + Demand.ninja (ERA5)</td><td>saatlik konut talebi</td><td>EPİAŞ mesken (G2)</td><td><span class="badge warn">EPİAŞ verisi bekleniyor</span></td></tr>
+    <tr><td class="mono">A6</td><td>Saatlik talep</td><td>Demand.ninja (ERA5, küresel); EPİAŞ yalnız Faz 2 doğrulaması</td><td>saatlik konut talebi</td><td>EPİAŞ mesken (Faz 2)</td><td><span class="badge warn">küresel hava bileşeni hazır</span></td></tr>
     <tr><td class="mono">A7</td><td>Saatlik göstergeler</td><td>SSR, CVaR ile şebeke stresi, batarya</td><td>proje göstergeleri</td><td>T1, T2</td><td><span class="badge warn">kod hazır</span></td></tr>
     <tr><td class="mono">A8</td><td>Proje adayı</td><td>Graf büyütme, paylaşım oyunu, Shapley</td><td>sınır ve katkılar</td><td>Shapley aksiyomları</td><td><span class="badge warn">yıllık hazır</span></td></tr>
     <tr><td class="mono">A9</td><td>Tersine analiz ve ROI</td><td>Fizik kenetli arama, kesin modelle denetim</td><td>reçete, Pareto</td><td>7 denetim</td><td><span class="badge warn">maliyet verisi bekleniyor</span></td></tr>

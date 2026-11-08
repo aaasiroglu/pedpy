@@ -32,6 +32,69 @@
   const valTable = () => "<table><tr><th>Gösterge</th><th class='num'>G1 açık veri</th><th class='num'>G2 yerel</th><th class='num'>Fark</th></tr>" +
     S.validation.map(v => `<tr><td>${v.item} <span class="note">(${v.unit})</span><div class="note">G1: ${v.g1_source}<br>G2: ${v.g2_source}</div></td><td class="num">${nf(v.global_open_G1)}</td><td class="num">${nf(v.local_G2)}</td><td class="num">${nf(v.rel_diff * 100, 1)}%</td></tr>`).join("") + "</table>";
   $("pres-val").innerHTML = valTable();
+
+  // ---------- presentation: architecture diagram (SVG; colours from theme tokens)
+  (function arch() {
+    const L = [
+      ["L6 Sunum ve servis", "Web uygulaması · tıkla → hesapla API (FastAPI) · Docker", "web/ · pedx.api"],
+      ["L5 Karar (YA/EM)", "ÇKKDS: CRITIC · Entropi · BWM · MARCOS · mutlak endeks · kararlılık · Pareto", "pedx.mcdm · index"],
+      ["L4 Yapay zekâ ve XAI", "Gerçek PED'lerden öğrenme · kesin katkılar · Shapley · tersine analiz", "validation · xai · inverse"],
+      ["L3 Fizik motorları", "Yıllık ve saatlik enerji dengesi · Demand.ninja · paylaşım oyunu", "pedx.energy · demand · graph"],
+      ["L2 H3 özellik deposu", "Kayıtlı ~140 özellik · veri sözleşmesi · kent ızgarası · hücre imzası", "pedx.features · citygrid"],
+      ["L1 Veri gölü", "Katalog · COG pencere okuma · GeoParquet satır grubu · raster → H3", "pedx.datalake"],
+      ["L0 Küresel açık kaynaklar", "OSM · Overture · GHSL · HRSL · WorldCover · Sentinel-2 · Landsat · DEM · PVGIS", "yalnızca açık lisans"],
+    ];
+    const W = 760, h = 46, g = 8, H = L.length * (h + g) + 50;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="pedx sistem mimarisi katmanları" style="max-width:${W}px;display:block">`;
+    L.forEach((l, i) => {
+      const y = i * (h + g);
+      svg += `<rect x="0" y="${y}" width="${W - 215}" height="${h}" rx="4" fill="var(--sheet)" stroke="var(--rule)"/>
+        <rect x="0" y="${y}" width="5" height="${h}" fill="${i < 2 ? "var(--sun)" : "var(--geo)"}"/>
+        <text x="14" y="${y + 19}" font-size="13.5" font-weight="600" fill="var(--ink)">${l[0]}</text>
+        <text x="14" y="${y + 36}" font-size="11.5" fill="var(--muted)">${l[1]}</text>
+        <text x="${W - 205}" y="${y + 28}" font-size="10.5" fill="var(--muted)" font-family="monospace">${l[2]}</text>`;
+    });
+    const yb = L.length * (h + g) + 4;
+    svg += `<rect x="0" y="${yb}" width="${W - 215}" height="40" rx="4" fill="none" stroke="var(--sun)" stroke-dasharray="5 4"/>
+      <text x="14" y="${yb + 25}" font-size="12" fill="var(--ink)"><tspan font-weight="600">Doğrulama (salt okunur):</tspan> Faz 1 gerçek PED'ler · Faz 2 İBB, TÜİK, EPİAŞ</text></svg>`;
+    $("arch").innerHTML = svg;
+  })();
+
+  // ---------- presentation: data table from the data-lake catalogue
+  (function presData() {
+    const lake = S.datalake || [], cnt = {};
+    lake.forEach(d => cnt[d.status] = (cnt[d.status] || 0) + 1);
+    $("pres-lakekpi").innerHTML = [["Veri seti", lake.length], ["Sistemde", cnt.ingested || 0, "sun"], ["Bağlayıcı hazır", cnt.connector || 0],
+      ["Planlı", cnt.planned || 0], ["Reddedildi (lisans)", cnt.rejected || 0]].map(k => `<div class="kpi ${k[2] || ""}"><div class="v">${k[1]}</div><div class="k">${k[0]}</div></div>`).join("");
+    const TH = { insan: "İnsan", bina: "Bina", sokak: "Sokak ve ulaşım", kent: "Kentsel işlev", enerji: "Enerji", cevre: "Çevre", iklim: "İklim",
+      goruntu: "Uydu görüntüsü", kirilganlik: "Kırılganlık", ekonomi: "Ekonomi", sosyal: "Sosyal", ped: "PED referansı" };
+    const B = { ingested: "<span class='badge ok'>sistemde</span>", connector: "<span class='badge geo'>bağlayıcı</span>", planned: "<span class='badge'>planlı</span>", rejected: "<span class='badge warn'>reddedildi</span>" };
+    const rows = lake.filter(d => d.status === "ingested").sort((a, b) => (a.theme > b.theme ? 1 : -1));
+    $("pres-data").innerHTML = "<table><tr><th>Tema</th><th>Veri</th><th>Çözünürlük</th><th>Lisans</th><th>Kullanım</th><th>Durum</th></tr>" +
+      rows.map(d => `<tr><td>${TH[d.theme] || d.theme}</td><td>${d.provider}</td><td class="note">${d.resolution}</td><td class="note">${d.license}</td><td class="note">${d.pedx_use}</td><td>${B[d.status]}</td></tr>`).join("") +
+      "</table><p class='note'>Planlı, bağlayıcısı hazır ve reddedilen veri setleri: Mimari → Veri gölü kataloğu.</p>";
+  })();
+
+  // ---------- presentation: real-PED validation chart
+  (function pedChart() {
+    const V = P.ped_validation || {}, el = $("pres-pedchart");
+    if (!V.rows) { el.innerHTML = "<p class='note'>Doğrulama henüz çalıştırılmadı.</p>"; return; }
+    const R = V.rows.slice().sort((a, b) => (b.percentile_multi ?? -1) - (a.percentile_multi ?? -1)), s = V.summary;
+    const W = 760, rh = 20, x0 = 190, bw = W - x0 - 60, H = R.length * rh + 46;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Gerçek PED sahalarının yüzdelikleri" style="max-width:${W}px;display:block">`;
+    svg += `<line x1="${x0 + bw / 2}" y1="0" x2="${x0 + bw / 2}" y2="${R.length * rh}" stroke="var(--muted)" stroke-dasharray="4 3"/>`;
+    R.forEach((r, i) => {
+      const y = i * rh;
+      svg += `<text x="${x0 - 8}" y="${y + 14}" font-size="11.5" text-anchor="end" fill="var(--ink)">${r.site} · ${r.city}</text>`;
+      if (r.percentile_multi != null) svg += `<rect x="${x0}" y="${y + 3}" width="${bw * r.percentile_multi}" height="8" fill="var(--geo)"><title>Tüm katmanlar: ${nf(r.percentile_multi, 2)}</title></rect>`;
+      if (r.percentile != null) svg += `<rect x="${x0}" y="${y + 11}" width="${bw * r.percentile}" height="6" fill="var(--sun)"><title>Yalnız denge: ${nf(r.percentile, 2)}</title></rect>`;
+    });
+    const yl = R.length * rh + 18;
+    svg += `<text x="${x0}" y="${yl}" font-size="11" fill="var(--muted)">0</text><text x="${x0 + bw / 2 - 8}" y="${yl}" font-size="11" fill="var(--muted)">0,5</text><text x="${x0 + bw - 6}" y="${yl}" font-size="11" fill="var(--muted)">1</text>
+      <rect x="${x0}" y="${yl + 10}" width="12" height="8" fill="var(--geo)"/><text x="${x0 + 16}" y="${yl + 18}" font-size="11" fill="var(--ink)">Tüm katmanlar (AUC ${nf(s.auc_multi_loco, 2)})</text>
+      <rect x="${x0 + 230}" y="${yl + 10}" width="12" height="8" fill="var(--sun)"/><text x="${x0 + 246}" y="${yl + 18}" font-size="11" fill="var(--ink)">Yalnız enerji dengesi (AUC ${nf(s.auc_pooled, 2)})</text></svg>`;
+    el.innerHTML = svg;
+  })();
   (function pedVal() {
     const V = P.ped_validation || {}, el = $("pedval");
     if (!el) return;
