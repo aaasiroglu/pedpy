@@ -98,6 +98,7 @@ def main() -> None:
     bundle = {
         "features_analysis": json.loads((ROOT / "data" / "validation" / "feature_analysis.json").read_text())
         if (ROOT / "data" / "validation" / "feature_analysis.json").exists() else None,
+        "scales": json.loads((D / "scales.json").read_text()) if (D / "scales.json").exists() else None,
         "atlas": json.loads((D / "atlas.json").read_text()) if (D / "atlas.json").exists() else None,
         "ped_validation": _ped_validation(), "cells": cells, "summary": summary, "agg": agg, "adj": adj, "district": district,
         "boundary": json.loads((D / "boundary.geojson").read_text()),

@@ -365,6 +365,24 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Veri durumu:** 55 veri seti: 31 sistemde, 5 bağlayıcı, 15 planlı (engel ve çözümleri docs/18'de), 4 reddedildi.
 - **Durum:** Kabul
 
+### K-052: Çok ölçekli muhasebe (bina, yapı adası, r11, r10, r9, çizilen saha), MAUP, akış ve çizim
+- **Karar (`pedx.scales`):**
+  - Nüfus dasimetrik olarak binalara dağıtılıyor: r10 GHS-POP, taban alanına orantılı (Mennis 2003).
+  - Her birim binaların kesin toplamı; toplam denge her ölçekte 1,625.
+  - Yapı adaları sokak ağından poligonlaştırılıyor (Fleischmann vd. 2020).
+  - Bina ölçeğinde denge bilgi taşımadığı için raporlanmıyor; binada yalnızca FV arzı gösteriliyor.
+- **MAUP bulguları:**
+  - Dengede yaşayan nüfus payı yapı adasında %93, r11'de %79, r10'da %77, r9'da %100.
+  - Yapı adası ile r10 arasında ρ = 0,82.
+  - Gerçek PED doğrulaması 10–92 ha arası saha boyutunda AUC 0,79–0,89 ile ölçeğe dayanıklı.
+- **Arayüz (Caferağa):**
+  - Ölçek seçici.
+  - Komşu altıgenler arası enerji paylaşım akışı (açgözlü, k = 1): açığın %98'i komşu fazlasıyla karşılanıyor.
+  - Çizilebilir proje sahası: bina ağırlık merkezine göre kesin toplam ve kaldıraçlar.
+- **Belge:** `docs/19_dogrulama_protokolu.md`: V0–V8, geçerlilik tehditleri, yeniden üretim, Faz 2 ve kaynaklar.
+- **Commons:** Paylaşılan çıkış IP'si hız sınırına takılıyor; katman "eksik" işaretli. Yedek: Wikidata'daki fotoğraflı (P18) öğeler.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

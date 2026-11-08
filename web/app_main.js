@@ -252,6 +252,90 @@
     renderCand();
     initLive();
     initAtlas(bnd);
+    initScales();
+  }
+
+  // ---------- multi-scale view, energy-sharing flows and drawable project site (K-052)
+  function initScales() {
+    const SC = P.scales;
+    if (!SC || typeof h3 === "undefined") { $("scale").disabled = true; $("scalenote").textContent = "Çok ölçekli veri ya da H3 kütüphanesi yok."; return; }
+    const inp = S.provenance.inputs, prm = S.provenance.params;
+    const d = inp.residential_kwh_per_capita_2023, Y = inp.pv_yield_kwh_per_kwp_2023, u = prm.roof_utilization.value, eta = prm.module_efficiency.value;
+    const BB = [0.5, 0.75, 0.9, 1, 1.1, 1.5, 2, 3];
+    const colB = v => v === null || v === undefined || !isFinite(v) ? "#bdbdbd" : col(v, BB, RDBU);
+    let flowLayer = null, siteLayer = null, tmpLine = null, verts = [];
+    const legendB = title => { if (legend) map.removeControl(legend); legend = L.control({ position: "bottomleft" });
+      legend.onAdd = () => { const el = L.DomUtil.create("div", "legend");
+        el.innerHTML = `<b>${title}</b><div class="bar" style="background:linear-gradient(90deg,${RDBU.join(",")})"></div><div class="ticks"><span>&lt;0,5</span><span>1</span><span>3+</span></div><div class="note">kırmızı: açık · mavi: fazla (PV/talep)</div>`; return el; };
+      legend.addTo(map); };
+    function drawScale(v) {
+      if (v === "r10") { draw(sel.value); $("scalenote").textContent = ""; return; }
+      if (cellLayer) map.removeLayer(cellLayer);
+      let gj, styleFn, tip, note;
+      if (v === "block") {
+        gj = SC.blocks; styleFn = f => ({ color: "#333", weight: 0.4, fillOpacity: 0.75, fillColor: colB(f.properties.balance) });
+        tip = p => `Yapı adası ${p.block_id} · denge ${nf(p.balance, 2)} · ${nf(p.pop, 0)} kişi · ${nf(p.area_m2 / 1e4, 2)} ha`; note = "Sokak ağından poligonlaştırılmış yapı adaları (Fleischmann vd. 2020).";
+      } else if (v === "bld") {
+        const vals = Object.values(SC.building).map(x => x[0]).sort((a, b) => a - b), br = [1, 2, 3, 4, 5, 6, 7, 8].map(i => vals[Math.floor(i * (vals.length - 1) / 9)]);
+        gj = P.buildings; styleFn = f => { const r = SC.building[f.properties.id]; return { color: "#222", weight: 0.3, fillOpacity: 0.85, fillColor: r ? col(r[0], br, SEQ) : "#bdbdbd" }; };
+        tip = p => { const r = SC.building[p.id]; return r ? `Bina ${p.id} · çatı FV ${nf(r[0] / 1000, 1)} MWh/yıl` : p.id; };
+        note = "Bina dengesi, nüfus taban alanına orantılı dağıtıldığı için hücre dengesine eşittir; bu yüzden binada yalnız arz (FV potansiyeli) gösterilir.";
+      } else {
+        const rows = SC[v];
+        gj = { type: "FeatureCollection", features: rows.map(r => ({ type: "Feature", properties: { cell: r[0], balance: r[1], pop: r[2], pv: r[3] }, geometry: { type: "Polygon", coordinates: [h3.cellToBoundary(r[0], true)] } })) };
+        styleFn = f => ({ color: "#333", weight: 0.3, fillOpacity: 0.75, fillColor: colB(f.properties.balance) });
+        tip = p => `${p.cell} · denge ${nf(p.balance, 2)} · ${nf(p.pop, 0)} kişi`; note = v === "r11" ? "H3 r11 (~0,2 ha): 1–3 bina." : "H3 r9 (~10 ha): birkaç yapı adası.";
+      }
+      cellLayer = L.geoJSON(gj, { style: styleFn, onEachFeature: (f, l) => l.bindTooltip(tip(f.properties), { sticky: true }) }).addTo(map);
+      if (v !== "bld") legendB("Yıllık konut elektriği dengesi"); else if (legend) map.removeControl(legend);
+      const m = (SC.maup || []).find(x => x.scale.startsWith(v === "block" ? "Yapı" : "H3 " + v));
+      $("scalenote").innerHTML = note + (m ? ` <b>Dengedeki nüfus payı: %${nf(100 * m.share_pop_in_B_ge_1, 0)}</b> · birim sayısı ${m.n_units} · toplam denge ${nf(m.total_balance, 3)} (her ölçekte aynı).` : "");
+    }
+    $("scale").addEventListener("change", e => drawScale(e.target.value));
+
+    // energy sharing among neighbouring r10 cells (k = 1): greedy, surplus → deficit
+    $("flowbtn").addEventListener("click", () => {
+      if (flowLayer) { map.removeLayer(flowLayer); flowLayer = null; $("flowbtn").textContent = "Enerji akışını göster"; return; }
+      const cells = {}; P.cells.features.forEach(f => { const p = f.properties; cells[p.cell] = { s: (p.energy_pv_kwh || 0) - (p.energy_demand_res_kwh || 0) }; });
+      const flows = []; let deficit = 0, covered = 0;
+      Object.entries(cells).filter(([, c]) => c.s < 0).sort((a, b) => a[1].s - b[1].s).forEach(([id, c]) => {
+        let need = -c.s; deficit += need;
+        h3.gridDisk(id, 1).filter(n => n !== id && cells[n] && cells[n].s > 0).sort((a, b) => cells[b].s - cells[a].s).forEach(n => {
+          if (need <= 0) return; const q = Math.min(need, cells[n].s); cells[n].s -= q; need -= q; covered += q; flows.push([n, id, q]); });
+      });
+      const mx = Math.max(...flows.map(f => f[2]), 1);
+      flowLayer = L.layerGroup(flows.map(([a, b, q]) => L.polyline([h3.cellToLatLng(a), h3.cellToLatLng(b)], { renderer: L.svg(), className: "flow", color: css("--sun"), weight: 1 + 6 * Math.sqrt(q / mx), opacity: 0.9 })
+        .bindTooltip(`${nf(q / 1000, 0)} MWh/yıl paylaşım`))).addTo(map);
+      $("flowbtn").textContent = "Akışı gizle";
+      $("scalenote").innerHTML = `Komşu altıgenler arası yıllık paylaşım (k = 1, açgözlü dağıtım): ${flows.length} akış, ${nf(covered / 1e6, 2)} GWh. Açığı olan hücrelerin açığının <b>%${nf(100 * covered / Math.max(deficit, 1), 0)}</b>'i komşu fazlasıyla karşılanıyor.`;
+    });
+
+    // drawable project site: exact sum over buildings whose centroid falls inside
+    const cen = {}; P.buildings.features.forEach(f => { const r = f.geometry.coordinates[0]; let x = 0, y = 0; r.forEach(p => { x += p[0]; y += p[1]; }); cen[f.properties.id] = [y / r.length, x / r.length]; });
+    const inside = (pt, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [yi, xi] = poly[i], [yj, xj] = poly[j]; if (((yi > pt[0]) !== (yj > pt[0])) && (pt[1] < (xj - xi) * (pt[0] - yi) / (yj - yi) + xi)) c = !c; } return c; };
+    $("drawbtn").addEventListener("click", () => { window.__pedxDrawing = true; verts = []; if (siteLayer) map.removeLayer(siteLayer); $("drawend").hidden = false;
+      $("siteout").innerHTML = "<p class='note'>Haritaya tıklayarak köşeleri ekleyin, sonra “Çizimi bitir”.</p>"; });
+    map.on("click", ev => { if (!window.__pedxDrawing) return; verts.push([ev.latlng.lat, ev.latlng.lng]);
+      if (tmpLine) map.removeLayer(tmpLine); tmpLine = L.polyline(verts, { color: css("--sun"), weight: 2, dashArray: "4 3" }).addTo(map); });
+    $("drawend").addEventListener("click", () => {
+      window.__pedxDrawing = false; $("drawend").hidden = true; if (tmpLine) { map.removeLayer(tmpLine); tmpLine = null; }
+      if (verts.length < 3) { $("siteout").innerHTML = "<p class='note'>En az üç köşe gerekir.</p>"; return; }
+      siteLayer = L.polygon(verts, { color: css("--sun"), weight: 3, fillOpacity: 0.08 }).addTo(map);
+      let n = 0, pv = 0, pop = 0;
+      Object.entries(cen).forEach(([id, c]) => { if (inside(c, verts) && SC.building[id]) { n++; pv += SC.building[id][0]; pop += SC.building[id][1]; } });
+      const dem = pop * d, B = dem > 0 ? pv / dem : null, A = pv / (u * eta * Y);
+      const lat0 = verts[0][0] * Math.PI / 180, R = 6371008.8;
+      let ar = 0; verts.forEach((p, i) => { const q = verts[(i + 1) % verts.length]; ar += (p[1] * q[0] - q[1] * p[0]); });
+      const area = Math.abs(ar) / 2 * (Math.PI / 180) ** 2 * R * R * Math.cos(lat0);
+      const uNeed = A > 0 ? dem / (A * eta * Y) : null, cut = Math.max(0, 1 - A * prm.roof_utilization.high * eta * Y / Math.max(dem, 1e-9));
+      $("siteout").innerHTML = `<div class="verdict ${B >= 1 ? "ok" : "warn"}"><b>Çizilen saha: denge ${nf(B, 2)}</b> ${B >= 1 ? "≥ 1, yerinde dengede" : "< 1"}</div>
+        <table class="kv"><tr><td>Alan</td><td>${nf(area / 1e4, 2)} ha</td></tr><tr><td>Bina · taban alanı</td><td>${n} · ${nf(A / 1e4, 2)} ha</td></tr>
+        <tr><td>Nüfus (dasimetrik)</td><td>${nf(pop, 0)} kişi</td></tr><tr><td>Konut talebi · çatı FV</td><td>${nf(dem / 1e6, 2)} · ${nf(pv / 1e6, 2)} GWh/yıl</td></tr>
+        <tr><td>Gereken çatı kullanımı</td><td>%${nf(100 * uNeed, 0)} ${uNeed <= prm.roof_utilization.high ? "(sınır içinde)" : "(sınırı aşıyor)"}</td></tr>
+        <tr><td>%${nf(100 * prm.roof_utilization.high, 0)} çatıyla gereken talep azaltımı</td><td>%${nf(100 * cut, 0)}</td></tr></table>
+        <p class="note">Toplam binalardan kesin hesaplandı: denge = Σ çatı FV / Σ (nüfus × ${nf(d, 0)} kWh). Sahanın içi ağırlık merkezine göre.</p>`;
+    });
   }
 
   // ---------- global atlas: total PED score (K-049) — learned from real PEDs, exact contributions, closed-form inverse
@@ -386,7 +470,7 @@
   function initLive() {
     fetch(API + "/health").then(r => r.json()).then(h => {
       $("livestatus").textContent = `API hazır (pedx ${h.version}). Caferağa dışında haritada herhangi bir yere tıklayın; dünya üzerinde gezinmek için uzaklaştırın.`;
-      map.on("click", ev => live(ev.latlng.lat, ev.latlng.lng));
+      map.on("click", ev => { if (!window.__pedxDrawing) live(ev.latlng.lat, ev.latlng.lng); });
     }).catch(() => {
       $("livestatus").innerHTML = "Yerel API çalışmıyor. Açmak için terminalde <code>make api</code>; bu sayfa yalnız önceden hesaplanmış Caferağa'yı gösterir.";
     });

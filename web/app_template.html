@@ -110,6 +110,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .leaflet-tooltip{font-size:12px}
 @media (max-width:900px){.mvp{grid-template-columns:1fr;height:auto}#map{height:60vh}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@keyframes dash{to{stroke-dashoffset:-24}}
+.flow{stroke-dasharray:8 4;animation:dash 1.2s linear infinite}
+@media (prefers-reduced-motion:reduce){.flow{animation:none}}
 </style>
 
 <header class="bar">
@@ -338,6 +341,18 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div id="atlasout"><p class="note">Haritada bir altıgene tıklayın: o noktayı merkez alan ~28 ha'lık aday proje sahası puanlanır.</p></div>
     </div>
     <div id="cafpanel" hidden>
+    <div>
+      <label for="scale">Ölçek (hepsi binalardan kesin toplanır)</label>
+      <select id="scale"><option value="r10" selected>H3 r10 (~1,5 ha) · bütün özellikler</option><option value="block">Yapı adası (sokak ağından)</option>
+        <option value="r11">H3 r11 (~0,2 ha)</option><option value="r9">H3 r9 (~10 ha)</option><option value="bld">Bina · çatı FV potansiyeli</option></select>
+      <div class="btns" style="margin-top:6px">
+        <button id="flowbtn" type="button" class="ghost">Enerji akışını göster</button>
+        <button id="drawbtn" type="button" class="ghost">Proje sahası çiz</button>
+        <button id="drawend" type="button" hidden>Çizimi bitir</button>
+      </div>
+      <p class="note" id="scalenote" style="margin:6px 0 0"></p>
+      <div id="siteout"></div>
+    </div>
     <div>
       <label for="metric">Harita katmanı (kayıtlı özellikler)</label>
       <select id="metric"></select>

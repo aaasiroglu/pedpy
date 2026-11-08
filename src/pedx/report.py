@@ -37,7 +37,7 @@ REPORT: List[Dict[str, str]] = [
     {"key": "third_places_per_1000", "label": "Üçüncü mekânlar (kafe, çay evi)", "unit": "/1000 kişi", "section": "Mekânın ruhu", "ref": "Oldenburg 1989"},
     {"key": "night_ha", "label": "Gece yaşamı", "unit": "/ha", "section": "Mekânın ruhu", "ref": ""},
     {"key": "attention_ha", "label": "Kolektif dikkat (Wikidata bağlantıları)", "unit": "/ha", "section": "Mekânın ruhu", "ref": "Norberg-Schulz 1980"},
-    {"key": "photos_ha", "label": "Fotoğraf yoğunluğu (Commons)", "unit": "/ha", "section": "Mekânın ruhu", "ref": "Seresinhe vd. 2017"},
+    {"key": "photos_ha", "label": "Fotoğraflanmış önemli yer (Wikidata P18; Commons varsa eklenir)", "unit": "/ha", "section": "Mekânın ruhu", "ref": "Seresinhe vd. 2017"},
     {"key": "plaza_m2_per_1000", "label": "Meydan ve yaya alanı", "unit": "m²/1000 kişi", "section": "Mekânın ruhu", "ref": "Gehl 2010"},
     {"key": "heritage_n", "label": "Miras öğesi (Overture + Wikidata)", "unit": "adet", "section": "Mekânın ruhu", "ref": ""},
     {"key": "green_share", "label": "Yeşil alan payı (WorldCover)", "unit": "%", "section": "Çevre", "ref": "ESA WorldCover"},
@@ -88,7 +88,7 @@ def report_metrics(C: pd.DataFrame, area_ha: float) -> pd.DataFrame:
     out["third_places_per_1000"] = g("pl_third") * k1000
     out["night_ha"] = g("pl_night") / area_ha
     out["attention_ha"] = g("wd_sitelinks") / area_ha
-    out["photos_ha"] = g("cm_photos_n") / area_ha
+    out["photos_ha"] = (g("wd_photo_n") + g("cm_photos_n")) / area_ha
     out["plaza_m2_per_1000"] = g("lu_plaza_m2") * k1000
     out["heritage_n"] = g("pl_heritage") + g("wd_heritage_n")
     out["green_share"] = 100 * g("env_wc_green_share")

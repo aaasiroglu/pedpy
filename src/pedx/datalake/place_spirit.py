@@ -9,8 +9,10 @@ From open, global, keyless sources only:
   sites (active transformation), religious, residential and commercial land.
 * Wikidata (CC0) via SPARQL box search: notable items, collective attention (sum of Wikipedia
   sitelinks), registered heritage (P1435), town squares (Q174782).
+* Wikidata items with an image (P18): photographed notable places (always on).
 * Wikimedia Commons (CC BY-SA and other free licences) geotagged media: photographic attention —
-  where people choose to take and share pictures (cf. Seresinhe et al. 2017, scenicness from photos).
+  where people choose to take and share pictures (cf. Seresinhe et al. 2017). Opt-in (PEDX_COMMONS=1):
+  the API rate-limits shared egress IPs.
 
 Indices (computed on a site disc; each documented with its literature anchor)
 * functional mix (Shannon entropy of groups; Jacobs 1961)
@@ -149,15 +151,16 @@ def _get(url: str, timeout: int = 120, tries: int = 4) -> bytes:
 def wikidata_items(bbox: BBox) -> pd.DataFrame:
     """Every Wikidata item with coordinates inside the bbox: sitelinks, heritage designation, town square."""
     w, s, e, n = bbox
-    q = f"""SELECT ?item ?lat ?lon ?sl (SAMPLE(?h) AS ?her) (SAMPLE(?q) AS ?sq) WHERE {{
+    q = f"""SELECT ?item ?lat ?lon ?sl (SAMPLE(?h) AS ?her) (SAMPLE(?q) AS ?sq) (SAMPLE(?img) AS ?pic) WHERE {{
       SERVICE wikibase:box {{ ?item wdt:P625 ?c . bd:serviceParam wikibase:cornerSouthWest "Point({w} {s})"^^geo:wktLiteral .
         bd:serviceParam wikibase:cornerNorthEast "Point({e} {n})"^^geo:wktLiteral . }}
       ?item wikibase:sitelinks ?sl . OPTIONAL {{ ?item wdt:P1435 ?h }} OPTIONAL {{ ?item wdt:P31 wd:Q174782 . BIND(1 AS ?q) }}
+      OPTIONAL {{ ?item wdt:P18 ?img }}
       BIND(geof:latitude(?c) AS ?lat) BIND(geof:longitude(?c) AS ?lon) }} GROUP BY ?item ?lat ?lon ?sl"""
     url = "https://query.wikidata.org/sparql?" + urllib.parse.urlencode({"query": q, "format": "json"})
     b = json.loads(_get(url, timeout=180))["results"]["bindings"]
     return pd.DataFrame([{"lat": float(x["lat"]["value"]), "lon": float(x["lon"]["value"]), "sitelinks": int(x["sl"]["value"]),
-                          "heritage": int("her" in x), "square": int("sq" in x)} for x in b])
+                          "heritage": int("her" in x), "square": int("sq" in x), "photo": int("pic" in x)} for x in b])
 
 
 def commons_photos(bbox: BBox, tile_deg: float = 0.03, sleep: float = 1.0) -> Tuple[pd.DataFrame, dict]:
