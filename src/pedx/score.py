@@ -101,6 +101,8 @@ def candidate_discs(F: pd.DataFrame, k: int = 2, centres: Optional[List[str]] = 
     for c, nm in (("ov_transit_stops_n", "transit_per_km2"), ("ov_grid_assets_n", "grid_assets_per_km2"), ("ov_ev_chargers_n", "ev_chargers_per_km2")):
         if c in out:
             out[nm] = out[c] / km2
+    if "osm_transit_n" in out:  # OSM stops are complete where Overture infrastructure is not (K-052)
+        out["transit_per_km2"] = out["osm_transit_n"] / km2
     D = out.get("energy_demand_res_kwh")
     out["energy_balance"] = out.get("energy_pv_kwh") / D.where(D > 0) if D is not None else np.nan
     out["log_energy_balance"] = _log_or_nan(out["energy_balance"])

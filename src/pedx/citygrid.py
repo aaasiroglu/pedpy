@@ -43,7 +43,7 @@ EXTENSIVE = ["vul_pop_hrsl", "vul_elderly60_n", "vul_children0_5_n", "ov_bld_n",
              "pl_heritage", "pl_night", "pl_office", "pl_other", "pl_park", "pl_personal", "pl_public", "pl_retail", "pl_social",
              "pl_sport", "pl_third", "pl_tourism",
              "lu_plaza_m2", "lu_green_m2", "lu_construction_m2", "lu_religious_m2", "lu_residential_m2", "lu_commercial_m2",
-             "wd_items_n", "wd_sitelinks", "wd_heritage_n", "wd_square_n", "wd_photo_n", "cm_photos_n"]
+             "wd_items_n", "wd_sitelinks", "wd_heritage_n", "wd_square_n", "wd_photo_n", "cm_photos_n", "osm_transit_n"]
 INTENSIVE = ["env_ndvi_mean", "env_ndbi_mean", "env_lst_mean_c", "env_lst_anomaly_c", "env_elev_m", "env_slope_deg",
              "env_relief_m", "ov_floors_coverage", "ov_nonosm_share", "ov_places_categories",
              "env_wc_green_share", "env_wc_built_share", "env_wc_water_share", "env_wc_crop_share", "env_wc_bare_share"]
@@ -208,6 +208,22 @@ def _addons(F: pd.DataFrame, prov: dict, bbox, resolution: int, cache: Path) -> 
             return {"wd_items_n": g(None), "wd_sitelinks": g("sitelinks"), "wd_heritage_n": g("heritage"), "wd_square_n": g("square"),
                     "wd_photo_n": g("photo")}
         add("wikidata", _wd)
+    if "osm_transit_n" not in F and "osm_transit" not in fails:
+        def _tr():
+            import urllib.parse as up
+
+            from .service import OVERPASS, _get
+
+            w, s_, e, n = bbox
+            bb = f"{s_},{w},{n},{e}"
+            q = (f'[out:json][timeout:120];(node["highway"="bus_stop"]({bb});node["public_transport"~"^(platform|stop_position|station)$"]({bb});'
+                 f'node["railway"~"^(station|halt|tram_stop|subway_entrance)$"]({bb});node["amenity"="ferry_terminal"]({bb}););out;')
+            els = json.loads(_get(OVERPASS, up.urlencode({"data": q}).encode(), timeout=180))["elements"]
+            la = np.array([x["lat"] for x in els]); lo = np.array([x["lon"] for x in els])
+            prov["osm_transit"] = {"nodes": int(len(els)), "license": "ODbL 1.0",
+                                   "why": "Overture base/infrastructure misses most stops in Istanbul (1 vs 40 OSM in the Caferağa box)"}
+            return {"osm_transit_n": ps.per_cell_points(la, lo, F.index, resolution)}
+        add("osm_transit", _tr)
     import os
 
     if "cm_photos_n" not in F and "commons" not in fails and os.environ.get("PEDX_COMMONS") == "1":
@@ -265,6 +281,8 @@ def disc_features(F: pd.DataFrame, centre: str, k: int = 2) -> Dict[str, float]:
                   ("ov_ev_chargers_n", "ev_chargers_per_km2"), ("ov_bike_n", "bike_per_km2")):
         if c in v:
             v[nm] = v[c] / km2
+    if "osm_transit_n" in v:  # OSM stops: Overture infrastructure is incomplete for transit (K-052)
+        v["transit_per_km2"] = v["osm_transit_n"] / km2
     dem = v.get("energy_demand_res_kwh", 0.0)
     v["energy_balance"] = v.get("energy_pv_kwh", 0.0) / dem if dem > 0 else np.nan
     return v

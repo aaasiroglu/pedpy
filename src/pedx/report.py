@@ -45,7 +45,7 @@ REPORT: List[Dict[str, str]] = [
     {"key": "env_lst_anomaly_c", "label": "Yaz yüzey sıcaklığı anomalisi", "unit": "°C", "section": "Çevre", "ref": "Landsat"},
     {"key": "water_share", "label": "Su yüzeyi payı", "unit": "%", "section": "Çevre", "ref": "ESA WorldCover"},
     {"key": "env_slope_deg", "label": "Eğim", "unit": "°", "section": "Çevre", "ref": "Copernicus DEM"},
-    {"key": "transit_per_km2", "label": "Toplu taşıma durağı", "unit": "/km²", "section": "Altyapı", "ref": "Overture"},
+    {"key": "transit_per_km2", "label": "Toplu taşıma durağı (OSM)", "unit": "/km²", "section": "Altyapı", "ref": "OSM"},
     {"key": "grid_assets_per_km2", "label": "Trafo ve şebeke varlığı", "unit": "/km²", "section": "Altyapı", "ref": "Overture"},
     {"key": "ev_chargers_per_km2", "label": "EV şarj noktası", "unit": "/km²", "section": "Altyapı", "ref": "Overture"},
     {"key": "footprint_coverage", "label": "Yapı örtüsü", "unit": "%", "section": "Kentsel dönüşüm", "ref": ""},

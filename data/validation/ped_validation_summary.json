@@ -6,12 +6,12 @@
  "sites_above_median": 16,
  "sign_test_p_one_sided": 1.52587890625e-05,
  "auc_multi_loco": 0.8229166666666666,
- "sites_above_median_multi": 14,
- "sign_test_p_multi": 0.0020904541015625,
+ "sites_above_median_multi": 15,
+ "sign_test_p_multi": 0.0002593994140625,
  "auc_matched": 0.7891835821183648,
  "n_matched": 13,
- "auc_multi_matched": 0.8131216006216007,
- "sign_test_p_multi_matched": 0.001708984375,
+ "auc_multi_matched": 0.8161130536130536,
+ "sign_test_p_multi_matched": 0.01123046875,
  "by_development": {
   "percentile": {
    "brownfield": 0.821,
@@ -19,71 +19,71 @@
    "new": 0.856
   },
   "percentile_multi": {
-   "brownfield": 0.854,
-   "existing": 0.733,
+   "brownfield": 0.858,
+   "existing": 0.727,
    "new": 0.889
   }
  },
  "coefficients_full_fit": [
   {
    "feature": "footprint_coverage",
-   "coef": -1.612
+   "coef": -1.605
   },
   {
    "feature": "env_wc_green_share",
-   "coef": -1.574
+   "coef": -1.597
   },
   {
    "feature": "log_footprint_per_capita_m2",
-   "coef": 0.967
+   "coef": 0.969
   },
   {
    "feature": "log_energy_balance",
-   "coef": 0.967
+   "coef": 0.969
   },
   {
    "feature": "pop_density_per_ha",
-   "coef": 0.718
+   "coef": 0.733
   },
   {
    "feature": "elderly_share",
-   "coef": -0.663
+   "coef": -0.665
   },
   {
    "feature": "env_wc_water_share",
-   "coef": 0.619
+   "coef": 0.603
   },
   {
    "feature": "ov_floors_coverage",
-   "coef": 0.515
-  },
-  {
-   "feature": "env_ndvi_mean",
-   "coef": 0.506
+   "coef": 0.511
   },
   {
    "feature": "env_lst_anomaly_c",
-   "coef": 0.506
+   "coef": 0.51
+  },
+  {
+   "feature": "env_ndvi_mean",
+   "coef": 0.497
   },
   {
    "feature": "places_per_1000",
-   "coef": 0.451
+   "coef": 0.452
   },
   {
    "feature": "env_ndbi_mean",
-   "coef": -0.353
-  },
-  {
-   "feature": "ov_places_categories",
-   "coef": 0.295
+   "coef": -0.383
   },
   {
    "feature": "transit_per_km2",
-   "coef": 0.293
+   "coef": 0.317
   },
   {
    "feature": "grid_assets_per_km2",
-   "coef": 0.279
+   "coef": 0.278
+  },
+  {
+   "feature": "ov_places_categories",
+   "coef": 0.278
   },
   {
    "feature": "env_relief_m",
@@ -91,30 +91,32 @@
   },
   {
    "feature": "ev_chargers_per_km2",
-   "coef": -0.225
+   "coef": -0.224
   },
   {
    "feature": "children_share",
-   "coef": -0.156
+   "coef": -0.141
   },
   {
    "feature": "env_slope_deg",
-   "coef": 0.124
+   "coef": 0.141
   },
   {
    "feature": "ov_nonosm_share",
-   "coef": 0.04
+   "coef": 0.055
   }
  ],
  "caferaga_in_istanbul": {
   "percentile_balance": 0.7333333333333333,
-  "percentile_multi": 0.43333333333333335,
+  "percentile_multi": 0.4666666666666667,
   "balance": 1.3010185075040244,
   "note": "HRSL population (common source); Cafera\u011fa is a candidate, not a realised PED"
  },
  "provenance": {
   "Buiksloterham": {
-   "failures": {},
+   "failures": {
+    "commons": "RuntimeError: Commons tile failed after retries: 52.35042330600072|4.933594608798743|52.32042330600072|4.9635946087987435"
+   },
    "timing_s": {
     "hrsl": 4.3,
     "overture_buildings": 10.8,
@@ -124,7 +126,12 @@
     "dem": 4.9,
     "energy": 0.0,
     "worldcover": 35.3,
-    "overture_infrastructure": 4.6
+    "overture_infrastructure": 4.6,
+    "place_profile": 4.2,
+    "landuse": 6.3,
+    "wikidata": 22.3,
+    "commons": 161.8,
+    "osm_transit": 70.2
    },
    "sentinel2": {
     "scene": "S2A_31UFT_20230614_0_L2A",
@@ -144,7 +151,11 @@
     "dem": 5.3,
     "energy": 0.0,
     "worldcover": 32.4,
-    "overture_infrastructure": 4.4
+    "overture_infrastructure": 4.4,
+    "place_profile": 2.9,
+    "landuse": 4.7,
+    "wikidata": 3.6,
+    "osm_transit": 22.9
    },
    "sentinel2": {
     "scene": "S2B_30TVN_20230821_0_L2A",
@@ -164,7 +175,11 @@
     "dem": 3.6,
     "energy": 0.0,
     "worldcover": 42.2,
-    "overture_infrastructure": 5.2
+    "overture_infrastructure": 5.2,
+    "place_profile": 2.0,
+    "landuse": 4.6,
+    "wikidata": 2.1,
+    "osm_transit": 41.4
    },
    "sentinel2": {
     "scene": "S2A_34VFM_20230613_0_L2A",
@@ -184,7 +199,11 @@
     "dem": 3.9,
     "energy": 40.1,
     "worldcover": 45.5,
-    "overture_infrastructure": 5.4
+    "overture_infrastructure": 5.4,
+    "place_profile": 2.7,
+    "landuse": 3.6,
+    "wikidata": 4.3,
+    "osm_transit": 31.8
    },
    "sentinel2": {
     "scene": "S2A_32VNM_20230604_0_L2A",
@@ -204,7 +223,11 @@
     "dem": 5.4,
     "energy": 42.5,
     "worldcover": 49.4,
-    "overture_infrastructure": 3.6
+    "overture_infrastructure": 3.6,
+    "place_profile": 1.6,
+    "landuse": 3.7,
+    "wikidata": 1.3,
+    "osm_transit": 25.0
    },
    "sentinel2": {
     "scene": "S2A_35WMN_20230818_0_L2A",
@@ -224,7 +247,11 @@
     "dem": 3.8,
     "energy": 16.5,
     "worldcover": 35.1,
-    "overture_infrastructure": 4.8
+    "overture_infrastructure": 4.8,
+    "place_profile": 2.3,
+    "landuse": 5.9,
+    "wikidata": 2.7,
+    "osm_transit": 33.7
    },
    "sentinel2": {
     "scene": "S2A_32ULD_20230909_0_L2A",
@@ -246,7 +273,11 @@
     "dem": 5.2,
     "energy": 27.0,
     "worldcover": 30.5,
-    "overture_infrastructure": 3.6
+    "overture_infrastructure": 3.6,
+    "place_profile": 1.7,
+    "landuse": 1.7,
+    "wikidata": 1.6,
+    "osm_transit": 24.6
    },
    "sentinel2": {
     "scene": "S2B_31TFN_20230924_0_L2A",
@@ -266,7 +297,11 @@
     "dem": 3.7,
     "energy": 26.8,
     "worldcover": 42.0,
-    "overture_infrastructure": 3.1
+    "overture_infrastructure": 3.1,
+    "place_profile": 1.4,
+    "landuse": 3.5,
+    "wikidata": 1.1,
+    "osm_transit": 31.6
    },
    "sentinel2": {
     "scene": "S2B_34VEM_20230607_0_L2A",
@@ -286,7 +321,11 @@
     "dem": 4.5,
     "energy": 14.4,
     "worldcover": 31.2,
-    "overture_infrastructure": 4.2
+    "overture_infrastructure": 4.2,
+    "place_profile": 3.5,
+    "landuse": 2.9,
+    "wikidata": 3.8,
+    "osm_transit": 52.5
    },
    "sentinel2": {
     "scene": "S2A_31TFL_20230909_0_L2A",
@@ -306,7 +345,11 @@
     "dem": 4.3,
     "energy": 12.7,
     "worldcover": 33.8,
-    "overture_infrastructure": 3.8
+    "overture_infrastructure": 3.8,
+    "place_profile": 1.9,
+    "landuse": 2.2,
+    "wikidata": 5.1,
+    "osm_transit": 39.4
    },
    "sentinel2": {
     "scene": "S2B_33UXP_20230909_1_L2A",
@@ -326,7 +369,11 @@
     "dem": 4.4,
     "energy": 42.3,
     "worldcover": 38.4,
-    "overture_infrastructure": 3.4
+    "overture_infrastructure": 3.4,
+    "place_profile": 1.5,
+    "landuse": 2.4,
+    "wikidata": 2.1,
+    "osm_transit": 37.2
    },
    "sentinel2": {
     "scene": "S2B_33UUB_20230921_0_L2A",
@@ -348,7 +395,11 @@
     "dem": 3.9,
     "energy": 45.5,
     "worldcover": 29.9,
-    "overture_infrastructure": 4.1
+    "overture_infrastructure": 4.1,
+    "place_profile": 1.8,
+    "landuse": 3.3,
+    "wikidata": 2.3,
+    "osm_transit": 30.2
    },
    "sentinel2": {
     "scene": "S2B_30TWN_20230811_0_L2A",
@@ -370,7 +421,11 @@
     "dem": 4.1,
     "energy": 54.7,
     "worldcover": 46.4,
-    "overture_infrastructure": 4.4
+    "overture_infrastructure": 4.4,
+    "place_profile": 2.0,
+    "landuse": 2.9,
+    "wikidata": 2.2,
+    "osm_transit": 24.8
    },
    "sentinel2": {
     "scene": "S2B_34VCM_20230607_0_L2A",
@@ -390,7 +445,11 @@
     "dem": 4.1,
     "energy": 14.3,
     "worldcover": 43.7,
-    "overture_infrastructure": 6.7
+    "overture_infrastructure": 6.7,
+    "place_profile": 3.1,
+    "landuse": 4.7,
+    "wikidata": 4.3,
+    "osm_transit": 39.4
    },
    "sentinel2": {
     "scene": "S2A_35VLG_20230613_0_L2A",
@@ -410,7 +469,11 @@
     "dem": 4.7,
     "energy": 14.6,
     "worldcover": 33.4,
-    "overture_infrastructure": 4.3
+    "overture_infrastructure": 4.3,
+    "place_profile": 3.3,
+    "landuse": 2.1,
+    "wikidata": 3.7,
+    "osm_transit": 21.9
    },
    "sentinel2": {
     "scene": "S2B_30TXT_20230602_0_L2A",
@@ -430,7 +493,11 @@
     "dem": 2.8,
     "energy": 2.1,
     "worldcover": 42.5,
-    "overture_infrastructure": 5.7
+    "overture_infrastructure": 5.7,
+    "place_profile": 2.8,
+    "landuse": 5.3,
+    "wikidata": 10.7,
+    "osm_transit": 32.5
    },
    "sentinel2": {
     "scene": "S2A_34VFM_20230613_0_L2A",

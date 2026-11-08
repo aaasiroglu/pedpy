@@ -60,8 +60,10 @@ Geçerleme düzeyleri, birbirine dayanan sekiz katman olarak kuruldu (V0–V8). 
 | Güneşlenen yüzey | OSM taban alanı 401.140 m² | Demirel vd. 2025: 629 GWh / 1.410 kWh/m² ≈ 446.099 m² | −%10,1 | Demirel vd. 2025 |
 | Güneşlenen yüzey | GHSL yapı alanı 462.255 m² | 446.099 m² | +%3,6 | Pesaresi vd. 2024 |
 | Kişi başı elektrik | Ember (TR) 3.713 kWh | TEDAŞ 2023 İstanbul 2.678 kWh | +%38,7 | Ember; TEDAŞ |
+| Toplu taşıma öğesi (Caferağa kutusu) | Overture altyapı: 1 | OSM: 40 (16 durak, 5 istasyon, 4 metro girişi) | −%97,5 | Overture 2026-10; OSM |
 
 **Yorum:**
+- Overture'un altyapı katmanı toplu taşımada İstanbul'da neredeyse boş. Bu yüzden durak yoğunluğu OSM'den alınıyor (K-052); Overture çapraz kontrol olarak kalıyor. Kaynak bir katmanı "küresel" diye güvenmeden önce G2 ile sınamanın önemini gösteriyor.
 - GHS-POP mahalle ölçeğinde güvenilir; HRSL ticari çekirdeklerde nüfusu şişiriyor. Bu yüzden nüfus tabanı GHS-POP, yaş payları HRSL'den.
 - OSM ile GHSL, Demirel vd.'nin 3B analizinin iki yanına düşüyor. Platformlar arası %22,29 farkla (Demirel vd. 2025) karşılaştırıldığında, açık verinin hatası 3B araçların kendi aralarındaki farkın içinde kalıyor.
 
