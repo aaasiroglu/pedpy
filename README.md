@@ -65,7 +65,7 @@ pytest
 
 ## Belgeler
 
-**Başlangıç noktası: [`docs/00_TEZ_PUSULASI.md`](docs/00_TEZ_PUSULASI.md)** (tek sayfa, tek doğruluk kaynağı). Diğer belgeler: [`docs/`](docs/README.md).
+**Başlangıç noktası: [`docs/PROJE_DOSYASI.md`](docs/PROJE_DOSYASI.md)** (mimari, veriler, adımlar, sonuçlar, plan) ve [`docs/00_TEZ_PUSULASI.md`](docs/00_TEZ_PUSULASI.md) (tek sayfa, tek doğruluk kaynağı). Diğer belgeler: [`docs/`](docs/README.md).
 
 ## Veri ve lisans
 

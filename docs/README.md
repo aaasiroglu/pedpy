@@ -4,6 +4,7 @@ Bu klasör, `pedpy` kütüphanesi ve ona bağlı yüksek lisans tezinin **planla
 
 | Dosya | İçerik | Ne zaman güncellenir? |
 | --- | --- | --- |
+| **[PROJE_DOSYASI.md](PROJE_DOSYASI.md)** | **Hande Hoca için ana belge:** amaç, sistem mimarisi, kullanılan veriler, işlem adımları, sonuçlar, proje yönetimi | Her sürümde |
 | **[00_TEZ_PUSULASI.md](00_TEZ_PUSULASI.md)** | **Tek sayfa, tek doğruluk kaynağı:** tez cümlesi, 3 soru, 3 katkı, 3 yayın, kapsam, durum, kritik yol | Her karar sonrası |
 | *(arşiv)* [01_proje_degerlendirmesi.md](arsiv/01_proje_degerlendirmesi.md) | Mevcut önerinin (README, mimari, global ölçekleme notları) eleştirel değerlendirmesi; bilimsel riskler ve düzeltmeler | Kapsam değiştiğinde |
 | [02_literatur_haritasi.md](02_literatur_haritasi.md) | Tema bazlı literatür haritası; künyesi doğrulanmış kaynaklar; boşluk analizi | Her yeni kaynakta |

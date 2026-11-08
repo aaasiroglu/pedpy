@@ -114,7 +114,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <header class="bar">
   <div class="brand"><b>pedx</b><span>PED projeleri için elverişlilik analizi · Caferağa, Kadıköy</span></div>
   <nav class="views" aria-label="Bölümler">
-    <a href="#sunum">Sunum</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
+    <a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
   </nav>
 </header>
 
@@ -164,7 +164,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
   <div class="sheet"><h2><span class="no">4</span>İlk bulgular (v0.3, gerçek açık veri)</h2>
     <div class="kpis" id="pres-kpis"></div>
     <div class="tbl" id="pres-val" style="margin-top:12px"></div>
-    <p class="note">Denge yalnızca konut elektriğini kapsar. Saatlik göstergeler, saatlik konut talep kaynağı seçilince açılacak.</p>
+    <p class="note">Denge yalnızca konut elektriğini kapsar. Önemli bulgu: denge tahmini OSM tamlığına duyarlı (ρ = 0,86); GHSL yapı alanı bağımsız kontrol olarak kullanılıyor. Saatlik göstergeler EPİAŞ verisi gelince açılacak.</p>
   </div>
 
   <div class="sheet"><h2><span class="no">5</span>Beklenen katkılar ve yayın planı</h2>
@@ -186,6 +186,40 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <li>Hedef dergi ve konferanslar.</li>
     </ol>
   </div>
+ </div>
+</section>
+
+<!-- ================================================================ MİMARİ -->
+<section class="view" id="v-mimari" hidden>
+ <div class="doc">
+  <div class="sheet"><div class="eyebrow">Sistem mimarisi</div><h2 style="margin-top:6px">Katmanlar</h2>
+    <div class="tbl"><table>
+      <tr><th>Katman</th><th>Görev</th><th>Kod</th></tr>
+      <tr><td><b>L6 Sunum</b></td><td>Sunum, mimari, MVP (proje adayı), veri, kaynakça</td><td class="mono">web/</td></tr>
+      <tr><td><b>L5 Karar</b></td><td>Yapılabilir mi · neden · ne yapılırsa · değer mi (Krangsås'ın 7 alanı; Flyvbjerg referans sınıfı)</td><td class="mono">pedx.decision (planlı)</td></tr>
+      <tr><td><b>L4 XAI ve tersine</b></td><td>Kesin katkılar, sıra aralıkları, Shapley, fiziksel tersine analiz (JAX)</td><td class="mono">pedx.index · xai · inverse</td></tr>
+      <tr><td><b>L3 Motorlar</b></td><td>Fizik (yıllık ve saatlik), talep (EPİAŞ + Demand.ninja), graf (paylaşım oyunu)</td><td class="mono">pedx.energy · demand · graph</td></tr>
+      <tr><td><b>L2 Özellik deposu</b></td><td>H3 r10; hücre başına kayıtlı özellikler; veri sözleşmesi</td><td class="mono">pedx.features</td></tr>
+      <tr><td><b>L1 Veri gölü</b></td><td>Küresel katalog, AOI bağlayıcıları, raster → H3 motoru, köken ve lisans</td><td class="mono">pedx.datalake · ingest</td></tr>
+      <tr><td><b>L0 Kaynaklar</b></td><td>OSM · JRC GHSL · UNSD · OWID · PVGIS · ERA5 · EPİAŞ</td><td class="note">yalnızca küresel açık (G1)</td></tr>
+      <tr><td><b>G2 doğrulama</b></td><td>İBB · TEDAŞ · EPİAŞ mesken profili · Demirel vd. 2025</td><td class="note">yalnızca okunur</td></tr>
+    </table></div></div>
+  <div class="sheet"><h2>İşlem adımları</h2><div class="tbl"><table>
+    <tr><th>#</th><th>Adım</th><th>İşlem</th><th>Çıktı</th><th>Doğrulama</th><th>Durum</th></tr>
+    <tr><td class="mono">A0</td><td>AOI</td><td>OSM sınırı (relation 9441032)</td><td>poligon</td><td>—</td><td><span class="badge ok">tamam</span></td></tr>
+    <tr><td class="mono">A1</td><td>Veri gölü çekimi</td><td>AOI karoları ve pencereleri</td><td>önbellek</td><td>lisans kaydı</td><td><span class="badge ok">tamam</span></td></tr>
+    <tr><td class="mono">A2</td><td>Bina → H3</td><td>Ağırlık merkezi sınır içinde mi, H3 r10</td><td>binalar ve hücreleri</td><td>enerji korunumu</td><td><span class="badge ok">tamam</span></td></tr>
+    <tr><td class="mono">A3</td><td>Raster → H3</td><td>GHS-POP, GHS-BUILT-S/V/H</td><td>nüfus, alan, hacim, yükseklik</td><td>resmî nüfus (G2)</td><td><span class="badge ok">tamam</span></td></tr>
+    <tr><td class="mono">A4</td><td>Özellik deposu</td><td>POI, morfoloji, 800 m yaya erişimi</td><td id="nfeat">— özellik/hücre</td><td>veri sözleşmesi</td><td><span class="badge ok">tamam</span></td></tr>
+    <tr><td class="mono">A5</td><td>Yıllık enerji</td><td>nüfus × kişi başı; taban alanı × u × η × PVGIS</td><td>denge, gereken çatı payı</td><td>aralık analizi</td><td><span class="badge ok">tamam</span></td></tr>
+    <tr><td class="mono">A6</td><td>Saatlik talep</td><td>EPİAŞ ulusal yük + Demand.ninja (ERA5)</td><td>saatlik konut talebi</td><td>EPİAŞ mesken (G2)</td><td><span class="badge warn">EPİAŞ verisi bekleniyor</span></td></tr>
+    <tr><td class="mono">A7</td><td>Saatlik göstergeler</td><td>SSR, CVaR ile şebeke stresi, batarya</td><td>proje göstergeleri</td><td>T1, T2</td><td><span class="badge warn">kod hazır</span></td></tr>
+    <tr><td class="mono">A8</td><td>Proje adayı</td><td>Graf büyütme, paylaşım oyunu, Shapley</td><td>sınır ve katkılar</td><td>Shapley aksiyomları</td><td><span class="badge warn">yıllık hazır</span></td></tr>
+    <tr><td class="mono">A9</td><td>Tersine analiz ve ROI</td><td>Fizik kenetli arama, kesin modelle denetim</td><td>reçete, Pareto</td><td>7 denetim</td><td><span class="badge warn">maliyet verisi bekleniyor</span></td></tr>
+    <tr><td class="mono">A10</td><td>Referans sınıfı</td><td>PED Veritabanı, benzerlik modeli, SHAP</td><td>dış bakış</td><td>bölge dışarıda bırakılarak çapraz doğrulama</td><td><span class="badge">planlı</span></td></tr>
+  </table></div></div>
+  <div class="sheet"><h2>Hava duyarlı talep bileşeni (Demand.ninja, ERA5 2023)</h2><div id="dnchart"></div><p class="note">Göreli ısıtma (kırmızı) ve soğutma (mavi) talep indeksleri, aylık toplam. Saatlik konut talebinin hava bileşeni; taban şekli EPİAŞ ulusal yükünden gelecek.</p></div>
+  <div class="sheet"><h2>Veri gölü kataloğu</h2><div class="tbl" id="lake"></div></div>
  </div>
 </section>
 

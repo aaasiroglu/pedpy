@@ -185,6 +185,26 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Önerilen başlık güncellendi (00, 15).
 - **Durum:** Kabul (kullanıcı onayı bekleniyor: başlık)
 
+### K-034: Saatlik konut talebi: EPİAŞ ulusal yük ile Demand.ninja
+- **Kaynak:** Kullanıcı kararı (2026-11-08).
+- **Karar:** D_t = E·[(1−w)b_t + w·m_t].
+  - b_t: ulusal saatlik yükten (EPİAŞ, G1; küresel katalog kuralıyla) hava bileşeni çıkarılmış taban şekli.
+  - m_t: Demand.ninja ısıtma ve soğutma şekli (ERA5, Open-Meteo).
+  - w: ulusal yükün Demand.ninja derece-saatlerine regresyonundan; serbest sabit yok.
+  - EPİAŞ mesken (AYEDAŞ) profili yalnızca G2 doğrulaması.
+  - Demand.ninja BSD-3 lisansıyla projeye dahil edildi, pandas 2 için iki satır yamalandı.
+  - EPİAŞ kimlik bilgileri yalnızca ortam değişkenlerinden okunuyor.
+- **Durum:** Kabul (EPİAŞ verisi bekleniyor)
+
+### K-035: Veri gölü: küresel katalog, AOI bağlayıcıları, raster → H3 motoru
+- **Kaynak:** Kullanıcı (2026-11-08): "dünyadaki küresel ölçekli raster ve vektör verilerle devasa bir veritabanı".
+- **Karar:**
+  - Bütün veri kopyalanmıyor. 35 veri setlik katalogda her setin bağlayıcısı var; bir AOI geldiğinde yalnızca gereken parça çekilip önbelleğe alınıyor.
+  - `zonal_h3` her rasteri H3 özelliklerine dönüştürüyor.
+  - İlk parti: GHSL yapı alanı, hacmi ve yüksekliği (5 katman, CC BY 4.0).
+  - Ana belge: `PROJE_DOSYASI.md`.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

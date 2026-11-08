@@ -11,7 +11,7 @@
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
   // ------------------------------------------------------------------ routing
-  const VIEWS = ["sunum", "tez", "mvp", "veri", "kaynakca"];
+  const VIEWS = ["sunum", "mimari", "tez", "mvp", "veri", "kaynakca"];
   let mapReady = false;
   function route() {
     const h = (location.hash || "#sunum").slice(1);
@@ -49,6 +49,25 @@
   $("gaps").innerHTML = S.provenance.gaps.map(g => `<li>${g}</li>`).join("") +
     `<li>OSM'de binaların yalnızca %${nf(T.share_levels_known * 100)}'inde kat bilgisi var.</li>`;
   $("refs").innerHTML = P.refs.map(r => `<li>${r}</li>`).join("");
+  // architecture view
+  $("nfeat").textContent = `${Object.keys(P.cells.features[0].properties).filter(k => CAT[k] && CAT[k].status === "active").length} özellik/hücre`;
+  const st = { ingested: ["ok", "sistemde"], connector: ["geo", "bağlayıcı hazır"], planned: ["warn", "planlı"] };
+  $("lake").innerHTML = `<p class="note">${S.datalake.length} veri seti · ${S.datalake.filter(d => d.status === "ingested").length} sistemde</p><table><tr><th>Veri seti</th><th>Tema</th><th>Tür · çözünürlük</th><th>Lisans</th><th>Kullanım</th><th>Durum</th></tr>` +
+    S.datalake.map(d => `<tr><td>${d.provider}</td><td>${d.theme}</td><td class="note">${d.kind} · ${d.resolution}</td><td class="note">${d.license}</td><td class="note">${d.pedx_use}</td><td><span class="badge ${st[d.status][0]}">${st[d.status][1]}</span></td></tr>`).join("") + "</table>";
+  (function dnChart() {
+    const D = S.demand_status, H = D.monthly_heating_index, C = D.monthly_cooling_index;
+    const vals = Array.from({ length: 12 }, (_, i) => [H[i + 1] || 0, C[i + 1] || 0]);
+    const W = 640, Ht = 170, pad = 30, max = Math.max(...vals.flat()), bw = (W - pad * 2) / 12;
+    const mo = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+    let s = `<svg viewBox="0 0 ${W} ${Ht}" width="100%" role="img" aria-label="Aylık ısıtma ve soğutma indeksi">`;
+    vals.forEach((v, i) => {
+      const x = pad + i * bw, hh = (Ht - pad * 1.7) * v[0] / max, hc = (Ht - pad * 1.7) * v[1] / max;
+      s += `<rect x="${x + 3}" y="${Ht - pad - hh}" width="${bw / 2 - 4}" height="${hh}" fill="var(--bad)"><title>${mo[i]} ısıtma ${nf(v[0], 0)}</title></rect>`;
+      s += `<rect x="${x + bw / 2}" y="${Ht - pad - hc}" width="${bw / 2 - 4}" height="${hc}" fill="var(--geo)"><title>${mo[i]} soğutma ${nf(v[1], 0)}</title></rect>`;
+      s += `<text x="${x + bw / 2}" y="${Ht - pad + 14}" text-anchor="middle" fill="var(--muted)" font-size="11">${mo[i]}</text>`;
+    });
+    $("dnchart").innerHTML = s + "</svg>";
+  })();
 
   // ------------------------------------------------------------------ MVP
   let map, cellLayer, legend;

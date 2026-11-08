@@ -85,7 +85,20 @@ def main() -> None:
     allpois["family"] = [poi_family(k, v) for k, v in zip(allpois["key"], allpois["value"])]
     stops = pd.DataFrame([{"lat": e["lat"], "lon": e["lon"]} for e in json.loads((RAW / "caferaga_transit_stops.json").read_text())["elements"] if "lat" in e])
     F_acc = accessibility_features(G, cells, allpois, stops, area_ha)
-    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph, F_acc])
+    # ---- data lake: GHSL built-up rasters → H3 (zonal engine)
+    from pedx.datalake import ghsl_tile_path, zonal_h3
+
+    gh = SRC / "ghsl"
+    z = lambda prod, stat: zonal_h3(ghsl_tile_path(prod, 40.986, 29.028, gh), bbox, RES, stat, mask=b)  # noqa: E731
+    F_ghsl = pd.DataFrame({
+        "ghsl_built_surface_m2": z("built_s_2020", "sum"), "ghsl_nres_surface_m2": z("built_s_nres_2020", "sum"),
+        "ghsl_volume_m3": z("built_v_2020", "sum"), "ghsl_nres_volume_m3": z("built_v_nres_2020", "sum"),
+        "ghsl_agbh_m": z("built_h_agbh_2018", "mean"),
+    })
+    F_ghsl["ghsl_nres_share"] = F_ghsl["ghsl_nres_surface_m2"] / F_ghsl["ghsl_built_surface_m2"].where(F_ghsl["ghsl_built_surface_m2"] > 0)
+    F_ghsl["ghsl_mean_height_m"] = F_ghsl["ghsl_volume_m3"] / F_ghsl["ghsl_built_surface_m2"].where(F_ghsl["ghsl_built_surface_m2"] > 0)
+    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph, F_acc, F_ghsl])
+    F["osm_vs_ghsl_surface"] = F["built_footprint_m2"] / F["ghsl_built_surface_m2"].where(F["ghsl_built_surface_m2"] > 0)
     for c in ("built_n_buildings", "built_footprint_m2", "demo_population", "poi_total") + tuple(x for x in F if x.startswith("poi_n_")):
         F[c] = F[c].fillna(0.0)
 
@@ -111,7 +124,7 @@ def main() -> None:
     # ---------------- exploratory associations (NOT causal): Spearman of every feature with the balance
     target = "energy_balance"
     # definitional components of the target are excluded (balance ∝ footprint / population)
-    definitional = {"demo_m2_footprint_per_capita", "built_footprint_m2", "demo_population", "demo_density_per_ha"}
+    definitional = {"demo_m2_footprint_per_capita", "built_footprint_m2", "demo_population", "demo_density_per_ha", "osm_vs_ghsl_surface"}
     assoc = []
     for c in F.columns:
         if c.startswith("energy_") or c.startswith("xai_") or c in definitional:
@@ -129,6 +142,8 @@ def main() -> None:
         "footprint_m2": float(F["built_footprint_m2"].sum()),
         "share_levels_known": float(bld["levels"].notna().mean()),
         "share_start_year_known": float(bld["start_year"].notna().mean()),
+        "ghsl_built_surface_m2": float(F["ghsl_built_surface_m2"].sum()), "ghsl_volume_m3": float(F["ghsl_volume_m3"].sum()),
+        "ghsl_nres_surface_m2": float(F["ghsl_nres_surface_m2"].sum()),
     }
     T["balance"] = T["pv_kwh"] / T["demand_res_kwh"]
     pvsum = {tag: float((F["built_footprint_m2"] * uf * ef * yield_kwh_kwp).sum()) for tag, uf, ef in
@@ -182,7 +197,10 @@ def main() -> None:
         "monthly_cooling_index": {int(k): round(float(v), 2) for k, v in dn_monthly["cooling_demand"].items()},
         "national_load": "EPİAŞ gerçek zamanlı tüketim 2023 — hesap gerekli (scripts/fetch_epias.py); bekleniyor",
     }
-    summary = {"demand_status": demand_status, "definitional_excluded": sorted(definitional), "total": T, "validation": validation, "provenance": provenance, "catalog": catalog, "associations": assoc[:20],
+    from pedx.datalake import catalog_frame as lake_catalog
+
+    lake = lake_catalog().reset_index().to_dict(orient="records")
+    summary = {"datalake": lake, "demand_status": demand_status, "definitional_excluded": sorted(definitional), "total": T, "validation": validation, "provenance": provenance, "catalog": catalog, "associations": assoc[:20],
                "monthly_pv_kwh_per_kwp": {int(k): float(v) for k, v in pv["pv_kwh_per_kwp"].groupby(pv.index.month).sum().items()}}
     write_json(summary, OUT_WEB / "summary.json")
     print(f"cells={T['n_cells']} buildings={T['n_buildings']} pois={T['n_pois']} pop={T['population_ghs_2020']:.0f} "

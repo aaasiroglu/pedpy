@@ -93,3 +93,30 @@ def test_walk_accessibility_on_a_line_graph():
     assert f.loc[cell, "mob_walk800_daily_completeness"] == pytest.approx(1 / 5)
     assert f.loc[cell, "mob_walk800_transit_stops"] == 1
     validate_columns(f.columns)
+
+
+def test_zonal_h3_sum_and_mean(tmp_path):
+    rasterio = pytest.importorskip("rasterio")
+    pytest.importorskip("h3")
+    from rasterio.transform import from_origin
+
+    from pedx.datalake import zonal_h3
+
+    arr = np.array([[1.0, 2.0], [3.0, -200.0]], dtype="float32")  # negative = nodata-like, ignored
+    path = tmp_path / "r.tif"
+    with rasterio.open(path, "w", driver="GTiff", height=2, width=2, count=1, dtype="float32", crs="EPSG:4326",
+                       transform=from_origin(29.0, 41.0, 0.0001, 0.0001)) as dst:
+        dst.write(arr, 1)
+    s = zonal_h3(path, (40.9998, 29.0, 41.0, 29.0002), 7, "sum")
+    assert s.sum() == pytest.approx(6.0)
+    m = zonal_h3(path, (40.9998, 29.0, 41.0, 29.0002), 7, "mean")
+    assert m.iloc[0] == pytest.approx(2.0)
+
+
+def test_datalake_catalog_integrity():
+    from pedx.datalake import catalog_frame as lake
+
+    c = lake()
+    assert c.index.is_unique and set(c["status"]) <= {"ingested", "connector", "planned"}
+    assert set(c["kind"]) <= {"raster", "vector", "table", "timeseries"}
+    assert (c["license"].str.len() > 0).all()
