@@ -383,6 +383,21 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Commons:** Paylaşılan çıkış IP'si hız sınırına takılıyor; katman "eksik" işaretli. Yedek: Wikidata'daki fotoğraflı (P18) öğeler.
 - **Durum:** Kabul
 
+### K-053: Q1 hedefi, pilot hiyerarşisi ve literatür/model haritası
+- **Pilot hiyerarşisi:** Caferağa (bina, yapı adası, H3) → Kadıköy (ilçe, 11 × 11 km) → İstanbul (il, 60 × 60 km). Çalışma alanı: dünya (16 gerçek PED kenti) ve Türkiye.
+- **Anlatı:** İstanbul ve Türkiye, gerçek PED'lerle aynı kod ve aynı ölçüyle kıyaslanıyor. Bu, Türk bilim altyapısına açık kod, açık veri ve DOI ile katkıdır.
+- **Literatür:** `docs/20`: 12 tema, her birinde 10–13 kaynak, trendler, Q1 hedef dergiler, "pedx'e alınacak ilham" listesi.
+- **İstanbul G2:** Yildirim vd. (2021, *Applied Energy*) LiDAR çatı FV'si 2019 tüketiminin %67'si; Kartal ve Alkan (2025) %70.
+- **Hugging Face (canlı sorgu):**
+  - Prithvi-EO-2.0 (Apache-2.0) ve SatCLIP (MIT): altıgen ve konum gömmesi.
+  - SigLIP2 (Apache-2.0): görüntü algısı.
+  - UperNet-ConvNeXt (MIT): sokak bölütleme.
+  - Depth-Anything-V2 (Apache-2.0): kat ipucu.
+  - multilingual-e5 (MIT): metin gömmesi.
+  - Qwen3-8B ve Qwen2.5-VL (Apache-2.0): ajan ve VLM.
+  - Kaçınılacaklar: NC lisanslı (StreetCLIP) ve kapılı lisanslı (Llama, Gemma) modeller.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

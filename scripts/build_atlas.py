@@ -37,7 +37,9 @@ def slug(s: str) -> str:
 def main():
     sites = json.loads((VAL / "ped_sites.json").read_text())
     cities = [{"key": slug(s["site"]), "site": s["site"], "city": s["city"], "lat": s["lat"], "lon": s["lon"], "osm": s["osm"], "is_ped": True} for s in sites]
-    cities.append({"key": "caferaa_istanbul", "site": "Caferağa", "city": "İstanbul", "lat": 40.9857, "lon": 29.0245, "osm": "relation/9441032", "is_ped": False})
+    for a in json.loads((VAL / "pilot_areas.json").read_text()):  # pilot hierarchy Caferağa → Kadıköy → İstanbul (K-053)
+        if (GRID / f"{a['key']}_r10.csv").exists():
+            cities.append({**a, "is_ped": False})
     FA = json.loads((VAL / "feature_analysis.json").read_text())  # scripts/feature_analysis.py
     FEATS = FA["clean_features"]
     stats, grids = {}, {}
