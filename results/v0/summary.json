@@ -1,0 +1,12 @@
+{
+  "irradiance_source": "PVGIS 5.3 SARAH-3, 2019 (gözlem tabanlı)",
+  "building_source": "OpenStreetMap (2876 bina)",
+  "h3_resolution": 10,
+  "n_cells": 92,
+  "n_cells_balance_ge_1": 2,
+  "boundary_cells": [
+    "8a1ec902c587fff",
+    "8a1ec902c5a7fff"
+  ],
+  "boundary_is_ped": true
+}
