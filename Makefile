@@ -18,6 +18,7 @@ install:
 
 data:
 	$(PY) scripts/fetch_data.py
+	$(PY) scripts/fetch_eo.py
 
 epias:
 	$(PY) scripts/fetch_epias.py

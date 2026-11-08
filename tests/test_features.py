@@ -10,7 +10,7 @@ from pedx.features import CATALOG, building_features, catalog_frame, poi_family,
 def test_every_feature_has_source_licence_and_known_family():
     cat = catalog_frame()
     assert cat["source"].str.len().gt(0).all() and cat["license"].str.len().gt(0).all()
-    assert set(cat["family"]) <= {"energy", "built", "demography", "poi", "economy", "mobility", "environment", "climate", "morphology", "imagery", "social"}
+    assert set(cat["family"]) <= {"energy", "built", "demography", "poi", "economy", "mobility", "environment", "climate", "morphology", "imagery", "social", "embedding"}
     assert set(cat["status"]) <= {"active", "planned"}
 
 
@@ -120,3 +120,34 @@ def test_datalake_catalog_integrity():
     assert c.index.is_unique and set(c["status"]) <= {"ingested", "connector", "planned"}
     assert set(c["kind"]) <= {"raster", "vector", "table", "timeseries"}
     assert (c["license"].str.len() > 0).all()
+
+
+def test_orientation_order_of_a_grid_is_one():
+    pytest.importorskip("networkx")
+    h3 = pytest.importorskip("h3")
+    from pedx.features.accessibility import network_complexity_features, walk_graph
+
+    lat0, lon0, d = 40.98, 29.02, 0.0002
+    ways = []
+    for i in range(3):  # N–S and E–W streets of a small orthogonal grid
+        ways.append({"type": "way", "id": 100 + i, "geometry": [{"lat": lat0 + j * d, "lon": lon0 + i * d} for j in range(3)]})
+        ways.append({"type": "way", "id": 200 + i, "geometry": [{"lat": lat0 + i * d, "lon": lon0 + j * d} for j in range(3)]})
+    payload = {"elements": ways}
+    G = walk_graph(payload)
+    cell = h3.latlng_to_cell(lat0 + d, lon0 + d, 9)
+    f = network_complexity_features(payload, G, [cell], pd.Series({cell: 10.0}))
+    assert f.loc[cell, "mob_orientation_order"] == pytest.approx(1.0, abs=0.02)
+    assert f.loc[cell, "mob_circuity"] == pytest.approx(1.0, abs=1e-3)
+    validate_columns(f.columns)
+
+
+def test_pca_embedding_shapes_and_variance():
+    from pedx.features.embedding import pca_embedding
+
+    rng = np.random.default_rng(0)
+    F = pd.DataFrame(rng.normal(size=(40, 6)), columns=list("abcdef"))
+    F["g"] = F["a"] * 2 + rng.normal(scale=0.01, size=40)  # redundant feature → strong first component
+    E, info = pca_embedding(F, list(F.columns), k=3)
+    assert E.shape == (40, 3)
+    assert 0 < sum(c["explained_variance"] for c in info["components"]) <= 1
+    assert {t["feature"] for t in info["components"][0]["top_loadings"][:2]} == {"a", "g"}

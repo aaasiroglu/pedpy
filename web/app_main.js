@@ -49,6 +49,8 @@
   $("gaps").innerHTML = S.provenance.gaps.map(g => `<li>${g}</li>`).join("") +
     `<li>OSM'de binaların yalnızca %${nf(T.share_levels_known * 100)}'inde kat bilgisi var.</li>`;
   $("refs").innerHTML = P.refs.map(r => `<li>${r}</li>`).join("");
+  if (S.embedding) $("emb").innerHTML = `<p class="note">${S.embedding.n_features} özellik kullanıldı.</p><table><tr><th>Bileşen</th><th class="num">Açıklanan varyans</th><th>En yüksek yükler</th></tr>` +
+    S.embedding.components.map(c => `<tr><td class="mono">${c.component}</td><td class="num">%${nf(c.explained_variance * 100, 1)}</td><td class="note">${c.top_loadings.slice(0, 4).map(t => `${(CAT[t.feature] || {}).label_tr || t.feature} (${t.loading > 0 ? "+" : ""}${nf(t.loading, 2)})`).join(" · ")}</td></tr>`).join("") + "</table>";
   // architecture view
   $("nfeat").textContent = `${Object.keys(P.cells.features[0].properties).filter(k => CAT[k] && CAT[k].status === "active").length} özellik/hücre`;
   const st = { ingested: ["ok", "sistemde"], connector: ["geo", "bağlayıcı hazır"], planned: ["warn", "planlı"] };
@@ -211,7 +213,9 @@
     const bar = (lab, v) => { const w = Math.min(Math.abs(v) / 1.5, 1) * 50; const left = v >= 0 ? 50 : 50 - w;
       return `<div class="row"><span>${lab}</span><span class="track"><span class="mid"></span><span class="fill" style="left:${left}%;width:${w}%;background:${v >= 0 ? "var(--geo)" : "var(--bad)"}"></span></span><span class="num mono">${v >= 0 ? "+" : ""}${nf(v, 2)}</span></div>`; };
     const ctx = [["Gündüz işlevli POI payı", meanOf(cand, "poi_daytime_share"), 2], ["10 dk yürüme: günlük ihtiyaç tamlığı", meanOf(cand, "mob_walk800_daily_completeness"), 2],
-      ["Ortak duvar oranı", meanOf(cand, "morph_shared_wall_ratio"), 2], ["Nüfus yoğunluğu (kişi/ha)", s.pop / s.ha, 0]];
+      ["Ortak duvar oranı", meanOf(cand, "morph_shared_wall_ratio"), 2], ["Nüfus yoğunluğu (kişi/ha)", s.pop / s.ha, 0],
+      ["Yaz yüzey sıcaklığı LST (°C)", meanOf(cand, "env_lst_mean_c"), 1], ["NDVI (bitki örtüsü)", meanOf(cand, "env_ndvi_mean"), 2],
+      ["Ortalama eğim (°)", meanOf(cand, "env_slope_deg"), 1], ["Sokak dolambaçlılığı", meanOf(cand, "mob_circuity"), 2]];
     const C = [
       ["Teknoloji", cls === "ok" ? "ok" : cls === "warn" ? "warn" : "bad", `denge ${nf(s.bal, 2)} (${nf(s.ball, 2)}–${nf(s.balh, 2)})`],
       ["Bağlam", "geo", "aşağıdaki göstergeler"],

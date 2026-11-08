@@ -2,7 +2,7 @@
 
 **Tez:** Pozitif Enerji Bölgesi Projeleri için Açıklanabilir ve Fizik Kenetli Elverişlilik Analizi: Küresel Açık Veri, Referans Sınıf Tahmini ve İstanbul Doğrulaması
 **Hazırlayan:** Abdurrahim Arif Aşıroğlu · **Danışman:** Prof. Dr. Hande Demirel · İTÜ Geomatik Mühendisliği
-**Sürüm:** v0.4 · 2026-11-08 · **Repo:** `aaasiroglu/pedpy` (dal `claude/dreamy-allen-fvtsux`) · **Uygulama:** `web/pedx_app.html`
+**Sürüm:** v0.5 · 2026-11-08 · **Repo:** `aaasiroglu/pedpy` (dal `claude/dreamy-allen-fvtsux`) · **Uygulama:** `web/pedx_app.html`
 
 > Bu belge projenin tek giriş noktasıdır. Sırasıyla **amaç → sistem mimarisi → kullanılan veriler → işlem adımları → sonuçlar → proje yönetimi** bölümlerinden oluşur. Ayrıntılı belgeler sonda listelenmiştir.
 
@@ -43,7 +43,7 @@ Bu yanıtlar yalnızca **küresel açık veriyle (G1)** üretilir ve **İstanbul
 │ L3 MOTORLAR     fizik (yıllık + saatlik, batarya) · talep (EPİAŞ + Demand.ninja) ·       │
 │                 graf (paylaşım oyunu) · referans sınıf modeli (planlı)                   │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
-│ L2 H3 ÖZELLİK DEPOSU  63 kayıtlı özellik/hücre · veri sözleşmesi (kayıtsız sütun          │
+│ L2 H3 ÖZELLİK DEPOSU  82 kayıtlı özellik/hücre · veri sözleşmesi (kayıtsız sütun          │
 │                       dışa aktarılamaz)                                                  │
 ├──────────────────────────────────────────────────────────────────────────────────────────┤
 │ L1 VERİ GÖLÜ    35 küresel veri seti kataloğu · AOI bağlayıcıları · raster→H3 motoru ·    │
@@ -64,7 +64,7 @@ Bu yanıtlar yalnızca **küresel açık veriyle (G1)** üretilir ve **İstanbul
 | L4 | `pedx.index`, `pedx.xai`, `pedx.inverse` | Shapley aksiyomları, ızgara aramasına ve ikiye bölmeye karşı kontroller |
 | L6 | `scripts/build_features.py`, `web/build_app.py` | uçtan uca yapım |
 
-Toplam **61 otomatik test** var. Kurulum: `make install data build serve` (`docs/LOCAL_SETUP.md`).
+Toplam **63 otomatik test** var. Kurulum: `make install data build serve` (`docs/LOCAL_SETUP.md`).
 
 ---
 
@@ -82,6 +82,9 @@ Toplam **61 otomatik test** var. Kurulum: `make install data build serve` (`docs
 | Nüfus ve talep (ülke) | Our World in Data (UN WPP, Ember) | ülke | CC BY 4.0 | G1 | kişi başına çevirme |
 | PV üretimi | EU JRC PVGIS 5.3 (SARAH-3) | saatlik, nokta | AB | G1 | çatı PV |
 | Hava (ısıtma ve soğutma) | ERA5 (Open-Meteo) + Demand.ninja | saatlik | CC BY 4.0 / BSD-3 | G1 | talebin hava bileşeni |
+| Yüzey sıcaklığı (LST) | Landsat 8/9 C2 L2 (Planetary Computer), 16 sahne, Haz–Eyl 2023 | 30 m | kamu malı | G1 | ısı adası, soğutma, PV sıcaklığı |
+| NDVI, NDBI | Sentinel-2 L2A (Earth Search), 26.07.2023 | 10–20 m | Copernicus açık | G1 | yeşil alan, yapılaşma |
+| Yükseklik, eğim | Copernicus DEM GLO-30 | 30 m | Copernicus | G1 | arazi |
 | Ulusal saatlik yük | EPİAŞ şeffaflık platformu | saatlik | atıfla; hesap gerekli | G1 | talebin taban şekli (**bekleniyor**) |
 | İstanbul kişi başı tüketim | TEDAŞ 2023, Tablo 7 | il | kamu | **G2** | doğrulama |
 | Caferağa nüfusu | Kadıköy Belediyesi / TÜİK | mahalle | kamu | **G2** | doğrulama |
@@ -99,7 +102,7 @@ Tam envanter: 35 veri seti; 15'i sisteme alındı, 1 bağlayıcı hazır, 19 pla
 | A1 | Veri gölü çekimi | Katalog | Bağlayıcılarla AOI karoları ve pencereleri | `data/raw` önbelleği | lisans kaydı | ✅ (15 set) |
 | A2 | Bina ve hücre atama | OSM binaları | Ağırlık merkezi sınır içinde mi, H3 r10 ataması | binalar ve hücreleri | enerji korunumu (T5) | ✅ |
 | A3 | Raster → H3 | GHS-POP, GHS-BUILT-* | Piksel merkezi ataması, toplam veya ortalama | nüfus, alan, hacim | GHS-POP ile resmî nüfus (G2) | ✅ |
-| A4 | Özellik deposu | A2–A3, POI, ağ | Katman fonksiyonları; morfoloji (momepy); erişim (Dijkstra, 800 m) | 63 özellik/hücre | veri sözleşmesi | ✅ |
+| A4 | Özellik deposu | A2–A3, POI, ağ, EO | Katman fonksiyonları; morfoloji (momepy); erişim (Dijkstra, 800 m); yol ağı karmaşıklığı (Boeing 2019); Landsat LST, Sentinel-2, DEM; PCA imzası | 82 özellik/hücre | veri sözleşmesi | ✅ |
 | A5 | Yıllık enerji | A4, UNSD, PVGIS | Konut talebi = nüfus × kişi başı; PV = taban alanı × u × η × verim | denge, gereken çatı payı | aralık analizi | ✅ |
 | A6 | Saatlik talep | EPİAŞ, ERA5, Demand.ninja | Ulusal yükün taban ve hava bileşenlerine ayrıştırılması; D_t = E[(1−w)b_t + w m_t] | saatlik konut talebi | EPİAŞ mesken profili (G2) | ⏳ EPİAŞ verisi |
 | A7 | Saatlik göstergeler | A6, PVGIS saatlik | SSR, CVaR ile şebeke stresi, batarya | proje göstergeleri | T1, T2 | kod ✅ / veri ⏳ |
@@ -112,7 +115,7 @@ Tam envanter: 35 veri seti; 15'i sisteme alındı, 1 bağlayıcı hazır, 19 pla
 
 ## 5. Sonuçlar (v0.4, Caferağa, H3 r10)
 
-**Bütünlük:** 2061 bina · 92 hücre · 1320 POI · 2202 yaya yolu · 63 özellik/hücre.
+**Bütünlük:** 2061 bina · 92 hücre · 1320 POI · 2202 yaya yolu · 82 özellik/hücre.
 
 | Sonuç | Değer | Yorum |
 | --- | --- | --- |
@@ -128,6 +131,10 @@ Tam envanter: 35 veri seti; 15'i sisteme alındı, 1 bağlayıcı hazır, 19 pla
 | Gündüz işlevli POI ile denge | ρ = 0,45 | Tamamlayıcılık hipotezi için işaret |
 | 10 dakikalık yürüme: günlük ihtiyaç tamlığı | ortalama 0,95 | Kadıköy merkezi çok yürünebilir |
 | Ortak duvar oranı | ortalama 0,22 | Bitişik nizam → düşük ısı kaybı |
+| Yaz yüzey sıcaklığı (Landsat, 16 sahne) | ortalama 39,0 °C (29,3–43,0) | Kıyı hücreleri daha serin; ısı adası katmanı |
+| NDVI / NDBI ile denge | NDVI ortalaması 0,25; NDBI ile ρ = 0,50 | Yapılaşma dengeyi artırıyor (taban alanı etkisi) |
+| Sokak dolambaçlılığı ile denge | ρ = −0,43; yönelim düzeni φ ortalaması 0,82 | Düzenli ızgara dokusu daha elverişli |
+| Hücre imzası (PCA) | 1. bileşen %25 kentsel yoğunluk; 2. bileşen %10 ticari ile yeşil karşıtlığı | Bütün katmanların yorumlanabilir özeti |
 | Hava bileşeni (Demand.ninja, ERA5 2023) | ısıtma Kasım–Nisan; soğutma Haziran–Eylül | Saatlik modelin hava girdisi hazır |
 | Yöntemsel bulgu | MARCOS ≡ κ·ağırlıklı toplam | Xie ve Zou (2025) ile doğrulandı |
 

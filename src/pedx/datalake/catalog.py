@@ -67,9 +67,9 @@ DATASETS: List[Dataset] = [
     # ---- climate & environment
     Dataset("era5_openmeteo", "iklim", "timeseries", "ECMWF ERA5 (Open-Meteo)", "saatlik, ~25 km", "CC BY 4.0", "archive-api.open-meteo.com", "ingested", "Demand.ninja girdisi"),
     Dataset("esa_worldcover", "cevre", "raster", "ESA WorldCover 2021", "10 m", "CC BY 4.0", "AWS / Zenodo", "planned", "yeşil alan payı"),
-    Dataset("copernicus_dem", "cevre", "raster", "Copernicus DEM GLO-30", "30 m", "Copernicus DEM lisansı", "AWS open data", "planned", "eğim"),
-    Dataset("sentinel2_l2a", "goruntu", "raster", "Copernicus Sentinel-2 L2A", "10 m", "Copernicus açık", "Earth Search STAC (COG)", "planned", "NDVI, NDBI, gömmeler"),
-    Dataset("landsat_c2", "goruntu", "raster", "USGS Landsat 8/9 C2", "30 m", "kamu malı", "AWS / Planetary Computer", "planned", "yüzey sıcaklığı"),
+    Dataset("copernicus_dem", "cevre", "raster", "Copernicus DEM GLO-30", "30 m", "Copernicus DEM lisansı", "AWS open data (COG)", "ingested", "yükseklik, eğim, rölyef"),
+    Dataset("sentinel2_l2a", "goruntu", "raster", "Copernicus Sentinel-2 L2A", "10 m", "Copernicus açık", "Earth Search STAC (COG)", "ingested", "NDVI, NDBI"),
+    Dataset("landsat_c2", "goruntu", "raster", "USGS Landsat 8/9 C2 L2 (ST)", "30 m (ısıl 100 m)", "kamu malı", "Planetary Computer STAC (COG)", "ingested", "yüzey sıcaklığı (LST)"),
     Dataset("alphaearth_embeddings", "goruntu", "raster", "Google AlphaEarth Satellite Embedding", "10 m, 64-B", "teyit", "Earth Engine", "planned", "gömme vektörleri"),
     Dataset("mapillary", "goruntu", "vector", "Mapillary", "sokak görüntüsü", "CC BY-SA 4.0; anahtar", "graph.mapillary.com", "planned", "kat ve cephe tahmini"),
     # ---- economy & social

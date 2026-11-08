@@ -85,6 +85,11 @@ def main() -> None:
     allpois["family"] = [poi_family(k, v) for k, v in zip(allpois["key"], allpois["value"])]
     stops = pd.DataFrame([{"lat": e["lat"], "lon": e["lon"]} for e in json.loads((RAW / "caferaga_transit_stops.json").read_text())["elements"] if "lat" in e])
     F_acc = accessibility_features(G, cells, allpois, stops, area_ha)
+    from pedx.features.accessibility import network_complexity_features
+
+    F_net = network_complexity_features(json.loads((RAW / "caferaga_walk_network.json").read_text()), G, cells, area_ha)
+    eo_csv = SRC / "eo_h3r10_caferaga.csv"  # produced by scripts/fetch_eo.py (Landsat, Sentinel-2, Copernicus DEM)
+    F_eo = pd.read_csv(eo_csv, index_col=0) if eo_csv.exists() else pd.DataFrame(index=pd.Index(cells, name="cell"))
     # ---- data lake: GHSL built-up rasters → H3 (zonal engine)
     from pedx.datalake import ghsl_tile_path, zonal_h3
 
@@ -97,7 +102,7 @@ def main() -> None:
     })
     F_ghsl["ghsl_nres_share"] = F_ghsl["ghsl_nres_surface_m2"] / F_ghsl["ghsl_built_surface_m2"].where(F_ghsl["ghsl_built_surface_m2"] > 0)
     F_ghsl["ghsl_mean_height_m"] = F_ghsl["ghsl_volume_m3"] / F_ghsl["ghsl_built_surface_m2"].where(F_ghsl["ghsl_built_surface_m2"] > 0)
-    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph, F_acc, F_ghsl])
+    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph, F_acc, F_ghsl, F_net, F_eo])
     F["osm_vs_ghsl_surface"] = F["built_footprint_m2"] / F["ghsl_built_surface_m2"].where(F["ghsl_built_surface_m2"] > 0)
     for c in ("built_n_buildings", "built_footprint_m2", "demo_population", "poi_total") + tuple(x for x in F if x.startswith("poi_n_")):
         F[c] = F[c].fillna(0.0)
@@ -119,6 +124,12 @@ def main() -> None:
     F["xai_logbal_built"] = (lnA - lnA.mean()).reindex(F.index)
     F["xai_logbal_population"] = (-(lnP - lnP.mean())).reindex(F.index)
     F = F[(F["built_n_buildings"] > 0) | (F["demo_population"] > 0)]
+    # ---- hex signature embedding over all G1 input features (not energy outputs)
+    from pedx.features.embedding import pca_embedding
+
+    emb_cols = [c for c in F.columns if not c.startswith(("energy_", "xai_"))]
+    E, emb_info = pca_embedding(F, emb_cols, k=5)
+    F = F.join(E)
     validate_columns(F.columns)
 
     # ---------------- exploratory associations (NOT causal): Spearman of every feature with the balance
@@ -127,7 +138,7 @@ def main() -> None:
     definitional = {"demo_m2_footprint_per_capita", "built_footprint_m2", "demo_population", "demo_density_per_ha", "osm_vs_ghsl_surface"}
     assoc = []
     for c in F.columns:
-        if c.startswith("energy_") or c.startswith("xai_") or c in definitional:
+        if c.startswith(("energy_", "xai_", "emb_")) or c in definitional:  # emb_* contain target components
             continue
         m = F[[c, target]].dropna()
         if len(m) >= 10 and m[c].nunique() > 2:
@@ -200,7 +211,8 @@ def main() -> None:
     from pedx.datalake import catalog_frame as lake_catalog
 
     lake = lake_catalog().reset_index().to_dict(orient="records")
-    summary = {"datalake": lake, "demand_status": demand_status, "definitional_excluded": sorted(definitional), "total": T, "validation": validation, "provenance": provenance, "catalog": catalog, "associations": assoc[:20],
+    eo_prov = json.loads(eo_csv.with_suffix(".json").read_text()) if eo_csv.with_suffix(".json").exists() else {}
+    summary = {"embedding": emb_info, "eo_provenance": eo_prov, "datalake": lake, "demand_status": demand_status, "definitional_excluded": sorted(definitional), "total": T, "validation": validation, "provenance": provenance, "catalog": catalog, "associations": assoc[:20],
                "monthly_pv_kwh_per_kwp": {int(k): float(v) for k, v in pv["pv_kwh_per_kwp"].groupby(pv.index.month).sum().items()}}
     write_json(summary, OUT_WEB / "summary.json")
     print(f"cells={T['n_cells']} buildings={T['n_buildings']} pois={T['n_pois']} pop={T['population_ghs_2020']:.0f} "

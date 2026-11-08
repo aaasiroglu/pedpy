@@ -205,6 +205,21 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Ana belge: `PROJE_DOSYASI.md`.
 - **Durum:** Kabul
 
+### K-036: Yer gözlemi katmanları (SUHII mantığıyla): Landsat LST, Sentinel-2, Copernicus DEM
+- **Kaynak:** Kullanıcı (2026-11-08): Officina-SCIFT/SUHII_mapping_tool mantığının kullanılması.
+- **Karar:**
+  - Yöntem, yayımlanmış ürün tanımlarından yeniden kuruldu: Landsat C2 L2 yüzey sıcaklığı bandı, QA ile bulut maskesi, yaz mevsimi ortalaması; DEM; OSM. Referans araç AGPL-3.0 lisanslı olduğu için kodu kopyalanmadı.
+  - Kaynaklar anahtarsız: Planetary Computer (Landsat), Earth Search (Sentinel-2; `boa_offset_applied` bayrağına uyuluyor), Copernicus DEM (SRTM yerine; OpenTopography anahtarı gerekmiyor).
+  - Kırsal referanslı SUHII kent ölçeğinde yapılacak; mahallede LST anomalisi ortancaya göre hesaplanıyor.
+- **Durum:** Kabul
+
+### K-037: Yol ağı karmaşıklığı ve hücre imzası gömmesi
+- **Karar:**
+  - Boeing (2019) yönelim entropisi ve düzeni, dolambaçlılık, çıkmaz sokak payı ve düğüm başına sokak eklendi.
+  - Bütün G1 özelliklerinden PCA ile 5 bileşenli hücre imzası üretildi. Bileşenler yükleriyle açıklanıyor. Tanımsal bileşen içerdikleri için ilişki tablosunda kullanılmıyor.
+  - Görüntü-dil modeli (VLM) gömmeleri sonraki adımda ek sütun olarak eklenecek (model indirme ve GPU maliyeti).
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

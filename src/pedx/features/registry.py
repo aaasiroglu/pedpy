@@ -32,6 +32,7 @@ FAMILIES = {
     "morphology": "Kentsel morfoloji",
     "imagery": "Uydu ve sokak görüntüsü",
     "social": "Sosyal",
+    "embedding": "Gömme (tüm katmanlar, PCA)",
 }
 
 
@@ -113,6 +114,25 @@ _ACTIVE: List[FeatureSpec] = [
     FeatureSpec("osm_vs_ghsl_surface", "built", "OSM taban alanı / GHSL yapı alanı (OSM tamlığı)", "-", "OSM + GHS-BUILT-S", "ODbL; CC BY 4.0",
                 note="1'in altı: OSM'de eksik bina; G1 içi çapraz kontrol"),
 ] + [
+    FeatureSpec("env_lst_mean_c", "environment", "Yaz yüzey sıcaklığı (LST) ortalaması", "°C", *('Landsat 8/9 C2 L2 ST, Haz–Eyl 2023, bulut < %20 (Planetary Computer)', 'USGS kamu malı'), note="Hava sıcaklığı değil; yüzey sıcaklığı"),
+    FeatureSpec("env_lst_std_c", "environment", "LST hücre içi sapma (ısıl doku)", "°C", *('Landsat 8/9 C2 L2 ST, Haz–Eyl 2023, bulut < %20 (Planetary Computer)', 'USGS kamu malı')),
+    FeatureSpec("env_lst_anomaly_c", "environment", "LST anomalisi (mahalle ortancasına göre)", "°C", *('Landsat 8/9 C2 L2 ST, Haz–Eyl 2023, bulut < %20 (Planetary Computer)', 'USGS kamu malı'),
+                note="Mahalle içi anomali; kırsal referanslı SUHII kent ölçeğinde hesaplanacak"),
+    FeatureSpec("env_ndvi_mean", "environment", "NDVI ortalaması (bitki örtüsü)", "-", *('Sentinel-2 L2A, en az bulutlu Haz–Eyl 2023 sahnesi (Earth Search)', 'Copernicus açık')),
+    FeatureSpec("env_ndvi_std", "environment", "NDVI hücre içi sapma (yeşil doku)", "-", *('Sentinel-2 L2A, en az bulutlu Haz–Eyl 2023 sahnesi (Earth Search)', 'Copernicus açık')),
+    FeatureSpec("env_ndbi_mean", "environment", "NDBI ortalaması (yapılaşma)", "-", *('Sentinel-2 L2A, en az bulutlu Haz–Eyl 2023 sahnesi (Earth Search)', 'Copernicus açık')),
+    FeatureSpec("env_elev_m", "environment", "Ortalama yükseklik", "m", *('Copernicus DEM GLO-30 (AWS)', 'Copernicus DEM lisansı')),
+    FeatureSpec("env_slope_deg", "environment", "Ortalama eğim", "°", *('Copernicus DEM GLO-30 (AWS)', 'Copernicus DEM lisansı')),
+    FeatureSpec("env_relief_m", "environment", "Yükseklik sapması (rölyef)", "m", *('Copernicus DEM GLO-30 (AWS)', 'Copernicus DEM lisansı')),
+    FeatureSpec("mob_orientation_entropy", "mobility", "Sokak yönelim entropisi", "nat", "OSM; Boeing 2019", "ODbL"),
+    FeatureSpec("mob_orientation_order", "mobility", "Sokak yönelim düzeni φ (1 = ızgara)", "0–1", "OSM; Boeing 2019", "ODbL"),
+    FeatureSpec("mob_circuity", "mobility", "Sokak dolambaçlılığı (yol/düz mesafe)", "-", "OSM", "ODbL"),
+    FeatureSpec("mob_deadend_share", "mobility", "Çıkmaz sokak payı", "-", "OSM", "ODbL"),
+    FeatureSpec("mob_streets_per_node", "mobility", "Düğüm başına sokak", "-", "OSM", "ODbL"),
+] + [
+    FeatureSpec(f"emb_pca_{i}", "embedding", f"Hücre imzası, {i}. bileşen (PCA)", "-", "Tüm G1 özellikleri, standartlaştırılmış", "türetilmiş",
+                note="Yorum için bileşen yükleri: Veri ve yöntem bölümü") for i in range(1, 6)
+] + [
     FeatureSpec("mob_walk800_pois", "mobility", "10 dk yürüme (800 m ağ) içinde POI", "adet", "OSM yaya ağı + POI; Dijkstra", "ODbL"),
     FeatureSpec("mob_walk800_daily_needs", "mobility", "10 dk yürümede günlük ihtiyaç POI'si", "adet", "OSM; aileler: yeme-içme, perakende, sağlık, eğitim, finans", "ODbL"),
     FeatureSpec("mob_walk800_daily_completeness", "mobility", "10 dk yürümede günlük ihtiyaç tamlığı (5 aile)", "0–1", "OSM ('15 dakika kenti' vekili)", "ODbL"),
@@ -125,8 +145,6 @@ _ACTIVE: List[FeatureSpec] = [
 ]
 
 _PLANNED: List[FeatureSpec] = [
-    FeatureSpec("img_s2_ndvi_mean", "imagery", "Sentinel-2 NDVI ortalaması", "-", "Copernicus Sentinel-2 L2A (10 m), Earth Search STAC", "Copernicus açık lisansı", "planned"),
-    FeatureSpec("img_s2_ndbi_mean", "imagery", "Sentinel-2 NDBI ortalaması (yapılaşma)", "-", "Copernicus Sentinel-2 L2A", "Copernicus açık lisansı", "planned"),
     FeatureSpec("img_albedo_mean", "imagery", "Yüzey albedosu (çatı ve zemin)", "-", "Sentinel-2 / Landsat 8-9 (USGS, kamu malı)", "açık", "planned"),
     FeatureSpec("img_emb_pca_1", "imagery", "Uydu gömme vektörü, 1. bileşen (64-B AlphaEarth ya da açık temel model)", "-",
                 "AlphaEarth Satellite Embedding (Earth Engine; lisans teyit) veya Clay/Prithvi + Sentinel-2", "teyit edilecek", "planned",
@@ -144,7 +162,6 @@ _PLANNED: List[FeatureSpec] = [
     FeatureSpec("demo_age_65plus_share", "demography", "65 yaş üstü payı", "-", "WorldPop yaş ve cinsiyet yapısı", "CC BY 4.0", "planned"),
     FeatureSpec("mob_ev_chargers", "mobility", "EV şarj noktası", "adet", "OSM amenity=charging_station", "ODbL", "planned"),
     FeatureSpec("env_green_share", "environment", "Yeşil alan payı", "-", "ESA WorldCover 10 m", "CC BY 4.0", "planned"),
-    FeatureSpec("env_slope_deg", "environment", "Eğim", "°", "Copernicus DEM GLO-30", "Copernicus lisansı", "planned"),
     FeatureSpec("clim_hdd", "climate", "Isıtma derece-gün", "°C·gün", "ERA5 (Open-Meteo veya PVGIS T2m)", "Copernicus lisansı", "planned"),
     FeatureSpec("clim_cdd", "climate", "Soğutma derece-gün", "°C·gün", "ERA5", "Copernicus lisansı", "planned"),
     FeatureSpec("energy_grid_substations", "energy", "Trafo merkezi yakınlığı", "m", "OSM power=substation", "ODbL", "planned"),

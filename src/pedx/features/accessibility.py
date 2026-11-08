@@ -126,3 +126,61 @@ def accessibility_features(G, cells: Iterable[str], pois: pd.DataFrame, stops: p
     out["mob_street_density_km_per_km2"] = street_km.reindex(cells).fillna(0.0) / area_km2
     out["mob_intersection_density_per_km2"] = icell.reindex(cells).fillna(0.0) / area_km2
     return out
+
+
+def network_complexity_features(payload: dict, G, cells, cell_area_ha: pd.Series, bins: int = 36) -> pd.DataFrame:
+    """Street-network order and complexity per H3 cell (Boeing 2019, Applied Network Science 4:67).
+
+    * orientation entropy H over 36 bearing bins (edges counted in both directions, length-weighted);
+      orientation order φ = 1 − ((H − H_g)/(H_max − H_g))², H_max = ln 36, H_g = ln 4 (perfect grid)
+    * circuity = OSM way polyline length / straight-line distance between its end points
+    * dead-end share and streets per node among non-trivial nodes (degree ≠ 2)
+    """
+    import h3
+
+    cells = list(cells)
+    res = h3.get_resolution(cells[0])
+    # --- bearings (length-weighted, both directions)
+    lat1, lon1, lat2, lon2, length = [], [], [], [], []
+    for a, b, d in G.edges(data="length"):
+        lat1.append(a[0]); lon1.append(a[1]); lat2.append(b[0]); lon2.append(b[1]); length.append(d)
+    lat1, lon1, lat2, lon2, length = map(np.asarray, (lat1, lon1, lat2, lon2, length))
+    p1, p2 = np.radians(lat1), np.radians(lat2)
+    dl = np.radians(lon2 - lon1)
+    brg = (np.degrees(np.arctan2(np.sin(dl) * np.cos(p2), np.cos(p1) * np.sin(p2) - np.sin(p1) * np.cos(p2) * np.cos(dl))) + 360) % 360
+    ecell = np.array([h3.latlng_to_cell((x1 + x2) / 2, (y1 + y2) / 2, res) for x1, y1, x2, y2 in zip(lat1, lon1, lat2, lon2)])
+    edges = pd.DataFrame({"cell": ecell, "b": brg, "w": length})
+    hmax, hg = np.log(bins), np.log(4)
+
+    def entropy(g):
+        b = np.concatenate([g["b"].to_numpy(), (g["b"].to_numpy() + 180) % 360])
+        w = np.concatenate([g["w"].to_numpy(), g["w"].to_numpy()])
+        # bins centred on 0°, 10°, ... (offset half a bin as in Boeing 2019)
+        hist, _ = np.histogram((b + 360 / bins / 2) % 360, bins=bins, range=(0, 360), weights=w)
+        p = hist[hist > 0] / hist.sum()
+        return float(-(p * np.log(p)).sum())
+
+    H = edges.groupby("cell").apply(entropy, include_groups=False)
+    # --- circuity per OSM way (assigned by way midpoint vertex)
+    rows = []
+    for el in payload.get("elements", []):
+        g = el.get("geometry")
+        if el.get("type") != "way" or not g or len(g) < 2:
+            continue
+        la = np.array([p["lat"] for p in g]); lo = np.array([p["lon"] for p in g])
+        L = float(_hav(la[:-1], lo[:-1], la[1:], lo[1:]).sum())
+        D = float(_hav(la[0], lo[0], la[-1], lo[-1]))
+        if D > 5:
+            m = len(g) // 2
+            rows.append((h3.latlng_to_cell(la[m], lo[m], res), L, D))
+    circ = pd.DataFrame(rows, columns=["cell", "L", "D"]).groupby("cell").sum()
+    # --- node topology (degree ≠ 2)
+    deg = pd.DataFrame([(h3.latlng_to_cell(n[0], n[1], res), d) for n, d in G.degree() if d != 2], columns=["cell", "deg"])
+    gd = deg.groupby("cell")["deg"]
+    out = pd.DataFrame(index=pd.Index(cells, name="cell"))
+    out["mob_orientation_entropy"] = H.reindex(cells)
+    out["mob_orientation_order"] = 1 - ((out["mob_orientation_entropy"] - hg) / (hmax - hg)) ** 2
+    out["mob_circuity"] = (circ["L"] / circ["D"]).reindex(cells)
+    out["mob_deadend_share"] = gd.apply(lambda s: float((s == 1).mean())).reindex(cells)
+    out["mob_streets_per_node"] = gd.mean().reindex(cells)
+    return out
