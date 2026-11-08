@@ -60,7 +60,9 @@ PVGIS saatlik PV ────┤   saatlik G, D     ├─► graf: paylaşım o
 | Bileşen | Durum |
 | --- | --- |
 | Küresel veri hattı (OSM, GHS-POP, UNSD, PVGIS) | ✅ Caferağa'da çalışıyor |
-| Web demo v0.1 (yıllık) | ✅ |
+| Web demo v0.2: 41 özellikli H3 deposu (enerji, yapı, demografi, POI), katalog, ilişkiler | ✅ |
+| Sistem mimarisi ve karar motoru tasarımı (docs/13) | ✅ tasarım; uygulama S4–S8 |
+| Yerel kurulum (`make`, Docker) | ✅ |
 | G2: nüfus (+%2,7), kişi başı tüketim | ✅ ilk iki karşılaştırma |
 | Graf-XAI ve tersine motor (kod ve testler) | ✅ kod hazır, **gerçek veride saatlik talep bekliyor** |
 | **Saatlik konut talep şekli (küresel ve açık)** | ❌ **kritik eksik**: karar S1'de |
@@ -76,6 +78,10 @@ PVGIS saatlik PV ────┤   saatlik G, D     ├─► graf: paylaşım o
 5. Graf ve tersine analiz sonuçları (Makale B).
 6. Makale A (tam G1/G2, birkaç mahalle).
 7. Tez yazımı.
+
+## Platform hedefi (docs/13)
+
+Tezin üç katkısı, "A noktasında PED olur mu, neden olmaz, ne yapılırsa olur, değer mi?" sorularını yanıtlayan **karar motorunun** çekirdeğidir. Benzerlik modeli (PU) ve ROI, platformun ürün katmanıdır. Tezde katkı 1'in uzantısı ve uygulama örneği olarak yer alır.
 
 ## Belge haritası
 

@@ -14,6 +14,8 @@ Bu klasör, `pedpy` kütüphanesi ve ona bağlı yüksek lisans tezinin **planla
 | [08_tersine_analiz.md](08_tersine_analiz.md) | Tersine (reçeteleyici) analiz: hedefler, paylaşılan kodun incelemesi, uygulanan matematik, doğrulama | Tersine modül değiştikçe |
 | *(arşiv)* [09_v0_sunum.md](09_v0_sunum.md) | **Hande Hoca'ya v0 sunumu**: yapılanlar, ilk sonuçlar, dürüst bulgular, istenen kararlar | Her sürümde |
 | [10_sprint_plani.md](10_sprint_plani.md) | 2 haftalık sprintler (Kasım 2026 – Haziran 2027), yayın planı, görüşme notları | Her sprint sonunda |
+| [13_sistem_mimarisi.md](13_sistem_mimarisi.md) | **Sistem mimarisi**: gereksinimler, L0–L6 katmanları, veri sözleşmesi, karar motoru, sosyal katman, ROI | Mimari değiştikçe |
+| [LOCAL_SETUP.md](LOCAL_SETUP.md) | Yerelde kurulum ve çalıştırma | — |
 | [11_veri_kaynaklari.md](11_veri_kaynaklari.md) | **Veri kaynağı kütüğü**: her katmanın kaynağı, lisansı, rolü (G1 veya G2) ve gerekçesi; araştırma günlüğü; eksikler | Her yeni veri katmanında |
 | [12_onceki_calismalar.md](12_onceki_calismalar.md) | Tasarım projesi (2024) ve YL önerisinin (2025) değerlendirmesi; teze bağlanması | — |
 | [07_kirilganlik_analizi.md](07_kirilganlik_analizi.md) | Kırmızı takım incelemesi: kırılgan, anlamsız ve değersiz bileşenler; tut, düzelt, bırak kararları; "kült araç" konumlandırması | Her büyük tasarım değişikliğinde |

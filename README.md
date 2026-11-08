@@ -18,7 +18,11 @@ pip install -e ".[dev]"
 
 Ek paket grupları: `h3` (altıgen hücreler), `diff` (JAX ile türevlenebilir tersine analiz), `mcdm` (SciPy ile BWM ve ağırlık kararlılığı).
 
-## Web demo (v0.1): yalnızca küresel açık veri
+## Yerelde çalıştırma
+
+`make serve` ile hazır demoyu açın; her şeyi yeniden üretmek için `make install data build`. Ayrıntılar: [`docs/LOCAL_SETUP.md`](docs/LOCAL_SETUP.md). Mimari: [`docs/13_sistem_mimarisi.md`](docs/13_sistem_mimarisi.md).
+
+## Web demo (v0.2): yalnızca küresel açık veri
 
 ```bash
 python examples/build_demo_caferaga.py

@@ -48,24 +48,21 @@ svg text{fill:var(--muted);font-size:10px}
       <button role="tab" data-tab="ozet" aria-selected="true">Özet</button>
       <button role="tab" data-tab="yontem">Yöntem</button>
       <button role="tab" data-tab="kaynak">Veri kaynakları</button>
+      <button role="tab" data-tab="iliski">İlişkiler</button>
+      <button role="tab" data-tab="katalog">Özellik kataloğu</button>
       <button role="tab" data-tab="dogrulama">Doğrulama (G2)</button>
       <button role="tab" data-tab="eksik">Eksikler</button>
     </nav>
     <section class="tab active" id="ozet">
       <h3>Harita katmanı</h3>
-      <select id="metric" aria-label="Gösterge">
-        <option value="balance">Yıllık konut elektriği dengesi (PV / talep)</option>
-        <option value="roof_share_needed">Denge = 1 için gereken çatı payı</option>
-        <option value="population">Nüfus (GHS-POP 2020)</option>
-        <option value="pv_kwh">Yıllık PV potansiyeli (kWh)</option>
-        <option value="demand_res_kwh">Yıllık konut elektriği talebi (kWh)</option>
-      </select>
+      <select id="metric" aria-label="Gösterge"></select>
+      <p class="note" id="metricnote"></p>
       <h2>Mahalle toplamı</h2>
       <div class="cards" id="cards"></div>
       <p class="note" id="balnote"></p>
       <h2>PV üretiminin aylara dağılımı (PVGIS 2023, kWh/kWp)</h2>
       <div id="chart"></div>
-      <h2>Seçilen hücre</h2>
+      <h2>Seçilen hücre (tüm özellikler)</h2>
       <div id="cellinfo" class="note">Ayrıntı için haritada bir altıgene tıklayın.</div>
     </section>
     <section class="tab" id="yontem">
@@ -84,6 +81,8 @@ svg text{fill:var(--muted);font-size:10px}
       <p class="note">Bu sürüm yalnızca yıllık göstergeleri içeriyor. Saatlik göstergeler (öz-yeterlilik, tepe rahatlaması, Shapley, batarya), küresel ve açık bir saatlik talep kaynağı seçilince açılacak (bkz. Eksikler).</p>
     </section>
     <section class="tab" id="kaynak"><div id="sources"></div></section>
+    <section class="tab" id="iliski"><div id="assoc"></div></section>
+    <section class="tab" id="katalog"><div id="catalog"></div></section>
     <section class="tab" id="dogrulama"><div id="validation"></div></section>
     <section class="tab" id="eksik"><div id="gaps"></div></section>
   </aside>

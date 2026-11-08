@@ -152,6 +152,20 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - NLP, GNN, Geo-AI ve Smooth-MARCOS kapsam dışı.
 - **Durum:** Kabul
 
+### K-029: H3 özellik deposu ve veri sözleşmesi
+- **Karar:** Altıgen başına bütün açık veri katmanları kayıtlı özellikler olarak tutuluyor (`pedx.features`). Kayıtsız ya da planlanan sütun dışa aktarılamıyor. Aileler: enerji, yapılı çevre, demografi, POI, ekonomi, ulaşım, çevre, iklim, sosyal. "En az alakalı veri bile" katalogda yer alabilir; ancak modelleme gruplu doğrulama ve çoklu test kontrolüyle yapılır (docs/13 §6).
+- **Durum:** Kabul
+
+### K-030: Karar motoru: "olur mu, neden olmaz, ne yapılırsa olur, değer mi"
+- **Kaynak:** Kullanıcı hedefi (2026-11-08): bir A noktasında PED projesi olup olmayacağını yorumlamak, olmuyorsa nedenini ve ne yapılırsa olacağını küresel ölçekte çıkarmak, kentsel dönüşüm ROI hesaplayıcısı gibi çalışmak.
+- **Karar:** ① fiziksel fizibilite, ② PED benzerliği (PU öğrenme, PED Veritabanı), ③ ROI. Bunlar dört bölgeli bir yorum matrisinde birleşiyor. Karşı-olgusal analiz yalnızca eyleme dönük özelliklerde yapılıyor (docs/13 §5, §8).
+- **Durum:** Kabul (S4–S8 uygulama)
+
+### K-031: Google yorumları kullanılmayacak; açık sosyal kaynaklar araştırılacak
+- **Gerekçe:** Google Maps Platform şartları içeriğin kazınmasını ve kalıcı depolanmasını yasaklıyor; veri açık lisanslı değil; kişisel veri riski var (KVKK/GDPR).
+- **Karar:** GDELT, WVS/EVS, Mangrove, Wikipedia/Wikivoyage ve OSM etiketleri lisanslarıyla birlikte S3'te araştırılacak (docs/13 §7).
+- **Durum:** Önerildi
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
