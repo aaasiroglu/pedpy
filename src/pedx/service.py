@@ -77,7 +77,7 @@ def _cached_json(path: Path, make: Callable[[], dict]) -> dict:
 
 def country_of(lat: float, lon: float, cache: Path = DEFAULT_CACHE) -> dict:
     """ISO codes and name of the country containing the point (OSM admin_level=2 via Overpass is_in)."""
-    key = f"{round(lat, 2)}_{round(lon, 2)}"
+    key = f"{round(lat, 1)}_{round(lon, 1)}"  # ~10 km cache cells; border-adjacent points may need a finer key
 
     def make():
         q = f'[out:json][timeout:60];is_in({lat},{lon})->.a;rel(pivot.a)["admin_level"="2"];out tags;'

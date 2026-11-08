@@ -32,6 +32,16 @@
   const valTable = () => "<table><tr><th>Gösterge</th><th class='num'>G1 açık veri</th><th class='num'>G2 yerel</th><th class='num'>Fark</th></tr>" +
     S.validation.map(v => `<tr><td>${v.item} <span class="note">(${v.unit})</span><div class="note">G1: ${v.g1_source}<br>G2: ${v.g2_source}</div></td><td class="num">${nf(v.global_open_G1)}</td><td class="num">${nf(v.local_G2)}</td><td class="num">${nf(v.rel_diff * 100, 1)}%</td></tr>`).join("") + "</table>";
   $("pres-val").innerHTML = valTable();
+  (function pedVal() {
+    const V = P.ped_validation || {}, el = $("pedval");
+    if (!el) return;
+    if (!V.rows) { el.innerHTML = "<p class='note'>Henüz çalıştırılmadı: python scripts/validate_ped_sites.py</p>"; return; }
+    const s = V.summary, dev = { brownfield: "kahverengi alan", new: "yeni yapım", existing: "mevcut stok" };
+    el.innerHTML = `<p><b>Havuzlanmış AUC: ${nf(s.auc_pooled, 2)}</b> · ${s.sites_above_median}/${s.n_sites} saha kontrol medyanının üstünde · işaret testi p = ${nf(s.sign_test_p_one_sided, 3)}</p>` +
+      "<table><tr><th>Saha</th><th>Program</th><th>Tip</th><th class='num'>Saha dengesi</th><th class='num'>Kontrol medyanı (n)</th><th class='num'>Yüzdelik</th></tr>" +
+      V.rows.map(r => `<tr><td>${r.site} <span class="note">${r.city} · OSM ${r.osm}</span></td><td class="note">${r.programme}</td><td>${dev[r.development] || r.development}</td>
+        <td class="num">${nf(r.case_balance, 2)}</td><td class="num">${nf(r.controls_median_balance, 2)} (${r.controls_n})</td><td class="num">${nf(r.percentile, 2)}</td></tr>`).join("") + "</table>";
+  })();
 
   // ------------------------------------------------------------------ data & method view
   $("src").innerHTML = "<table><tr><th>Katman</th><th>Kaynak</th><th>Lisans</th><th>Rol</th></tr>" + P.sources.map(s =>

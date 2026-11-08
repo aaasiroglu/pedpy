@@ -14,6 +14,7 @@ import h3
 
 W = Path(__file__).resolve().parent
 D = W / "data"
+ROOT = W.parent
 
 SOURCES = [
     ["Mahalle sınırı, binalar, POI, yaya ağı, duraklar", "OpenStreetMap (Overpass API)", "ODbL 1.0", "G1"],
@@ -59,6 +60,17 @@ def _round_geo(gj: dict, nd: int = 5) -> dict:
     return gj
 
 
+def _ped_validation() -> dict:
+    """Real-PED case–control results (scripts/validate_ped_sites.py), if they have been run."""
+    v = ROOT / "data" / "validation"
+    if not (v / "ped_validation.csv").exists():
+        return {}
+    import pandas as pd
+
+    rows = pd.read_csv(v / "ped_validation.csv").replace({float("nan"): None}).to_dict(orient="records")
+    return {"rows": rows, "summary": json.loads((v / "ped_validation_summary.json").read_text())}
+
+
 def main() -> None:
     cells = json.loads((D / "cells.geojson").read_text())
     summary = json.loads((D / "summary.json").read_text())
@@ -82,7 +94,7 @@ def main() -> None:
     adj = {c: sorted(n for n in h3.grid_disk(c, 1) if n != c and n in present) for c in ids}
     district = {"n": len(ids), "fp": sum(a["fp"] for a in agg.values()), "pop": sum(a["pop"] for a in agg.values())}
     bundle = {
-        "cells": cells, "summary": summary, "agg": agg, "adj": adj, "district": district,
+        "ped_validation": _ped_validation(), "cells": cells, "summary": summary, "agg": agg, "adj": adj, "district": district,
         "boundary": json.loads((D / "boundary.geojson").read_text()),
         "buildings": _round_geo(json.loads((D / "buildings.geojson").read_text())),
         "streets": json.loads((D / "streets.geojson").read_text()),
