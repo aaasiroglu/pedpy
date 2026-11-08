@@ -44,6 +44,8 @@ LABELS_TR = {
     "env_slope_deg": "Eğim", "env_relief_m": "Rölyef", "ov_floors_coverage": "Kat bilgisi tamlığı", "ov_nonosm_share": "OSM dışı bina payı",
     "ov_places_categories": "Mekân çeşitliliği", "env_wc_green_share": "Yeşil alan payı", "env_wc_water_share": "Su yüzeyi payı",
     "transit_per_km2": "Toplu taşıma yoğunluğu", "grid_assets_per_km2": "Şebeke varlığı yoğunluğu", "ev_chargers_per_km2": "EV şarj yoğunluğu",
+    "ov_bld_n": "Bina sayısı", "ov_gfa_m2": "Brüt kat alanı (bilinen)", "gfa_per_capita_m2": "Kişi başı kat alanı", "vul_pop_hrsl": "Nüfus",
+    "vul_elderly60_n": "60+ sayısı", "vul_children0_5_n": "0–5 yaş sayısı",
 }
 
 
@@ -93,6 +95,8 @@ def candidate_discs(F: pd.DataFrame, k: int = 2, centres: Optional[List[str]] = 
     out["places_per_1000"] = 1000 * out.get("ov_places_n", 0) / Pn
     out["elderly_share"] = out.get("vul_elderly60_n", 0) / Pn
     out["children_share"] = out.get("vul_children0_5_n", 0) / Pn
+    if "ov_gfa_m2" in out:
+        out["gfa_per_capita_m2"] = out["ov_gfa_m2"] / Pn
     km2 = area_ha / 100
     for c, nm in (("ov_transit_stops_n", "transit_per_km2"), ("ov_grid_assets_n", "grid_assets_per_km2"), ("ov_ev_chargers_n", "ev_chargers_per_km2")):
         if c in out:
@@ -104,10 +108,10 @@ def candidate_discs(F: pd.DataFrame, k: int = 2, centres: Optional[List[str]] = 
     return out
 
 
-def city_stats(C: pd.DataFrame) -> Dict[str, Dict[str, float]]:
+def city_stats(C: pd.DataFrame, features: Optional[List[str]] = None) -> Dict[str, Dict[str, float]]:
     """Mean, sd and median of every score feature over the inhabited candidate sites of one city."""
     st = {}
-    for f in SCORE_FEATURES:
+    for f in (features or SCORE_FEATURES):
         v = C[f].astype(float) if f in C else pd.Series(dtype=float)
         v = v[np.isfinite(v)]
         sd = float(v.std(ddof=0)) if len(v) > 1 else 1.0
@@ -115,9 +119,9 @@ def city_stats(C: pd.DataFrame) -> Dict[str, Dict[str, float]]:
     return st
 
 
-def _z(x: Dict[str, float], st: Dict[str, Dict[str, float]]) -> np.ndarray:
+def _z(x: Dict[str, float], st: Dict[str, Dict[str, float]], features: Optional[List[str]] = None) -> np.ndarray:
     z = []
-    for f in SCORE_FEATURES:
+    for f in (features or SCORE_FEATURES):
         v = x.get(f, np.nan)
         v = st[f]["median"] if v is None or not np.isfinite(v) else v
         z.append((v - st[f]["mean"]) / st[f]["sd"])
@@ -144,6 +148,20 @@ class PEDScore:
                                           "intercept": self.intercept, "labels_tr": LABELS_TR, "meta": self.meta}, indent=1, default=str))
 
     @classmethod
+    def from_weights(cls, features: List[str], weights: np.ndarray, direction: np.ndarray, Z: np.ndarray, y: np.ndarray,
+                     **meta) -> "PEDScore":
+        """MCDM form: S = 100·σ(a · Σ_j w_j dir_j z_j + b). Weights from the criteria (sum 1); a, b by Platt scaling
+        (balanced) — a monotone calibration, so ranking = weighted sum and contributions stay exact."""
+        from sklearn.linear_model import LogisticRegression
+
+        wsm = Z @ (weights * direction)
+        m = LogisticRegression(C=1e6, class_weight="balanced", max_iter=5000).fit(wsm.reshape(-1, 1), y)
+        a, b = float(m.coef_[0][0]), float(m.intercept_[0])
+        return cls(a * weights * direction, b, list(features),
+                   meta=dict(meta, form="weighted sum + Platt", weights=[float(w) for w in weights],
+                             direction=[float(d) for d in direction], platt_a=a, platt_b=b))
+
+    @classmethod
     def from_json(cls, path: Path) -> "PEDScore":
         d = json.loads(Path(path).read_text())
         return cls(np.asarray(d["coef"]), float(d["intercept"]), d["features"], d.get("meta", {}))
@@ -151,7 +169,7 @@ class PEDScore:
     # ------------------------------------------------------------ forward
     def explain(self, x: Dict[str, float], st: Dict[str, Dict[str, float]]) -> Dict[str, object]:
         """Score, exact logit contributions and gradient for one site."""
-        z = _z(x, st)
+        z = _z(x, st, self.features)
         contrib = self.coef * z
         logit = self.intercept + float(contrib.sum())
         p = 1 / (1 + math.exp(-logit))

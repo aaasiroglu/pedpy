@@ -321,6 +321,33 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Not:** Skor dengeli sınıf ağırlığıyla eğitildi; olasılık değil "PED benzerliği"dir. Bu yüzden kent içi yüzdelik de birlikte veriliyor.
 - **Durum:** Kabul
 
+### K-050: Bütün kaynakların PED ilişkisi, ağırlıklandırma şemaları, SHAP; PED puanı ÇKKDS biçiminde
+- **Analiz** (`scripts/feature_analysis.py`):
+  - 8 kaynak ailesinden 41 özellik; 16 gerçek PED ve kent başına 30 yerleşik kontrol.
+  - İlişki: kent içinde etki büyüklüğü d, Wilcoxon testi ve BH-FDR.
+  - Özellikler arası Spearman matrisi.
+  - SHAP: doğrusal model için kesin, gradyan artırma için TreeSHAP.
+- **Ağırlık şemaları** (kent dışarıda AUC):
+
+  | Şema | AUC |
+  |---|---|
+  | Eşit ağırlık | 0,89 |
+  | CRITIC | 0,87 |
+  | Entropi | 0,87 |
+  | Kanıt (\|d\|, q < 0,10) | 0,91 |
+  | Öğrenilmiş lojistik | 0,82 |
+  | Gradyan artırma | 0,85 |
+  | **Temiz kanıt** | **0,79** |
+
+  41 kriter ve 16 vakayla şeffaf ÇKKDS ağırlıkları, makine öğrenmesi modelleri kadar ya da daha iyi ayırıyor. Bu, yöneylem araştırması tarafının bulgusu.
+- **Sızıntı temizliği:** PED projesinin sonucu olabilecek kriterler (çıplak alan, bisiklet, EV şarj, jeneratör) ile haritalama tamlığının izi olan kat alanı (GFA) karar puanından çıkarıldı. Lever'a bağlı tekrarlar da çıkarıldı (talep, FV, ham denge). AUC 0,91'den 0,79–0,80'e düştü. **Savunulabilir sayı budur.**
+- **PED puanı (atlas):** 5 temiz kriter: enerji dengesi 0,27 · kişi başı taban alanı 0,27 · kişi başı mekân 0,16 · bina sayısı (−) 0,16 · yeşil payı (−) 0,15. Puan = 100·σ(a·Σ w·yön·z + b); Platt kalibrasyonu, kesin katkılar, kapalı biçim tersine analiz (K-049 ile aynı).
+- **Caferağa'nın modele duyarlılığı:**
+  - Kriter puanı 40 (İstanbul %74), hedef 70 enerji kaldıraçlarıyla ulaşılabilir.
+  - 20 özellikli lojistik model 2 (%28) veriyor; yapı örtüsü ve yaşlı payını cezalandırıyor, ama bunlar FDR sonrası anlamlı değil.
+  - Tez iki sonucu da raporlar. Karar puanı, önceden belirtilmiş ilkeye (yalnız anlamlı, temiz kriterler) göre seçildi.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

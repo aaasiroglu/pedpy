@@ -115,7 +115,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <header class="bar">
   <div class="brand"><b>pedx</b><span>Küresel, açık veriye dayalı PED karar destek sistemi</span></div>
   <nav class="views" aria-label="Bölümler">
-    <a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
+    <a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
   </nav>
 </header>
 
@@ -225,8 +225,8 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div class="cell"><h3>Bulgu 1 · Sistem gerçek PED'leri tanıyor</h3>Fizik çekirdeği tek başına 16 gerçek PED'in 16'sını kendi kentindeki yerleşik alanların medyanının üstüne koyuyor (AUC 0,82; p = 0,00002). Nüfus yoğunluğu eşlendiğinde de etki sürüyor (0,79).</div>
       <div class="cell"><h3>Bulgu 2 · Daha çok veri, kesinlik getirmiyor</h3>Veri aileleri eklendikçe AUC 0,82–0,88 arasında kalıyor ve güven aralıkları örtüşüyor. 16 vakayla 20 özellikte model aşırı öğrenmeye başlıyor. Belirsizliği daraltan şey veri katmanı değil, öğrenilecek gerçek PED sayısı.</div>
       <div class="cell"><h3>Bulgu 3 · Gerçek bir PED neye benziyor?</h3>Kentinin ortalamasına göre daha düşük yapı örtüsü, kişi başı daha çok çatı, daha yüksek enerji dengesi, daha az yeşil, daha çok su yüzeyi. Tipik örnek: kıyıda dönüşen liman ve sanayi alanları.</div>
-      <div class="cell"><h3>Bulgu 5 · Toplam PED skoru</h3>Gerçek PED'lerden öğrenilen, kesin ayrışan ve kapalı biçimde tersine çevrilebilen 0–100 skoru. Kent dışarıda doğrulamada AUC 0,88 (16/16 saha). Her sahada hangi özelliğin ne kadar katkı verdiği ve hedef skora ulaşmak için gereken en küçük çatı, verim ve talep değişimi hesaplanır. MVP → Küresel atlas.</div>
-      <div class="cell"><h3>Bulgu 4 · Caferağa</h3>Enerji dengesine göre İstanbul'un %73'ünden iyi; gerçek PED imzasına göre ortalamada (%43). Fiziksel olarak elverişli, ama mevcut PED'lere benzemiyor: yoğun tarihî dokuda bir PED yeni bir proje türü olur.</div>
+      <div class="cell"><h3>Bulgu 5 · Kriter ağırlıklı PED puanı (ÇKKDS)</h3>8 kaynak ailesinden 41 kriter sınandı. Sızıntı temizlendikten sonra 5 kriter ağırlık taşıyor: enerji dengesi (0,27), kişi başı çatı tabanı (0,27), kişi başı mekân (0,16), daha az bina (0,16), daha az yeşil (0,15). Kent dışarıda AUC 0,79–0,80. Kriterler ve SHAP sayfasında kaynak kaynak.</div>
+      <div class="cell"><h3>Bulgu 4 · Caferağa: sonuç modele duyarlı</h3>Kriter ağırlıklı PED puanı 40/100, İstanbul içinde %74'lük dilim; hedef 70 için çatı %50, verim %25 ve talep −%26 yetiyor. 20 özellikli lojistik model ise 2/100 veriyor, çünkü yapı örtüsünü ve yaşlı payını cezalandırıyor; bu iki özellik çoklu test sonrası anlamlı değil. Tez iki sonucu da raporlar.</div>
     </div>
     <p class="note">Veri aileleri sırayla eklenir; her adımda bir kent dışarıda bırakılarak AUC hesaplanır (gerçek bir PED'in kendi kentindeki yerleşik bir kontrolden yüksek puan alma olasılığı). Gölge: sahalar üzerinden bootstrap ile %90 aralık. Eğri düzleşiyorsa ek veri kararı artık değiştirmiyor demektir; aralığın genişliği ise bu örneklemle indirgenemeyen belirsizliktir.</p>
   </div>
@@ -364,6 +364,28 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div id="liveout"></div>
     </div>
   </aside>
+ </div>
+</section>
+
+<!-- ================================================================ KRİTERLER -->
+<section class="view" id="v-kriter" hidden>
+ <div class="doc">
+  <div class="sheet"><div class="eyebrow">Bütün veri kaynakları × gerçek PED'ler</div><h2 style="margin-top:6px">Hangi veri PED projelerini etkiliyor ve nasıl ağırlıklandırılmalı?</h2>
+    <p>Varsayım: veri gölündeki her katman PED projelerini etkileyebilir. 8 kaynak ailesinden 41 özellik, 16 gerçek PED sahası ve kent başına 30 yerleşik kontrolle sınandı.</p>
+    <ol>
+      <li><b>İlişki:</b> kent içinde etki büyüklüğü (d), 16 kentte Wilcoxon testi, çoklu test düzeltmesi (BH q).</li>
+      <li><b>Ağırlık:</b> altı şema, her biri bir kent dışarıda bırakılarak karşılaştırıldı.</li>
+      <li><b>SHAP:</b> doğrusal model için kesin, gradyan artırma için TreeSHAP.</li>
+    </ol>
+    <div class="tbl" id="kr-schemes"></div>
+    <div class="grid2" style="margin-top:10px">
+      <div class="cell"><h3>Sızıntı temizliği</h3>Çıplak alan, bisiklet ve EV şarj gibi bazı özellikler PED projesinin <b>sonucu</b> olabilir; 2021–23 görüntüsü inşaat hâlindeki sahayı görüyor. Kat alanı ise yalnızca katı haritalanmış binalardan hesaplanıyor; yeni sahalar daha ayrıntılı haritalanıyor. Bunlar çıkarılınca AUC 0,91'den 0,79–0,80'e düşüyor. <b>Savunulabilir sayı budur.</b></div>
+      <div class="cell"><h3>PED puanı nasıl belirlendi?</h3>Kriter ağırlığı = etki büyüklüğü |d|, yalnızca q &lt; 0,10 olan temiz kriterler için. Puan = 100·σ(a·Σ w·yön·z + b). Kalibrasyon tek boyutlu olduğu için sıralama ağırlıklı toplama eşittir ve katkılar kesindir. Bu bir ÇKKDS'dir: ağırlıklar veriden gelir, istenirse uzman ağırlıklarıyla (BWM) birleştirilebilir.</div>
+    </div>
+  </div>
+  <div class="sheet"><h2>Kaynak ailelerinin payı</h2><div id="kr-fam"></div></div>
+  <div id="kr-pages"></div>
+  <div class="sheet"><h2>Özellikler arası ilişki (Spearman, kontroller)</h2><p class="note">Koyu kırmızı ve mavi kareler aynı bilgiyi taşıyan özellikleri gösterir. CRITIC bu tekrarı cezalandırır.</p><div id="kr-corr" style="overflow-x:auto"></div></div>
  </div>
 </section>
 

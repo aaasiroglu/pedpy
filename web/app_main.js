@@ -11,7 +11,7 @@
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
   // ------------------------------------------------------------------ routing
-  const VIEWS = ["sunum", "mimari", "tez", "mvp", "veri", "kaynakca"];
+  const VIEWS = ["sunum", "mimari", "tez", "mvp", "kriter", "veri", "kaynakca"];
   let mapReady = false;
   function route() {
     const h = (location.hash || "#sunum").slice(1);
@@ -73,6 +73,40 @@
     $("pres-data").innerHTML = "<table><tr><th>Tema</th><th>Veri</th><th>Çözünürlük</th><th>Lisans</th><th>Kullanım</th><th>Durum</th></tr>" +
       rows.map(d => `<tr><td>${TH[d.theme] || d.theme}</td><td>${d.provider}</td><td class="note">${d.resolution}</td><td class="note">${d.license}</td><td class="note">${d.pedx_use}</td><td>${B[d.status]}</td></tr>`).join("") +
       "</table><p class='note'>Planlı, bağlayıcısı hazır ve reddedilen veri setleri: Mimari → Veri gölü kataloğu.</p>";
+  })();
+
+  // ---------- criteria & SHAP view (K-050): source-by-source pages
+  (function criteria() {
+    const FA = P.features_analysis;
+    if (!FA || !$("kr-schemes")) return;
+    $("kr-schemes").innerHTML = "<table><tr><th>Ağırlıklandırma şeması</th><th class='num'>AUC (kent dışarıda)</th><th class='num'>Medyan üstü saha</th></tr>" +
+      FA.schemes.map(r => `<tr><td>${r.scheme}${r.scheme.startsWith("Kanıt, temiz") ? " <span class='badge ok'>PED puanı</span>" : ""}</td><td class="num">${nf(r.auc_loco, 3)}</td><td class="num">${r.sites_above_half}/${FA.n_sites}</td></tr>`).join("") + "</table>";
+    const fam = FA.family_summary.slice().sort((a, b) => b.shap_tree_share - a.shap_tree_share);
+    $("kr-fam").innerHTML = `<div class="bars">` + fam.map(f => `<div class="row" style="grid-template-columns:260px 1fr 60px"><span>${f.family}</span><div class="track"><div class="fill" style="left:0;width:${100 * f.shap_tree_share / fam[0].shap_tree_share}%;background:var(--geo)"></div></div><span class="mono">%${nf(100 * f.shap_tree_share, 0)}</span></div>`).join("") +
+      `</div><p class="note">Ağaç SHAP önem payı (ortalama |SHAP| toplamı). Yanında: anlamlı kriter sayısı (q &lt; 0,10): ${fam.map(f => `${f.family.split(" (")[0]} ${f.n_q10}/${f.n}`).join(" · ")}.</p>`;
+    const byFam = {};
+    FA.features.forEach(f => (byFam[f.family] = byFam[f.family] || []).push(f));
+    const wkey = "w_Kanıt, temiz";
+    const mx = Math.max(...FA.features.map(f => Math.max(Math.abs(f.ci05), Math.abs(f.ci95))));
+    $("kr-pages").innerHTML = Object.entries(byFam).map(([fname, fs], k) => `<div class="sheet"><h2><span class="no">${k + 1}</span>${fname}</h2>
+      <div class="tbl"><table><tr><th>Özellik</th><th style="min-width:180px">Etki d (%90 aralık)</th><th class="num">q</th><th class="num">SHAP (ağaç)</th><th class="num">Ağırlık</th><th>Not</th></tr>` +
+      fs.sort((a, b) => a.q_bh - b.q_bh).map(f => {
+        const L = 50 + 50 * f.ci05 / mx, R = 50 + 50 * f.ci95 / mx, C = 50 + 50 * f.effect_d / mx;
+        const note = f.suspect_consequence ? "<span class='badge warn'>sonuç şüpheli</span>" : (FA.clean_features.includes(f.feature) ? "" : "<span class='badge'>tekrar</span>");
+        return `<tr><td>${f.label} <span class="note mono">${f.feature}</span></td>
+          <td><svg viewBox="0 0 200 16" width="180" height="16" role="img" aria-label="etki"><line x1="100" y1="0" x2="100" y2="16" stroke="var(--muted)" stroke-dasharray="2 2"/>
+            <line x1="${2 * L}" y1="8" x2="${2 * R}" y2="8" stroke="${f.q_bh < 0.1 ? (f.effect_d > 0 ? "var(--ok)" : "var(--bad)") : "var(--muted)"}" stroke-width="3"/>
+            <circle cx="${2 * C}" cy="8" r="4" fill="${f.q_bh < 0.1 ? (f.effect_d > 0 ? "var(--ok)" : "var(--bad)") : "var(--muted)"}"/></svg> <span class="mono">${f.effect_d >= 0 ? "+" : ""}${nf(f.effect_d, 2)}</span></td>
+          <td class="num">${nf(f.q_bh, 3)}</td><td class="num">${nf(f.shap_tree_mean_abs, 2)}</td><td class="num">${f[wkey] > 0 ? nf(f[wkey], 3) : "—"}</td><td>${note}</td></tr>`;
+      }).join("") + "</table></div><p class='note'>Yeşil: gerçek PED'lerde anlamlı biçimde yüksek; kırmızı: anlamlı biçimde düşük; gri: anlamlı değil (q ≥ 0,10). Ağırlık: PED puanındaki kriter ağırlığı.</p></div>").join("");
+    const F = FA.corr.features, R = FA.corr.rho, n = F.length, cs = 11, off = 150;
+    let svg = `<svg viewBox="0 0 ${off + n * cs} ${off + n * cs}" width="${off + n * cs}" role="img" aria-label="Özellik korelasyon matrisi">`;
+    const lab = f => (FA.features.find(x => x.feature === f) || {}).label || f;
+    F.forEach((f, i) => { svg += `<text x="${off - 4}" y="${off + i * cs + 8}" font-size="8" text-anchor="end" fill="var(--ink)">${lab(f)}</text>
+      <text transform="translate(${off + i * cs + 8},${off - 4}) rotate(-60)" font-size="8" fill="var(--ink)">${lab(f)}</text>`; });
+    R.forEach((row, i) => row.forEach((v, j) => { const a = Math.min(1, Math.abs(v));
+      svg += `<rect x="${off + j * cs}" y="${off + i * cs}" width="${cs - 1}" height="${cs - 1}" fill="${v >= 0 ? "#b2182b" : "#2166ac"}" fill-opacity="${a}"><title>${lab(F[i])} × ${lab(F[j])}: ${nf(v, 2)}</title></rect>`; }));
+    $("kr-corr").innerHTML = svg + "</svg>";
   })();
 
   // ---------- presentation: data-scaling curve (value of information)

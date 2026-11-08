@@ -19,7 +19,9 @@ import h3
 import numpy as np
 import pandas as pd
 
-from pedx.score import LABELS_TR, SCORE_FEATURES, PEDScore, _z, candidate_discs, city_stats
+from scipy.stats import wilcoxon
+
+from pedx.score import LABELS_TR, PEDScore, _z, candidate_discs, city_stats
 
 ROOT = Path(__file__).resolve().parents[1]
 VAL = ROOT / "data" / "validation"
@@ -35,34 +37,62 @@ def main():
     sites = json.loads((VAL / "ped_sites.json").read_text())
     cities = [{"key": slug(s["site"]), "site": s["site"], "city": s["city"], "lat": s["lat"], "lon": s["lon"], "osm": s["osm"], "is_ped": True} for s in sites]
     cities.append({"key": "caferaa_istanbul", "site": "Caferağa", "city": "İstanbul", "lat": 40.9857, "lon": 29.0245, "osm": "relation/9441032", "is_ped": False})
+    FA = json.loads((VAL / "feature_analysis.json").read_text())  # scripts/feature_analysis.py
+    FEATS = FA["clean_features"]
     stats, grids = {}, {}
     for c in cities:
         F = pd.read_csv(GRID / f"{c['key']}_r10.csv", index_col=0)
         grids[c["key"]] = F
-        stats[c["key"]] = city_stats(candidate_discs(F))
-    # ---- training rows (cases + inhabited controls from the validation run)
+        stats[c["key"]] = city_stats(candidate_discs(F), FEATS)
     D = pd.read_csv(VAL / "ped_features.csv")
     key_of = {c["site"]: c["key"] for c in cities}
     D["key"] = D["site"].map(key_of)
-    Z = np.vstack([_z(r._asdict(), stats[r.key]) for r in D[SCORE_FEATURES + ["key"]].itertuples(index=False)])
+    D = D[D["site"].isin(D.loc[D.role == "case"].dropna(subset=["energy_balance"])["site"])].reset_index(drop=True)
+    Z = np.vstack([_z(dict(zip(FEATS, r[:-1])), stats[r[-1]], FEATS) for r in D[FEATS + ["key"]].itertuples(index=False)])
     y = (D["role"] == "case").astype(int).to_numpy()
-    # ---- leave-one-city-out
+
+    def evidence(train_keys):
+        """Criteria weights ∝ |effect d| of features with BH q < 0.10 over the training cities (K-050)."""
+        m = D["key"].isin(train_keys).to_numpy()
+        ctl_mean = {k: Z[m & (D["key"] == k).to_numpy() & (y == 0)].mean(axis=0) for k in train_keys}
+        dz = np.vstack([Z[m & (D["key"] == k).to_numpy() & (y == 1)][0] - ctl_mean[k] for k in train_keys])
+        d = dz.mean(axis=0)
+        p = np.array([wilcoxon(dz[:, j]).pvalue if np.any(dz[:, j] != 0) else 1.0 for j in range(dz.shape[1])])
+        o = np.argsort(p); q = p[o] * len(p) / (np.arange(len(p)) + 1); q = np.minimum.accumulate(q[::-1])[::-1]
+        qq = np.empty_like(q); qq[o] = np.minimum(q, 1)
+        w = np.where(qq < 0.10, np.abs(d), 0.0)
+        w = w / w.sum() if w.sum() > 0 else np.full(len(d), 1 / len(d))
+        return w, np.where(d >= 0, 1.0, -1.0), d, qq
+
+    keys = list(D["key"].unique())
     pct = {}
-    for k in D["key"].unique():
-        tr, te = (D["key"] != k).to_numpy(), (D["key"] == k).to_numpy()
-        m = PEDScore.fit(Z[tr], y[tr])
-        lg = Z[te] @ m.coef + m.intercept
-        yy = y[te]
+    for k in keys:  # leave-one-city-out: weights, directions and calibration never see the held-out city
+        tr = (D["key"] != k).to_numpy()
+        w, dr, _, _ = evidence([x for x in keys if x != k])
+        m = PEDScore.from_weights(FEATS, w, dr, Z[tr], y[tr])
+        lg = Z[~tr] @ m.coef + m.intercept
+        yy = y[~tr]
         case, ctl = lg[yy == 1][0], lg[yy == 0]
         pct[k] = float((ctl < case).mean() + 0.5 * (ctl == case).mean())
     auc = float(np.mean(list(pct.values())))
-    model = PEDScore.fit(Z, y, n_cases=int(y.sum()), n_controls=int((1 - y).sum()), auc_loco=auc,
-                         loco_percentiles=pct, standardisation="within-city over inhabited k=2 candidate discs")
+    w, dr, d, q = evidence(keys)
+    model = PEDScore.from_weights(FEATS, w, dr, Z, y, n_cases=int(y.sum()), n_controls=int((1 - y).sum()), auc_loco=auc,
+                                  loco_percentiles=pct, effect_d=[float(v) for v in d], q_bh=[float(v) for v in q],
+                                  standardisation="within-city over inhabited k=2 candidate discs",
+                                  weighting="evidence: |d| of criteria with BH q<0.10; reverse-causal suspects excluded")
+    keep = np.flatnonzero(w > 0)  # export only criteria that carry weight
+    model = PEDScore(model.coef[keep], model.intercept, [FEATS[j] for j in keep],
+                     meta=dict(model.meta, weights=[float(w[j]) for j in keep], direction=[float(dr[j]) for j in keep]))
+    FEATS = model.features
+    stats = {k: {f: v[f] for f in FEATS} for k, v in stats.items()}
     model.to_json(VAL / "ped_score_model.json")
     print(f"LOCO AUC = {auc:.3f}", {k: round(v, 2) for k, v in pct.items()})
+    print([(f, round(wt, 3)) for f, wt in zip(FEATS, model.meta["weights"])])
     # ---- atlas export
-    atlas = {"model": {"features": SCORE_FEATURES, "coef": [round(float(b), 5) for b in model.coef], "intercept": round(model.intercept, 5),
-                       "labels_tr": LABELS_TR, "auc_loco": auc, "n_cases": int(y.sum()), "n_controls": int((1 - y).sum())},
+    atlas = {"model": {"features": FEATS, "coef": [round(float(b), 5) for b in model.coef], "intercept": round(model.intercept, 5),
+                       "weights": [round(x, 4) for x in model.meta["weights"]], "direction": model.meta["direction"],
+                       "labels_tr": LABELS_TR, "auc_loco": auc, "n_cases": int(y.sum()), "n_controls": int((1 - y).sum()),
+                       "form": "MCDM: kanıta dayalı kriter ağırlıkları + Platt kalibrasyonu"},
              "cities": []}
     for c in cities:
         F, st = grids[c["key"]], stats[c["key"]]
@@ -74,7 +104,7 @@ def main():
         C = C[keep]
         cells = []
         for centre, r in C.iterrows():
-            z = _z(r.to_dict(), st)
+            z = _z(r.to_dict(), st, FEATS)
             cells.append([h3.cell_to_parent(centre, 9), round(float(r["energy_balance"]), 3), round(float(r["vul_pop_hrsl"])),
                           round(float(r["ov_bld_footprint_m2"])), [round(float(v), 2) for v in z]])
         site_cell = h3.latlng_to_cell(c["lat"], c["lon"], 10)
@@ -86,7 +116,7 @@ def main():
             "site_r9": h3.cell_to_parent(site_cell, 9), "site_score": round(e["score"], 1),
             "site_balance": round(float(sx["energy_balance"]), 3) if np.isfinite(sx["energy_balance"]) else None,
             "site_z": [round(v, 2) for v in e["z"].values()],
-            "stats": {f: {"mean": round(st[f]["mean"], 5), "sd": round(st[f]["sd"], 5)} for f in SCORE_FEATURES},
+            "stats": {f: {"mean": round(st[f]["mean"], 5), "sd": round(st[f]["sd"], 5)} for f in FEATS},
             "country": (prov.get("country") or {}).get("name"), "kwh_per_capita": (prov.get("demand") or {}).get("kwh_per_capita"),
             "pv_yield": (prov.get("pv_yield") or {}).get("kwh_per_kwp"), "failures": list((prov.get("failures") or {}).keys()),
             "cells": cells})
