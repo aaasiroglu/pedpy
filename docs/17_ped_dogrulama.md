@@ -44,7 +44,55 @@ Bu, modelin tek dış referansıdır. Model, kendi tanımladığı bir idealle d
 
 ## 3. Sonuçlar
 
-*(Betik çalıştırıldıktan sonra `data/validation/ped_validation.csv` ve `ped_validation_summary.json` dosyalarından doldurulur; bkz. §5.)*
+*Tasarım v2 · 16 saha × 30 yerleşik kontrol · tohum 20261108 · 2026-11-08 · veri: `data/validation/`*
+
+| Model | AUC | Medyanın üstündeki saha | İşaret testi (tek yönlü) |
+|---|---|---|---|
+| (a) Yalnız enerji dengesi | **0,82** | 16/16 | p = 0,00002 |
+| (b) Tüm katmanlar (20 özellik, bir kent dışarıda) | **0,82** | 14/16 | p = 0,002 |
+| (a) yoğunluk eşlemeli kontrollerle (13 saha) | 0,79 | — | — |
+| (b) yoğunluk eşlemeli kontrollerle (13 saha) | 0,81 | — | p = 0,002 |
+
+**Gelişim tipine göre (a / b):** kahverengi alan 0,82 / 0,85 · yeni yapım 0,86 / 0,89 · mevcut stok 0,81 / 0,73.
+
+**Gerçek PED'leri ayıran özellikler** (tüm veriyle, kent içi z-puanı, lojistik katsayı):
+- Daha düşük yapı örtüsü (−1,61)
+- Daha az yeşil alan (−1,57)
+- Kişi başı daha fazla çatı (+0,97)
+- Daha yüksek enerji dengesi (+0,97)
+- Daha yüksek nüfus yoğunluğu (+0,72)
+- Daha düşük yaşlı payı (−0,66)
+- Daha fazla su yüzeyi (+0,62)
+
+Okuması: tipik bir gerçek PED, kıyıya yakın, seyrek yapılaşmış, büyük çatılı ve dönüşüm geçiren bir kentsel alandır. Liman ve sanayi alanlarının dönüşümü bu tanıma uyar.
+
+**Veri ölçekleme eğrisi** (`data/validation/data_scaling.json`, %90 bootstrap aralığı):
+
+| Adım | Özellik | AUC | %90 aralık |
+|---|---|---|---|
+| Fizik: enerji dengesi | 1 | 0,82 | 0,77–0,88 |
+| + Yapılı çevre | 5 | 0,84 | 0,77–0,90 |
+| + Demografi ve kırılganlık | 8 | 0,84 | 0,77–0,90 |
+| + Uydu (S2, Landsat, WorldCover) | 13 | 0,83 | 0,75–0,90 |
+| + Arazi (DEM) | 15 | 0,84 | 0,78–0,90 |
+| + Kentsel işlev (mekânlar) | 17 | 0,88 | 0,83–0,92 |
+| + Altyapı | 20 | 0,82 | 0,74–0,90 |
+
+**Caferağa (İstanbul içinde, gerçek bir PED değil):**
+- Enerji dengesine göre İstanbul'daki yerleşik alanların %73'ünden yüksek (denge 1,30, HRSL nüfusuyla).
+- Gerçek PED imzasına göre %43'lük dilimde, yani İstanbul ortalamasında.
+- Okuması: Caferağa fiziksel olarak elverişli, ama bugünkü gerçek PED'lerin tipik sahasına (kıyıda dönüşen, seyrek yapılı alan) benzemiyor. Yoğun ve tarihî bir dokuda PED, mevcut referans sınıfının dışında yeni bir proje türü olur. Bu, tezin Caferağa vakası için en önemli bulgusu.
+
+## 3b. Yorum
+
+1. **İddia B doğrulandı (sınırlı örneklemle):** fizik çekirdeği tek başına gerçek PED'leri kendi kentlerindeki yerleşik alanlardan ayırıyor (AUC 0,82; 16/16 saha medyanın üstünde). Yoğunluk eşlemesinden sonra da etki sürüyor (0,79), yani sonuç yalnızca "seyrek nüfus" etkisi değil.
+2. **Büyük soruya ampirik yanıt:** veri ailesi eklemek AUC'yi istatistiksel olarak anlamlı artırmıyor; bütün aralıklar örtüşüyor. Kentsel işlev ailesi en iyi değeri veriyor (0,88). Altyapı eklenince AUC düşüyor: 16 vakayla 20 özellik aşırı öğrenmeye başlıyor. Daha fazla veri, daha fazla vaka olmadan kesinlik getirmiyor. Belirsizliği daraltan şey veri katmanı değil, öğrenilecek gerçek örnek sayısı. Faz 2'nin önceliği bu yüzden PED Veritabanı ile vaka setini büyütmek.
+3. **Sınırlılıklar:**
+   - 16 vaka var.
+   - Sahalar adla bulundu; OSM ağırlık merkezi proje sınırı değil.
+   - Kahverengi alanlar 2023 durumuyla ölçülüyor.
+   - HRSL düzey yanlılığı taşıyor.
+   - DEM bir yüzey modeli (DSM).
 
 ## 4. Caferağa çalışmalarının doğrulanması (G2)
 

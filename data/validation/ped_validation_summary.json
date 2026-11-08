@@ -1,91 +1,115 @@
 {
- "n_sites": 11,
+ "n_sites": 16,
  "n_controls_per_site": 30,
  "seed": 20261108,
- "auc_pooled": 0.8606060606060606,
- "sites_above_median": 11,
- "sign_test_p_one_sided": 0.00048828125,
- "auc_multi_loco": 0.8583333333333333,
- "sites_above_median_multi": 15,
- "sign_test_p_multi": 0.0002593994140625,
+ "auc_pooled": 0.8229166666666666,
+ "sites_above_median": 16,
+ "sign_test_p_one_sided": 1.52587890625e-05,
+ "auc_multi_loco": 0.8229166666666666,
+ "sites_above_median_multi": 14,
+ "sign_test_p_multi": 0.0020904541015625,
+ "auc_matched": 0.7891835821183648,
+ "n_matched": 13,
+ "auc_multi_matched": 0.8131216006216007,
+ "sign_test_p_multi_matched": 0.001708984375,
  "by_development": {
   "percentile": {
-   "brownfield": 0.833,
-   "existing": 0.867,
-   "new": 0.917
+   "brownfield": 0.821,
+   "existing": 0.807,
+   "new": 0.856
   },
   "percentile_multi": {
-   "brownfield": 0.867,
-   "existing": 0.813,
-   "new": 0.911
+   "brownfield": 0.854,
+   "existing": 0.733,
+   "new": 0.889
   }
  },
  "coefficients_full_fit": [
   {
-   "feature": "log_energy_balance",
-   "coef": 0.961
-  },
-  {
    "feature": "footprint_coverage",
-   "coef": -0.949
+   "coef": -1.612
   },
   {
-   "feature": "ov_places_categories",
-   "coef": 0.897
+   "feature": "env_wc_green_share",
+   "coef": -1.574
   },
   {
    "feature": "log_footprint_per_capita_m2",
-   "coef": 0.81
+   "coef": 0.967
   },
   {
-   "feature": "ov_floors_coverage",
-   "coef": 0.61
-  },
-  {
-   "feature": "env_slope_deg",
-   "coef": -0.536
-  },
-  {
-   "feature": "env_lst_anomaly_c",
-   "coef": 0.489
-  },
-  {
-   "feature": "env_ndbi_mean",
-   "coef": -0.412
-  },
-  {
-   "feature": "env_ndvi_mean",
-   "coef": -0.382
-  },
-  {
-   "feature": "elderly_share",
-   "coef": -0.337
+   "feature": "log_energy_balance",
+   "coef": 0.967
   },
   {
    "feature": "pop_density_per_ha",
-   "coef": 0.303
+   "coef": 0.718
+  },
+  {
+   "feature": "elderly_share",
+   "coef": -0.663
+  },
+  {
+   "feature": "env_wc_water_share",
+   "coef": 0.619
+  },
+  {
+   "feature": "ov_floors_coverage",
+   "coef": 0.515
+  },
+  {
+   "feature": "env_ndvi_mean",
+   "coef": 0.506
+  },
+  {
+   "feature": "env_lst_anomaly_c",
+   "coef": 0.506
   },
   {
    "feature": "places_per_1000",
-   "coef": 0.249
+   "coef": 0.451
   },
   {
-   "feature": "ov_nonosm_share",
-   "coef": 0.129
+   "feature": "env_ndbi_mean",
+   "coef": -0.353
   },
   {
-   "feature": "children_share",
-   "coef": -0.075
+   "feature": "ov_places_categories",
+   "coef": 0.295
+  },
+  {
+   "feature": "transit_per_km2",
+   "coef": 0.293
+  },
+  {
+   "feature": "grid_assets_per_km2",
+   "coef": 0.279
   },
   {
    "feature": "env_relief_m",
-   "coef": 0.073
+   "coef": 0.262
+  },
+  {
+   "feature": "ev_chargers_per_km2",
+   "coef": -0.225
+  },
+  {
+   "feature": "children_share",
+   "coef": -0.156
+  },
+  {
+   "feature": "env_slope_deg",
+   "coef": 0.124
+  },
+  {
+   "feature": "ov_nonosm_share",
+   "coef": 0.04
   }
  ],
  "caferaga_in_istanbul": {
-  "percentile_balance": NaN,
-  "percentile_multi": 0.7333333333333333,
-  "balance": NaN,
+  "percentile_balance": 0.7333333333333333,
+  "percentile_multi": 0.43333333333333335,
+  "balance": 1.3010185075040244,
   "note": "HRSL population (common source); Cafera\u011fa is a candidate, not a realised PED"
  },
  "provenance": {
@@ -98,7 +122,9 @@
     "sentinel2": 4.3,
     "landsat": 10.4,
     "dem": 4.9,
-    "energy": 0.0
+    "energy": 0.0,
+    "worldcover": 35.3,
+    "overture_infrastructure": 4.6
    },
    "sentinel2": {
     "scene": "S2A_31UFT_20230614_0_L2A",
@@ -116,7 +142,9 @@
     "sentinel2": 11.7,
     "landsat": 6.6,
     "dem": 5.3,
-    "energy": 0.0
+    "energy": 0.0,
+    "worldcover": 32.4,
+    "overture_infrastructure": 4.4
    },
    "sentinel2": {
     "scene": "S2B_30TVN_20230821_0_L2A",
@@ -134,7 +162,9 @@
     "sentinel2": 8.7,
     "landsat": 9.8,
     "dem": 3.6,
-    "energy": 0.0
+    "energy": 0.0,
+    "worldcover": 42.2,
+    "overture_infrastructure": 5.2
    },
    "sentinel2": {
     "scene": "S2A_34VFM_20230613_0_L2A",
@@ -152,7 +182,9 @@
     "sentinel2": 10.6,
     "landsat": 10.0,
     "dem": 3.9,
-    "energy": 40.1
+    "energy": 40.1,
+    "worldcover": 45.5,
+    "overture_infrastructure": 5.4
    },
    "sentinel2": {
     "scene": "S2A_32VNM_20230604_0_L2A",
@@ -170,7 +202,9 @@
     "sentinel2": 12.0,
     "landsat": 10.0,
     "dem": 5.4,
-    "energy": 42.5
+    "energy": 42.5,
+    "worldcover": 49.4,
+    "overture_infrastructure": 3.6
    },
    "sentinel2": {
     "scene": "S2A_35WMN_20230818_0_L2A",
@@ -180,9 +214,7 @@
    "landsat_scenes": 3
   },
   "Paddepoel": {
-   "failures": {
-    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
-   },
+   "failures": {},
    "timing_s": {
     "hrsl": 2.7,
     "overture_buildings": 6.2,
@@ -190,7 +222,9 @@
     "sentinel2": 8.1,
     "landsat": 9.7,
     "dem": 3.8,
-    "energy": 16.5
+    "energy": 16.5,
+    "worldcover": 35.1,
+    "overture_infrastructure": 4.8
    },
    "sentinel2": {
     "scene": "S2A_32ULD_20230909_0_L2A",
@@ -210,7 +244,9 @@
     "sentinel2": 12.7,
     "landsat": 8.3,
     "dem": 5.2,
-    "energy": 27.0
+    "energy": 27.0,
+    "worldcover": 30.5,
+    "overture_infrastructure": 3.6
    },
    "sentinel2": {
     "scene": "S2B_31TFN_20230924_0_L2A",
@@ -228,7 +264,9 @@
     "sentinel2": 4.3,
     "landsat": 10.6,
     "dem": 3.7,
-    "energy": 26.8
+    "energy": 26.8,
+    "worldcover": 42.0,
+    "overture_infrastructure": 3.1
    },
    "sentinel2": {
     "scene": "S2B_34VEM_20230607_0_L2A",
@@ -238,9 +276,7 @@
    "landsat_scenes": 4
   },
   "Confluence": {
-   "failures": {
-    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
-   },
+   "failures": {},
    "timing_s": {
     "hrsl": 2.5,
     "overture_buildings": 9.3,
@@ -248,7 +284,9 @@
     "sentinel2": 11.6,
     "landsat": 9.4,
     "dem": 4.5,
-    "energy": 14.4
+    "energy": 14.4,
+    "worldcover": 31.2,
+    "overture_infrastructure": 4.2
    },
    "sentinel2": {
     "scene": "S2A_31TFL_20230909_0_L2A",
@@ -258,9 +296,7 @@
    "landsat_scenes": 4
   },
   "Seestadt Aspern": {
-   "failures": {
-    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
-   },
+   "failures": {},
    "timing_s": {
     "hrsl": 3.3,
     "overture_buildings": 7.0,
@@ -268,7 +304,9 @@
     "sentinel2": 13.3,
     "landsat": 11.3,
     "dem": 4.3,
-    "energy": 12.7
+    "energy": 12.7,
+    "worldcover": 33.8,
+    "overture_infrastructure": 3.8
    },
    "sentinel2": {
     "scene": "S2B_33UXP_20230909_1_L2A",
@@ -286,7 +324,9 @@
     "sentinel2": 14.5,
     "landsat": 9.4,
     "dem": 4.4,
-    "energy": 42.3
+    "energy": 42.3,
+    "worldcover": 38.4,
+    "overture_infrastructure": 3.4
    },
    "sentinel2": {
     "scene": "S2B_33UUB_20230921_0_L2A",
@@ -306,7 +346,9 @@
     "sentinel2": 14.4,
     "landsat": 8.1,
     "dem": 3.9,
-    "energy": 45.5
+    "energy": 45.5,
+    "worldcover": 29.9,
+    "overture_infrastructure": 4.1
    },
    "sentinel2": {
     "scene": "S2B_30TWN_20230811_0_L2A",
@@ -326,7 +368,9 @@
     "sentinel2": 13.8,
     "landsat": 8.3,
     "dem": 4.1,
-    "energy": 54.7
+    "energy": 54.7,
+    "worldcover": 46.4,
+    "overture_infrastructure": 4.4
    },
    "sentinel2": {
     "scene": "S2B_34VCM_20230607_0_L2A",
@@ -336,9 +380,7 @@
    "landsat_scenes": 0
   },
   "Kalasatama": {
-   "failures": {
-    "energy": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
-   },
+   "failures": {},
    "timing_s": {
     "hrsl": 2.5,
     "overture_buildings": 7.2,
@@ -346,7 +388,9 @@
     "sentinel2": 11.2,
     "landsat": 9.4,
     "dem": 4.1,
-    "energy": 14.3
+    "energy": 14.3,
+    "worldcover": 43.7,
+    "overture_infrastructure": 6.7
    },
    "sentinel2": {
     "scene": "S2A_35VLG_20230613_0_L2A",
@@ -356,9 +400,7 @@
    "landsat_scenes": 2
   },
   "\u00cele de Nantes": {
-   "failures": {
-    "energy": "HTTPError: HTTP Error 502: Bad Gateway"
-   },
+   "failures": {},
    "timing_s": {
     "hrsl": 3.3,
     "overture_buildings": 10.2,
@@ -366,7 +408,9 @@
     "sentinel2": 12.7,
     "landsat": 9.7,
     "dem": 4.7,
-    "energy": 14.6
+    "energy": 14.6,
+    "worldcover": 33.4,
+    "overture_infrastructure": 4.3
    },
    "sentinel2": {
     "scene": "S2B_30TXT_20230602_0_L2A",
@@ -384,7 +428,9 @@
     "sentinel2": 6.1,
     "landsat": 10.0,
     "dem": 2.8,
-    "energy": 2.1
+    "energy": 2.1,
+    "worldcover": 42.5,
+    "overture_infrastructure": 5.7
    },
    "sentinel2": {
     "scene": "S2A_34VFM_20230613_0_L2A",

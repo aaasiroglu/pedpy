@@ -1,0 +1,70 @@
+{
+ "curve": [
+  {
+   "step": "Fizik: enerji dengesi",
+   "n_features": 1,
+   "auc": 0.8229166666666667,
+   "ci05": 0.7707291666666666,
+   "ci95": 0.875,
+   "sites_above_half": 16,
+   "n_sites": 16
+  },
+  {
+   "step": "+ Yap\u0131l\u0131 \u00e7evre (Overture)",
+   "n_features": 5,
+   "auc": 0.8395833333333333,
+   "ci05": 0.7729166666666667,
+   "ci95": 0.9041666666666667,
+   "sites_above_half": 16,
+   "n_sites": 16
+  },
+  {
+   "step": "+ Demografi ve k\u0131r\u0131lganl\u0131k (HRSL)",
+   "n_features": 8,
+   "auc": 0.8416666666666667,
+   "ci05": 0.7708333333333333,
+   "ci95": 0.9041666666666667,
+   "sites_above_half": 15,
+   "n_sites": 16
+  },
+  {
+   "step": "+ Uydu: Sentinel-2, Landsat, WorldCover",
+   "n_features": 13,
+   "auc": 0.83125,
+   "ci05": 0.7541666666666667,
+   "ci95": 0.9042708333333332,
+   "sites_above_half": 14,
+   "n_sites": 16
+  },
+  {
+   "step": "+ Arazi (Copernicus DEM)",
+   "n_features": 15,
+   "auc": 0.84375,
+   "ci05": 0.775,
+   "ci95": 0.8979166666666667,
+   "sites_above_half": 16,
+   "n_sites": 16
+  },
+  {
+   "step": "+ Kentsel i\u015flev (Overture mek\u00e2nlar)",
+   "n_features": 17,
+   "auc": 0.875,
+   "ci05": 0.8332291666666666,
+   "ci95": 0.9187500000000001,
+   "sites_above_half": 16,
+   "n_sites": 16
+  },
+  {
+   "step": "+ Altyap\u0131 (trafo, EV, toplu ta\u015f\u0131ma)",
+   "n_features": 20,
+   "auc": 0.8229166666666666,
+   "ci05": 0.7354166666666667,
+   "ci95": 0.9020833333333333,
+   "sites_above_half": 14,
+   "n_sites": 16
+  }
+ ],
+ "n_sites": 16,
+ "seed": 20261108,
+ "reading": "AUC = probability that a real PED outranks an inhabited control of its own city (leave-one-city-out); 90 % bootstrap interval over sites."
+}

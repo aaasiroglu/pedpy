@@ -221,6 +221,12 @@ button:disabled{opacity:.45;cursor:not-allowed}
     <p class="note">Her çubuk bir gerçek PED sahasının kendi kentindeki 30 yerleşik kontrol noktası arasındaki yüzdeliğidir (0,5 = sıradan, 1 = hepsinden iyi). Ayrıntı: Veri ve yöntem → Dış doğrulama.</p>
     <h3>7.3 Veri ölçekleme eğrisi: veri arttıkça karar kesinleşiyor mu?</h3>
     <div id="pres-scaling"></div>
+    <div class="grid2" style="margin:10px 0">
+      <div class="cell"><h3>Bulgu 1 · Sistem gerçek PED'leri tanıyor</h3>Fizik çekirdeği tek başına 16 gerçek PED'in 16'sını kendi kentindeki yerleşik alanların medyanının üstüne koyuyor (AUC 0,82; p = 0,00002). Nüfus yoğunluğu eşlendiğinde de etki sürüyor (0,79).</div>
+      <div class="cell"><h3>Bulgu 2 · Daha çok veri, kesinlik getirmiyor</h3>Veri aileleri eklendikçe AUC 0,82–0,88 arasında kalıyor ve güven aralıkları örtüşüyor. 16 vakayla 20 özellikte model aşırı öğrenmeye başlıyor. Belirsizliği daraltan şey veri katmanı değil, öğrenilecek gerçek PED sayısı.</div>
+      <div class="cell"><h3>Bulgu 3 · Gerçek bir PED neye benziyor?</h3>Kentinin ortalamasına göre daha düşük yapı örtüsü, kişi başı daha çok çatı, daha yüksek enerji dengesi, daha az yeşil, daha çok su yüzeyi. Tipik örnek: kıyıda dönüşen liman ve sanayi alanları.</div>
+      <div class="cell"><h3>Bulgu 4 · Caferağa</h3>Enerji dengesine göre İstanbul'un %73'ünden iyi; gerçek PED imzasına göre ortalamada (%43). Fiziksel olarak elverişli, ama mevcut PED'lere benzemiyor: yoğun tarihî dokuda bir PED yeni bir proje türü olur.</div>
+    </div>
     <p class="note">Veri aileleri sırayla eklenir; her adımda bir kent dışarıda bırakılarak AUC hesaplanır (gerçek bir PED'in kendi kentindeki yerleşik bir kontrolden yüksek puan alma olasılığı). Gölge: sahalar üzerinden bootstrap ile %90 aralık. Eğri düzleşiyorsa ek veri kararı artık değiştirmiyor demektir; aralığın genişliği ise bu örneklemle indirgenemeyen belirsizliktir.</p>
   </div>
 

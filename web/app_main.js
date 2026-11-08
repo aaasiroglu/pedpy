@@ -80,16 +80,18 @@
     const el = $("pres-scaling"), C = ((P.ped_validation || {}).scaling || {}).curve;
     if (!el) return;
     if (!C) { el.innerHTML = "<p class='note'>Henüz hesaplanmadı: python scripts/data_scaling.py</p>"; return; }
-    const W = 760, H = 300, x0 = 50, x1 = W - 20, y0 = 20, y1 = 210, n = C.length;
-    const X = i => x0 + (x1 - x0) * (n === 1 ? 0.5 : i / (n - 1)), Y = v => y1 - (y1 - y0) * (v - 0.4) / 0.6;
+    const W = 760, H = 250, x0 = 60, x1 = W - 60, y0 = 20, y1 = 200, n = C.length;
+    const SHORT = ["Fizik", "+ Yapı", "+ Demografi", "+ Uydu", "+ Arazi", "+ Kentsel işlev", "+ Altyapı"];
+    const X = i => x0 + (x1 - x0) * (n === 1 ? 0.5 : i / (n - 1)), Y = v => y1 - (y1 - y0) * (v - 0.5) / 0.5;
     let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Veri ölçekleme eğrisi" style="max-width:${W}px;display:block">`;
-    [0.5, 0.6, 0.7, 0.8, 0.9, 1].forEach(v => svg += `<line x1="${x0}" x2="${x1}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)" ${v === 0.5 ? 'stroke-dasharray="4 3" stroke="var(--muted)"' : ""}/><text x="${x0 - 6}" y="${Y(v) + 4}" font-size="11" text-anchor="end" fill="var(--muted)">${nf(v, 1)}</text>`);
+    [0.5, 0.6, 0.7, 0.8, 0.9, 1.0].forEach(v => svg += `<line x1="${x0}" x2="${x1}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)" ${v === 0.5 ? 'stroke-dasharray="4 3" stroke="var(--muted)"' : ""}/><text x="${x0 - 6}" y="${Y(v) + 4}" font-size="11" text-anchor="end" fill="var(--muted)">${nf(v, 1)}</text>`);
     svg += `<path d="${C.map((c, i) => `${i ? "L" : "M"}${X(i)},${Y(c.ci95)}`).join("")}${C.slice().reverse().map((c, j) => `L${X(n - 1 - j)},${Y(c.ci05)}`).join("")}Z" fill="var(--geo)" opacity="0.15"/>`;
     svg += `<path d="${C.map((c, i) => `${i ? "L" : "M"}${X(i)},${Y(c.auc)}`).join("")}" fill="none" stroke="var(--geo)" stroke-width="2.5"/>`;
     C.forEach((c, i) => {
       svg += `<circle cx="${X(i)}" cy="${Y(c.auc)}" r="4" fill="var(--geo)"><title>${c.step}: AUC ${nf(c.auc, 2)} (%90: ${nf(c.ci05, 2)}–${nf(c.ci95, 2)}), ${c.n_features} özellik</title></circle>
         <text x="${X(i)}" y="${Y(c.auc) - 9}" font-size="11" text-anchor="middle" fill="var(--ink)">${nf(c.auc, 2)}</text>
-        <text transform="translate(${X(i)},${y1 + 14}) rotate(18)" font-size="10.5" fill="var(--muted)">${c.step.replace("+ ", "")}</text>`;
+        <text x="${X(i)}" y="${y1 + 18}" font-size="11" text-anchor="middle" fill="var(--ink)">${SHORT[i] || c.step}</text>
+        <text x="${X(i)}" y="${y1 + 33}" font-size="10" text-anchor="middle" fill="var(--muted)">${c.n_features} özellik</text>`;
     });
     el.innerHTML = svg + "</svg>";
   })();
@@ -151,7 +153,7 @@
     S.embedding.components.map(c => `<tr><td class="mono">${c.component}</td><td class="num">%${nf(c.explained_variance * 100, 1)}</td><td class="note">${c.top_loadings.slice(0, 4).map(t => `${(CAT[t.feature] || {}).label_tr || t.feature} (${t.loading > 0 ? "+" : ""}${nf(t.loading, 2)})`).join(" · ")}</td></tr>`).join("") + "</table>";
   // architecture view
   $("nfeat").textContent = `${Object.keys(P.cells.features[0].properties).filter(k => CAT[k] && CAT[k].status === "active").length} özellik/hücre`;
-  const st = { ingested: ["ok", "sistemde"], connector: ["geo", "bağlayıcı hazır"], planned: ["warn", "planlı"] };
+  const st = { ingested: ["ok", "sistemde"], connector: ["geo", "bağlayıcı hazır"], planned: ["warn", "planlı"], rejected: ["bad", "reddedildi (lisans)"] };
   $("lake").innerHTML = `<p class="note">${S.datalake.length} veri seti · ${S.datalake.filter(d => d.status === "ingested").length} sistemde</p><table><tr><th>Veri seti</th><th>Tema</th><th>Tür · çözünürlük</th><th>Lisans</th><th>Kullanım</th><th>Durum</th></tr>` +
     S.datalake.map(d => `<tr><td>${d.provider}</td><td>${d.theme}</td><td class="note">${d.kind} · ${d.resolution}</td><td class="note">${d.license}</td><td class="note">${d.pedx_use}</td><td><span class="badge ${st[d.status][0]}">${st[d.status][1]}</span></td></tr>`).join("") + "</table>";
   (function dnChart() {
