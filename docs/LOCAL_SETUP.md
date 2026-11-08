@@ -14,7 +14,7 @@ cd pedpy && git checkout claude/dreamy-allen-fvtsux
 python -m http.server 8765 -d web
 ```
 
-Ardından tarayıcıda **http://localhost:8765** adresini açın. Demo verisi (`web/data/`) repoda hazır olduğu için başka bir kurulum gerekmez. Harita karoları için internet bağlantısı gerekir.
+Ardından tarayıcıda **http://localhost:8765/pedx_app.html** adresini açın. Uygulama tek bir dosyadır (`web/pedx_app.html`); sunucu olmadan çift tıklayarak da açılabilir. Demo verisi (`web/data/`) repoda hazır olduğu için başka bir kurulum gerekmez. Harita karoları için internet bağlantısı gerekir.
 
 ## B. Her şeyi açık veriden yeniden üretmek
 

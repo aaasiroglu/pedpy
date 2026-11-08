@@ -1,0 +1,284 @@
+<title>pedx Caferağa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>/*LEAFLET_CSS*/</style>
+<style>
+/* Layout: survey-sheet app shell — a top bar with section tabs; each view is a document column or a map + instrument panel. */
+:root{
+  --paper:#f5f7f8; --sheet:#ffffff; --ink:#18222b; --muted:#56636f; --rule:#d9e0e5;
+  --geo:#1b5e8a; --geo-soft:#e3eef6; --sun:#c9861a; --sun-soft:#f7ecd9; --ok:#2f7a45; --warn:#a2640e; --bad:#b3362c;
+  --chip:#eef2f5; --mapbg:#e9eef1; --street:#9aa7b1; --bldg:#7d8a95;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif; --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11171c; --sheet:#182128; --ink:#e6ebef; --muted:#9db0bd; --rule:#2a3640;
+  --geo:#7cb7e0; --geo-soft:#1d3444; --sun:#e5a845; --sun-soft:#3a2d17; --ok:#7cc493; --warn:#e3a54c; --bad:#ef8077;
+  --chip:#202b33; --mapbg:#141c22; --street:#4c5b66; --bldg:#5c6b77; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11171c; --sheet:#182128; --ink:#e6ebef; --muted:#9db0bd; --rule:#2a3640;
+  --geo:#7cb7e0; --geo-soft:#1d3444; --sun:#e5a845; --sun-soft:#3a2d17; --ok:#7cc493; --warn:#e3a54c; --bad:#ef8077;
+  --chip:#202b33; --mapbg:#141c22; --street:#4c5b66; --bldg:#5c6b77; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--sheet)}
+a{color:var(--geo)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.2;margin:0}
+.mono{font-family:var(--mono);font-size:.86em}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:1000;background:var(--sheet);border-bottom:1px solid var(--rule);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;
+  display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+.brand{display:flex;gap:10px;align-items:baseline;min-width:0}
+.brand b{font-family:var(--display);font-size:20px;letter-spacing:.01em}
+.brand span{color:var(--muted);font-size:13px}
+nav.views{display:flex;flex-wrap:wrap;gap:4px}
+nav.views a{font-family:var(--display);font-size:14px;text-decoration:none;color:var(--ink);padding:5px 11px;border-radius:4px;border:1px solid transparent}
+nav.views a:hover{border-color:var(--rule)}
+nav.views a[aria-current="page"]{background:var(--geo);color:#fff}
+nav.views a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px}
+section.view[hidden]{display:none!important}
+.doc{max-width:980px;margin:0 auto;display:grid;gap:22px}
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:22px 24px;min-width:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.title-block h1{font-size:clamp(24px,3.4vw,34px);margin-top:6px}
+.title-block .en{color:var(--muted);font-style:italic;margin-top:6px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 24px;margin-top:16px;font-size:14px}
+.meta div span{display:block;color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.sheet h2{font-size:21px;margin-bottom:10px;display:flex;gap:10px;align-items:baseline}
+.sheet h2 .no{font-family:var(--mono);font-size:13px;color:var(--geo)}
+.sheet p{max-width:72ch;margin:8px 0}
+.sheet ul,.sheet ol{max-width:76ch;padding-left:20px;margin:8px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.cell{border:1px solid var(--rule);border-radius:5px;padding:12px 14px;min-width:0}
+.cell h3{font-size:15px;margin-bottom:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{border-left:3px solid var(--geo);padding:4px 10px}
+.kpi .v{font-family:var(--display);font-size:24px;font-variant-numeric:tabular-nums}
+.kpi .k{font-size:12.5px;color:var(--muted)}
+.kpi.sun{border-color:var(--sun)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border-bottom:1px solid var(--rule);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:12.5px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:12.5px}
+.badge{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:3px;border:1px solid var(--rule);background:var(--chip);white-space:nowrap}
+.badge.ok{border-color:var(--ok);color:var(--ok)}.badge.warn{border-color:var(--warn);color:var(--warn)}.badge.bad{border-color:var(--bad);color:var(--bad)}.badge.geo{border-color:var(--geo);color:var(--geo)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.flow div{border:1px solid var(--rule);border-top:3px solid var(--geo);border-radius:4px;padding:8px 10px;font-size:13px;min-width:0}
+.flow div b{display:block;font-family:var(--display);font-size:13.5px}
+.flow div.g2{border-top-color:var(--ok)}
+.note{color:var(--muted);font-size:13px}
+.outline ol{counter-reset:ch;list-style:none;padding-left:0}
+.outline>ol>li{counter-increment:ch;border-top:1px solid var(--rule);padding:12px 0}
+.outline>ol>li>b{font-family:var(--display);font-size:16px}
+.outline>ol>li>b::before{content:counter(ch) ". ";color:var(--geo);font-family:var(--mono)}
+.outline ol ol{counter-reset:sub;padding-left:22px;margin-top:6px}
+.outline ol ol li{counter-increment:sub;font-size:14px;margin:2px 0}
+.outline ol ol li::before{content:counter(ch) "." counter(sub) "  ";font-family:var(--mono);color:var(--muted);font-size:12.5px}
+.outline .rq{font-size:12px;margin-left:6px}
+.refs li{margin:6px 0;font-size:14px;padding-left:2em;text-indent:-2em;list-style:none}
+.refs{padding-left:0}
+/* MVP */
+.mvp{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:14px;height:calc(100vh - 120px);min-height:560px}
+#map{height:100%;border:1px solid var(--rule);border-radius:6px;background:var(--mapbg)}
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;overflow:auto;padding:14px 16px;display:grid;gap:14px;align-content:start;min-width:0}
+.panel h3{font-size:15px}
+.panel label{font-size:12.5px;color:var(--muted);display:block;margin-bottom:4px}
+select,button{font:inherit;font-size:14px}
+select{width:100%;padding:6px 8px;border:1px solid var(--rule);border-radius:4px;background:var(--sheet);color:var(--ink)}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+button{border:1px solid var(--geo);background:var(--geo);color:#fff;border-radius:4px;padding:6px 11px;cursor:pointer}
+button.ghost{background:transparent;color:var(--geo)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.legend{background:var(--sheet);color:var(--ink);padding:8px 10px;border-radius:4px;border:1px solid var(--rule);font-size:12px;max-width:230px}
+.legend .bar{height:9px;border-radius:2px;margin:5px 0}
+.legend .ticks{display:flex;justify-content:space-between;color:var(--muted);font-family:var(--mono);font-size:11px}
+.crit{display:grid;grid-template-columns:auto 1fr auto;gap:4px 8px;font-size:13px;align-items:baseline}
+.crit .k{font-weight:600}
+.verdict{border:1px solid var(--rule);border-left:4px solid var(--muted);padding:10px 12px;border-radius:4px;font-size:14px}
+.verdict.ok{border-left-color:var(--ok)}.verdict.bad{border-left-color:var(--bad)}.verdict.warn{border-left-color:var(--warn)}
+.bars{display:grid;gap:4px}
+.bars .row{display:grid;grid-template-columns:120px 1fr 52px;gap:6px;align-items:center;font-size:12.5px}
+.bars .track{height:10px;background:var(--chip);position:relative;border-radius:2px}
+.bars .fill{position:absolute;top:0;bottom:0;border-radius:2px}
+.bars .mid{position:absolute;top:-2px;bottom:-2px;left:50%;width:1px;background:var(--muted)}
+.leaflet-container{font:inherit;background:var(--mapbg)}
+.leaflet-control-layers-toggle{background-image:none!important;width:auto!important;height:auto!important;padding:5px 9px;font-size:12.5px;color:var(--ink);text-decoration:none}
+.leaflet-control-layers-toggle::after{content:"Katmanlar"}
+.leaflet-control-layers{background:var(--sheet);color:var(--ink)}
+.leaflet-tooltip{font-size:12px}
+@media (max-width:900px){.mvp{grid-template-columns:1fr;height:auto}#map{height:60vh}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="bar">
+  <div class="brand"><b>pedx</b><span>PED projeleri için elverişlilik analizi · Caferağa, Kadıköy</span></div>
+  <nav class="views" aria-label="Bölümler">
+    <a href="#sunum">Sunum</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
+  </nav>
+</header>
+
+<main>
+<!-- ================================================================ SUNUM -->
+<section class="view" id="v-sunum">
+ <div class="doc">
+  <div class="sheet title-block">
+    <div class="eyebrow">Yüksek lisans tezi · danışman görüşmesi · Kasım 2026</div>
+    <h1>Pozitif Enerji Bölgesi Projeleri için Açıklanabilir ve Fizik Kenetli Elverişlilik Analizi</h1>
+    <div class="en">Explainable, physics-coupled feasibility analysis of Positive Energy District projects: global open data, reference-class forecasting and an Istanbul validation</div>
+    <div class="meta">
+      <div><span>Hazırlayan</span>Abdurrahim Arif Aşıroğlu</div>
+      <div><span>Danışman</span>Prof. Dr. Hande Demirel</div>
+      <div><span>Bölüm</span>İTÜ Geomatik Mühendisliği</div>
+      <div><span>Çalışma alanı</span>Caferağa Mahallesi, Kadıköy (OSM relation 9441032)</div>
+    </div>
+  </div>
+
+  <div class="sheet"><h2><span class="no">1</span>Problem ve motivasyon</h2>
+    <p>PED'ler yıllık yenilenebilir enerji fazlası üreten kentsel alanlardır. Ancak tanımları, sınırları ve başarı ölçütleri hâlâ tartışmalıdır (Brozovsky vd., 2021). Uygulamadaki zorluklar yalnızca teknik değildir: yönetişim, teşvik, sosyal, süreç, piyasa, teknoloji ve bağlam olmak üzere birbirine bağlı yedi alanda toplanır (Krangsås vd., 2021).</p>
+    <p>Caferağa'daki 3B CBS çalışması, güneş potansiyeli tahminlerinin platformlar arasında %22,29 farklılaştığını göstermiştir (Demirel vd., 2025). PED sınırı belirlemede CBS ve ÇKKDS yaklaşımı ise statik, yıllık katmanlarla çalışmaktadır (Alpagut vd., 2021).</p>
+    <p><b>Boşluk:</b> PED'i mekânsal bir alan olarak değil, <b>bir proje olarak</b> ele alan; saatlik fiziğe dayanan; gerçek PED projelerini <b>referans sınıf</b> olarak kullanan (Flyvbjerg, 2014); sonuçlarını açıklayan ve küresel açık veriyle çalışan bir elverişlilik çerçevesi bulunmamaktadır.</p>
+  </div>
+
+  <div class="sheet"><h2><span class="no">2</span>Araştırma soruları</h2>
+    <div class="grid2">
+      <div class="cell"><h3>AS1 · Temsil gücü</h3>Yalnızca küresel açık veriyle hesaplanan PED elverişliliği, İstanbul'un resmî verisini ne ölçüde temsil eder?</div>
+      <div class="cell"><h3>AS2 · Sınır ve katkı</h3>Saatlik tamamlayıcılık PED proje sınırını nasıl değiştirir ve her alt birimin katkısı nedir (Shapley)?</div>
+      <div class="cell"><h3>AS3 · Reçete ve değer</h3>Bir proje adayını elverişli kılan en küçük fiziksel müdahale nedir, getirisi (ROI) nedir?</div>
+    </div>
+  </div>
+
+  <div class="sheet"><h2><span class="no">3</span>Yöntem: tek hat</h2>
+    <div class="flow">
+      <div><b>G1 küresel açık veri</b>OSM, JRC GHS-POP, UNSD, PVGIS, Ember</div>
+      <div><b>H3 özellik deposu</b>55 kayıtlı özellik / hücre; veri sözleşmesi</div>
+      <div><b>Fizik motoru</b>bina → hücre; yıllık ve saatlik enerji dengesi</div>
+      <div><b>Proje adayı</b>sınır + müdahale paketi + bağlam + finansman</div>
+      <div><b>Açıklama (XAI)</b>kesin katkılar, Shapley, SHAP, sıra aralıkları</div>
+      <div><b>Karar</b>yapılabilir mi · neden · ne yapılırsa · değer mi</div>
+      <div class="g2"><b>G2 doğrulama</b>İBB, TEDAŞ, EPİAŞ, Demirel vd. (2025)</div>
+    </div>
+    <p class="note">Kural: yerel veri model girdisi değildir, yalnızca doğrulamada kullanılır. Böylece aynı hat dünyanın her şehrinde çalışır.</p>
+  </div>
+
+  <div class="sheet"><h2><span class="no">4</span>İlk bulgular (v0.3, gerçek açık veri)</h2>
+    <div class="kpis" id="pres-kpis"></div>
+    <div class="tbl" id="pres-val" style="margin-top:12px"></div>
+    <p class="note">Denge yalnızca konut elektriğini kapsar. Saatlik göstergeler, saatlik konut talep kaynağı seçilince açılacak.</p>
+  </div>
+
+  <div class="sheet"><h2><span class="no">5</span>Beklenen katkılar ve yayın planı</h2>
+    <div class="tbl"><table>
+      <tr><th>Çıktı</th><th>Katkı</th><th>Hedef</th></tr>
+      <tr><td>Bildiri (B1)</td><td>Küresel açık veri hattı ve G1/G2 protokolü; Caferağa</td><td>Aralık 2026</td></tr>
+      <tr><td>Makale A</td><td>Açık verinin yerel veriyi temsil gücü; OSM tamlığının etkisi</td><td>Şubat taslak, Nisan gönderim</td></tr>
+      <tr><td>Makale B</td><td>Toplamsal olmayan paylaşım oyunu ve fizik kenetli tersine analiz</td><td>Mart taslak, Mayıs gönderim</td></tr>
+      <tr><td>Tez</td><td>Proje elverişlilik çerçevesi</td><td>Haziran 2027</td></tr>
+    </table></div>
+  </div>
+
+  <div class="sheet"><h2><span class="no">6</span>Hocamızın yönlendirmesini istediğimiz konular</h2>
+    <ol>
+      <li>Başlık ve proje elverişliliği çerçevesi uygun mu?</li>
+      <li>Saatlik konut talebi için kaynak: EPİAŞ ulusal yük verisi ile Demand.ninja'nın birleşimi.</li>
+      <li>Önceki projelerinizden kullanılabilecek tüketim ve 3B çatı verisi.</li>
+      <li>İBB'den talep edilecek veri katmanlarının önceliği.</li>
+      <li>Hedef dergi ve konferanslar.</li>
+    </ol>
+  </div>
+ </div>
+</section>
+
+<!-- ================================================================ TEZ PLANI -->
+<section class="view" id="v-tez" hidden>
+ <div class="doc">
+  <div class="sheet outline">
+    <div class="eyebrow">Önerilen tez yapısı · İTÜ Fen Bilimleri Enstitüsü YL tez yazım düzeni</div>
+    <h2 style="margin-top:6px">Bölüm başlıkları</h2>
+    <ol>
+      <li><b>GİRİŞ</b><ol>
+        <li>Tezin amacı ve kapsamı</li><li>Araştırma soruları ve hipotezler <span class="badge geo rq">AS1–AS3</span></li>
+        <li>Özgün katkılar</li><li>Sınırlılıklar</li><li>Tezin yapısı</li></ol></li>
+      <li><b>LİTERATÜR ARAŞTIRMASI</b><ol>
+        <li>Pozitif Enerji Bölgesi kavramı, tanımlar ve referans çerçeveleri</li>
+        <li>PED'de CBS ve 3B mekânsal analiz</li>
+        <li>Saatlik yük eşleşmesi ve şebeke etkileşimi göstergeleri</li>
+        <li>Proje elverişliliği: megaprojeler, referans sınıf tahmini, kritik başarı faktörleri</li>
+        <li>Çok kriterli karar verme, açıklanabilir yapay zekâ ve karşı-olgusal analiz</li>
+        <li>Küresel açık mekânsal veri ve H3 indeksleme</li>
+        <li>Araştırma boşluğu</li></ol></li>
+      <li><b>MATERYAL VE YÖNTEM</b><ol>
+        <li>Çalışma alanı: Caferağa, Kadıköy</li>
+        <li>Veri: küresel açık girdiler (G1) ve yerel doğrulama verisi (G2)</li>
+        <li>H3 özellik deposu ve veri sözleşmesi</li>
+        <li>Fizik motoru: bina düzeyinde saatlik enerji dengesi <span class="badge geo rq">AS1</span></li>
+        <li>Mutlak PED hazırlık indeksi ve sıra belirsizliği</li>
+        <li>Enerji paylaşım oyunu, Shapley ve proje sınırı <span class="badge geo rq">AS2</span></li>
+        <li>Fizik kenetli tersine analiz ve ROI <span class="badge geo rq">AS3</span></li>
+        <li>Referans sınıf modeli (PED Veritabanı)</li>
+        <li>Doğrulama protokolü</li></ol></li>
+      <li><b>UYGULAMA VE BULGULAR</b><ol>
+        <li>Küresel açık veriyle Caferağa sonuçları</li>
+        <li>G1–G2 karşılaştırması</li>
+        <li>Proje adayları, açıklamalar ve reçeteler</li>
+        <li>Duyarlılık analizi</li></ol></li>
+      <li><b>TARTIŞMA</b><ol>
+        <li>Açık verinin temsil gücü ve OSM tamlığı</li>
+        <li>Yöntem seçimi (MARCOS ≡ ağırlıklı toplam özdeşliği)</li>
+        <li>Benimseme ile fiziksel fizibilite ayrımı</li>
+        <li>Küresel aktarılabilirlik ve sınırlılıklar</li></ol></li>
+      <li><b>SONUÇ VE ÖNERİLER</b><ol>
+        <li>Bulguların özeti</li><li>Planlama uygulaması için öneriler</li><li>Gelecek çalışmalar</li></ol></li>
+    </ol>
+    <p class="note">Ekler: A. Veri kaynağı kütüğü · B. Özellik kataloğu · C. Yazılım (pedx) ve tekrar üretilebilirlik.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ================================================================ MVP -->
+<section class="view" id="v-mvp" hidden>
+ <div class="mvp">
+  <div id="map" role="region" aria-label="Caferağa haritası"></div>
+  <aside class="panel" aria-label="Analiz paneli">
+    <div>
+      <label for="metric">Harita katmanı (kayıtlı özellikler)</label>
+      <select id="metric"></select>
+      <div class="note" id="metricnote" style="margin-top:4px"></div>
+    </div>
+    <div>
+      <h3>Proje adayı</h3>
+      <p class="note" style="margin:4px 0 8px">Haritada altıgenlere tıklayarak adayı oluşturun ya da bir hücre seçip otomatik büyütün.</p>
+      <div class="btns">
+        <button id="grow" type="button">Otomatik büyüt</button>
+        <button id="clear" type="button" class="ghost">Temizle</button>
+        <button id="copy" type="button" class="ghost">Adayı kopyala (CSV)</button>
+      </div>
+      <label for="maxcells" style="margin-top:8px">Büyütmede en fazla hücre</label>
+      <select id="maxcells"><option>4</option><option selected>7</option><option>12</option><option>19</option></select>
+    </div>
+    <div id="cand"></div>
+  </aside>
+ </div>
+</section>
+
+<!-- ================================================================ VERİ VE YÖNTEM -->
+<section class="view" id="v-veri" hidden>
+ <div class="doc">
+  <div class="sheet"><h2>Veri kaynakları ve lisanslar</h2><div class="tbl" id="src"></div></div>
+  <div class="sheet"><h2>Parametreler</h2><div class="tbl" id="params"></div></div>
+  <div class="sheet"><h2>Doğrulama (G2)</h2><div class="tbl" id="val"></div></div>
+  <div class="sheet"><h2>Yıllık denge ile keşifsel ilişkiler</h2><p class="note">Nedensel değildir; hipotez üretmek içindir. Hedefi tanım gereği içeren bileşenler çıkarılmıştır.</p><div class="tbl" id="assoc"></div></div>
+  <div class="sheet"><h2>Özellik kataloğu</h2><div class="tbl" id="catalog"></div></div>
+  <div class="sheet"><h2>Bilinen eksikler</h2><ul id="gaps"></ul></div>
+ </div>
+</section>
+
+<!-- ================================================================ KAYNAKÇA -->
+<section class="view" id="v-kaynakca" hidden>
+ <div class="doc"><div class="sheet"><h2>Kaynakça</h2><p class="note">APA 7 biçiminde. Künyeler doğrulanmıştır; DOI'si teyit edilmemiş olanlar işaretlidir.</p><ul class="refs" id="refs"></ul></div></div>
+</section>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>/*DATA*/</script>
+<script>/*APP_JS*/</script>

@@ -6,7 +6,7 @@ PORT ?= 8765
 
 help:
 	@echo "make install    # Python paketlerini kur (pedx + h3 + jax + scipy + rasterio + pytest)"
-	@echo "make serve      # hazır demoyu aç: http://localhost:$(PORT)"
+	@echo "make serve      # uygulamayı aç: http://localhost:$(PORT)/pedx_app.html"
 	@echo "make data       # tüm ham açık verileri indir (data/raw)"
 	@echo "make build      # H3 özellik deposunu ve web verisini yeniden üret"
 	@echo "make test       # testleri çalıştır"
@@ -20,9 +20,10 @@ data:
 
 build:
 	$(PY) examples/build_demo_caferaga.py
+	$(PY) web/build_app.py
 
 serve:
-	@echo "Demo: http://localhost:$(PORT)"
+	@echo "Uygulama: http://localhost:$(PORT)/pedx_app.html  (eski demo: /index.html)"
 	$(PY) -m http.server $(PORT) -d web
 
 test:
