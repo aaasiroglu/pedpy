@@ -268,6 +268,13 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Sunum yeniden kuruldu: büyük soru, iki hedef, üç iddia, mimari, veri, yazılım ve donanım, fazlar, sonuçlar.
 - **Durum:** Kabul
 
+### K-045: Tez felsefeyle açılıyor
+- **Bağlam:** Kullanıcı tezin Laplace'ın cini ve onun çöküşüyle (Heisenberg, kaos, termodinamiğin ikinci yasası) başlamasını önerdi.
+- **Karar:** Giriş bölümü buna göre yeniden kuruldu: cin → çöküşü → kent ölçeğinde karmaşıklık ve öz-göndermelilik → veri çağının "yeni cini" (Anderson 2008) ve eleştirisi → belirsizlik altında karar → tezin ölçülebilir sorusu.
+- **Akademik özen:** Kuantum belirsizliği kentsel kararları doğrudan etkilemez; tarihsel çerçeve olarak anılır. Kentteki belirsizliğin asıl kaynakları kaos, karmaşıklık, öz-göndermelilik ve ölçüm hatasıdır.
+- **Tartışma bölümü:** Cine geri dönülüyor. Veri ölçekleme eğrisi, "veri neyi bilir, neyi bilemez?" sorusunun ampirik yanıtı olarak sunuluyor.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

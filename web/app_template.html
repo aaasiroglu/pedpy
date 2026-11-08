@@ -273,39 +273,41 @@ button:disabled{opacity:.45;cursor:not-allowed}
     <div class="eyebrow">Önerilen tez yapısı · İTÜ Fen Bilimleri Enstitüsü YL tez yazım düzeni</div>
     <h2 style="margin-top:6px">Bölüm başlıkları</h2>
     <ol>
-      <li><b>GİRİŞ</b><ol>
-        <li>Tezin amacı ve kapsamı</li><li>Araştırma soruları ve hipotezler <span class="badge geo rq">AS1–AS3</span></li>
-        <li>Özgün katkılar</li><li>Sınırlılıklar</li><li>Tezin yapısı</li></ol></li>
+      <li><b>GİRİŞ: Laplace'ın cininden kentsel karar desteğine</b><ol>
+        <li>Laplace'ın cini (1814): mutlak determinizm ve "her şeyi bilen zekâ"</li>
+        <li>Cinin çöküşü: Heisenberg belirsizlik ilkesi, kaos (Lorenz 1963), termodinamiğin ikinci yasası ve tersinmezlik, çıkarımın fiziksel sınırları (Wolpert 2008)</li>
+        <li>Fizikten kente: örgütlü karmaşıklık (Jacobs 1961; Batty 2013), çetrefil problemler (Rittel ve Webber 1973), kararın geleceği değiştirmesi (öz-göndermelilik)</li>
+        <li>Veri çağının yeni cini: "kuramın sonu" iddiası (Anderson 2008) ve eleştirisi (Kitchin 2014)</li>
+        <li>Belirsizlik altında karar: risk ve belirsizlik (Knight 1921), sınırlı rasyonellik (Simon 1955), bilginin değeri (Howard 1966)</li>
+        <li><b>Tezin sorusu:</b> Bir mekâna dair bütün raster, vektör ve tablo verisini okuyan bir karar destek sistemi, bir PED projesi hakkında ne kadar kesin karar verebilir? Bu kesinlik verinin kendisiyle nasıl ölçülür?</li>
+        <li>Amaç, kapsam, üç iddia (A güvenilirlik · B PED imzası · C karar desteği), özgün katkılar, tezin yapısı</li></ol></li>
       <li><b>LİTERATÜR ARAŞTIRMASI</b><ol>
-        <li>Pozitif Enerji Bölgesi kavramı, tanımlar ve referans çerçeveleri</li>
-        <li>PED'de CBS ve 3B mekânsal analiz</li>
-        <li>Saatlik yük eşleşmesi ve şebeke etkileşimi göstergeleri</li>
-        <li>Proje elverişliliği: megaprojeler, referans sınıf tahmini, kritik başarı faktörleri</li>
-        <li>Çok kriterli karar verme, açıklanabilir yapay zekâ ve karşı-olgusal analiz</li>
-        <li>Küresel açık mekânsal veri ve H3 indeksleme</li>
+        <li>Pozitif Enerji Bölgesi kavramı, tanımlar ve gerçek PED projeleri (PED Booklet, Annex 83, SCC öncü projeleri)</li>
+        <li>Küresel açık mekânsal veri: OSM, Overture, GHSL, HRSL, uydu görüntüsü; H3 indeksleme</li>
+        <li>Kentsel enerji modellemesi ve yük eşleşmesi</li>
+        <li>Yapay zekâ: pozitif-etiketsiz öğrenme, temel modeller, açıklanabilir yapay zekâ</li>
+        <li>Çok kriterli karar verme ve yöneylem araştırması: ağırlıklandırma, sıra dönmesi, kararlılık, Pareto, tersine optimizasyon</li>
+        <li>Proje elverişliliği: referans sınıf tahmini (Flyvbjerg 2014), kritik başarı faktörleri (Krangsås vd. 2021)</li>
         <li>Araştırma boşluğu</li></ol></li>
       <li><b>MATERYAL VE YÖNTEM</b><ol>
-        <li>Çalışma alanı: Caferağa, Kadıköy</li>
-        <li>Veri: küresel açık girdiler (G1) ve yerel doğrulama verisi (G2)</li>
-        <li>H3 özellik deposu ve veri sözleşmesi</li>
-        <li>Fizik motoru: bina düzeyinde saatlik enerji dengesi <span class="badge geo rq">AS1</span></li>
-        <li>Mutlak PED hazırlık indeksi ve sıra belirsizliği</li>
-        <li>Enerji paylaşım oyunu, Shapley ve proje sınırı <span class="badge geo rq">AS2</span></li>
-        <li>Fizik kenetli tersine analiz ve ROI <span class="badge geo rq">AS3</span></li>
-        <li>Referans sınıf modeli (PED Veritabanı)</li>
-        <li>Doğrulama protokolü</li></ol></li>
+        <li>Sistem mimarisi (L0–L6) ve veri sözleşmesi</li>
+        <li>Veri gölü ve kent ızgarası: raster → H3, GeoParquet satır grupları</li>
+        <li>Fizik çekirdeği ve kesin açıklama: B ≥ 1 ⇔ A/P ≥ d/(u·η·Y)</li>
+        <li>Gerçek PED'lerden öğrenme: vaka–kontrol, bir kent dışarıda doğrulama <span class="badge geo rq">İddia B</span></li>
+        <li>Veri ölçekleme eğrisi: bilginin değeri deneyi <span class="badge geo rq">büyük soru</span></li>
+        <li>ÇKKDS: mutlak endeks, ağırlık kararlılığı, Pareto, tersine optimizasyon <span class="badge geo rq">İddia C</span></li>
+        <li>Doğrulama protokolü: Faz 1 küresel, Faz 2 yerel (İBB, TÜİK, EPİAŞ) <span class="badge geo rq">İddia A</span></li></ol></li>
       <li><b>UYGULAMA VE BULGULAR</b><ol>
-        <li>Küresel açık veriyle Caferağa sonuçları</li>
-        <li>G1–G2 karşılaştırması</li>
-        <li>Proje adayları, açıklamalar ve reçeteler</li>
-        <li>Duyarlılık analizi</li></ol></li>
+        <li>Açık veri ile yerel veri: Caferağa</li>
+        <li>16 gerçek PED: hangi açık veri imzası?</li>
+        <li>Veri ölçekleme eğrisi: veri arttıkça karar ne kadar kesinleşiyor?</li>
+        <li>Caferağa proje adayı: kriterler, ağırlıklar, en ucuz müdahale</li></ol></li>
       <li><b>TARTIŞMA</b><ol>
-        <li>Açık verinin temsil gücü ve OSM tamlığı</li>
-        <li>Yöntem seçimi (MARCOS ≡ ağırlıklı toplam özdeşliği)</li>
-        <li>Benimseme ile fiziksel fizibilite ayrımı</li>
-        <li>Küresel aktarılabilirlik ve sınırlılıklar</li></ol></li>
+        <li>Cine yeniden dönüş: veri neyi bilir, neyi bilemez? (epistemik ve aleatorik belirsizlik)</li>
+        <li>Açık verinin temsil gücü ve yanlılıkları</li>
+        <li>Benimseme ile fiziksel fizibilite ayrımı; küresel aktarılabilirlik</li></ol></li>
       <li><b>SONUÇ VE ÖNERİLER</b><ol>
-        <li>Bulguların özeti</li><li>Planlama uygulaması için öneriler</li><li>Gelecek çalışmalar</li></ol></li>
+        <li>Bulguların özeti</li><li>Planlama uygulaması için öneriler</li><li>Gelecek çalışmalar: altıgen transformer'ı, kentsel dönüşüm senaryosu, ROI</li></ol></li>
     </ol>
     <p class="note">Ekler: A. Veri kaynağı kütüğü · B. Özellik kataloğu · C. Yazılım (pedx) ve tekrar üretilebilirlik.</p>
   </div>

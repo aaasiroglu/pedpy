@@ -23,9 +23,24 @@ Laplace (1814), evrenin bütün durumunu ve yasalarını bilen bir zekânın gel
    - nedensellik korelasyondan çıkmaz (Pearl 2009).
 4. **Evrimsel ve olasılıksal modelleme:** Bayesçi güncelleme her yeni kentte posteriordaki belirsizliği daraltır. Evrimsel arama (ör. NSGA-II) ise belirsizlik altında sağlam proje seçenekleri üretir. Sistem tek bir "doğru" vermez; dağılım ve bu dağılımın gerekçesini verir.
 
+**Giriş bölümünün akışı (kullanıcı önerisi, K-045):**
+1. Laplace'ın cini (1814).
+2. Cinin çöküşü:
+   - Heisenberg (1927): konum ve momentum aynı anda kesin bilinemez;
+   - Lorenz (1963): başlangıç koşullarına duyarlılık;
+   - termodinamiğin ikinci yasası: tersinmezlik, geçmişin de kesin geri hesaplanamaması;
+   - Wolpert (2008): klasik bir evrende bile kendi geleceğini öngören bir çıkarım aygıtı mantıksal olarak imkânsızdır.
+3. Kent ölçeğine taşıma. Kuantum belirsizliği kent ölçeğinde doğrudan rol oynamaz; tezde metafor olarak değil, tarihsel çerçeve olarak anılır. Kentte belirleyici olanlar şunlardır:
+   - örgütlü karmaşıklık (Jacobs 1961; Batty 2013);
+   - çetrefil problemler (Rittel ve Webber 1973);
+   - öz-göndermelilik.
+4. Veri çağının yeni cini: "kuramın sonu" iddiası (Anderson 2008) ve eleştirisi (Kitchin 2014).
+5. Belirsizlik altında karar: Knight (1921), Simon (1955), Howard (1966).
+6. Tezin sorusu ve ölçümü: veri ölçekleme eğrisi.
+
 **Tezin felsefi iddiası:** Daha fazla veri kesinlik getirmez, ama ne kadar bildiğimizi ölçülebilir kılar. İyi bir karar destek sistemi bilmediğini de raporlar.
 
-Kaynaklar: Laplace, P.-S. (1814). *Essai philosophique sur les probabilités*. · Howard, R. A. (1966). Information value theory. *IEEE Trans. Systems Science and Cybernetics*, 2(1), 22–26. · Pearl, J. (2009). *Causality* (2. bs.). · Kiureghian, A. D., & Ditlevsen, O. (2009). Aleatory or epistemic? *Structural Safety*, 31(2), 105–112. · Lorenz, E. N. (1963). Deterministic nonperiodic flow. *J. Atmos. Sci.*, 20, 130–141. · Deb, K., vd. (2002). NSGA-II. *IEEE Trans. Evol. Comput.*, 6(2), 182–197.
+Kaynaklar: Heisenberg, W. (1927). Über den anschaulichen Inhalt der quantentheoretischen Kinematik und Mechanik. *Z. Physik*, 43, 172–198. · Wolpert, D. H. (2008). Physical limits of inference. *Physica D*, 237(9), 1257–1281. · Jacobs, J. (1961). *The Death and Life of Great American Cities*. · Batty, M. (2013). *The New Science of Cities*. MIT Press. · Rittel, H. W. J., & Webber, M. M. (1973). Dilemmas in a general theory of planning. *Policy Sciences*, 4, 155–169. · Anderson, C. (2008). The end of theory. *Wired*, 16(7). · Kitchin, R. (2014). Big Data, new epistemologies and paradigm shifts. *Big Data & Society*, 1(1). · Knight, F. H. (1921). *Risk, Uncertainty and Profit*. · Simon, H. A. (1955). A behavioral model of rational choice. *QJE*, 69(1), 99–118. · Laplace, P.-S. (1814). *Essai philosophique sur les probabilités*. · Howard, R. A. (1966). Information value theory. *IEEE Trans. Systems Science and Cybernetics*, 2(1), 22–26. · Pearl, J. (2009). *Causality* (2. bs.). · Kiureghian, A. D., & Ditlevsen, O. (2009). Aleatory or epistemic? *Structural Safety*, 31(2), 105–112. · Lorenz, E. N. (1963). Deterministic nonperiodic flow. *J. Atmos. Sci.*, 20, 130–141. · Deb, K., vd. (2002). NSGA-II. *IEEE Trans. Evol. Comput.*, 6(2), 182–197.
 
 ## 2. Kesişim: neden "dünyanın en güncel konuları" bu projede doğal olarak buluşuyor?
 

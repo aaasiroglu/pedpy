@@ -2,13 +2,17 @@
 
 *Güncelleme: 2026-11-08 · Bu belge diğer bütün belgelerin önündedir. Çelişki olursa bu belge geçerlidir.*
 
+## Büyük soru (giriş felsefeyle açılır, K-044/K-045)
+
+> Laplace'ın cini her şeyi bildiği için geleceği kesin bilirdi; Heisenberg, kaos ve termodinamik bunun imkânsız olduğunu gösterdi. **Bir mekâna dair bütün açık veriyi okuyan bir karar destek sistemi, bir PED projesi hakkında ne kadar kesin karar verebilir ve bu kesinlik nasıl ölçülür?** Bu sorunun ölçümü veri ölçekleme eğrisidir: veri aileleri eklendikçe gerçek PED'leri tanıma başarısı ve bu başarının belirsizliği.
+
 ## Tek cümle
 
 > **Dünyanın herhangi bir yerinde önerilen bir Pozitif Enerji Bölgesi *projesinin* elverişliliğini (yapılabilir mi, neden olmaz, ne yapılırsa olur, değer mi?) yalnızca küresel açık veriyle, saatlik fiziğe dayanarak, gerçek PED projelerini referans sınıfı alarak ve açıklanabilir biçimde değerlendiren bir çerçeve; İstanbul'un resmî verileriyle doğrulanmış.**
 
 *Analiz birimi hücre değil, **proje adayıdır**: sınır, müdahale paketi, bağlam ve finansman (bkz. 15_proje_elverislilik.md).*
 
-**Başlık önerisi:** *Pozitif Enerji Bölgesi Projeleri için Açıklanabilir ve Fizik Kenetli Elverişlilik Analizi: Küresel Açık Veri, Referans Sınıf Tahmini ve İstanbul Doğrulaması*
+**Başlık önerisi:** *Pozitif Enerji Bölgesi Projeleri için Küresel, Açık Veriye Dayalı ve Açıklanabilir Karar Destek Sistemi: Gerçek PED'lerden Öğrenme, Çok Kriterli Karar Verme ve İstanbul Vakası*
 
 ## Üç soru, üç katkı, üç yayın
 
