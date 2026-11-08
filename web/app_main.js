@@ -116,6 +116,41 @@
     draw(sel.value);
     sel.addEventListener("change", e => draw(e.target.value));
     renderCand();
+    initLive();
+  }
+
+  // ---------- on-demand assessment anywhere (K-040): needs `make api`; otherwise disabled, never faked
+  const API = "http://127.0.0.1:8766";
+  let liveLayer = null;
+  function initLive() {
+    fetch(API + "/health").then(r => r.json()).then(h => {
+      $("livestatus").textContent = `API hazır (pedx ${h.version}). Caferağa dışında haritada herhangi bir yere tıklayın; dünya üzerinde gezinmek için uzaklaştırın.`;
+      map.on("click", ev => live(ev.latlng.lat, ev.latlng.lng));
+    }).catch(() => {
+      $("livestatus").innerHTML = "Yerel API çalışmıyor. Açmak için terminalde <code>make api</code>; bu sayfa yalnız önceden hesaplanmış Caferağa'yı gösterir.";
+    });
+  }
+  function live(lat, lon) {
+    const k = $("livek").value;
+    $("liveout").innerHTML = `<p class="note">${lat.toFixed(4)}, ${lon.toFixed(4)} için açık veriler çekiliyor (Overture, HRSL, GHS-POP, PVGIS, UNSD, OSM)…</p>`;
+    fetch(`${API}/assess?lat=${lat}&lon=${lon}&k=${k}`).then(r => r.json()).then(r => {
+      const s = r.summary, e = s.explanation || {};
+      if (liveLayer) map.removeLayer(liveLayer);
+      const sc = scaleOf("energy_balance"), br = breaks("energy_balance");
+      liveLayer = L.geoJSON(r.geojson, { style: f => ({ color: "#222", weight: 0.6, fillOpacity: 0.6, fillColor: col(f.properties.energy_balance, br, sc) }),
+        onEachFeature: (f, l) => l.bindTooltip(`Denge: ${nf(f.properties.energy_balance, 2)} · nüfus ${nf(f.properties.population, 0)}`, { sticky: true }) }).addTo(map);
+      const inp = s.inputs || {}, fails = Object.entries(r.failures || {});
+      $("liveout").innerHTML = `<p><b>${{ped_candidate: "PED adayı", conditional_roof: "Koşullu (çatı)", conditional_demand: "Koşullu (talep azaltımı)", not_on_site: "Yerinde olmaz", insufficient_data: "Veri yetersiz", no_population: "Nüfus yok"}[e.verdict] || e.verdict}</b></p>
+        <p>${e.text_tr || ""}</p>
+        <table class="kv"><tr><td>Yıllık denge (aralık)</td><td>${nf(e.balance, 2)} (${nf((s.balance_range || [])[0], 2)}–${nf((s.balance_range || [])[1], 2)})</td></tr>
+        <tr><td>Nüfus · kaynak</td><td>${nf(s.population, 0)} · ${(r.provenance.population || {}).source || "-"}</td></tr>
+        <tr><td>60+ / 0–5 / 15–24</td><td>${nf(s.vul_elderly60, 0)} / ${nf(s.vul_children0_5, 0)} / ${nf(s.vul_youth15_24, 0)}</td></tr>
+        <tr><td>Mekân (Overture)</td><td>${nf(s.places, 0)}</td></tr>
+        <tr><td>Kişi başı konut elektriği</td><td>${nf((inp.kwh_per_capita || {}).kwh_per_capita, 0)} kWh (${(inp.kwh_per_capita || {}).basis || "-"}, ${(inp.country || {}).name || "-"})</td></tr>
+        <tr><td>FV verimi</td><td>${nf((inp.pv_yield || {}).kwh_per_kwp, 0)} kWh/kWp</td></tr>
+        <tr><td>Süre</td><td>${nf((r.timing_s || {}).total, 1)} s</td></tr></table>
+        ${fails.length ? `<p class="note">Alınamayan kaynaklar (sentetik değerle doldurulmadı): ${fails.map(x => x[0]).join(", ")}</p>` : ""}`;
+    }).catch(err => { $("liveout").innerHTML = `<p class="note">Hata: ${err}</p>`; });
   }
 
   function draw(k) {
@@ -126,7 +161,7 @@
         fillOpacity: 0.62, fillColor: col(f.properties[k], br, sc) }),
       onEachFeature: (f, layer) => {
         layer.bindTooltip(`${sp.label_tr}: ${nf(f.properties[k], dg(f.properties[k]))} ${sp.unit}`, { sticky: true });
-        layer.on("click", () => { const c = f.properties.cell; cand.has(c) ? cand.delete(c) : cand.add(c); restyle(); renderCand(); });
+        layer.on("click", ev => { L.DomEvent.stopPropagation(ev); const c = f.properties.cell; cand.has(c) ? cand.delete(c) : cand.add(c); restyle(); renderCand(); });
       },
     }).addTo(map);
     if (legend) map.removeControl(legend);

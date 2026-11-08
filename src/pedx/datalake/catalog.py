@@ -8,6 +8,7 @@ engine (pedx.datalake.raster) turns it into registered H3 features. Same code, a
 status: ingested  – connector implemented and data in the Caferağa store
         connector – access verified, ingestion not yet wired
         planned   – licence/access to be confirmed
+        rejected  – evaluated and excluded (licence/terms not open); kept so the decision is visible
 """
 
 from __future__ import annotations
@@ -36,7 +37,13 @@ class Dataset:
 DATASETS: List[Dataset] = [
     # ---- people
     Dataset("ghs_pop_2020", "insan", "raster", "JRC GHS-POP R2023A", "3″ (~90 m), 1975–2030", "CC BY 4.0", "jeodpp.jrc.ec.europa.eu tiles", "ingested", "demo_population"),
-    Dataset("worldpop_agesex", "insan", "raster", "WorldPop", "100 m", "CC BY 4.0", "data.worldpop.org", "planned", "yaş yapısı"),
+    Dataset("worldpop_agesex", "insan", "raster", "WorldPop", "100 m", "CC BY 4.0", "data.worldpop.org", "planned", "yaş yapısı (HRSL'ye alternatif)"),
+    Dataset("meta_hrsl_demographic", "kirilganlik", "raster", "Meta Data for Good HRSL (genel, 60+, 0–5, 15–24, kadın 15–49)", "1″ (~30 m)", "CC BY 4.0", "AWS COG (dataforgood-fb-data/hrsl-cogs)", "ingested", "vul_* (yaşlı, çocuk, genç)"),
+    Dataset("ghs_built_s_epochs", "kirilganlik", "raster", "JRC GHS-BUILT-S R2023A E1975/E1990/E2000", "3″", "CC BY 4.0", "jeodpp tiles", "ingested", "vul_built_pre*_share (doku yaşı)"),
+    Dataset("osm_resilience", "kirilganlik", "vector", "OpenStreetMap (hastane, itfaiye, okul, bakım, toplanma alanı)", "nokta", "ODbL 1.0", "Overpass API", "ingested", "res_*"),
+    Dataset("glofas_flood_hazard", "kirilganlik", "raster", "JRC GloFAS/CEMS taşkın tehlike haritaları (10–500 yıl)", "3″ (~90 m)", "kısıtsız (JRC)", "data.jrc.ec.europa.eu", "planned", "taşkın derinliği"),
+    Dataset("gem_seismic_hazard", "kirilganlik", "raster", "GEM Global Seismic Hazard Map (PGA, 475 yıl)", "~1 km", "CC BY-NC-SA 4.0 (ticari kullanım anlaşmayla)", "globalquakemodel.org", "planned", "deprem tehlikesi (akademik)"),
+    Dataset("ibb_assembly_points", "kirilganlik", "vector", "İBB Açık Veri: afet toplanma alanları", "nokta", "İBB Açık Veri Lisansı", "data.ibb.gov.tr", "planned", "yalnız G2 doğrulama (OSM'de yok)"),
     Dataset("ghs_smod", "kent", "raster", "JRC GHS-SMOD R2023A", "1 km", "CC BY 4.0", "jeodpp", "planned", "kentsel/kırsal derece"),
     # ---- buildings
     Dataset("osm_buildings", "bina", "vector", "OpenStreetMap", "poligon", "ODbL 1.0", "Overpass API", "ingested", "built_*, morph_*"),
@@ -45,7 +52,7 @@ DATASETS: List[Dataset] = [
     Dataset("ghs_built_v_2020", "bina", "raster", "JRC GHS-BUILT-V R2023A (toplam)", "3″", "CC BY 4.0", "jeodpp tiles", "ingested", "ghsl_volume_m3"),
     Dataset("ghs_built_v_nres_2020", "bina", "raster", "JRC GHS-BUILT-V NRES R2023A", "3″", "CC BY 4.0", "jeodpp tiles", "ingested", "ghsl_nres_volume_m3"),
     Dataset("ghs_built_h_agbh_2018", "bina", "raster", "JRC GHS-BUILT-H AGBH R2023A", "3″", "CC BY 4.0", "jeodpp tiles", "ingested", "ghsl_height_m"),
-    Dataset("overture_buildings", "bina", "vector", "Overture Maps Foundation", "poligon + yükseklik", "ODbL / CDLA (katmana göre)", "S3/Azure GeoParquet", "planned", "kat ve yükseklik"),
+    Dataset("overture_buildings", "bina", "vector", "Overture Maps buildings (OSM + Microsoft/Google ML + Esri)", "poligon + yükseklik/kat", "ODbL 1.0", "S3 GeoParquet (satır grubu indeksi)", "ingested", "ov_bld_*, ov_nonosm_share; tıkla→hesapla taban alanı"),
     Dataset("ms_buildings", "bina", "vector", "Microsoft Global ML Building Footprints", "poligon", "ODbL", "GitHub / Planetary Computer", "planned", "taban alanı tamlığı"),
     Dataset("google_open_buildings", "bina", "vector", "Google Open Buildings (2.5D Temporal)", "poligon / 4 m", "CC BY 4.0 / ODbL", "GCS", "planned", "yükseklik (kapsam teyit)"),
     # ---- streets & mobility
@@ -54,7 +61,15 @@ DATASETS: List[Dataset] = [
     Dataset("mobility_database_gtfs", "sokak", "table", "MobilityData", "tarife", "kaynağa göre açık", "mobilitydatabase.org", "planned", "sefer sıklığı"),
     # ---- city function
     Dataset("osm_pois", "kent", "vector", "OpenStreetMap", "nokta", "ODbL 1.0", "Overpass API", "ingested", "poi_*"),
-    Dataset("overture_places", "kent", "vector", "Overture Maps Places", "nokta", "CDLA-Permissive 2.0 (teyit)", "GeoParquet", "planned", "POI tamlığı"),
+    Dataset("overture_places", "kent", "vector", "Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)", "nokta", "CDLA-Permissive-2.0", "S3 GeoParquet", "ingested", "ov_places_* (Caferağa: OSM'nin 1,7 katı)"),
+    Dataset("overture_transportation", "sokak", "vector", "Overture Maps transportation (segment, connector)", "çizgi", "ODbL 1.0", "S3 GeoParquet", "connector", "OSM yaya ağına küresel yedek"),
+    Dataset("overture_divisions", "kent", "vector", "Overture Maps divisions (ülke…mahalle)", "poligon", "ODbL 1.0", "S3 GeoParquet", "connector", "ülke/bölge eşlemesi"),
+    Dataset("fsq_os_places", "kent", "vector", "Foursquare OS Places (Swarm/Foursquare tabanı, 100M+)", "nokta", "Apache 2.0", "HF (kayıtlı) / Source Cooperative", "connector", "Overture places içinde zaten var"),
+    Dataset("uber_h3", "sokak", "table", "Uber H3 (açık kaynak altıgen ızgara)", "ızgara", "Apache 2.0", "pip h3", "ingested", "tüm mekânsal birim"),
+    Dataset("uber_movement", "sokak", "timeseries", "Uber Movement seyahat süreleri", "bölge çifti", "kapatıldı / kullanım koşulları", "-", "rejected", "erişilemez"),
+    Dataset("google_popular_times", "sosyal", "table", "Google Maps Popular Times / yorumlar", "mekân", "Google ToS (açık değil), KVKK/GDPR", "-", "rejected", "kazıma yasak"),
+    Dataset("google_eie", "enerji", "table", "Google Environmental Insights Explorer", "kent", "lisanslı paylaşım, açık değil", "-", "rejected", "yalnız literatür karşılaştırması"),
+    Dataset("yandex_maps", "kent", "vector", "Yandex Haritalar / panorama", "-", "açık lisans yok", "-", "rejected", "kullanılamaz"),
     Dataset("osm_admin", "kent", "vector", "OpenStreetMap boundary", "poligon", "ODbL 1.0", "Overpass API", "ingested", "AOI sınırı"),
     # ---- energy
     Dataset("pvgis_pv", "enerji", "timeseries", "EU JRC PVGIS 5.3", "saatlik, nokta", "AB yeniden kullanım", "re.jrc.ec.europa.eu API", "ingested", "energy_pv_*"),

@@ -79,6 +79,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var
 .refs li{margin:6px 0;font-size:14px;padding-left:2em;text-indent:-2em;list-style:none}
 .refs{padding-left:0}
 /* MVP */
+table.kv{width:100%;border-collapse:collapse;font-size:.9em}table.kv td{padding:2px 4px;border-bottom:1px solid var(--line,#ddd)}
 .mvp{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:14px;height:calc(100vh - 120px);min-height:560px}
 #map{height:100%;border:1px solid var(--rule);border-radius:6px;background:var(--mapbg)}
 .panel{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;overflow:auto;padding:14px 16px;display:grid;gap:14px;align-content:start;min-width:0}
@@ -291,6 +292,13 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <select id="maxcells"><option>4</option><option selected>7</option><option>12</option><option>19</option></select>
     </div>
     <div id="cand"></div>
+    <div id="live">
+      <h3>Dünyanın her yeri: tıkla → hesapla</h3>
+      <p class="note" id="livestatus" style="margin:4px 0 8px">Yerel API aranıyor (make api → 127.0.0.1:8766)…</p>
+      <label for="livek">Halka sayısı (k)</label>
+      <select id="livek"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
+      <div id="liveout"></div>
+    </div>
   </aside>
  </div>
 </section>

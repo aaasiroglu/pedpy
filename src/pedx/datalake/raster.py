@@ -29,6 +29,10 @@ GHSL_PRODUCTS = {
     "built_v_2020": ("GHS_BUILT_V_GLOBE_R2023A", "GHS_BUILT_V_E2020_GLOBE_R2023A_4326_3ss"),
     "built_v_nres_2020": ("GHS_BUILT_V_GLOBE_R2023A", "GHS_BUILT_V_NRES_E2020_GLOBE_R2023A_4326_3ss"),
     "built_h_agbh_2018": ("GHS_BUILT_H_GLOBE_R2023A", "GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss"),
+    # multi-temporal built-up surface: epoch of first urbanisation (vulnerability proxy, K-039)
+    "built_s_1975": ("GHS_BUILT_S_GLOBE_R2023A", "GHS_BUILT_S_E1975_GLOBE_R2023A_4326_3ss"),
+    "built_s_1990": ("GHS_BUILT_S_GLOBE_R2023A", "GHS_BUILT_S_E1990_GLOBE_R2023A_4326_3ss"),
+    "built_s_2000": ("GHS_BUILT_S_GLOBE_R2023A", "GHS_BUILT_S_E2000_GLOBE_R2023A_4326_3ss"),
 }
 
 

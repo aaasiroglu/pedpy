@@ -32,12 +32,7 @@ OUT_WEB = ROOT / "web" / "data"
 OUT_PROC = ROOT / "data" / "processed"
 RES = 10
 
-PARAMS = {
-    "roof_utilization": {"value": 0.26, "low": 0.26, "high": 0.50,
-                         "source": "Gagnon et al. (2016) NREL/TP-6A20-65298 (26% of small-building roof area suitable); upper bound until G2 calibration with Demirel et al. (2025)"},
-    "module_efficiency": {"value": 0.20, "low": 0.17, "high": 0.25,
-                          "source": "Fraunhofer ISE Photovoltaics Report: commercial Si modules ~17% → just under 25% over the last decade"},
-}
+from pedx.params import PARAMS  # noqa: E402  (shared with pedx.service)
 
 
 def main() -> None:
@@ -102,12 +97,28 @@ def main() -> None:
     })
     F_ghsl["ghsl_nres_share"] = F_ghsl["ghsl_nres_surface_m2"] / F_ghsl["ghsl_built_surface_m2"].where(F_ghsl["ghsl_built_surface_m2"] > 0)
     F_ghsl["ghsl_mean_height_m"] = F_ghsl["ghsl_volume_m3"] / F_ghsl["ghsl_built_surface_m2"].where(F_ghsl["ghsl_built_surface_m2"] > 0)
-    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph, F_acc, F_ghsl, F_net, F_eo])
+    # ---- vulnerability & resilience (K-039): HRSL age groups, GHSL built-up epochs, OSM facilities
+    from pedx.datalake.vulnerability import parse_resilience, resilience_features, vulnerability_features
+
+    hrsl_csv = SRC / "hrsl_h3r10_caferaga.csv"  # produced by scripts/fetch_layers.py
+    epochs = {y: z(f"built_s_{y}", "sum") for y in (1975, 1990, 2000) if ghsl_tile_path(f"built_s_{y}", 40.986, 29.028, gh).exists()}
+    epochs[2020] = F_ghsl["ghsl_built_surface_m2"]
+    if hrsl_csv.exists():
+        H = pd.read_csv(hrsl_csv, index_col=0)
+        F_vul = vulnerability_features(H, F_eo.get("env_lst_anomaly_c"), epochs, population=F_demo["demo_population"])
+    else:
+        F_vul = pd.DataFrame(index=pd.Index(cells, name="cell"))
+    res_json = RAW / "caferaga_resilience.json"
+    F_res = resilience_features(cells, parse_resilience(json.loads(res_json.read_text()))) if res_json.exists() else pd.DataFrame(index=pd.Index(cells, name="cell"))
+    ov_csv = SRC / "overture_h3r10_caferaga.csv"  # produced by scripts/fetch_layers.py
+    F_ov = pd.read_csv(ov_csv, index_col=0) if ov_csv.exists() else pd.DataFrame(index=pd.Index(cells, name="cell"))
+    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph, F_acc, F_ghsl, F_net, F_eo, F_vul, F_res, F_ov])
     F["osm_vs_ghsl_surface"] = F["built_footprint_m2"] / F["ghsl_built_surface_m2"].where(F["ghsl_built_surface_m2"] > 0)
     for c in ("built_n_buildings", "built_footprint_m2", "demo_population", "poi_total") + tuple(x for x in F if x.startswith("poi_n_")):
         F[c] = F[c].fillna(0.0)
 
     # ---------------- L3: physics engine (annual) + exact XAI decomposition
+    F = F.copy()  # de-fragment after the many joins
     u, eta = PARAMS["roof_utilization"], PARAMS["module_efficiency"]
     F["energy_demand_res_kwh"] = F["demo_population"] * res_kwh_per_cap
     for tag, uf, ef in (("", u["value"], eta["value"]), ("_low", u["low"], eta["low"]), ("_high", u["high"], eta["high"])):
@@ -135,7 +146,10 @@ def main() -> None:
     # ---------------- exploratory associations (NOT causal): Spearman of every feature with the balance
     target = "energy_balance"
     # definitional components of the target are excluded (balance ∝ footprint / population)
-    definitional = {"demo_m2_footprint_per_capita", "built_footprint_m2", "demo_population", "demo_density_per_ha", "osm_vs_ghsl_surface"}
+    definitional = {"demo_m2_footprint_per_capita", "built_footprint_m2", "demo_population", "demo_density_per_ha", "osm_vs_ghsl_surface",
+                    # re-based on demo_population (count = GHS-POP × HRSL share) → carry the target's denominator
+                    "vul_elderly60_n", "vul_children0_5_n", "vul_youth15_24_n", "vul_women15_49_n", "vul_dependent_n",
+                    "vul_heat_exposed_vulnerable", "ov_bld_footprint_m2"}
     assoc = []
     for c in F.columns:
         if c.startswith(("energy_", "xai_", "emb_")) or c in definitional:  # emb_* contain target components
@@ -155,6 +169,10 @@ def main() -> None:
         "share_start_year_known": float(bld["start_year"].notna().mean()),
         "ghsl_built_surface_m2": float(F["ghsl_built_surface_m2"].sum()), "ghsl_volume_m3": float(F["ghsl_volume_m3"].sum()),
         "ghsl_nres_surface_m2": float(F["ghsl_nres_surface_m2"].sum()),
+        "elderly60": float(F.get("vul_elderly60_n", pd.Series(dtype=float)).sum()),
+        "children0_5": float(F.get("vul_children0_5_n", pd.Series(dtype=float)).sum()),
+        "youth15_24": float(F.get("vul_youth15_24_n", pd.Series(dtype=float)).sum()),
+        "overture_places": float(F.get("ov_places_n", pd.Series(dtype=float)).sum()),
     }
     T["balance"] = T["pv_kwh"] / T["demand_res_kwh"]
     pvsum = {tag: float((F["built_footprint_m2"] * uf * ef * yield_kwh_kwp).sum()) for tag, uf, ef in
@@ -166,6 +184,11 @@ def main() -> None:
          "g1_source": "JRC GHS-POP R2023A E2020, OSM sınırı içinde toplam",
          "g2_source": "Kadıköy Belediyesi 'Anlat Kadıköy' (TÜİK ADNKS 2020); İBB/TÜİK resmî tablosuyla teyit edilecek",
          "rel_diff": round(T["population_ghs_2020"] / 21421 - 1, 4)},
+        {"item": "Caferağa nüfusu (Meta HRSL)", "global_open_G1": round(float(F["vul_pop_hrsl"].sum())) if "vul_pop_hrsl" in F else None,
+         "local_G2": 21421, "unit": "kişi", "g1_source": "Meta Data for Good HRSL general (1″), OSM sınırı içinde toplam",
+         "g2_source": "TÜİK ADNKS 2020 (Kadıköy Belediyesi aktarımı)",
+         "rel_diff": round(float(F["vul_pop_hrsl"].sum()) / 21421 - 1, 4) if "vul_pop_hrsl" in F else None,
+         "note": "HRSL nüfusu yerleşim pikseline dağıtır; ticari çekirdekte (çarşı) konutsuz binalara da nüfus düşer → nüfus tabanı GHS-POP."},
         {"item": "Kişi başı toplam elektrik tüketimi", "global_open_G1": round(pc_2022), "local_G2": 2678, "unit": "kWh/kişi (2022)",
          "g1_source": "Ember via OWID (Türkiye ulusal ortalaması)", "g2_source": "TEDAŞ 2023 Sektör Raporu, Tablo 7 (İstanbul, net tüketim)",
          "rel_diff": round(pc_2022 / 2678 - 1, 4),
@@ -186,6 +209,8 @@ def main() -> None:
             "Gölgeleme ve çatı geometrisi modellenmedi → çatı kullanım katsayısı aralığıyla (0,26–0,50) temsil ediliyor.",
             "Ekonomi, çevre, iklim, görüntü ve sosyal katmanlar katalogda 'planlanan' durumunda (docs/13, docs/14).",
             "Yürüme erişimi: POI'ler yalnızca mahalle sınırlayıcı kutusundan çekildi; kenar hücrelerde 800 m erişim eksik sayılıyor (S2'de tamponlu sorgu).",
+            "HRSL yaş payları sayım birimi (ilçe) içinde sabittir → mahalle içi yaş farkı gösterilmez; yaşlı/çocuk sayıları GHS-POP × pay olarak verilir.",
+            "OSM'de İstanbul afet toplanma alanı (emergency=assembly_point) yok → toplanma alanına uzaklık boş; İBB toplanma alanları G2 doğrulamasında.",
         ],
     }
 
@@ -212,6 +237,9 @@ def main() -> None:
 
     lake = lake_catalog().reset_index().to_dict(orient="records")
     eo_prov = json.loads(eo_csv.with_suffix(".json").read_text()) if eo_csv.with_suffix(".json").exists() else {}
+    lay_json = SRC / "layers_caferaga.json"
+    if lay_json.exists():
+        eo_prov.update(json.loads(lay_json.read_text()))
     summary = {"embedding": emb_info, "eo_provenance": eo_prov, "datalake": lake, "demand_status": demand_status, "definitional_excluded": sorted(definitional), "total": T, "validation": validation, "provenance": provenance, "catalog": catalog, "associations": assoc[:20],
                "monthly_pv_kwh_per_kwp": {int(k): float(v) for k, v in pv["pv_kwh_per_kwp"].groupby(pv.index.month).sum().items()}}
     write_json(summary, OUT_WEB / "summary.json")

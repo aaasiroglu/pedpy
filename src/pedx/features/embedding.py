@@ -18,7 +18,7 @@ __all__ = ["pca_embedding"]
 
 def pca_embedding(F: pd.DataFrame, cols: Sequence[str], k: int = 5) -> Tuple[pd.DataFrame, Dict[str, object]]:
     X = F[list(cols)].astype(float)
-    keep = [c for c in X if X[c].notna().sum() >= max(5, len(X) // 2) and X[c].std(skipna=True) > 0]
+    keep = [c for c in X if X[c].notna().sum() >= max(5, len(X) // 2) and X[c].std(skipna=True) > 1e-9 * max(1.0, abs(X[c].mean()))]  # drop constant layers
     X = X[keep]
     X = X.fillna(X.median())
     Z = (X - X.mean()) / X.std(ddof=0)

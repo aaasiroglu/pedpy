@@ -33,6 +33,7 @@ FAMILIES = {
     "imagery": "Uydu ve sokak görüntüsü",
     "social": "Sosyal",
     "embedding": "Gömme (tüm katmanlar, PCA)",
+    "vulnerability": "Kırılganlık ve afete direnç",
 }
 
 
@@ -51,6 +52,16 @@ class FeatureSpec:
 
 _OSM = ("OpenStreetMap (Overpass)", "ODbL 1.0")
 _GHS = ("JRC GHS-POP R2023A E2020 3″", "CC BY 4.0")
+_HRSL = ("Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)", "CC BY 4.0")
+_GHSL_T = ("JRC GHS-BUILT-S R2023A çok zamanlı (E1975/E1990/E2000/E2020)", "CC BY 4.0")
+_OV_B = ("Overture Maps buildings (sürüm overture.RELEASE)", "ODbL 1.0")
+_OV_P = ("Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)", "CDLA-Permissive-2.0")
+_OV_TOP = {
+    "food_and_drink": "Yeme-içme", "shopping": "Alışveriş", "services_and_business": "Hizmet ve iş", "education": "Eğitim",
+    "lifestyle_services": "Kişisel hizmet", "arts_and_entertainment": "Sanat ve eğlence", "community_and_government": "Toplum ve kamu",
+    "health_care": "Sağlık", "travel_and_transportation": "Seyahat ve ulaşım", "sports_and_recreation": "Spor ve rekreasyon",
+    "lodging": "Konaklama", "cultural_and_historic": "Kültür ve tarih", "geographic_entities": "Coğrafi öğe",
+}
 _POI_FAMS = {
     "food_drink": "Yeme-içme", "retail": "Perakende", "health": "Sağlık", "education": "Eğitim",
     "finance": "Finans", "leisure_culture": "Eğlence / kültür", "office_business": "Ofis / iş",
@@ -142,6 +153,46 @@ _ACTIVE: List[FeatureSpec] = [
     FeatureSpec("mob_intersection_density_per_km2", "mobility", "Kavşak yoğunluğu (derece ≥ 3)", "adet/km²", "OSM", "ODbL"),
 ] + [
     FeatureSpec(f"poi_n_{k}", "poi", f"POI: {v}", "adet", *_OSM) for k, v in _POI_FAMS.items()
+] + [
+    # ---- vulnerability & disaster resilience (K-039)
+    FeatureSpec("vul_pop_hrsl", "vulnerability", "Nüfus (HRSL, ham toplam; G2 karşılaştırması için)", "kişi", *_HRSL,
+                note="Caferağa'da TÜİK'e göre +%66; ticari çekirdekte yerleşim pikseline nüfus atar → nüfus tabanı GHS-POP kalır"),
+    FeatureSpec("vul_elderly60_n", "vulnerability", "60 yaş ve üstü kişi", "kişi", *_HRSL, note="GHS-POP × HRSL payı"),
+    FeatureSpec("vul_children0_5_n", "vulnerability", "0–5 yaş çocuk", "kişi", *_HRSL, note="GHS-POP × HRSL payı"),
+    FeatureSpec("vul_youth15_24_n", "vulnerability", "15–24 yaş genç", "kişi", *_HRSL, note="GHS-POP × HRSL payı"),
+    FeatureSpec("vul_women15_49_n", "vulnerability", "15–49 yaş kadın", "kişi", *_HRSL, note="GHS-POP × HRSL payı"),
+    FeatureSpec("vul_elderly60_share", "vulnerability", "60+ payı", "-", *_HRSL, note="Sayım birimi içinde sabit (ilçe düzeyi oran)"),
+    FeatureSpec("vul_children0_5_share", "vulnerability", "0–5 yaş payı", "-", *_HRSL, note="Sayım birimi içinde sabit"),
+    FeatureSpec("vul_youth15_24_share", "vulnerability", "15–24 yaş payı", "-", *_HRSL, note="Sayım birimi içinde sabit"),
+    FeatureSpec("vul_women15_49_share", "vulnerability", "15–49 yaş kadın payı", "-", *_HRSL, note="Sayım birimi içinde sabit"),
+    FeatureSpec("vul_dependent_n", "vulnerability", "Bakıma bağımlı kişi (60+ ve 0–5)", "kişi", *_HRSL),
+    FeatureSpec("vul_heat_exposed_vulnerable", "vulnerability", "Isıya maruz kırılgan nüfus (60+ ve 0–5 × LST anomalisi⁺)", "kişi·°C",
+                "HRSL × Landsat C2 L2 LST", "CC BY 4.0 / kamu malı", note="Tehlike × maruziyet × duyarlılık (IPCC AR5); bileşik endeks değil"),
+    FeatureSpec("vul_built_pre1975_share", "vulnerability", "2020 yapılı alanın 1975'te var olan payı", "-", *_GHSL_T,
+                note="Kent dokusunun yaşı vekili; aynı parselde yeniden yapım görünmez"),
+    FeatureSpec("vul_built_pre1990_share", "vulnerability", "2020 yapılı alanın 1990'da var olan payı", "-", *_GHSL_T),
+    FeatureSpec("vul_built_pre2000_share", "vulnerability", "2020 yapılı alanın 2000'de var olan payı", "-", *_GHSL_T,
+                note="Türkiye'de 1998/2007 deprem yönetmeliklerinden önceki doku vekili"),
+    FeatureSpec("res_hospital_dist_m", "vulnerability", "En yakın hastaneye kuş uçuşu uzaklık", "m", *_OSM),
+    FeatureSpec("res_fire_station_dist_m", "vulnerability", "En yakın itfaiyeye kuş uçuşu uzaklık", "m", *_OSM),
+    FeatureSpec("res_assembly_point_dist_m", "vulnerability", "En yakın afet toplanma alanına uzaklık", "m", *_OSM,
+                note="İstanbul'da OSM'de emergency=assembly_point yok → boş; İBB toplanma alanları G2"),
+    FeatureSpec("res_health_within800", "vulnerability", "800 m içinde hastane/klinik", "adet", *_OSM),
+    FeatureSpec("res_school_within800", "vulnerability", "800 m içinde okul/anaokulu", "adet", *_OSM),
+    FeatureSpec("res_care_within800", "vulnerability", "800 m içinde sosyal tesis/huzurevi", "adet", *_OSM),
+    # ---- Overture Maps (K-038)
+    FeatureSpec("ov_bld_n", "built", "Bina sayısı (Overture)", "adet", *_OV_B),
+    FeatureSpec("ov_bld_footprint_m2", "built", "Taban alanı (Overture)", "m²", *_OV_B),
+    FeatureSpec("ov_height_coverage", "built", "Yükseklik bilgisi olan bina payı (Overture)", "-", *_OV_B),
+    FeatureSpec("ov_floors_coverage", "built", "Kat bilgisi olan bina payı (Overture)", "-", *_OV_B),
+    FeatureSpec("ov_height_mean_m", "built", "Alan ağırlıklı yükseklik (Overture)", "m", *_OV_B),
+    FeatureSpec("ov_gfa_m2", "built", "Brüt kat alanı (kat ya da yükseklik/3 m bilinen binalar)", "m²", *_OV_B),
+    FeatureSpec("ov_nonosm_share", "built", "OSM dışı (ML) taban alanı kaynağının payı", "-", *_OV_B,
+                note="OSM eksikliğinin küresel göstergesi; Caferağa'da 0"),
+    FeatureSpec("ov_places_n", "poi", "Mekân sayısı (Overture, güven ≥ 0,5)", "adet", *_OV_P),
+    FeatureSpec("ov_places_categories", "poi", "Farklı mekân kategorisi sayısı (Overture)", "adet", *_OV_P),
+] + [
+    FeatureSpec(f"ov_places_{k}", "poi", f"Overture mekân: {v}", "adet", *_OV_P) for k, v in _OV_TOP.items()
 ]
 
 _PLANNED: List[FeatureSpec] = [
@@ -159,7 +210,6 @@ _PLANNED: List[FeatureSpec] = [
     FeatureSpec("econ_elec_1km", "economy", "1 km elektrik tüketimi (gece ışığına kalibre)", "kWh", "Chen vd. 2022", "lisans teyit edilecek", "planned",
                 note="Talep modelinin bağımsız G1 sınaması"),
     FeatureSpec("econ_poi_commercial_intensity", "economy", "Ticari yoğunluk (POI tabanlı vekil)", "adet/ha", "OSM", "ODbL", "planned"),
-    FeatureSpec("demo_age_65plus_share", "demography", "65 yaş üstü payı", "-", "WorldPop yaş ve cinsiyet yapısı", "CC BY 4.0", "planned"),
     FeatureSpec("mob_ev_chargers", "mobility", "EV şarj noktası", "adet", "OSM amenity=charging_station", "ODbL", "planned"),
     FeatureSpec("env_green_share", "environment", "Yeşil alan payı", "-", "ESA WorldCover 10 m", "CC BY 4.0", "planned"),
     FeatureSpec("clim_hdd", "climate", "Isıtma derece-gün", "°C·gün", "ERA5 (Open-Meteo veya PVGIS T2m)", "Copernicus lisansı", "planned"),

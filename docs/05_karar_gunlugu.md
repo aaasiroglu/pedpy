@@ -220,6 +220,34 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Görüntü-dil modeli (VLM) gömmeleri sonraki adımda ek sütun olarak eklenecek (model indirme ve GPU maliyeti).
 - **Durum:** Kabul
 
+### K-038: Overture Maps bağlayıcısı (satır grubu indeksi)
+- **Bağlam:** Kullanıcı Overture'u önerdi; OSM'nin seyrek olduğu yerlerde küresel bina ve mekân verisi gerekiyor.
+- **Karar:** Overture S3 GeoParquet sürümü sabitlendi (2026-10-21.0). `bbox.*` istatistiklerinden satır grubu indeksi kuruluyor (binalar 84 bin satır grubu, 8 saniye); yalnız AOI'ye düşen satır grupları okunuyor (Caferağa: 1/84 224). Lisans: binalar ODbL, mekânlar CDLA-Permissive-2.0.
+- **Bulgu:** Caferağa'daki binaların %100'ü OSM kaynaklı; yükseklik bilgisi %0,2, kat bilgisi %13 dolu. Overture mekânları 2.303, OSM POI 1.320 (1,7 kat); kaynakları Meta, Foursquare, Microsoft ve AllThePlaces. Foursquare (Swarm) verisi pedx'e Overture üzerinden giriyor.
+- **Durum:** Kabul
+
+### K-039: Kırılganlık ve afete direnç katmanları
+- **Karar:** Meta HRSL (CC BY 4.0, COG): 60+, 0–5, 15–24, kadın 15–49 kırılımları. Paylar HRSL'den alınıyor, kişi sayıları GHS-POP × pay olarak hesaplanıyor. GHSL BUILT-S 1975/1990/2000 dönemleri kent dokusunun yaşının vekili. OSM'den hastane, itfaiye, okul, bakım tesisi ve toplanma alanı. Isı maruziyeti ayrı bileşenlerle (LST⁺ × 60+ ve 0–5) veriliyor; opak bileşik endeks yok.
+- **Bulgular (G2):**
+  - HRSL nüfusu TÜİK'e göre +%65, GHS-POP +%2,7 → nüfus tabanı GHS-POP.
+  - HRSL yaş payları ilçe içinde sabit (60+ = %21,3) → mahalle içi yaş farkı gösterilemez.
+  - OSM'de İstanbul afet toplanma alanı yok → İBB verisi G2'de kullanılacak.
+- **Reddedilenler:** Google yorumları ve Popular Times (kullanım koşulları, KVKK); Yandex (açık lisans yok); Uber Movement (kapatıldı). GEM sismik tehlike haritası yalnız akademik kullanım (NC lisansı).
+- **Durum:** Kabul
+
+### K-040: Hibrit küresel mimari: "tıkla → hesapla"
+- **Karar:** `pedx.service.assess_point` + `pedx.api` (FastAPI, `make api`). Dünya için önceden hesaplanmış altıgen tablosu tutulmuyor. Büyük döşemeler önbellekte (`make prepare`), geri kalan her şey pencere ya da satır grubu okumasıyla tıklama anında hesaplanıyor. Fiziksel çekirdek toplu hatla aynı (`pedx.params`). Kesin açıklama: B ≥ 1 ⇔ A/P ≥ d/(u·η·Y).
+- **Doğrulama:** Caferağa'da servis 1,65, toplu hat 1,60 verdi. Berlin'de aynı kod çalıştı (HRSL ile, uyarılı).
+- **Durum:** Kabul
+
+### K-041: Dış doğrulama: gerçek PED'ler (vaka–kontrol)
+- **Karar:** Tek referans gerçek PED ve öncü proje sahalarıdır. Her saha, aynı kentteki 1,5–8 km uzaklıkta seçilen rastgele kontrollerle aynı kodla puanlanıyor. Ölçüler: yüzdelik sıra, AUC, işaret testi. Tohum sabit; sonuca göre ayar yapılmaz (`scripts/validate_ped_sites.py`, docs/17).
+- **Durum:** Kabul
+
+### K-042: Vizyon: PED karar destek sistemi ve altıgen transformer'ı
+- **Karar:** Hedef mimari docs/16'da tanımlandı: altıgen = token, öz-denetimli ön eğitim, gerçek PED'lerle pozitif-etiketsiz (PU) ince ayar, fiziksel XAI. Bunun önünde zorunlu bir taban çizgisi var: PCA imzası ve fiziksel model. Transformer bu taban çizgisini gruplu doğrulamada geçemezse teze girmez.
+- **Durum:** Kabul (tasarım)
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

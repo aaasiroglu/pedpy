@@ -2,7 +2,7 @@
 
 **Tez:** Pozitif Enerji Bölgesi Projeleri için Açıklanabilir ve Fizik Kenetli Elverişlilik Analizi: Küresel Açık Veri, Referans Sınıf Tahmini ve İstanbul Doğrulaması
 **Hazırlayan:** Abdurrahim Arif Aşıroğlu · **Danışman:** Prof. Dr. Hande Demirel · İTÜ Geomatik Mühendisliği
-**Sürüm:** v0.5 · 2026-11-08 · **Repo:** `aaasiroglu/pedpy` (dal `claude/dreamy-allen-fvtsux`) · **Uygulama:** `web/pedx_app.html`
+**Sürüm:** v0.6 · 2026-11-08 · **Repo:** `aaasiroglu/pedpy` (dal `claude/dreamy-allen-fvtsux`) · **Uygulama:** `web/pedx_app.html`
 
 > Bu belge projenin tek giriş noktasıdır. Sırasıyla **amaç → sistem mimarisi → kullanılan veriler → işlem adımları → sonuçlar → proje yönetimi** bölümlerinden oluşur. Ayrıntılı belgeler sonda listelenmiştir.
 
@@ -89,8 +89,13 @@ Toplam **63 otomatik test** var. Kurulum: `make install data build serve` (`docs
 | İstanbul kişi başı tüketim | TEDAŞ 2023, Tablo 7 | il | kamu | **G2** | doğrulama |
 | Caferağa nüfusu | Kadıköy Belediyesi / TÜİK | mahalle | kamu | **G2** | doğrulama |
 | Konut saatlik profili | EPİAŞ profil katsayıları (mesken, AYEDAŞ) | saatlik | kamu | **G2** | doğrulama |
+| Yaş grupları (60+, 0–5, 15–24, kadın 15–49) | Meta Data for Good HRSL (COG, AWS) | 1″ (~30 m) | CC BY 4.0 | G1 | kırılganlık |
+| Yapı alanı dönemleri (1975, 1990, 2000) | JRC GHS-BUILT-S R2023A | 3″ | CC BY 4.0 | G1 | kent dokusunun yaşı (deprem vekili) |
+| Afet ve bakım tesisleri | OSM (hastane, itfaiye, okul, bakım, toplanma alanı) | nokta | ODbL | G1 | afete direnç |
+| Bina (OSM + ML) ve mekânlar (Meta, Foursquare, Microsoft) | Overture Maps 2026-10-21.0 (GeoParquet) | poligon, nokta | ODbL / CDLA-P-2.0 | G1 | küresel taban alanı, POI tamlığı |
+| Gerçek PED sahaları | PED Booklet 2020, H2020 öncü projeler, OSM sınırları | saha | atıf | **dış doğrulama** | vaka–kontrol (docs/17) |
 
-Tam envanter: 35 veri seti; 15'i sisteme alındı, 1 bağlayıcı hazır, 19 planlı. Ayrıntılar `docs/11` ve `docs/14` dosyalarında ve uygulamanın "Mimari" bölümünde.
+Tam envanter: 49 veri seti; 24'ü sisteme alındı, 4 bağlayıcı hazır, 17 planlı, 4 reddedildi (Google yorumları ve Popular Times, Google EIE, Yandex, Uber Movement; gerekçeler K-039). Ayrıntılar `docs/11` ve `docs/14` dosyalarında ve uygulamanın "Mimari" bölümünde.
 
 ---
 
@@ -110,6 +115,9 @@ Tam envanter: 35 veri seti; 15'i sisteme alındı, 1 bağlayıcı hazır, 19 pla
 | A9 | Tersine analiz ve ROI | A8, maliyetler | Fizik kenetli arama (JAX), kesin modelle denetim | reçete, Pareto eğrisi | 7 fiziksel denetim | kod ✅ / maliyet ⏳ |
 | A10 | Referans sınıfı | PED Veritabanı | Benzerlik modeli, gruplanmış SHAP | dış bakış | bölge dışarıda bırakılarak çapraz doğrulama | planlı (S4–S7) |
 | A11 | Sunum | tümü | `build_app.py` | `pedx_app.html` | uçtan uca yapım | ✅ |
+| A12 | Kırılganlık | HRSL, GHSL dönemleri, OSM tesisleri | Yaş payları × GHS-POP; ısı maruziyeti; doku yaşı; tesise uzaklık | 20 `vul_*`/`res_*` özelliği | HRSL ile TÜİK karşılaştırması (G2) | ✅ |
+| A13 | Tıkla → hesapla | Herhangi bir nokta | `pedx.service` + `make api`: H3 diski, pencere ve satır grubu okumaları, aynı fiziksel çekirdek, kesin açıklama | karar, kaldıraçlar, kırılganlık | toplu hat ile aynı sonuç (1,65 / 1,60) | ✅ |
+| A14 | Gerçek PED doğrulaması | PED sahaları + kontroller | Vaka–kontrol, yüzdelik sıra, AUC | dış geçerlilik | işaret testi | ✅ kod / çalışıyor |
 
 ---
 
@@ -137,6 +145,12 @@ Tam envanter: 35 veri seti; 15'i sisteme alındı, 1 bağlayıcı hazır, 19 pla
 | Hücre imzası (PCA) | 1. bileşen %25 kentsel yoğunluk; 2. bileşen %10 ticari ile yeşil karşıtlığı | Bütün katmanların yorumlanabilir özeti |
 | Hava bileşeni (Demand.ninja, ERA5 2023) | ısıtma Kasım–Nisan; soğutma Haziran–Eylül | Saatlik modelin hava girdisi hazır |
 | Yöntemsel bulgu | MARCOS ≡ κ·ağırlıklı toplam | Xie ve Zou (2025) ile doğrulandı |
+| Nüfus: HRSL ve resmî değer | 35.375 / 21.421 → **+%65** | HRSL ticari çekirdeğe nüfus yazıyor → nüfus tabanı GHS-POP (G2 bulgusu) |
+| 60+ / 0–5 / 15–24 (GHS-POP × HRSL payı) | 4.658 / 935 / 2.606 kişi | Paylar ilçe içinde sabit (%21,3 60+); mahalle içi fark yok |
+| Yapı alanının 1975 öncesi payı (GHSL) | medyan %98 | Doku 1975'ten eski; aynı parselde yeniden yapım görünmez |
+| Hastane / itfaiye uzaklığı | ortalama 890 / 1.067 m | OSM'de toplanma alanı yok → İBB verisi G2 |
+| Overture mekânları / OSM POI | 2.303 / 1.320 | Overture 1,7 kat; binaların %100'ü OSM kaynaklı |
+| Tıkla → hesapla (k = 3, önbellekle) | Caferağa 6–16 s; Berlin 49 s (ilk tıklama) | Dünyanın her yerinde aynı kod |
 
 ---
 
@@ -196,6 +210,8 @@ Tam envanter: 35 veri seti; 15'i sisteme alındı, 1 bağlayıcı hazır, 19 pla
 | `docs/08_tersine_analiz.md` | Tersine analiz matematiği |
 | `docs/07_kirilganlik_analizi.md` | Kırılganlık analizi |
 | `docs/10_sprint_plani.md` | Sprint planı |
-| `docs/05_karar_gunlugu.md` | Kararlar (K-001 … K-035) |
+| `docs/05_karar_gunlugu.md` | Kararlar (K-001 … K-042) |
+| `docs/16_vizyon_kds_ped_temel_model.md` | Vizyon: SKA eşlemesi, AI kesişimi, karar destek sistemi, altıgen transformer'ı |
+| `docs/17_ped_dogrulama.md` | Gerçek PED'lerle vaka–kontrol doğrulaması ve sonuçları |
 | `docs/02_literatur_haritasi.md`, `docs/references.bib` | Literatür |
 | `docs/LOCAL_SETUP.md` | Kurulum |

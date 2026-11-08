@@ -10,7 +10,10 @@ from pedx.features import CATALOG, building_features, catalog_frame, poi_family,
 def test_every_feature_has_source_licence_and_known_family():
     cat = catalog_frame()
     assert cat["source"].str.len().gt(0).all() and cat["license"].str.len().gt(0).all()
-    assert set(cat["family"]) <= {"energy", "built", "demography", "poi", "economy", "mobility", "environment", "climate", "morphology", "imagery", "social", "embedding"}
+    from pedx.features import FAMILIES
+
+    assert set(cat["family"]) <= set(FAMILIES)
+    assert {"energy", "built", "demography", "poi", "vulnerability", "embedding"} <= set(FAMILIES)
     assert set(cat["status"]) <= {"active", "planned"}
 
 
@@ -117,7 +120,7 @@ def test_datalake_catalog_integrity():
     from pedx.datalake import catalog_frame as lake
 
     c = lake()
-    assert c.index.is_unique and set(c["status"]) <= {"ingested", "connector", "planned"}
+    assert c.index.is_unique and set(c["status"]) <= {"ingested", "connector", "planned", "rejected"}
     assert set(c["kind"]) <= {"raster", "vector", "table", "timeseries"}
     assert (c["license"].str.len() > 0).all()
 

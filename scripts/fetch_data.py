@@ -32,6 +32,11 @@ JOBS = [
     ("caferaga_transit_stops.json", "overpass",
      '[out:json][timeout:120];(node["highway"="bus_stop"](40.9707,29.0053,41.0007,29.0437);node["public_transport"="platform"](40.9707,29.0053,41.0007,29.0437);'
      'node["railway"~"station|halt|tram_stop|subway_entrance"](40.9707,29.0053,41.0007,29.0437);node["amenity"="ferry_terminal"](40.9707,29.0053,41.0007,29.0437););out;'),
+    # disaster resilience & care (buffered ~2.5 km so access across the district edge is not truncated)
+    ("caferaga_resilience.json", "overpass",
+     '[out:json][timeout:180];(nwr["emergency"="assembly_point"](40.955,28.99,41.015,29.06);'
+     'nwr["amenity"~"^(hospital|clinic|fire_station|police|kindergarten|school|social_facility|nursing_home|shelter)$"](40.955,28.99,41.015,29.06);'
+     'nwr["healthcare"~"^(hospital|clinic)$"](40.955,28.99,41.015,29.06););out tags center;'),
     ("sources/pvgis_pv_caferaga_2023.json", "get",
      "https://re.jrc.ec.europa.eu/api/v5_3/seriescalc?lat=40.986&lon=29.028&startyear=2023&endyear=2023&pvcalculation=1"
      "&peakpower=1&loss=14&pvtechchoice=crystSi&mountingplace=building&optimalangles=1&outputformat=json"),
