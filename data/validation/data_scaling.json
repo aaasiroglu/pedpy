@@ -58,9 +58,9 @@
    "step": "+ Altyap\u0131 (trafo, EV, toplu ta\u015f\u0131ma)",
    "n_features": 20,
    "auc": 0.8229166666666666,
-   "ci05": 0.7354166666666667,
-   "ci95": 0.9020833333333333,
-   "sites_above_half": 14,
+   "ci05": 0.7416666666666667,
+   "ci95": 0.9,
+   "sites_above_half": 15,
    "n_sites": 16
   }
  ],
