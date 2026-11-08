@@ -21,6 +21,7 @@ import pandas as pd
 
 from scipy.stats import wilcoxon
 
+from pedx.report import REPORT, report_metrics
 from pedx.score import LABELS_TR, PEDScore, _z, candidate_discs, city_stats
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -93,6 +94,7 @@ def main():
                        "weights": [round(x, 4) for x in model.meta["weights"]], "direction": model.meta["direction"],
                        "labels_tr": LABELS_TR, "auc_loco": auc, "n_cases": int(y.sum()), "n_controls": int((1 - y).sum()),
                        "form": "MCDM: kanıta dayalı kriter ağırlıkları + Platt kalibrasyonu"},
+             "report": REPORT,
              "cities": []}
     for c in cities:
         F, st = grids[c["key"]], stats[c["key"]]
@@ -102,11 +104,17 @@ def main():
         C = candidate_discs(F, centres=centres)
         keep = (C["vul_pop_hrsl"] >= 100) & (C["ov_bld_footprint_m2"] > 0) & np.isfinite(C["log_energy_balance"])
         C = C[keep]
+        area_ha = 19 * h3.average_hexagon_area(10, unit="m^2") / 1e4
+        RM = report_metrics(C, area_ha)
+
+        def rnd(v):
+            return None if v is None or not np.isfinite(v) else float(f"{v:.3g}")
+
         cells = []
         for centre, r in C.iterrows():
             z = _z(r.to_dict(), st, FEATS)
             cells.append([h3.cell_to_parent(centre, 9), round(float(r["energy_balance"]), 3), round(float(r["vul_pop_hrsl"])),
-                          round(float(r["ov_bld_footprint_m2"])), [round(float(v), 2) for v in z]])
+                          round(float(r["ov_bld_footprint_m2"])), [round(float(v), 2) for v in z], [rnd(v) for v in RM.loc[centre].to_numpy(float)]])
         site_cell = h3.latlng_to_cell(c["lat"], c["lon"], 10)
         sx = candidate_discs(F, centres=[site_cell]).iloc[0].to_dict()
         e = model.explain(sx, st)

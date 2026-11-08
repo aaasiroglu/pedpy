@@ -61,6 +61,17 @@ def score(lat: float = Query(..., ge=-85, le=85), lon: float = Query(..., ge=-18
     x = candidate_discs(F, centres=[h3.latlng_to_cell(lat, lon, 10)]).iloc[0].to_dict()
     x = {k: (None if isinstance(v, float) and not np.isfinite(v) else v) for k, v in x.items()}
     xf = {k: (np.nan if v is None else v) for k, v in x.items()}
-    return {"site": x, "explain": model.explain(xf, st), "inverse": model.inverse(xf, st, target),
+    from .report import REPORT, report_metrics
+
+    area_ha = 19 * h3.average_hexagon_area(10, unit="m^2") / 1e4
+    allc = candidate_discs(F)
+    R_all = report_metrics(allc, area_ha)
+    R_site = report_metrics(candidate_discs(F, centres=[h3.latlng_to_cell(lat, lon, 10)]), area_ha).iloc[0]
+    report = []
+    for m in REPORT:
+        v, col = R_site[m["key"]], R_all[m["key"]].dropna()
+        pct = float((col < v).mean() + 0.5 * (col == v).mean()) if np.isfinite(v) and len(col) else None
+        report.append({**m, "value": None if not np.isfinite(v) else float(v), "city_percentile": pct})
+    return {"site": x, "report": report, "explain": model.explain(xf, st), "inverse": model.inverse(xf, st, target),
             "model": {"auc_loco": model.meta.get("auc_loco"), "n_cases": model.meta.get("n_cases")},
             "city": {"country": (prov.get("country") or {}).get("name"), "failures": prov.get("failures"), "timing_s": prov.get("timing_s")}}

@@ -37,7 +37,13 @@ DEFAULT_CACHE = Path(__file__).resolve().parents[2] / "data" / "cache"
 # where a per-person reading is meant, else area-weighted = plain mean over equal-area H3 cells)
 EXTENSIVE = ["vul_pop_hrsl", "vul_elderly60_n", "vul_children0_5_n", "ov_bld_n", "ov_bld_footprint_m2", "ov_gfa_m2",
              "ov_places_n", "energy_demand_res_kwh", "energy_pv_kwh",
-             "ov_grid_assets_n", "ov_ev_chargers_n", "ov_generators_n", "ov_transit_stops_n", "ov_bike_n"]
+             "ov_grid_assets_n", "ov_ev_chargers_n", "ov_generators_n", "ov_transit_stops_n", "ov_bike_n",
+             # urban function profile and spirit of place (K-051)
+             "pl_arts", "pl_crafts", "pl_culture", "pl_daily", "pl_education", "pl_faith", "pl_finance", "pl_food", "pl_health",
+             "pl_heritage", "pl_night", "pl_office", "pl_other", "pl_park", "pl_personal", "pl_public", "pl_retail", "pl_social",
+             "pl_sport", "pl_third", "pl_tourism",
+             "lu_plaza_m2", "lu_green_m2", "lu_construction_m2", "lu_religious_m2", "lu_residential_m2", "lu_commercial_m2",
+             "wd_items_n", "wd_sitelinks", "wd_heritage_n", "wd_square_n", "cm_photos_n"]
 INTENSIVE = ["env_ndvi_mean", "env_ndbi_mean", "env_lst_mean_c", "env_lst_anomaly_c", "env_elev_m", "env_slope_deg",
              "env_relief_m", "ov_floors_coverage", "ov_nonosm_share", "ov_places_categories",
              "env_wc_green_share", "env_wc_built_share", "env_wc_water_share", "env_wc_crop_share", "env_wc_bare_share"]
@@ -170,6 +176,42 @@ def _addons(F: pd.DataFrame, prov: dict, bbox, resolution: int, cache: Path) -> 
         except Exception as exc:  # noqa: BLE001
             fails["overture_infrastructure"] = f"{type(exc).__name__}: {exc}"[:300]
         timing["overture_infrastructure"], changed = round(time.time() - t, 1), True
+    from .datalake import place_spirit as ps
+
+    def add(key, fn):
+        nonlocal changed
+        t = time.time()
+        try:
+            for c, v in fn().items():
+                F[c] = v.reindex(F.index).fillna(0.0)
+            fails.pop(key, None)
+        except Exception as exc:  # noqa: BLE001
+            fails[key] = f"{type(exc).__name__}: {exc}"[:300]
+        timing[key], changed = round(time.time() - t, 1), True
+
+    if "pl_social" not in F and "place_profile" not in fails:
+        def _pp():
+            df, prov["overture_places_profile"] = ov.read_bbox("places", "place", bbox, ["confidence", "taxonomy"], cache_dir=cache)
+            return ps.place_profile(df, F.index, resolution)
+        add("place_profile", _pp)
+    if "lu_plaza_m2" not in F and "landuse" not in fails:
+        def _lu():
+            df, prov["overture_land_use"] = ov.read_bbox("base", "land_use", bbox, ["subtype", "class"], cache_dir=cache)
+            return ps.landuse_profile(df, F.index, resolution)
+        add("landuse", _lu)
+    if "wd_items_n" not in F and "wikidata" not in fails:
+        def _wd():
+            W = ps.wikidata_items(bbox)
+            prov["wikidata"] = {"items": int(len(W)), "heritage": int(W["heritage"].sum()) if len(W) else 0, "license": "CC0"}
+            la, lo = (W["lat"].to_numpy(), W["lon"].to_numpy()) if len(W) else (np.array([]), np.array([]))
+            g = lambda col=None, nm="n": ps.per_cell_points(la, lo, F.index, resolution, None if col is None else W[col].to_numpy(), nm)  # noqa: E731
+            return {"wd_items_n": g(None), "wd_sitelinks": g("sitelinks"), "wd_heritage_n": g("heritage"), "wd_square_n": g("square")}
+        add("wikidata", _wd)
+    if "cm_photos_n" not in F and "commons" not in fails:
+        def _cm():
+            C, prov["commons"] = ps.commons_photos(bbox)
+            return {"cm_photos_n": ps.per_cell_points(C["lat"].to_numpy(), C["lon"].to_numpy(), F.index, resolution)}
+        add("commons", _cm)
     if "energy_demand_res_kwh" not in F and "vul_pop_hrsl" in F:  # retry a failed country/PV lookup
         from .service import country_of, pv_yield, residential_kwh_per_capita
 

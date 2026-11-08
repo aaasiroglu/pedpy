@@ -348,6 +348,23 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Tez iki sonucu da raporlar. Karar puanı, önceden belirtilmiş ilkeye (yalnız anlamlı, temiz kriterler) göre seçildi.
 - **Durum:** Kabul
 
+### K-051: Kentsel dönüşüm raporu ve "mekânın ruhu" katmanları
+- **Bağlam:** Kullanıcı, tıklanan altıgen için kapsamlı analiz istiyor: POI'lerden sosyal, finansal, eğitim, kültür ve altyapı yapısı; meydanlar; mekânın ruhu; görüntü ve yorumlar.
+- **Karar:**
+  - Overture places taksonomisinden 21 işlev grubu (sosyal, finans, eğitim, kültür, miras, inanç, gece, ofis, zanaat, turizm, günlük ihtiyaç, üçüncü mekânlar …).
+  - Overture land_use: meydan ve yaya alanı, yeşil, inşaat, konut, ticaret.
+  - Wikidata (CC0): kolektif dikkat (sitelink), miras (P1435), meydan (Q174782).
+  - Wikimedia Commons: fotoğrafik dikkat.
+  - `pedx.report`: 36 göstergeli saha raporu, her gösterge kent içi yüzdelikle.
+  - Endeksler literatüre dayanıyor: Jacobs (karışım), Oldenburg (üçüncü mekân), Klinenberg (sosyal altyapı), Norberg-Schulz (genius loci), Gehl (meydan), Seresinhe (fotoğraf).
+- **Reddedilen:** Çevrim içi yorumlar (Google, Tripadvisor): kullanım koşulları ve KVKK/GDPR. Yerine açık metin (Wikipedia, Wikivoyage) ve açık görüntü (Commons, Mapillary) kullanılıyor.
+- **Görüntü işleme (Faz 3):** CLIP sıfır-atış algı puanları (canlı, güvenli, tarihî, yeşil) Commons ve Mapillary fotoğraflarında. Ağırlıklar Hugging Face'ten, ağ izni verildi.
+- **Ağ:** Ortama Wikidata, Commons, Wikipedia, Wikivoyage, Hugging Face, Dryad ve ore.eu eklendi.
+- **Hata dersi:** Commons hız sınırı başarısız döşemeleri sessizce boş sayıyordu. İstemci kurallara uygun hâle getirildi (≤ 1 istek/s, geri çekilme); başarısız döşeme artık katmanı "eksik" işaretliyor, sıfır yazmıyor.
+- **G2:** Demirel vd. (2025) bulundu: 629 GWh, 1.410 kWh/m² → ~446.100 m² güneşlenen yüzey. OSM −%10,1; GHSL +%3,6.
+- **Veri durumu:** 55 veri seti: 31 sistemde, 5 bağlayıcı, 15 planlı (engel ve çözümleri docs/18'de), 4 reddedildi.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

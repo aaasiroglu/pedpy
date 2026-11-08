@@ -314,6 +314,27 @@
       return { ok: got >= need * (1 - 1e-9), u: u0 * fu, eta: e0 * fe, cut: 1 - 1 / fd, Bneed: r[1] * need, Bafter: r[1] * got, after: sig(logitOf(z2)) };
     }
 
+    function siteReport(c, r) {
+      const REP = AT.report || [], v = r[5];
+      if (!REP.length || !v) return "";
+      c.repSorted = c.repSorted || REP.map((_, j) => c.cells.map(x => x[5] && x[5][j]).filter(x => x !== null && x !== undefined && isFinite(x)).sort((a, b) => a - b));
+      const pct = (j, x) => { const a = c.repSorted[j]; if (x === null || x === undefined || !a.length) return null; let lo = 0, hi = a.length;
+        while (lo < hi) { const m = (lo + hi) >> 1; a[m] < x ? lo = m + 1 : hi = m; } let up = lo; while (up < a.length && a[up] === x) up++; return (lo + up) / 2 / a.length; };
+      const P = REP.map((m, j) => ({ m, x: v[j], p: pct(j, v[j]) }));
+      const ranked = P.filter(o => o.p !== null && o.m.key !== "nonosm_share");
+      const top = ranked.slice().sort((a, b) => b.p - a.p).slice(0, 4), low = ranked.slice().sort((a, b) => a.p - b.p).slice(0, 4);
+      const sections = [...new Set(REP.map(m => m.section))];
+      const bar = o => o.p === null ? "<span class='note'>veri yok</span>" :
+        `<div class="track" title="kent içi yüzdelik ${nf(100 * o.p, 0)}"><div class="fill" style="left:0;width:${100 * o.p}%;background:var(--geo)"></div><div class="mid"></div></div>`;
+      return `<h3 style="margin-top:14px">Kapsamlı saha raporu (PED + kentsel dönüşüm)</h3>
+        <p class="note">Her gösterge bu ~28 ha'lık sahada ölçüldü; çubuk, kent içindeki yüzdeliği gösterir (orta çizgi = kent medyanı).</p>
+        <div class="grid2" style="gap:8px"><div class="cell"><b>Kentinde öne çıkan</b><br>${top.map(o => `${o.m.label} <span class="mono">%${nf(100 * o.p, 0)}</span>`).join("<br>")}</div>
+        <div class="cell"><b>Kentinde geride kalan</b><br>${low.map(o => `${o.m.label} <span class="mono">%${nf(100 * o.p, 0)}</span>`).join("<br>")}</div></div>` +
+        sections.map(sec => `<h4 style="margin:12px 0 4px;font-family:var(--display)">${sec}</h4><div class="bars">` +
+          P.filter(o => o.m.section === sec).map(o => `<div class="row" style="grid-template-columns:170px 1fr 86px"><span title="${o.m.ref || ""}">${o.m.label}</span>${bar(o)}<span class="mono" style="font-size:11.5px">${o.x === null || o.x === undefined ? "—" : nf(o.x, Math.abs(o.x) < 10 ? 2 : 0)} ${o.m.unit}</span></div>`).join("") + "</div>").join("") +
+        `<p class="note">Kaynaklar: Overture (yerler, arazi kullanımı, altyapı), Meta HRSL, ESA WorldCover, Sentinel-2, Landsat, Copernicus DEM, Wikidata (CC0), Wikimedia Commons. Çevrim içi yorumlar (Google vb.) kullanım koşulları ve KVKK nedeniyle kullanılmaz.</p>`;
+    }
+
     function showCell(c, i) {
       const r = c.cells[i], z = r[4], L0 = logitOf(z), sc = sig(L0);
       const con = M.features.map((f, k) => [f, z[k] * B[k]]).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1])).slice(0, 8);
@@ -339,6 +360,7 @@
           <tr><td>Ulaşılan skor</td><td><b>${nf(inv.after, 0)}</b> ${inv.ok ? "✓" : "— enerji kaldıraçları yetmiyor"}</td></tr></table>
           ${inv.ok ? "" : "<p class='note'>Skoru taşıyan öteki özellikler (yapı örtüsü, yeşil, su, işlev) kentsel dönüşüm ölçeğinde değişiklik gerektirir.</p>"}`}
         <p class="note">Sıra: önce çatı kullanımı (en fazla %${nf(100 * p.roof_utilization.high, 0)}), sonra modül verimi (en fazla %${nf(100 * p.module_efficiency.high, 0)}), sonra talep azaltımı (en fazla %50). Kapalı biçim; arama yok.</p>`;
+      $("atlasout").insertAdjacentHTML("beforeend", siteReport(c, r));
       $("tgt").addEventListener("input", e => { $("tgtv").textContent = e.target.value; });
       $("tgt").addEventListener("change", () => showCell(c, i));
     }
