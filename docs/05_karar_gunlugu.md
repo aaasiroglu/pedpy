@@ -307,6 +307,20 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Caferağa'da yapı adası toplamıyla altıgen toplamı karşılaştırılır.
 - **Durum:** Kabul
 
+### K-049: Toplam PED skoru (türevlenebilir, kesin ayrışan, kapalı biçimde tersine çevrilebilir) ve küresel atlas MVP'si
+- **Tanım:** S = 100·σ(β0 + Σ β_i z_i). z_i, kentin bütün yerleşik aday sahalarına (k = 2 disk) göre standartlaştırılmış 20 özelliktir. β, gerçek PED'ler ile yerleşik kontroller karşılaştırılarak L2 lojistik regresyonla öğrenilir.
+- **Özellikler:**
+  - Kesin katkı: c_i = β_i z_i.
+  - Gradyan: ∂S/∂x_i = 100·S'(1−S')·β_i/σ_i.
+  - Fizik kenetli tersine analiz: hedef skor için gereken Δln B = (logit* − logit)·σ_B/β_B. Bu değişim sırasıyla çatı kullanımı (≤ %50), modül verimi (≤ %25) ve talep azaltımı (≤ %50) arasında paylaştırılır. Kapalı biçim, arama yok. Kaldıraçlar yetmezse bu açıkça raporlanır.
+- **Sonuç:** Kent dışarıda doğrulamada AUC 0,88; 16/16 saha kontrollerin üstünde (`scripts/build_atlas.py`, `data/validation/ped_score_model.json`).
+- **Caferağa:** skor 2, İstanbul içinde %28'lik dilim. En büyük eksi katkılar yüksek yapı örtüsü ve yaşlı payı. Enerji kaldıraçları en üst sınırda bile skoru 18–34'e çıkarıyor (merkeze göre), yani tek başına yetmiyor.
+- **MVP:**
+  - Sunucusuz küresel atlas: 17 kent, r9 başına bir aday saha. Tarayıcıda skor, katkılar ve hedef kaydırıcılı tersine reçete hesaplanıyor.
+  - Yerel API `/score` dünyanın her noktası için aynı hesabı yapıyor (kent ızgarası ilk çağrıda ~1 dk sürüyor).
+- **Not:** Skor dengeli sınıf ağırlığıyla eğitildi; olasılık değil "PED benzerliği"dir. Bu yüzden kent içi yüzdelik de birlikte veriliyor.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

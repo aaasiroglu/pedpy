@@ -41,3 +41,26 @@ def assess(lat: float = Query(..., ge=-85, le=85), lon: float = Query(..., ge=-1
     r = assess_point(lat, lon, k=k, resolution=resolution, with_resilience=resilience, with_dem=dem)
     r["geojson"] = _geojson(r.pop("cells"))
     return r
+
+
+@app.get("/score")
+def score(lat: float = Query(..., ge=-85, le=85), lon: float = Query(..., ge=-180, le=180), target: float = Query(70, ge=1, le=99)):
+    """Total PED score for the ~28 ha site centred on (lat, lon): city grid (built once, ~1 min) → city stats → model."""
+    from pathlib import Path
+
+    import h3
+    import numpy as np
+
+    from .citygrid import city_grid
+    from .score import PEDScore, candidate_discs, city_stats
+
+    model_path = Path(__file__).resolve().parents[2] / "data" / "validation" / "ped_score_model.json"
+    model = PEDScore.from_json(model_path)
+    F, prov = city_grid(lat, lon, f"pt_{lat:.2f}_{lon:.2f}".replace("-", "m").replace(".", "p"))
+    st = city_stats(candidate_discs(F))
+    x = candidate_discs(F, centres=[h3.latlng_to_cell(lat, lon, 10)]).iloc[0].to_dict()
+    x = {k: (None if isinstance(v, float) and not np.isfinite(v) else v) for k, v in x.items()}
+    xf = {k: (np.nan if v is None else v) for k, v in x.items()}
+    return {"site": x, "explain": model.explain(xf, st), "inverse": model.inverse(xf, st, target),
+            "model": {"auc_loco": model.meta.get("auc_loco"), "n_cases": model.meta.get("n_cases")},
+            "city": {"country": (prov.get("country") or {}).get("name"), "failures": prov.get("failures"), "timing_s": prov.get("timing_s")}}

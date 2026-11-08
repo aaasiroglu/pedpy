@@ -217,6 +217,111 @@
     sel.addEventListener("change", e => draw(e.target.value));
     renderCand();
     initLive();
+    initAtlas(bnd);
+  }
+
+  // ---------- global atlas: total PED score (K-049) — learned from real PEDs, exact contributions, closed-form inverse
+  let atlasLayer = null, atlasLegend = null, siteMarker = null;
+  function initAtlas(bnd) {
+    const AT = P.atlas;
+    if (!AT || typeof h3 === "undefined") {
+      $("atlasnote").textContent = AT ? "H3 kütüphanesi yüklenemedi; atlas için internet bağlantısı gerekir." : "Atlas verisi yok (python scripts/build_atlas.py).";
+      $("mode").value = "caf"; setMode("caf", bnd); return;
+    }
+    const M = AT.model, B = M.coef, ib = M.features.indexOf("log_energy_balance");
+    const sig = x => 100 / (1 + Math.exp(-x));
+    const logitOf = z => M.intercept + z.reduce((a, v, i) => a + v * B[i], 0);
+    AT.cities.forEach((c, i) => { const o = document.createElement("option"); o.value = i;
+      o.textContent = `${c.city} · ${c.site}${c.is_ped ? "" : " (aday, PED değil)"}`; $("city").appendChild(o); });
+    $("city").value = String(AT.cities.length - 1);
+    const SC = ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b"];
+    const BR = [5, 10, 20, 30, 40, 50, 65, 80];
+    const colOf = v => { let i = 0; while (i < BR.length && v >= BR[i]) i++; return SC[i]; };
+    const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap katkıcıları" });
+
+    function drawCity() {
+      const c = AT.cities[+$("city").value];
+      c.logits = c.logits || c.cells.map(r => logitOf(r[4]));
+      const sorted = c.logits.slice().sort((a, b) => a - b);
+      c.pctOf = l => { let lo = 0, hi = sorted.length; while (lo < hi) { const m = (lo + hi) >> 1; sorted[m] < l ? lo = m + 1 : hi = m; } return lo / sorted.length; };
+      if (atlasLayer) map.removeLayer(atlasLayer);
+      const feats = c.cells.map((r, i) => ({ type: "Feature", properties: { i },
+        geometry: { type: "Polygon", coordinates: [h3.cellToBoundary(r[0], true)] } }));
+      atlasLayer = L.geoJSON({ type: "FeatureCollection", features: feats }, {
+        style: f => { const isSite = c.cells[f.properties.i][0] === c.site_r9;
+          return { color: isSite ? css("--sun") : "#334", weight: isSite ? 3 : 0.3, fillOpacity: 0.72, fillColor: colOf(sig(c.logits[f.properties.i])) }; },
+        onEachFeature: (f, layer) => {
+          layer.bindTooltip(`PED skoru ${nf(sig(c.logits[f.properties.i]), 0)}`, { sticky: true });
+          layer.on("click", ev => { L.DomEvent.stopPropagation(ev); showCell(c, f.properties.i); });
+        } }).addTo(map);
+      if (siteMarker) map.removeLayer(siteMarker);
+      siteMarker = L.circleMarker([c.lat, c.lon], { radius: 7, color: css("--sun"), weight: 3, fillOpacity: 0 })
+        .bindTooltip(`${c.site}${c.is_ped ? " · gerçek PED sahası" : " · aday"}`, { permanent: false }).addTo(map);
+      map.fitBounds(atlasLayer.getBounds(), { padding: [8, 8] });
+      $("atlasnote").innerHTML = `${c.country || "—"} · konut elektriği ${nf(c.kwh_per_capita, 0)} kWh/kişi · FV ${nf(c.pv_yield, 0)} kWh/kWp · ${nf(c.cells.length)} aday saha. ` +
+        `${c.is_ped ? "Gerçek PED sahası" : "Aday saha"} (turuncu halka) tam noktasında: skor <b>${nf(c.site_score, 0)}</b>, kent içi yüzdelik <b>${nf(100 * c.pctOf(logitOf(c.site_z)), 0)}</b>. Altıgenler kendi merkezlerindeki ~28 ha'lık sahayı puanlar.`;
+      if (atlasLegend) map.removeControl(atlasLegend);
+      atlasLegend = L.control({ position: "bottomleft" });
+      atlasLegend.onAdd = () => { const d = L.DomUtil.create("div", "legend");
+        d.innerHTML = `<b>Toplam PED skoru</b> <span class="note">0–100</span><div class="bar" style="background:linear-gradient(90deg,${SC.join(",")})"></div>
+          <div class="ticks"><span>0</span><span>40</span><span>80+</span></div><div class="note">Gerçek PED'lerden öğrenildi · kent dışarıda AUC ${nf(M.auc_loco, 2)}</div>`; return d; };
+      atlasLegend.addTo(map);
+      const si = c.cells.findIndex(r => r[0] === c.site_r9);
+      if (si >= 0) showCell(c, si);
+    }
+
+    function inverse(c, r, target) {
+      const p = S.provenance.params, u0 = p.roof_utilization.value, umax = p.roof_utilization.high, e0 = p.module_efficiency.value, emax = p.module_efficiency.high;
+      const L0 = logitOf(r[4]), sdb = c.stats.log_energy_balance.sd, bb = B[ib];
+      if (sig(L0) >= target) return { ok: true, txt: "Saha zaten hedefin üstünde." };
+      const t = Math.min(Math.max(target, 0.01), 99.99) / 100, need = Math.exp((Math.log(t / (1 - t)) - L0) * sdb / bb);
+      const fu = Math.min(need, umax / u0), fe = Math.min(need / fu, emax / e0), fd = Math.min(need / (fu * fe), 1 / (1 - 0.5)), got = fu * fe * fd;
+      const z2 = r[4].slice(); z2[ib] += Math.log(got) / sdb;
+      return { ok: got >= need * (1 - 1e-9), u: u0 * fu, eta: e0 * fe, cut: 1 - 1 / fd, Bneed: r[1] * need, Bafter: r[1] * got, after: sig(logitOf(z2)) };
+    }
+
+    function showCell(c, i) {
+      const r = c.cells[i], z = r[4], L0 = logitOf(z), sc = sig(L0);
+      const con = M.features.map((f, k) => [f, z[k] * B[k]]).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1])).slice(0, 8);
+      const mx = Math.max(...con.map(x => Math.abs(x[1])), 1e-9);
+      const p = S.provenance.params, thr = c.kwh_per_capita / (p.roof_utilization.value * p.module_efficiency.value * c.pv_yield);
+      const isSite = r[0] === c.site_r9;
+      const tg = +($("tgt") ? $("tgt").value : 70);
+      const inv = inverse(c, r, tg);
+      $("atlasout").innerHTML = `<div class="verdict ${sc >= 50 ? "ok" : sc >= 20 ? "warn" : "bad"}"><b>PED skoru ${nf(sc, 0)}/100</b> · kent içi yüzdelik ${nf(100 * c.pctOf(L0), 0)}
+        ${isSite ? `<br><span class="note">Bu, ${c.is_ped ? "gerçek PED sahası" : "aday saha"}: ${c.site}</span>` : ""}</div>
+        <table class="kv"><tr><td>Yıllık konut elektriği dengesi</td><td>${nf(r[1], 2)} ${r[1] >= 1 ? "≥ 1 (yerinde dengede)" : "< 1"}</td></tr>
+        <tr><td>Kişi başı çatı tabanı / eşik</td><td>${nf(r[3] / Math.max(r[2], 1), 1)} / ${nf(thr, 1)} m²</td></tr>
+        <tr><td>Nüfus (HRSL) · taban alanı</td><td>${nf(r[2], 0)} kişi · ${nf(r[3] / 1e4, 1)} ha</td></tr></table>
+        <h3 style="margin-top:10px">Skoru oluşturanlar (kesin logit katkıları)</h3><div class="bars">` +
+        con.map(([f, v]) => `<div class="row"><span title="${f}">${M.labels_tr[f] || f}</span><div class="track"><div class="mid"></div><div class="fill" style="background:${v >= 0 ? "var(--ok)" : "var(--bad)"};left:${v >= 0 ? 50 : 50 - 50 * Math.abs(v) / mx}%;width:${50 * Math.abs(v) / mx}%"></div></div><span class="mono">${v >= 0 ? "+" : ""}${nf(v, 2)}</span></div>`).join("") +
+        `</div><p class="note">Katkı = katsayı × kent içi z-puanı; toplamları + sabit = logit; skor = 100·σ(logit). Yaklaşık değil, kesin.</p>
+        <h3 style="margin-top:10px">Tersine analiz: hedef skora ne gerekir?</h3>
+        <label for="tgt">Hedef skor: <b id="tgtv">${tg}</b></label><input id="tgt" type="range" min="10" max="95" step="5" value="${tg}" style="width:100%">
+        ${inv.txt ? `<p>${inv.txt}</p>` : `<table class="kv"><tr><td>Çatı kullanımı</td><td>%${nf(100 * p.roof_utilization.value, 0)} → <b>%${nf(100 * inv.u, 0)}</b></td></tr>
+          <tr><td>Modül verimi</td><td>%${nf(100 * p.module_efficiency.value, 0)} → <b>%${nf(100 * inv.eta, 1)}</b></td></tr>
+          <tr><td>Talep azaltımı (yenileme)</td><td><b>%${nf(100 * inv.cut, 0)}</b></td></tr>
+          <tr><td>Denge</td><td>${nf(r[1], 2)} → ${nf(inv.Bafter, 2)} (gereken ${nf(inv.Bneed, 2)})</td></tr>
+          <tr><td>Ulaşılan skor</td><td><b>${nf(inv.after, 0)}</b> ${inv.ok ? "✓" : "— enerji kaldıraçları yetmiyor"}</td></tr></table>
+          ${inv.ok ? "" : "<p class='note'>Skoru taşıyan öteki özellikler (yapı örtüsü, yeşil, su, işlev) kentsel dönüşüm ölçeğinde değişiklik gerektirir.</p>"}`}
+        <p class="note">Sıra: önce çatı kullanımı (en fazla %${nf(100 * p.roof_utilization.high, 0)}), sonra modül verimi (en fazla %${nf(100 * p.module_efficiency.high, 0)}), sonra talep azaltımı (en fazla %50). Kapalı biçim; arama yok.</p>`;
+      $("tgt").addEventListener("input", e => { $("tgtv").textContent = e.target.value; });
+      $("tgt").addEventListener("change", () => showCell(c, i));
+    }
+
+    $("city").addEventListener("change", drawCity);
+    $("mode").addEventListener("change", e => setMode(e.target.value, bnd));
+    function setModeAtlas(on) {
+      if (on) { if (cellLayer) map.removeLayer(cellLayer); if (legend) map.removeControl(legend); tiles.addTo(map); drawCity(); }
+      else { if (atlasLayer) map.removeLayer(atlasLayer); if (atlasLegend) map.removeControl(atlasLegend); if (siteMarker) map.removeLayer(siteMarker); map.removeLayer(tiles); }
+    }
+    window.__pedxAtlasMode = setModeAtlas;
+    setMode($("mode").value, bnd);
+  }
+  function setMode(m, bnd) {
+    $("atlaspanel").hidden = m !== "atlas"; $("cafpanel").hidden = m !== "caf";
+    if (window.__pedxAtlasMode) window.__pedxAtlasMode(m === "atlas");
+    if (m === "caf") { draw(sel.value); map.fitBounds(bnd.getBounds(), { padding: [10, 10] }); }
   }
 
   // ---------- on-demand assessment anywhere (K-040): needs `make api`; otherwise disabled, never faked
@@ -233,6 +338,15 @@
   function live(lat, lon) {
     const k = $("livek").value;
     $("liveout").innerHTML = `<p class="note">${lat.toFixed(4)}, ${lon.toFixed(4)} için açık veriler çekiliyor (Overture, HRSL, GHS-POP, PVGIS, UNSD, OSM)…</p>`;
+    fetch(`${API}/score?lat=${lat}&lon=${lon}`).then(r => r.json()).then(r => {
+      const e = r.explain || {}, inv = r.inverse || {};
+      const box = document.createElement("div");
+      box.className = "verdict " + (e.score >= 50 ? "ok" : e.score >= 20 ? "warn" : "bad");
+      box.innerHTML = `<b>Toplam PED skoru ${nf(e.score, 0)}/100</b> (gerçek PED'lerden öğrenildi, AUC ${nf((r.model || {}).auc_loco, 2)})<br>` +
+        (inv.feasible === false ? `<span class="note">Hedef 70 için enerji kaldıraçları yetmiyor (en fazla ${nf(inv.score_after, 0)}).</span>` :
+         inv.levers && inv.levers.roof_utilization ? `<span class="note">Hedef 70: çatı %${nf(100 * inv.levers.roof_utilization.to, 0)}, verim %${nf(100 * inv.levers.module_efficiency.to, 1)}, talep −%${nf(100 * inv.levers.demand_cut_share.to, 0)}</span>` : "");
+      $("liveout").prepend(box);
+    }).catch(() => {});
     fetch(`${API}/assess?lat=${lat}&lon=${lon}&k=${k}`).then(r => r.json()).then(r => {
       const s = r.summary, e = s.explanation || {};
       if (liveLayer) map.removeLayer(liveLayer);

@@ -28,6 +28,7 @@ epias:
 
 build:
 	$(PY) scripts/build_features.py
+	$(PY) scripts/build_atlas.py
 	$(PY) web/build_app.py
 
 serve:

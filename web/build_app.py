@@ -96,6 +96,7 @@ def main() -> None:
     adj = {c: sorted(n for n in h3.grid_disk(c, 1) if n != c and n in present) for c in ids}
     district = {"n": len(ids), "fp": sum(a["fp"] for a in agg.values()), "pop": sum(a["pop"] for a in agg.values())}
     bundle = {
+        "atlas": json.loads((D / "atlas.json").read_text()) if (D / "atlas.json").exists() else None,
         "ped_validation": _ped_validation(), "cells": cells, "summary": summary, "agg": agg, "adj": adj, "district": district,
         "boundary": json.loads((D / "boundary.geojson").read_text()),
         "buildings": _round_geo(json.loads((D / "buildings.geojson").read_text())),

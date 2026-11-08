@@ -83,6 +83,14 @@ Okuması: tipik bir gerçek PED, kıyıya yakın, seyrek yapılaşmış, büyük
 - Gerçek PED imzasına göre %43'lük dilimde, yani İstanbul ortalamasında.
 - Okuması: Caferağa fiziksel olarak elverişli, ama bugünkü gerçek PED'lerin tipik sahasına (kıyıda dönüşen, seyrek yapılı alan) benzemiyor. Yoğun ve tarihî bir dokuda PED, mevcut referans sınıfının dışında yeni bir proje türü olur. Bu, tezin Caferağa vakası için en önemli bulgusu.
 
+## 3a. Toplam PED skoru (K-049)
+
+Aynı özellikler, kentin bütün yerleşik aday sahalarına göre z-puanına çevrilerek lojistik modele veriliyor. Kent dışarıda doğrulamada **AUC 0,88**; 16 sahanın 16'sı kontrollerin üstünde.
+
+Gerçek PED sahalarının kendi kentlerindeki yüzdelikleri 0,67 (Coronación) ile 1,00 (Fornebu, Fontaine d'Ouche, Confluence, Brunnshög, Île de Nantes) arasında. Caferağa İstanbul içinde 0,28.
+
+Ayrıntı: `data/validation/ped_score_model.json`, `web/data/atlas.json`.
+
 ## 3b. Yorum
 
 1. **İddia B doğrulandı (sınırlı örneklemle):** fizik çekirdeği tek başına gerçek PED'leri kendi kentlerindeki yerleşik alanlardan ayırıyor (AUC 0,82; 16/16 saha medyanın üstünde). Yoğunluk eşlemesinden sonra da etki sürüyor (0,79), yani sonuç yalnızca "seyrek nüfus" etkisi değil.

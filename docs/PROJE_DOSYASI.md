@@ -150,6 +150,9 @@ Tam envanter: 49 veri seti; 24'ü sisteme alındı, 4 bağlayıcı hazır, 17 pl
 | Yapı alanının 1975 öncesi payı (GHSL) | medyan %98 | Doku 1975'ten eski; aynı parselde yeniden yapım görünmez |
 | Hastane / itfaiye uzaklığı | ortalama 890 / 1.067 m | OSM'de toplanma alanı yok → İBB verisi G2 |
 | Overture mekânları / OSM POI | 2.303 / 1.320 | Overture 1,7 kat; binaların %100'ü OSM kaynaklı |
+| **Gerçek PED doğrulaması** (16 saha × 30 kontrol) | yalnız denge AUC 0,82 (16/16); tüm katmanlar 0,82; yoğunluk eşlemeli 0,79 | İddia B: sistem gerçek PED'leri tanıyor |
+| **Toplam PED skoru** (kent dışarıda) | AUC 0,88; Caferağa İstanbul içinde %28 | Caferağa fiziksel olarak elverişli, ama mevcut PED'lere benzemiyor |
+| Veri ölçekleme eğrisi | 0,82 → 0,88 → 0,82; aralıklar örtüşüyor | Daha çok veri kesinlik getirmiyor; vaka sayısı belirleyici |
 | Tıkla → hesapla (k = 3, önbellekle) | Caferağa 6–16 s; Berlin 49 s (ilk tıklama) | Dünyanın her yerinde aynı kod |
 
 ---

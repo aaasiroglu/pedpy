@@ -113,7 +113,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 </style>
 
 <header class="bar">
-  <div class="brand"><b>pedx</b><span>PED projeleri için elverişlilik analizi · Caferağa, Kadıköy</span></div>
+  <div class="brand"><b>pedx</b><span>Küresel, açık veriye dayalı PED karar destek sistemi</span></div>
   <nav class="views" aria-label="Bölümler">
     <a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
   </nav>
@@ -225,6 +225,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div class="cell"><h3>Bulgu 1 · Sistem gerçek PED'leri tanıyor</h3>Fizik çekirdeği tek başına 16 gerçek PED'in 16'sını kendi kentindeki yerleşik alanların medyanının üstüne koyuyor (AUC 0,82; p = 0,00002). Nüfus yoğunluğu eşlendiğinde de etki sürüyor (0,79).</div>
       <div class="cell"><h3>Bulgu 2 · Daha çok veri, kesinlik getirmiyor</h3>Veri aileleri eklendikçe AUC 0,82–0,88 arasında kalıyor ve güven aralıkları örtüşüyor. 16 vakayla 20 özellikte model aşırı öğrenmeye başlıyor. Belirsizliği daraltan şey veri katmanı değil, öğrenilecek gerçek PED sayısı.</div>
       <div class="cell"><h3>Bulgu 3 · Gerçek bir PED neye benziyor?</h3>Kentinin ortalamasına göre daha düşük yapı örtüsü, kişi başı daha çok çatı, daha yüksek enerji dengesi, daha az yeşil, daha çok su yüzeyi. Tipik örnek: kıyıda dönüşen liman ve sanayi alanları.</div>
+      <div class="cell"><h3>Bulgu 5 · Toplam PED skoru</h3>Gerçek PED'lerden öğrenilen, kesin ayrışan ve kapalı biçimde tersine çevrilebilen 0–100 skoru. Kent dışarıda doğrulamada AUC 0,88 (16/16 saha). Her sahada hangi özelliğin ne kadar katkı verdiği ve hedef skora ulaşmak için gereken en küçük çatı, verim ve talep değişimi hesaplanır. MVP → Küresel atlas.</div>
       <div class="cell"><h3>Bulgu 4 · Caferağa</h3>Enerji dengesine göre İstanbul'un %73'ünden iyi; gerçek PED imzasına göre ortalamada (%43). Fiziksel olarak elverişli, ama mevcut PED'lere benzemiyor: yoğun tarihî dokuda bir PED yeni bir proje türü olur.</div>
     </div>
     <p class="note">Veri aileleri sırayla eklenir; her adımda bir kent dışarıda bırakılarak AUC hesaplanır (gerçek bir PED'in kendi kentindeki yerleşik bir kontrolden yüksek puan alma olasılığı). Gölge: sahalar üzerinden bootstrap ile %90 aralık. Eğri düzleşiyorsa ek veri kararı artık değiştirmiyor demektir; aralığın genişliği ise bu örneklemle indirgenemeyen belirsizliktir.</p>
@@ -324,8 +325,19 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <!-- ================================================================ MVP -->
 <section class="view" id="v-mvp" hidden>
  <div class="mvp">
-  <div id="map" role="region" aria-label="Caferağa haritası"></div>
+  <div id="map" role="region" aria-label="PED atlası haritası"></div>
   <aside class="panel" aria-label="Analiz paneli">
+    <div>
+      <label for="mode">Görünüm</label>
+      <select id="mode"><option value="atlas" selected>Küresel atlas: 17 kent, toplam PED skoru</option><option value="caf">Caferağa: bina ölçeğinde ayrıntı</option></select>
+    </div>
+    <div id="atlaspanel">
+      <label for="city">Kent (gerçek PED sahası ile)</label>
+      <select id="city"></select>
+      <p class="note" id="atlasnote" style="margin:6px 0 0"></p>
+      <div id="atlasout"><p class="note">Haritada bir altıgene tıklayın: o noktayı merkez alan ~28 ha'lık aday proje sahası puanlanır.</p></div>
+    </div>
+    <div id="cafpanel" hidden>
     <div>
       <label for="metric">Harita katmanı (kayıtlı özellikler)</label>
       <select id="metric"></select>
@@ -343,6 +355,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <select id="maxcells"><option>4</option><option selected>7</option><option>12</option><option>19</option></select>
     </div>
     <div id="cand"></div>
+    </div>
     <div id="live">
       <h3>Dünyanın her yeri: tıkla → hesapla</h3>
       <p class="note" id="livestatus" style="margin:4px 0 8px">Yerel API aranıyor (make api → 127.0.0.1:8766)…</p>
@@ -377,5 +390,6 @@ button:disabled{opacity:.45;cursor:not-allowed}
 </main>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/h3-js@4.1.0/dist/h3-js.umd.js"></script>
 <script>/*DATA*/</script>
 <script>/*APP_JS*/</script>
