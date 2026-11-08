@@ -1,0 +1,221 @@
+[
+ {
+  "site": "Buiksloterham",
+  "city": "Amsterdam",
+  "osm": "way/26446097",
+  "lat": 52.3922882,
+  "lon": 4.9013573,
+  "tags": {
+   "place": null,
+   "boundary": null,
+   "admin_level": null,
+   "landuse": "industrial"
+  }
+ },
+ {
+  "site": "Zorrotzaurre",
+  "city": "Bilbao",
+  "osm": "relation/13414758",
+  "osm_name": "Zorrotzaurre",
+  "lat": 43.2728826,
+  "lon": -2.9644294,
+  "tags": {
+   "place": "islet",
+   "boundary": "place",
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Kera",
+  "city": "Espoo",
+  "osm": "node/9062104989",
+  "osm_name": "Kera",
+  "lat": 60.2146201,
+  "lon": 24.7537958,
+  "tags": {
+   "place": "quarter",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Fornebu",
+  "city": "Bærum",
+  "osm": "node/1510692320",
+  "osm_name": "Fornebu",
+  "lat": 59.8964105,
+  "lon": 10.6155296,
+  "tags": {
+   "place": "suburb",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Kaukovainio",
+  "city": "Oulu",
+  "osm": "node/248028350",
+  "lat": 64.992202,
+  "lon": 25.5146508,
+  "tags": {
+   "place": "suburb",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Paddepoel",
+  "city": "Groningen",
+  "osm": "relation/10120971",
+  "osm_name": "Paddepoel",
+  "lat": 53.22873,
+  "lon": 6.5405825,
+  "tags": {
+   "place": "quarter",
+   "boundary": "place",
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Fontaine d'Ouche",
+  "city": "Dijon",
+  "osm": "node/2524738670",
+  "osm_name": "Fontaine-d'Ouche",
+  "lat": 47.3211886,
+  "lon": 5.0019544,
+  "tags": {
+   "place": "suburb",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Linnakaupunki",
+  "city": "Turku",
+  "osm": "node/6284130904",
+  "osm_name": "Linnakaupunki",
+  "lat": 60.440348,
+  "lon": 22.230164,
+  "tags": {
+   "place": "suburb",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Confluence",
+  "city": "Lyon",
+  "osm": "node/5545053575",
+  "osm_name": "Confluence",
+  "lat": 45.7406658,
+  "lon": 4.8180469,
+  "tags": {
+   "place": "suburb",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Seestadt Aspern",
+  "city": "Wien",
+  "osm": "way/28100015",
+  "osm_name": "Seestadt Aspern",
+  "lat": 48.2274023,
+  "lon": 16.5057734,
+  "tags": {
+   "place": "suburb",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Brunnshög",
+  "city": "Lund",
+  "osm": "relation/4055459",
+  "lat": 55.7284218,
+  "lon": 13.2430064,
+  "tags": {
+   "place": "neighbourhood",
+   "boundary": "administrative",
+   "admin_level": "10",
+   "landuse": null
+  }
+ },
+ {
+  "site": "Coronación",
+  "city": "Vitoria-Gasteiz",
+  "osm": "relation/6410067",
+  "lat": 42.8522424,
+  "lon": -2.677044,
+  "tags": {
+   "place": "suburb",
+   "boundary": "statistical",
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Rosendal",
+  "city": "Uppsala",
+  "osm": "node/3555766959",
+  "osm_name": "Rosendal",
+  "lat": 59.8318099,
+  "lon": 17.6339963,
+  "tags": {
+   "place": "suburb",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Kalasatama",
+  "city": "Helsinki",
+  "osm": "relation/185348",
+  "osm_name": "Sörnäinen",
+  "lat": 60.1866321,
+  "lon": 24.9757686,
+  "tags": {
+   "place": null,
+   "boundary": "administrative",
+   "admin_level": "10",
+   "landuse": null
+  }
+ },
+ {
+  "site": "Île de Nantes",
+  "city": "Nantes",
+  "osm": "way/157597537",
+  "lat": 47.207536,
+  "lon": -1.5443077,
+  "tags": {
+   "place": "island",
+   "boundary": null,
+   "admin_level": null,
+   "landuse": null
+  }
+ },
+ {
+  "site": "Leppävaara",
+  "city": "Espoo",
+  "osm": "relation/2738924",
+  "osm_name": "Leppävaara",
+  "lat": 60.2182088,
+  "lon": 24.8221318,
+  "tags": {
+   "place": null,
+   "boundary": "administrative",
+   "admin_level": "10",
+   "landuse": null
+  }
+ }
+]
