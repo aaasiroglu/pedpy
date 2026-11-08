@@ -47,7 +47,7 @@ make serve
 - `make install`: pedx paketini ve h3, jax, scipy, rasterio ve pytest bağımlılıklarını kurar.
 - `make data`: OSM, GHS-POP (~120 MB), UNdata, OWID, PVGIS ve TEDAŞ (yalnızca G2) verilerini `data/raw` klasörüne indirir.
 - `make build`: H3 özellik deposunu (`data/processed`) ve web verisini (`web/data`) üretir.
-- `make test`: 53 doğrulama testini çalıştırır.
+- `make test`: 55 doğrulama testini çalıştırır.
 - `make serve`: demoyu http://localhost:8765 adresinde açar.
 
 Windows PowerShell'de sanal ortamı etkinleştirmek için `source` yerine `.venv\Scripts\Activate.ps1` kullanılır. `make` yoksa her hedefin içindeki komut doğrudan çalıştırılabilir (bkz. `Makefile`).

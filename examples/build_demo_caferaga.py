@@ -77,7 +77,15 @@ def main() -> None:
     from pedx.features.morphology import buildings_gdf, morphology_features
 
     F_morph = morphology_features(buildings_gdf(bpay, bld["osm_id"]), bld.set_index("osm_id")["cell"])
-    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph])
+    from pedx.features import poi_family
+    from pedx.features.accessibility import accessibility_features, walk_graph
+
+    G = walk_graph(json.loads((RAW / "caferaga_walk_network.json").read_text()))
+    allpois = parse_pois(json.loads((RAW / "caferaga_pois_full.json").read_text()))  # POIs of the boundary bbox; cells near the bbox edge undercount (known edge effect → buffered POI fetch, S2)
+    allpois["family"] = [poi_family(k, v) for k, v in zip(allpois["key"], allpois["value"])]
+    stops = pd.DataFrame([{"lat": e["lat"], "lon": e["lon"]} for e in json.loads((RAW / "caferaga_transit_stops.json").read_text())["elements"] if "lat" in e])
+    F_acc = accessibility_features(G, cells, allpois, stops, area_ha)
+    F = pd.DataFrame(index=pd.Index(cells, name="cell")).join([F_built, F_demo, F_poi, F_morph, F_acc])
     for c in ("built_n_buildings", "built_footprint_m2", "demo_population", "poi_total") + tuple(x for x in F if x.startswith("poi_n_")):
         F[c] = F[c].fillna(0.0)
 
@@ -150,7 +158,8 @@ def main() -> None:
             "Saatlik konut talep şekli: küresel ve açık kaynak seçimi bekliyor → SSR, tepe rahatlaması, Shapley ve batarya bu sürümde yok.",
             "Hizmet sektörü talebi (UNSD 'commercial and public services') henüz mekâna dağıtılmadı → denge yalnızca konut elektriği içindir.",
             "Gölgeleme ve çatı geometrisi modellenmedi → çatı kullanım katsayısı aralığıyla (0,26–0,50) temsil ediliyor.",
-            "Ekonomi, ulaşım, çevre ve iklim katmanları katalogda 'planlanan' durumunda (docs/13).",
+            "Ekonomi, çevre, iklim, görüntü ve sosyal katmanlar katalogda 'planlanan' durumunda (docs/13, docs/14).",
+            "Yürüme erişimi: POI'ler yalnızca mahalle sınırlayıcı kutusundan çekildi; kenar hücrelerde 800 m erişim eksik sayılıyor (S2'de tamponlu sorgu).",
         ],
     }
 

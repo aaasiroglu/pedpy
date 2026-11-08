@@ -60,7 +60,8 @@ PVGIS saatlik PV ────┤   saatlik G, D     ├─► graf: paylaşım o
 | Bileşen | Durum |
 | --- | --- |
 | Küresel veri hattı (OSM, GHS-POP, UNSD, PVGIS) | ✅ Caferağa'da çalışıyor |
-| Web demo v0.2: 41 özellikli H3 deposu (enerji, yapı, demografi, POI), katalog, ilişkiler | ✅ |
+| Web demo v0.3: 55 özellikli H3 deposu (enerji, yapı, demografi, POI, morfoloji, yaya erişimi), katalog, ilişkiler | ✅ |
+| Açık kaynak atlası (docs/14) | ✅ envanter; öncelik sırası belli |
 | Sistem mimarisi ve karar motoru tasarımı (docs/13) | ✅ tasarım; uygulama S4–S8 |
 | Yerel kurulum (`make`, Docker) | ✅ |
 | G2: nüfus (+%2,7), kişi başı tüketim | ✅ ilk iki karşılaştırma |

@@ -26,6 +26,12 @@ JOBS = [
     ("caferaga_buildings_boundary_bbox.json", "overpass", f'[out:json][timeout:180];way["building"]({BBOX});out tags geom;'),
     ("caferaga_pois_full.json", "overpass",
      "[out:json][timeout:180];(" + "".join(f'node["{k}"]({BBOX});way["{k}"]({BBOX});' for k in POI_KEYS) + ");out tags center;"),
+    ("caferaga_walk_network.json", "overpass",
+     '[out:json][timeout:180];way["highway"]["highway"!~"motorway|motorway_link|trunk|trunk_link|construction|proposed|raceway|bus_guideway"]'
+     '["foot"!="no"]["access"!="private"](40.9707,29.0053,41.0007,29.0437);out geom;'),
+    ("caferaga_transit_stops.json", "overpass",
+     '[out:json][timeout:120];(node["highway"="bus_stop"](40.9707,29.0053,41.0007,29.0437);node["public_transport"="platform"](40.9707,29.0053,41.0007,29.0437);'
+     'node["railway"~"station|halt|tram_stop|subway_entrance"](40.9707,29.0053,41.0007,29.0437);node["amenity"="ferry_terminal"](40.9707,29.0053,41.0007,29.0437););out;'),
     ("sources/pvgis_pv_caferaga_2023.json", "get",
      "https://re.jrc.ec.europa.eu/api/v5_3/seriescalc?lat=40.986&lon=29.028&startyear=2023&endyear=2023&pvcalculation=1"
      "&peakpower=1&loss=14&pvtechchoice=crystSi&mountingplace=building&optimalangles=1&outputformat=json"),

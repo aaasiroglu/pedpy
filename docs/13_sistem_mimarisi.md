@@ -167,7 +167,7 @@ Duyarlılık için tornado grafiği ve Monte Carlo kullanılacak. Kaynaksız par
 
 | Düzey | Ne | Araç |
 | --- | --- | --- |
-| Birim | Fizik, katalog, ayrıştırıcılar | `pytest` (53 test) |
+| Birim | Fizik, katalog, ayrıştırıcılar | `pytest` (55 test) |
 | Bütünleşik | Uçtan uca demo yapımı | `make build` |
 | Bilimsel (G2) | Nüfus, talep, PV, saatlik profil | Doğrulama paneli ve Makale A |
 | Model | PU modelinin aktarım performansı | Bölge dışarıda bırakılarak çapraz doğrulama, kalibrasyon eğrileri |

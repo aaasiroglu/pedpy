@@ -166,6 +166,16 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Karar:** GDELT, WVS/EVS, Mangrove, Wikipedia/Wikivoyage ve OSM etiketleri lisanslarıyla birlikte S3'te araştırılacak (docs/13 §7).
 - **Durum:** Önerildi
 
+### K-032: Görüntü, morfoloji ve erişilebilirlik katmanları
+- **Kaynak:** Kullanıcı önerileri (2026-11-08): uydu görüntüsü gömmeleri, Mapillary, kentsel morfoloji kütüphanesi, yaya erişilebilirliği.
+- **Karar:**
+  - momepy ile 7 morfoloji özelliği etkin (ortak duvar oranı fiziksel olarak ısı kaybına bağlı).
+  - OSM yaya ağı ve Dijkstra ile 7 erişilebilirlik özelliği etkin ("10 dakikalık yürüme", günlük ihtiyaç tamlığı).
+  - Uydu gömmeleri (AlphaEarth veya açık temel model) ile Mapillary planlı. Gömmeler ayrı bir vektör deposunda tutulacak; tabloya yorumlanabilir PCA bileşenleri girecek.
+  - PedPy (Jülich) deneysel yaya yörüngesi analizi için olduğundan kapsam dışı.
+  - Atlas: `14_acik_kaynak_atlasi.md`.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

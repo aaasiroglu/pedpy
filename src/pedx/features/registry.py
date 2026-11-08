@@ -102,6 +102,14 @@ _ACTIVE: List[FeatureSpec] = [
     FeatureSpec("morph_orientation_std", "morphology", "Yönelim sapması (ızgara düzensizliği)", "°", "OSM + momepy", "ODbL; BSD-3",
                 note="Çatı azimutu dağılımı → PV verimi değişkenliği"),
 ] + [
+    FeatureSpec("mob_walk800_pois", "mobility", "10 dk yürüme (800 m ağ) içinde POI", "adet", "OSM yaya ağı + POI; Dijkstra", "ODbL"),
+    FeatureSpec("mob_walk800_daily_needs", "mobility", "10 dk yürümede günlük ihtiyaç POI'si", "adet", "OSM; aileler: yeme-içme, perakende, sağlık, eğitim, finans", "ODbL"),
+    FeatureSpec("mob_walk800_daily_completeness", "mobility", "10 dk yürümede günlük ihtiyaç tamlığı (5 aile)", "0–1", "OSM ('15 dakika kenti' vekili)", "ODbL"),
+    FeatureSpec("mob_walk800_transit_stops", "mobility", "10 dk yürümede toplu taşıma durağı", "adet", "OSM bus_stop, platform, istasyon, iskele", "ODbL"),
+    FeatureSpec("mob_walk800_network_km", "mobility", "10 dk yürümede erişilen yaya ağı uzunluğu", "km", "OSM yaya ağı", "ODbL"),
+    FeatureSpec("mob_street_density_km_per_km2", "mobility", "Yaya sokak yoğunluğu", "km/km²", "OSM highway (yaya erişimli)", "ODbL"),
+    FeatureSpec("mob_intersection_density_per_km2", "mobility", "Kavşak yoğunluğu (derece ≥ 3)", "adet/km²", "OSM", "ODbL"),
+] + [
     FeatureSpec(f"poi_n_{k}", "poi", f"POI: {v}", "adet", *_OSM) for k, v in _POI_FAMS.items()
 ]
 
@@ -126,8 +134,6 @@ _PLANNED: List[FeatureSpec] = [
     FeatureSpec("built_height_m", "built", "Ortalama yapı yüksekliği", "m", "JRC GHS-BUILT-H R2023A (100 m)", "AB yeniden kullanımı (teyit)", "planned"),
     FeatureSpec("built_volume_m3", "built", "Yapı hacmi", "m³", "JRC GHS-BUILT-V R2023A", "AB yeniden kullanımı (teyit)", "planned"),
     FeatureSpec("demo_age_65plus_share", "demography", "65 yaş üstü payı", "-", "WorldPop yaş ve cinsiyet yapısı", "CC BY 4.0", "planned"),
-    FeatureSpec("mob_transit_stops", "mobility", "Toplu taşıma durağı sayısı", "adet", "OSM public_transport", "ODbL", "planned"),
-    FeatureSpec("mob_road_density", "mobility", "Yol yoğunluğu", "km/km²", "OSM highway", "ODbL", "planned"),
     FeatureSpec("mob_ev_chargers", "mobility", "EV şarj noktası", "adet", "OSM amenity=charging_station", "ODbL", "planned"),
     FeatureSpec("env_green_share", "environment", "Yeşil alan payı", "-", "ESA WorldCover 10 m", "CC BY 4.0", "planned"),
     FeatureSpec("env_slope_deg", "environment", "Eğim", "°", "Copernicus DEM GLO-30", "Copernicus lisansı", "planned"),

@@ -70,3 +70,26 @@ def test_morphology_shared_walls_detects_attached_buildings():
     assert f.loc["h2", "morph_shared_wall_ratio"] == 0.0
     assert f.loc["h1", "morph_compactness_mean"] > 0
     validate_columns(f.columns)
+
+
+def test_walk_accessibility_on_a_line_graph():
+    pytest.importorskip("networkx")
+    pytest.importorskip("h3")
+    import h3
+
+    from pedx.features.accessibility import accessibility_features, walk_graph
+
+    # straight N–S street of ~1.1 km made of 11 segments; POIs at both ends
+    lat0, lon0 = 40.98, 29.02
+    geom = [{"lat": lat0 + i * 0.001, "lon": lon0} for i in range(12)]
+    G = walk_graph({"elements": [{"type": "way", "id": 1, "geometry": geom}]})
+    assert G.number_of_edges() == 11
+    cell = h3.latlng_to_cell(lat0, lon0, 10)
+    pois = pd.DataFrame({"lat": [lat0, lat0 + 0.011], "lon": [lon0, lon0], "family": ["retail", "health"]})
+    stops = pd.DataFrame({"lat": [lat0 + 0.0005], "lon": [lon0]})
+    f = accessibility_features(G, [cell], pois, stops, pd.Series({cell: 1.5}))
+    # the far POI (~1.2 km away along the street) is outside the 800 m walk
+    assert f.loc[cell, "mob_walk800_pois"] == 1 and f.loc[cell, "mob_walk800_daily_needs"] == 1
+    assert f.loc[cell, "mob_walk800_daily_completeness"] == pytest.approx(1 / 5)
+    assert f.loc[cell, "mob_walk800_transit_stops"] == 1
+    validate_columns(f.columns)
