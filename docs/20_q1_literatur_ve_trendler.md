@@ -15,8 +15,8 @@
 | Düzey | Alan | Rol | Durum |
 |---|---|---|---|
 | Pilot 1 | **Caferağa** (Kadıköy) | Bina, yapı adası ve H3 ölçeğinde kesin hesap; Demirel vd. (2025) ile G2 | ✅ |
-| Pilot 2 | **Kadıköy** ilçesi | Mahalleler arası karşılaştırma; yerel dönüşüm projeleri | ⏳ kent ızgarası kuruluyor |
-| Pilot 3 | **İstanbul** (il sınırı) | Kent ölçeği; Yildirim vd. (2021) LiDAR çatı FV ile G2 | ⏳ kent ızgarası kuruluyor |
+| Pilot 2 | **Kadıköy** ilçesi | Mahalleler arası karşılaştırma; yerel dönüşüm projeleri | ✅ 7.789 hücre, 758 aday saha |
+| Pilot 3 | **İstanbul** (60 × 60 km) | Kent ölçeği; G2: açık veri %33–79 ile Yildirim vd. (2021) %67 | ✅ 226.693 hücre, 10.642 aday saha (Landsat boş: iki yol kesişimi) |
 | Ölçek | **Türkiye** | Ulusal göstergeler (talep, güneş verimi, çatı potansiyeli; Ember 2023) | ⏳ S3 |
 | Çalışma alanı | **Dünya** (16 gerçek PED kenti, tıkla→hesapla) | Dış geçerlik, referans sınıfı | ✅ |
 

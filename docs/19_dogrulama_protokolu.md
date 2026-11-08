@@ -60,6 +60,7 @@ Geçerleme düzeyleri, birbirine dayanan sekiz katman olarak kuruldu (V0–V8). 
 | Güneşlenen yüzey | OSM taban alanı 401.140 m² | Demirel vd. 2025: 629 GWh / 1.410 kWh/m² ≈ 446.099 m² | −%10,1 | Demirel vd. 2025 |
 | Güneşlenen yüzey | GHSL yapı alanı 462.255 m² | 446.099 m² | +%3,6 | Pesaresi vd. 2024 |
 | Kişi başı elektrik | Ember (TR) 3.713 kWh | TEDAŞ 2023 İstanbul 2.678 kWh | +%38,7 | Ember; TEDAŞ |
+| İstanbul çatı FV / toplam tüketim | açık veri: 14,0 TWh → %33 (u = 0,26, η = 0,20); üst senaryo %79 | Yildirim vd. 2021 (LiDAR, 2019): %67 | aralık içinde | Yildirim vd. 2021; TEDAŞ 2023 |
 | Toplu taşıma öğesi (Caferağa kutusu) | Overture altyapı: 1 | OSM: 40 (16 durak, 5 istasyon, 4 metro girişi) | −%97,5 | Overture 2026-10; OSM |
 
 **Yorum:**

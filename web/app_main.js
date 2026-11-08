@@ -109,6 +109,24 @@
     $("kr-corr").innerHTML = svg + "</svg>";
   })();
 
+  // ---------- presentation: pilot hierarchy vs real-PED cities (K-053)
+  (function pilots() {
+    const AT = P.atlas, el = $("pres-pilot");
+    if (!AT || !el) return;
+    const M = AT.model, sig = x => 100 / (1 + Math.exp(-x));
+    const rows = AT.cities.map(c => {
+      const sc = c.cells.map(r => sig(M.intercept + r[4].reduce((a, v, i) => a + v * M.coef[i], 0))).sort((a, b) => a - b);
+      const med = sc[Math.floor(sc.length / 2)], bal = c.cells.filter(r => r[1] >= 1).length / c.cells.length;
+      const pop = c.cells.reduce((a, r) => a + r[2], 0);
+      return { c, med, bal, n: c.cells.length, pop };
+    });
+    const pil = rows.filter(r => !r.c.is_ped), ped = rows.filter(r => r.c.is_ped);
+    const pedMed = ped.map(r => r.med).sort((a, b) => a - b)[Math.floor(ped.length / 2)], pedBal = ped.map(r => r.bal).sort((a, b) => a - b)[Math.floor(ped.length / 2)];
+    el.innerHTML = "<table><tr><th>Alan</th><th class='num'>Aday saha (~28 ha)</th><th class='num'>PED puanı medyanı</th><th class='num'>Dengedeki saha payı</th><th class='num'>FV verimi</th><th class='num'>Konut elektriği/kişi</th></tr>" +
+      pil.map(r => `<tr><td><b>${r.c.city}</b></td><td class="num">${nf(r.n)}</td><td class="num">${nf(r.med, 0)}</td><td class="num">%${nf(100 * r.bal, 0)}</td><td class="num">${nf(r.c.pv_yield, 0)}</td><td class="num">${nf(r.c.kwh_per_capita, 0)}</td></tr>`).join("") +
+      `<tr><td><i>16 gerçek PED kentinin medyanı</i></td><td class="num">—</td><td class="num">${nf(pedMed, 0)}</td><td class="num">%${nf(100 * pedBal, 0)}</td><td class="num">—</td><td class="num">—</td></tr></table>`;
+  })();
+
   // ---------- presentation: data-scaling curve (value of information)
   (function scaling() {
     const el = $("pres-scaling"), C = ((P.ped_validation || {}).scaling || {}).curve;
