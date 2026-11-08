@@ -68,7 +68,9 @@ def _ped_validation() -> dict:
     import pandas as pd
 
     rows = pd.read_csv(v / "ped_validation.csv").replace({float("nan"): None}).to_dict(orient="records")
-    return {"rows": rows, "summary": json.loads((v / "ped_validation_summary.json").read_text())}
+    sc = v / "data_scaling.json"
+    return {"rows": rows, "summary": json.loads((v / "ped_validation_summary.json").read_text()),
+            "scaling": json.loads(sc.read_text()) if sc.exists() else None}
 
 
 def main() -> None:

@@ -8,6 +8,25 @@
 
 Tek referans gerçek PED'lerdir. Model, kendi uydurduğu bir "ideal"e göre değil, Avrupa'da gerçekten planlanmış ya da yapılmış PED ve öncü proje sahalarına göre sınanır (§5, docs/17).
 
+## 1b. Büyük soru: Laplace'ın cini ve bilginin değeri (K-044)
+
+**Soru:** Bir mekâna dair bütün raster, vektör ve tablo verisini birlikte okuyan bir karar destek motoru, bir PED projesi hakkında kesin karar verebilir mi?
+
+Laplace (1814), evrenin bütün durumunu ve yasalarını bilen bir zekânın geleceği ve geçmişi kesin bileceğini söyler. Bu tez iddiayı felsefi bir çerçeve olarak alır, ama **sınanabilir** biçime çevirir:
+
+1. **Veri ölçekleme eğrisi** (`scripts/data_scaling.py`): veri aileleri sırası önceden sabitlenerek eklenir; her adımda bir kent dışarıda bırakılarak gerçek PED'leri tanıma AUC'si ve %90 bootstrap aralığı hesaplanır. Eğrinin doyması ek verinin karara katkısının bittiğini gösterir; aralığın genişliği o örneklemle indirgenemeyen belirsizliktir.
+2. **Bilginin değeri** (Howard 1966): bir veri katmanı yalnızca kararı değiştirebiliyorsa değerlidir. Ölçekleme eğrisi her ailenin değerini ölçer.
+3. **Belirsizlik ayrıştırması:**
+   - epistemik belirsizlik veriyle küçülür (ör. nüfus kaynağı GHS-POP ile HRSL);
+   - aleatorik belirsizlik (hava, davranış) küçülmez;
+   - öz-göndermelilik: kararın kendisi geleceği değiştirir (Morgenstern 1928; Soros'un düşünümselliği);
+   - nedensellik korelasyondan çıkmaz (Pearl 2009).
+4. **Evrimsel ve olasılıksal modelleme:** Bayesçi güncelleme her yeni kentte posteriordaki belirsizliği daraltır. Evrimsel arama (ör. NSGA-II) ise belirsizlik altında sağlam proje seçenekleri üretir. Sistem tek bir "doğru" vermez; dağılım ve bu dağılımın gerekçesini verir.
+
+**Tezin felsefi iddiası:** Daha fazla veri kesinlik getirmez, ama ne kadar bildiğimizi ölçülebilir kılar. İyi bir karar destek sistemi bilmediğini de raporlar.
+
+Kaynaklar: Laplace, P.-S. (1814). *Essai philosophique sur les probabilités*. · Howard, R. A. (1966). Information value theory. *IEEE Trans. Systems Science and Cybernetics*, 2(1), 22–26. · Pearl, J. (2009). *Causality* (2. bs.). · Kiureghian, A. D., & Ditlevsen, O. (2009). Aleatory or epistemic? *Structural Safety*, 31(2), 105–112. · Lorenz, E. N. (1963). Deterministic nonperiodic flow. *J. Atmos. Sci.*, 20, 130–141. · Deb, K., vd. (2002). NSGA-II. *IEEE Trans. Evol. Comput.*, 6(2), 182–197.
+
 ## 2. Kesişim: neden "dünyanın en güncel konuları" bu projede doğal olarak buluşuyor?
 
 | Alan | pedx'teki karşılığı | Durum | Ana kaynak |

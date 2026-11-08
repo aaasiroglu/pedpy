@@ -75,6 +75,25 @@
       "</table><p class='note'>Planlı, bağlayıcısı hazır ve reddedilen veri setleri: Mimari → Veri gölü kataloğu.</p>";
   })();
 
+  // ---------- presentation: data-scaling curve (value of information)
+  (function scaling() {
+    const el = $("pres-scaling"), C = ((P.ped_validation || {}).scaling || {}).curve;
+    if (!el) return;
+    if (!C) { el.innerHTML = "<p class='note'>Henüz hesaplanmadı: python scripts/data_scaling.py</p>"; return; }
+    const W = 760, H = 300, x0 = 50, x1 = W - 20, y0 = 20, y1 = 210, n = C.length;
+    const X = i => x0 + (x1 - x0) * (n === 1 ? 0.5 : i / (n - 1)), Y = v => y1 - (y1 - y0) * (v - 0.4) / 0.6;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Veri ölçekleme eğrisi" style="max-width:${W}px;display:block">`;
+    [0.5, 0.6, 0.7, 0.8, 0.9, 1].forEach(v => svg += `<line x1="${x0}" x2="${x1}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--rule)" ${v === 0.5 ? 'stroke-dasharray="4 3" stroke="var(--muted)"' : ""}/><text x="${x0 - 6}" y="${Y(v) + 4}" font-size="11" text-anchor="end" fill="var(--muted)">${nf(v, 1)}</text>`);
+    svg += `<path d="${C.map((c, i) => `${i ? "L" : "M"}${X(i)},${Y(c.ci95)}`).join("")}${C.slice().reverse().map((c, j) => `L${X(n - 1 - j)},${Y(c.ci05)}`).join("")}Z" fill="var(--geo)" opacity="0.15"/>`;
+    svg += `<path d="${C.map((c, i) => `${i ? "L" : "M"}${X(i)},${Y(c.auc)}`).join("")}" fill="none" stroke="var(--geo)" stroke-width="2.5"/>`;
+    C.forEach((c, i) => {
+      svg += `<circle cx="${X(i)}" cy="${Y(c.auc)}" r="4" fill="var(--geo)"><title>${c.step}: AUC ${nf(c.auc, 2)} (%90: ${nf(c.ci05, 2)}–${nf(c.ci95, 2)}), ${c.n_features} özellik</title></circle>
+        <text x="${X(i)}" y="${Y(c.auc) - 9}" font-size="11" text-anchor="middle" fill="var(--ink)">${nf(c.auc, 2)}</text>
+        <text transform="translate(${X(i)},${y1 + 14}) rotate(18)" font-size="10.5" fill="var(--muted)">${c.step.replace("+ ", "")}</text>`;
+    });
+    el.innerHTML = svg + "</svg>";
+  })();
+
   // ---------- presentation: real-PED validation chart
   (function pedChart() {
     const V = P.ped_validation || {}, el = $("pres-pedchart");

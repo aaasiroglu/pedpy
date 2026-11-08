@@ -259,6 +259,15 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Karar (v2):** `pedx.citygrid` ile her kent için 16 × 16 km'lik pencerede bütün katmanlar bir kez H3 r10'a işleniyor: HRSL, Overture, Sentinel-2, Landsat LST, Copernicus DEM (çok döşemeli), PVGIS, UNSD/OWID. Kontroller yalnız yerleşik ve dolu hücrelerden seçiliyor (HRSL ≥ 20 kişi, taban alanı > 0); saha başına 30 kontrol. İki model karşılaştırılıyor: (a) enerji dengesi; (b) kent içi z-puanlarıyla L2 lojistik regresyon, her seferinde bir kent dışarıda bırakılarak. Ek olarak Caferağa, İstanbul içinde puanlanıyor (gerçek bir PED değil).
 - **Durum:** Kabul
 
+### K-044: Büyük soru ve veri ölçekleme eğrisi; EPİAŞ yalnızca Faz 2
+- **Bağlam:** Kullanıcının üst sorusu: "Sonsuz veriyle karar destek motoru kesin karar verebilir mi?" Ek istek: sistem tamamen küresel ve açık olsun; yerel veri yalnızca doğrulamada kullanılsın.
+- **Karar:**
+  - Soru, tezin felsefi çerçevesi (Laplace'ın cini) ve bir bilginin değeri deneyi olarak alındı. Veri aileleri önceden belirlenmiş bir sırayla ekleniyor; her adımda bir kent dışarıda bırakılarak AUC hesaplanıyor ve bootstrap ile %90 aralık veriliyor (`scripts/data_scaling.py`).
+  - EPİAŞ model girdisinden çıkarıldı (Faz 2 doğrulaması).
+  - WorldCover ve Overture altyapı katmanları kent ızgarasına eklendi.
+  - Sunum yeniden kuruldu: büyük soru, iki hedef, üç iddia, mimari, veri, yazılım ve donanım, fazlar, sonuçlar.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

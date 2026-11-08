@@ -135,6 +135,16 @@ button:disabled{opacity:.45;cursor:not-allowed}
     </div>
   </div>
 
+  <div class="sheet"><h2><span class="no">0</span>Büyük soru</h2>
+    <p style="font-size:1.12em"><b>Bir mekâna dair bütün raster, vektör ve tablo verisini birlikte okuyan bir karar destek motoru, bir PED projesi hakkında kesin karar verebilir mi?</b></p>
+    <p>Laplace'ın cini (1814): evrendeki her şeyi bilen bir zekâ geleceği ve geçmişi kesin bilir. Bu tez cinin iddiasını <b>sınanabilir</b> hâle getirir. Her yeni veri ailesinin kararı ne kadar iyileştirdiğini ve nerede doyduğunu gerçek PED'ler üzerinde ölçer (bilginin değeri; Howard, 1966).</p>
+    <div class="grid2">
+      <div class="cell"><h3>Veri neyi azaltır?</h3>Bilgisizliği (epistemik belirsizlik): nüfus, yapı, iklim ve enerji tahminlerinin hatası katman eklendikçe küçülür.</div>
+      <div class="cell"><h3>Veri neyi azaltamaz?</h3>Rastlantıyı (aleatorik belirsizlik), kararın geleceği değiştirmesini (öz-göndermelilik), ölçüm hatasının birikmesini ve korelasyonun nedensellik olmamasını.</div>
+    </div>
+    <p class="note">Sistem "her şeyi biliyorum" demez; "ne kadar bildiğini, neyi bilmediğini ve bir sonraki verinin neye değeceğini" söyler. Bu yanıtın ölçümü: §7.3 veri ölçekleme eğrisi.</p>
+  </div>
+
   <div class="sheet"><h2><span class="no">1</span>İki hedef, iki disiplin</h2>
     <div class="grid2">
       <div class="cell"><h3>Bilgisayar bilimi · yapay zekâ mühendisliği</h3>Küresel açık veriden altıgen (H3) özellik deposu kuran, gerçek PED'lerden öğrenen ve kararını açıklayan bir yapay zekâ sistemi: veri mühendisliği, uzaktan algılama, makine öğrenmesi, XAI.</div>
@@ -206,6 +216,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
     <h3>7.2 Gerçek PED'ler aynı kentteki sıradan yerleşik alanlardan ayrışıyor mu?</h3>
     <div id="pres-pedchart"></div>
     <p class="note">Her çubuk bir gerçek PED sahasının kendi kentindeki 30 yerleşik kontrol noktası arasındaki yüzdeliğidir (0,5 = sıradan, 1 = hepsinden iyi). Ayrıntı: Veri ve yöntem → Dış doğrulama.</p>
+    <h3>7.3 Veri ölçekleme eğrisi: veri arttıkça karar kesinleşiyor mu?</h3>
+    <div id="pres-scaling"></div>
+    <p class="note">Veri aileleri sırayla eklenir; her adımda bir kent dışarıda bırakılarak AUC hesaplanır (gerçek bir PED'in kendi kentindeki yerleşik bir kontrolden yüksek puan alma olasılığı). Gölge: sahalar üzerinden bootstrap ile %90 aralık. Eğri düzleşiyorsa ek veri kararı artık değiştirmiyor demektir; aralığın genişliği ise bu örneklemle indirgenemeyen belirsizliktir.</p>
   </div>
 
   <div class="sheet"><h2><span class="no">8</span>Hocamızın yönlendirmesini istediğimiz konular</h2>
