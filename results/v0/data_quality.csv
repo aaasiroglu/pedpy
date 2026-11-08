@@ -1,8 +1,0 @@
-,value
-n_buildings,2870
-share_levels_imputed,0.8519163763066202
-median_levels_used,5.0
-share_height_missing,0.8512195121951219
-share_start_year_known,0.0003484320557491289
-demand_profiles,SYNTHETIC (pedx.synthetic.day_shape)
-shading,not modelled in v0 (s_t = 1)

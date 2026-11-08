@@ -1,3 +1,5 @@
+> ⚠️ **ARŞİV: bu belge artık güncel değil.** Neden: takvim 10_sprint_plani.md ile, kapsam 00_TEZ_PUSULASI.md ile değişti. Güncel tez tanımı için **[00_TEZ_PUSULASI.md](00_TEZ_PUSULASI.md)** dosyasına bakın.
+
 # 04: Yol Haritası (Adım Adım Plan)
 
 *Tarih: 2026-11-08 · Süreler göreli ay olarak verildi (A1 = başlangıç ayı). Tez teslim tarihi netleşince takvime oturtulacak (bkz. [06](06_acik_sorular.md)).*

@@ -143,6 +143,15 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Karar:** RF tabanlı PED benimseme modeli şu düzeltmelerle B1 bildirisine aday: PED Veritabanı koordinatları, H3 özellikleri, gruplu mekânsal çapraz doğrulama, OSM tamlık kontrolü, SHAP. pedx'in fiziksel skoruyla çakıştırılacak (12, §3).
 - **Durum:** Önerildi
 
+### K-028: Proje tek eksende toplandı
+- **Kaynak:** Kullanıcı isteği (2026-11-08): bütün bilgi birikimi birleşsin; proje derli toplu ve sade olsun.
+- **Karar:**
+  - `00_TEZ_PUSULASI.md` tek doğruluk kaynağı oldu: 3 soru, 3 katkı, 3 yayın.
+  - Sentetik ve yer tutucu değerli v0 hattı kaldırıldı (`pipeline.py`, `assumptions.py`, `examples/v0_caferaga.py`, `results/v0`).
+  - 01, 03, 04 ve 09 arşiv olarak işaretlendi.
+  - NLP, GNN, Geo-AI ve Smooth-MARCOS kapsam dışı.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

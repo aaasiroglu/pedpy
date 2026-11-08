@@ -30,23 +30,6 @@ python -m http.server 8765 -d web
 
 Ardından tarayıcıda `http://localhost:8765` adresini açın. Demo, OSM haritası üzerinde H3 altıgenlerinde yıllık konut elektriği dengesini, PV potansiyelini ve gereken çatı payını gösteriyor; yanında yöntem, veri kaynakları, G2 doğrulaması ve eksikler panelleri var. Kaynak kütüğü: `docs/11_veri_kaynaklari.md`.
 
-## Hızlı başlangıç: Caferağa v0
-
-```bash
-python examples/v0_caferaga.py
-```
-
-Betik OSM binalarını (Overpass) ve PVGIS 2019 ışınımını indirip önbelleğe alır. Ardından tüm iş akışını çalıştırır ve sonuçları `results/v0/OZET.md` ile CSV dosyalarına yazar. Bir kaynağa erişilemezse açıkça **SENTETİK** etiketli veriye geçer.
-
-```python
-from pedx.pipeline import assess
-res = assess(buildings_df, irradiance_kw_m2, resolution=10)
-res.scores             # hücre skorları (teknik potansiyel senaryosu)
-res.rank_uncertainty   # sıra aralıkları, birinci olma olasılığı
-res.shapley            # PEB kümesinde hücre katkıları
-res.prescriptions      # bütçe–skor Pareto eğrisi ve marjinal değer (€ başına)
-```
-
 ## Modüller
 
 | Modül | İçerik |
@@ -58,15 +41,15 @@ res.prescriptions      # bütçe–skor Pareto eğrisi ve marjinal değer (€ b
 | `graph` | Öz-tüketim koalisyon oyunu, kesin Shapley değeri, PEB sınır büyütme, kesin ve rastgele karşılaştırma yöntemleri |
 | `inverse` | Fizik kenetli müdahale modeli, saatlik batarya dinamiği, JAX ile türevlenebilir arama, kesin modelle bağımsız denetim |
 | `xai` | Açıklanabilirlik giriş noktaları; ters ağırlık (politika) kararlılığı |
-| `ingest` | OSM Overpass ve PVGIS istemcileri ile çevrimdışı test edilebilir ayrıştırıcılar |
-| `assumptions` | Her sayısal varsayım, kaynağı ve durumuyla tek bir tabloda |
+| `ingest` | Küresel açık veri katmanları (OSM, GHS-POP, UNdata, PVGIS) ile çevrimdışı test edilebilir ayrıştırıcılar |
+| `export` | Web demo için GeoJSON ve JSON dışa aktarımı |
 
 ## Yöntemsel ilkeler
 
 - **Arama için yumuşak model, raporlama için kesin model.** Türevlenebilir model yalnızca arama yönünü bulmak için kullanılır. Raporlanan her sayı kesin modelle yeniden hesaplanır ve denetimden geçer.
 - **Kriterler değil, fiziksel müdahaleler optimize edilir.** SSR, denge ve tepe rahatlaması aynı saatlik denklemlerin çıktısıdır.
 - **Mutlak indeks.** Skorlar kümeye göreli değil; yeni bir hücre eklemek diğer hücrelerin skorunu değiştirmez.
-- **Kaynaksız sabit yoktur.** `varsayim` durumundaki değerler duyarlılık analizine girer ve gerçek veriyle değiştirilecektir.
+- **Yalnızca küresel açık veri.** Girdiler her ülkede bulunan açık veri setlerinden gelir; İstanbul verisi yalnızca doğrulamada kullanılır. Sentetik veri sonuçlara hiçbir zaman girmez (K-025).
 
 ## Doğrulama
 
@@ -78,7 +61,7 @@ pytest
 
 ## Belgeler
 
-Planlama, literatür, kararlar, kırılganlık analizi, v0 sunumu ve sprint planı: [`docs/`](docs/README.md).
+**Başlangıç noktası: [`docs/00_TEZ_PUSULASI.md`](docs/00_TEZ_PUSULASI.md)** (tek sayfa, tek doğruluk kaynağı). Diğer belgeler: [`docs/`](docs/README.md).
 
 ## Veri ve lisans
 

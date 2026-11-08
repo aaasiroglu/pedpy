@@ -1,4 +1,4 @@
-"""Offline tests for OSM/PVGIS parsers and a small end-to-end pipeline run."""
+"""Offline tests for OSM/PVGIS parsers."""
 
 import numpy as np
 import pandas as pd
@@ -63,30 +63,3 @@ def test_parse_pvgis_drops_feb29_and_converts_units():
     df = parse_pvgis_hourly(payload)
     assert len(df) == 8760
     assert df["irradiance_kw_m2"].iloc[0] == pytest.approx(0.5)
-
-
-def test_pipeline_end_to_end_small():
-    pytest.importorskip("h3")
-    from pedx.pipeline import assess
-    from pedx.synthetic import solar_irradiance
-
-    rng = np.random.default_rng(0)
-    n = 60
-    b = pd.DataFrame(
-        {
-            "osm_id": [f"w/{i}" for i in range(n)],
-            "lat": rng.uniform(40.981, 40.991, n),
-            "lon": rng.uniform(29.021, 29.035, n),
-            "footprint_area_m2": rng.uniform(80, 400, n),
-            "building": rng.choice(["apartments", "office"], n),
-            "levels": np.where(rng.random(n) < 0.5, 4, np.nan),
-            "height_m": np.nan,
-            "height_source": "missing",
-            "start_year": np.nan,
-            "roof_shape": None,
-        }
-    )
-    res = assess(b, solar_irradiance(41.0), resolution=9, n_prescribe=0)
-    assert res.scores["readiness"].between(0, 1).all()
-    assert res.data_quality.loc["share_levels_imputed", "value"] == pytest.approx(0.5, abs=0.2)
-    assert res.shapley["shapley_kwh"].sum() > 0
