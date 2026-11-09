@@ -118,7 +118,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <header class="bar">
   <div class="brand"><b>pedx</b><span>Küresel, açık veriye dayalı PED karar destek sistemi</span></div>
   <nav class="views" aria-label="Bölümler">
-    <a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#ajan">Ajan</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
+    <a href="#mvp">PED Haritası</a><a href="#ajan">Ajan</a><a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
   </nav>
 </header>
 
@@ -340,10 +340,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
   <aside class="panel" aria-label="Analiz paneli">
     <div>
       <label for="mode">Görünüm</label>
-      <select id="mode"><option value="atlas" selected>Küresel atlas: 17 kent, toplam PED skoru</option><option value="caf">Caferağa: bina ölçeğinde ayrıntı</option></select>
+      <select id="mode"><option value="atlas" selected>Küresel PED haritası: dünya → kent → saha</option><option value="caf">Caferağa: bina, yapı adası, H3 ölçeğinde ayrıntı</option></select>
     </div>
     <div id="atlaspanel">
-      <label for="city">Kent (gerçek PED sahası ile)</label>
+      <label for="city">Alan</label>
       <select id="city"></select>
       <p class="note" id="atlasnote" style="margin:6px 0 0"></p>
       <div id="atlasout"><p class="note">Haritada bir altıgene tıklayın: o noktayı merkez alan ~28 ha'lık aday proje sahası puanlanır.</p></div>

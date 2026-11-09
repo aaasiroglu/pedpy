@@ -11,11 +11,11 @@
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
   // ------------------------------------------------------------------ routing
-  const VIEWS = ["sunum", "mimari", "tez", "mvp", "ajan", "kriter", "veri", "kaynakca"];
+  const VIEWS = ["mvp", "sunum", "mimari", "tez", "ajan", "kriter", "veri", "kaynakca"];
   let mapReady = false;
   function route() {
-    const h = (location.hash || "#sunum").slice(1);
-    const v = VIEWS.includes(h) ? h : "sunum";
+    const h = (location.hash || "#mvp").slice(1);
+    const v = VIEWS.includes(h) ? h : "mvp";
     VIEWS.forEach(n => { $("v-" + n).hidden = n !== v; });
     document.querySelectorAll("nav.views a").forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + v ? "page" : "false"));
     if (v === "mvp") { if (!mapReady) initMap(); else map.invalidateSize(); }
@@ -486,16 +486,52 @@
     const M = AT.model, B = M.coef, ib = M.features.indexOf("log_energy_balance");
     const sig = x => 100 / (1 + Math.exp(-x));
     const logitOf = z => M.intercept + z.reduce((a, v, i) => a + v * B[i], 0);
+    { const o = document.createElement("option"); o.value = "world"; o.textContent = "Dünya: bütün alanlar (genel bakış)"; $("city").appendChild(o); }
     AT.cities.forEach((c, i) => { const o = document.createElement("option"); o.value = i;
       o.textContent = `${c.city} · ${c.site}${c.is_ped ? "" : " (aday, PED değil)"}`; $("city").appendChild(o); });
-    $("city").value = String(AT.cities.length - 1);
+    $("city").value = "world";
+    let worldLayer = null;
     const SC = ["#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b"];
     const BR = [5, 10, 20, 30, 40, 50, 65, 80];
     const colOf = v => { let i = 0; while (i < BR.length && v >= BR[i]) i++; return SC[i]; };
     const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap katkıcıları" });
 
+    // world overview: every area as a ring (size ∝ candidate sites, colour = median PED score); click flies into the city
+    function cityStats(c) {
+      if (!c._med) { const L = c.cells.map(r => sig(logitOf(r[4]))).sort((a, b) => a - b); c._med = L[Math.floor(L.length / 2)]; c._bal = c.cells.filter(r => r[1] >= 1).length / c.cells.length; }
+      return c;
+    }
+    // world colour scale spans the observed medians (otherwise every ring looks alike on the 0–100 scale)
+    const worldCol = v => { const ms = AT.cities.map(c => cityStats(c)._med), lo = Math.min(...ms), hi = Math.max(...ms);
+      return SC[Math.max(1, Math.min(8, Math.round(1 + 7 * (v - lo) / Math.max(hi - lo, 1e-9))))]; };
+    function drawWorld() {
+      if (atlasLayer) map.removeLayer(atlasLayer); if (siteMarker) map.removeLayer(siteMarker);
+      if (!worldLayer) worldLayer = L.layerGroup(AT.cities.map((c, i) => { cityStats(c);
+        return L.circleMarker([c.lat, c.lon], { radius: 6 + Math.sqrt(c.cells.length) / 6, color: c.is_ped ? css("--ink") : css("--sun"), weight: c.is_ped ? 2 : 4,
+          fillColor: worldCol(c._med), fillOpacity: 0.92 })
+          .bindTooltip(`<b>${c.site}</b> · ${c.city}<br>${c.is_ped ? "gerçek PED kenti" : "Türkiye pilotu"} · PED puanı medyanı ${nf(c._med, 0)} · dengedeki saha %${nf(100 * c._bal, 0)}`)
+          .on("click", () => { $("city").value = String(i); drawCity(); }); })).addTo(map);
+      else worldLayer.addTo(map);
+      map.flyToBounds(L.latLngBounds(AT.cities.map(c => [c.lat, c.lon])).pad(0.15), { duration: 1.4 });
+      const rows = AT.cities.map((c, i) => ({ c: cityStats(c), i })).sort((a, b) => b.c._med - a.c._med);
+      $("atlasnote").innerHTML = `${AT.cities.length} alan · ${nf(AT.cities.reduce((a, c) => a + c.cells.length, 0))} aday saha (~28 ha). Halka boyu: aday saha sayısı; renk: PED puanı medyanı; turuncu halka: Türkiye pilotu.`;
+      $("atlasout").innerHTML = `<h3>Alanların sıralaması</h3><table class="kv"><tr><th>Alan</th><th>Medyan</th><th>Dengede</th></tr>` +
+        rows.map(r => `<tr data-ci="${r.i}" style="cursor:pointer"><td>${r.c.is_ped ? "" : "🇹🇷 "}${r.c.site} <span class="note">${r.c.city.split("·")[0]}</span></td><td>${nf(r.c._med, 0)}</td><td>%${nf(100 * r.c._bal, 0)}</td></tr>`).join("") +
+        `</table><p class="note">Bir alana tıklayın: harita oraya uçar ve bütün aday sahaları gösterir.</p>`;
+      $("atlasout").querySelectorAll("[data-ci]").forEach(tr => tr.addEventListener("click", () => { $("city").value = tr.dataset.ci; drawCity(); }));
+      if (atlasLegend) map.removeControl(atlasLegend);
+      atlasLegend = L.control({ position: "bottomleft" });
+      atlasLegend.onAdd = () => { const d = L.DomUtil.create("div", "legend");
+        const ms = AT.cities.map(c => c._med);
+        d.innerHTML = `<b>PED puanı medyanı (alanlar arası)</b><div class="bar" style="background:linear-gradient(90deg,${SC.slice(1).join(",")})"></div><div class="ticks"><span>${nf(Math.min(...ms), 0)}</span><span></span><span>${nf(Math.max(...ms), 0)}</span></div><div class="note">Gerçek PED'lerden öğrenildi · kent dışarıda AUC ${nf(M.auc_loco, 2)}</div>`; return d; };
+      atlasLegend.addTo(map);
+    }
+
     function drawCity() {
+      if ($("city").value === "world") { drawWorld(); return; }
+      if (!worldLayer) drawWorld();
       const c = AT.cities[+$("city").value];
+      $("atlasout").innerHTML = `<p class="note">Bir altıgene tıklayın: o noktayı merkez alan ~28 ha'lık aday saha puanlanır, kapsamlı rapor ve tersine reçete açılır. Dünya görünümüne dönmek için "Alan" listesinden "Dünya"yı seçin.</p>`;
       c.logits = c.logits || c.cells.map(r => logitOf(r[4]));
       const sorted = c.logits.slice().sort((a, b) => a - b);
       c.pctOf = l => { let lo = 0, hi = sorted.length; while (lo < hi) { const m = (lo + hi) >> 1; sorted[m] < l ? lo = m + 1 : hi = m; } return lo / sorted.length; };
@@ -512,7 +548,7 @@
       if (siteMarker) map.removeLayer(siteMarker);
       siteMarker = L.circleMarker([c.lat, c.lon], { radius: 7, color: css("--sun"), weight: 3, fillOpacity: 0 })
         .bindTooltip(`${c.site}${c.is_ped ? " · gerçek PED sahası" : " · aday"}`, { permanent: false }).addTo(map);
-      map.fitBounds(atlasLayer.getBounds(), { padding: [8, 8] });
+      map.flyToBounds(atlasLayer.getBounds(), { padding: [8, 8], duration: 1.6 });
       $("atlasnote").innerHTML = `${c.country || "—"} · konut elektriği ${nf(c.kwh_per_capita, 0)} kWh/kişi · FV ${nf(c.pv_yield, 0)} kWh/kWp · ${nf(c.cells.length)} aday saha. ` +
         `${c.is_ped ? "Gerçek PED sahası" : "Aday saha"} (turuncu halka) tam noktasında: skor <b>${nf(c.site_score, 0)}</b>, kent içi yüzdelik <b>${nf(100 * c.pctOf(logitOf(c.site_z)), 0)}</b>. Altıgenler kendi merkezlerindeki ~28 ha'lık sahayı puanlar.`;
       if (atlasLegend) map.removeControl(atlasLegend);
@@ -590,11 +626,11 @@
     $("mode").addEventListener("change", e => setMode(e.target.value, bnd));
     function setModeAtlas(on) {
       if (on) { if (cellLayer) map.removeLayer(cellLayer); if (legend) map.removeControl(legend); tiles.addTo(map); drawCity(); }
-      else { if (atlasLayer) map.removeLayer(atlasLayer); if (atlasLegend) map.removeControl(atlasLegend); if (siteMarker) map.removeLayer(siteMarker); map.removeLayer(tiles); }
+      else { if (atlasLayer) map.removeLayer(atlasLayer); if (atlasLegend) map.removeControl(atlasLegend); if (siteMarker) map.removeLayer(siteMarker); if (worldLayer) map.removeLayer(worldLayer); map.removeLayer(tiles); }
     }
     window.__pedxAtlasMode = setModeAtlas;
     window.__pedxShow = (key, r9) => { $("mode").value = "atlas"; setMode("atlas", bnd); const i = AT.cities.findIndex(c => c.key === key); if (i < 0) return;
-      $("city").value = String(i); drawCity(); const c = AT.cities[i], j = c.cells.findIndex(r => r[0] === r9); if (j >= 0) { showCell(c, j); map.setView(h3.cellToLatLng(r9), 14); } };
+      $("city").value = String(i); drawCity(); const c = AT.cities[i], j = c.cells.findIndex(r => r[0] === r9); if (j >= 0) { showCell(c, j); setTimeout(() => map.flyTo(h3.cellToLatLng(r9), 14, { duration: 1.2 }), 1700); } };
     setMode($("mode").value, bnd);
   }
   function setMode(m, bnd) {

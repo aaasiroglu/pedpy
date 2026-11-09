@@ -113,9 +113,11 @@ def residential_kwh_per_capita(country: dict, cache: Path = DEFAULT_CACHE) -> di
         ow = ow[ow["iso_code"] == country.get("iso3")].set_index("year")
         if ow.empty:
             raise LookupError(f"OWID has no series for {country.get('iso3')}")
-        if country.get("m49"):
+        # UN Energy Statistics use their own area codes where a country's statistics include dependencies
+        unsd_code = {"250": "251", "578": "579", "756": "757", "840": "842", "380": "381"}.get(str(country.get("m49")), country.get("m49"))
+        if unsd_code:
             try:
-                html = _get(UNDATA_URL.format(tr=UNDATA_TRANSACTIONS["households"], cr=int(country["m49"]))).decode("utf-8", "ignore")
+                html = _get(UNDATA_URL.format(tr=UNDATA_TRANSACTIONS["households"], cr=int(unsd_code))).decode("utf-8", "ignore")
                 un = parse_undata_table(html)
                 un = un[un["year"].isin(ow.index[ow["population"].notna()])]
                 if not un.empty:
