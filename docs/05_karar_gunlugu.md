@@ -432,6 +432,23 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Ağ:** Hugging Face CDN (us.aws.cdn.hf.co) ortam izin listesine eklendi.
 - **Durum:** Kabul
 
+### K-056: Çok turlu ReAct ile Qwen3-8B yeniden sınandı
+- **Sonuç** (bağımsız set, tam plan doğruluğu):
+
+  | Planlayıcı | Doğruluk |
+  |---|---|
+  | 8B ReAct | **%93** |
+  | 8B tek seferlik | %77 |
+  | 4B ReAct | %87 |
+  | 4B tek seferlik + onarım | %87 |
+  | Kural tabanlı | %73 |
+
+  Geliştirme setinde 8B ReAct %95.
+- **Bedel:** soru başına ~1 gereksiz çağrı ve ~1 dakika.
+- **Niyet uydurma:** 8B, 7/70 soruda kendiliğinden hedef puan uydurdu. Önlem: hedef istenmedikçe tersine analiz yürütülmüyor (yeniden ölçülmedi).
+- **Okuma:** Sonucu görerek ilerlemek yalnızca büyük modelde fayda sağlıyor. Model kapasitesi ile ajan döngüsü birlikte seçilmeli.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

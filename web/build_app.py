@@ -69,9 +69,11 @@ def _agent_kb() -> dict:
 
     bench = ROOT / "data" / "validation" / "agent_benchmark.json"
     llm = ROOT / "data" / "validation" / "agent_llm_benchmark.json"
+    react = ROOT / "data" / "validation" / "agent_react_benchmark.json"
     return {"themes": literature(), "tool_citations": {k: [[t, i] for t, i in v] for k, v in TOOL_CITATIONS.items()},
             "benchmark": json.loads(bench.read_text()) if bench.exists() else None,
-            "llm_benchmark": (json.loads(llm.read_text())["summary"] if llm.exists() else None)}
+            "llm_benchmark": (json.loads(llm.read_text())["summary"] if llm.exists() else None),
+            "react_benchmark": (json.loads(react.read_text()).get("summary") if react.exists() else None)}
 
 
 def _ped_validation() -> dict:

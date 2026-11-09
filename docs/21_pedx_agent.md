@@ -98,6 +98,36 @@ Araç, alan ve argüman doğruluğu %100. **Sınırlılık:** sorular planlayıc
 
 **Çalıştırma:** `make agent-qwen` (4B) ya da `make agent-qwen QWEN=Qwen3-8B` ile modeli indirir ve ajan API'sini Qwen planlayıcıyla açar. Sonuç dosyası: `data/validation/agent_llm_benchmark.json`.
 
+### D. Çok turlu ReAct: model araç sonucunu görerek ilerliyor (K-056)
+
+**Kurulum:**
+- En çok 4 tur. Model bir araç çağırıyor, kısa bir gözlem görüyor, sonra bir sonraki çağrıya karar veriyor.
+- "Etkin plan": sonradan başka çağrı geliyorsa baştaki keşif çağrıları (`list_areas`) atlanıyor; ReAct'te keşif meşru.
+- Ölçüler: tam doğruluğun yanında çağrı sayısı ve gereksiz çağrı (kapsam taşması).
+
+| Planlayıcı | Geliştirme: tam doğru | Bağımsız: tam doğru | Çağrı/soru | Gereksiz çağrı/soru | Süre/soru |
+|---|---|---|---|---|---|
+| Kural tabanlı | %100 | %73 | 1–3 | 0 | ~0 s |
+| Qwen3-4B, tek seferlik + onarım | %83 | %87 | 1–3 | ~0 | 5,4 s |
+| Qwen3-8B, tek seferlik + onarım | %90 | %83 | 1–3 | ~0 | 8,3 s |
+| Qwen3-4B, ReAct | — | %87 | 2,5 | 1,4 | 37 s |
+| **Qwen3-8B, ReAct** | **%95** | **%93** | 2,2–2,4 | 0,9–1,3 | 54–59 s |
+
+**Okuma:**
+1. **Hipotez doğrulandı.** 8B'nin tek seferlik düzende ceza yiyen "önce kontrol et" davranışı, sonucu görerek ilerleyince avantaja dönüyor. Bağımsız sette %77 → %93; en iyi planlayıcı bu.
+2. **4B ReAct'ten kazanmıyor** (%87 → %87), ama daha çok gereksiz çağrı yapıyor (1,4). Sonucu görerek ilerlemenin faydası model kapasitesine bağlı.
+3. **Bedel:** soru başına ~1 gereksiz çağrı ve 54–59 s. 8B, 70 sorunun 7'sinde kullanıcı istemediği hâlde **bir hedef puan uydurdu** ("70", "95") ve tersine analiz yaptı (niyet uydurma; Ji vd. 2023). Yanıt gözlemlerden yazıldığı için sahte sayı söylenmedi, ama istenmemiş bir analiz yapıldı. **Önlem:** soruda sayı ya da hedef ifadesi yoksa tersine analiz çağrısı yürütülmüyor. Bu önlem eklendikten sonra kıyaslama yeniden çalıştırılmadı.
+4. **Kalan hatalar anlamsal:**
+   - "ısı adası" → enerji dengesi ve öteki göstergeler denendi;
+   - "Moda" → İstanbul;
+   - "kendi elektriğini karşılayan yerler" → `energy_balance` (tartışmalı etiket).
+
+**Önerilen yapılandırma:**
+- Doğruluk öncelikliyse Qwen3-8B + ReAct + niyet koruması (~1 dk/soru, 4 CPU çekirdeği).
+- Etkileşim hızı öncelikliyse Qwen3-4B tek seferlik + onarım (~5 s/soru).
+
+Sonuç dosyası: `data/validation/agent_react_benchmark.json`.
+
 ## 5. Başarısızlıktan öğrenilen: havalimanı vakası
 
 İlk sürümde İstanbul'un en yüksek puanlı sahası **İstanbul Havalimanı terminali** çıktı. Nedeni zincirleme iki hata:

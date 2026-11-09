@@ -135,12 +135,21 @@ def react_gguf(q: str, path: Optional[str] = None, max_turns: int = 4):
              "When the result answers the question, reply with the single word DONE."},
             {"role": "user", "content": q + " /no_think"}]
     executed, best = [], None
+    import re as _re
+
+    from .tools import _norm
+
+    asked_target = bool(_re.search(r"\d", q)) or any(w in _norm(q) for w in ("hedef", "target", "puana", "ne gerek", "reach"))
     for _ in range(max_turns):
         text = llm.create_chat_completion(messages=msgs, temperature=0.0, max_tokens=400)["choices"][0]["message"]["content"] or ""
         calls = repair(_sanitize(parse_tool_calls(text)))
         if not calls:
             break
         msgs.append({"role": "assistant", "content": text})
+        # intent guard (K-056): 8B invented targets ("70", "95") in 7/70 questions; inverse only if the user asked for a target
+        calls = [(n, a) for n, a in calls if n != "inverse" or asked_target]
+        if not calls:
+            break
         for name, args in calls:
             if args.get("cell") == "@best":
                 args["cell"] = best

@@ -65,3 +65,24 @@ def test_qwen_tool_call_parsing_and_plan_repair():
     assert [n for n, _ in plan] == ["find_sites", "inverse"] and plan[1][1]["cell"] == "@best"
     sp = system_prompt()
     assert "<tools>" in sp and "istanbul" in sp and "third_places_per_1000" in sp and "Never answer with numbers" in sp
+
+
+def test_react_intent_guard_drops_unrequested_inverse(monkeypatch):
+    """K-056: Qwen3-8B invented target scores; inverse must not run unless the user asked for a target."""
+    from pedx.agent import llm
+
+    class Fake:
+        def __init__(self):
+            self.turn = 0
+
+        def create_chat_completion(self, messages, **kw):
+            self.turn += 1
+            txt = ('<tool_call>{"name": "find_sites", "arguments": {"area": "kadikoy", "k": 2}}</tool_call>'
+                   '<tool_call>{"name": "inverse", "arguments": {"area": "kadikoy", "cell": "@best", "target": 70}}</tool_call>') if self.turn == 1 else "DONE"
+            return {"choices": [{"message": {"content": txt}}]}
+
+    monkeypatch.setattr(llm, "_llama", lambda path: Fake())
+    calls, _ = llm.react_gguf("Kadıköy'de en uygun sahaları göster", "x.gguf")
+    assert [n for n, _ in calls] == ["find_sites"]
+    calls, _ = llm.react_gguf("Kadıköy'de 70 puana ne gerekir?", "x.gguf")
+    assert [n for n, _ in calls] == ["find_sites", "inverse"] and calls[1][1]["cell"] != "@best"
