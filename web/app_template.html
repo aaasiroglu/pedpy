@@ -2,7 +2,12 @@
 <title>pedx Caferağa</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<style>/*LEAFLET_CSS*/</style>
+<style>/*LEAFLET_CSS*/.act .kpis{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.act .kpi{flex:1 1 160px;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:var(--paper)}
+.act .kpi b{display:block;font-size:1.35rem;font-family:Archivo,system-ui,sans-serif}
+.act .kpi span{font-size:.85rem;color:var(--muted)}
+.act-btns button{margin:0 6px 6px 0}
+</style>
 <style>
 /* Layout: survey-sheet app shell — a top bar with section tabs; each view is a document column or a map + instrument panel. */
 :root{
@@ -119,13 +124,71 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <header class="bar">
   <div class="brand"><b>pedx</b><span>Açık Kentsel Zekâ · küresel açık veriyle PED karar destek sistemi</span></div>
   <nav class="views" aria-label="Bölümler">
-    <a href="#mvp">PED Haritası</a><a href="#ajan">Ajan</a><a href="#sunum">Sunum</a><a href="#kapsam">Kapsam</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
+    <a href="#hikaye">Hikâye</a><a href="#mvp">PED Haritası</a><a href="#ajan">Ajan</a><a href="#sunum">Sunum</a><a href="#kapsam">Kapsam</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
   </nav>
 </header>
 
 <main>
+<!-- ================================================================ HİKÂYE (K-063, docs/24) -->
+<section class="view" id="v-hikaye" hidden>
+ <div class="doc">
+  <div class="sheet title-block"><div class="eyebrow">pedx · Açık Kentsel Zekâ</div>
+    <h1 style="margin:6px 0 8px">Sınırını bilen bir planlama zekâsı</h1>
+    <p>Laplace'ın cini her şeyi bilseydi her kararı kesin verirdi. Bu tez o cinin küçük ve dürüst bir kardeşini kuruyor: dünyanın her yerinde yalnız açık verilerle çalışan, kararını gerçek pozitif enerji bölgelerinden (PED) öğrenen, ne bildiğini ve ne bilmediğini söyleyen bir kentsel karar destek sistemi. Dokuz perde var; her birinde bir iddia, bir sayı, bir kanıt ve bir sınır.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 0</div><h2 style="margin-top:6px">Soru: sonsuz veriyle kesin karar mümkün mü?</h2>
+    <p>Hayır. Ama daha iyi bir soru sorulabilir: <b>sınırlı bir alanda, doğrulanmış ve sınırını bilen</b> bir planlama zekâsı kurulabilir mi? Alan, PED planlaması. AB 2025'e kadar 100 PED hedefledi; nereye kurulacakları ise çoğu zaman yönetişimle seçiliyor, veriyle değil.</p>
+    <div class="kpis"><div class="kpi"><b>1</b><span>karar problemi: PED sahası</span></div><div class="kpi"><b>19</b><span>alan (16 gerçek PED + 3 Türkiye pilotu)</span></div><div class="kpi"><b>0</b><span>yerel veri (yalnız G2 doğrulamasında)</span></div></div>
+    <p class="act-btns"><button type="button" data-go="view:kapsam">Kapsamı göster</button> </p>
+    <p class="note"><b>Sınır:</b> Genel yapay zekâ iddiası yok. İddia, alanı sınırlı ve doğrulanmış bir karar zekâsı.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 1</div><h2 style="margin-top:6px">Aynı kod, dünyanın her noktası</h2>
+    <p>Veri yalnız açık ve küresel: Overture (OSM tabanlı küre), GHSL, Meta HRSL, WorldCover, Sentinel-2, Landsat, Copernicus DEM, PVGIS, UNSD, Wikidata. Her koordinat için 16×16 km'lik kent ızgarası aynı fonksiyonla kuruluyor. Her aday saha ~28 ha.</p>
+    <div class="kpis"><div class="kpi"><b>55</b><span>katalogdaki veri seti (31'i sisteme alındı)</span></div><div class="kpi"><b>32.728</b><span>aday saha</span></div><div class="kpi"><b>31</b><span>temiz kriter</span></div></div>
+    <p class="act-btns"><button type="button" data-go="world">Dünya haritasını aç</button> </p>
+    <p class="note"><b>Sınır:</b> Kişi başı konut elektriği ülke ortalaması; bina tipolojisi yok (CEA ile doğrulama planlı).</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 2</div><h2 style="margin-top:6px">Fizik tek başına gerçek PED'leri tanıyor</h2>
+    <p>Yalnız yıllık enerji dengesi (çatı PV ÷ konut talebi), 16 gerçek PED'in 16'sını kendi kentindeki yerleşik alanların medyanının üstüne koyuyor. Nüfus yoğunluğu eşlendiğinde de etki sürüyor.</p>
+    <div class="kpis"><div class="kpi"><b>16/16</b><span>PED medyanın üstünde</span></div><div class="kpi"><b>0,82</b><span>AUC (p = 0,00002)</span></div><div class="kpi"><b>0,79</b><span>yoğunluk eşlenmiş AUC</span></div></div>
+    <p class="act-btns"><button type="button" data-go="area:confluence">Lyon Confluence'ı göster</button> </p>
+    <p class="note"><b>Sınır:</b> 16 vaka küçük bir örneklem. Kontroller kentin yerleşik sahaları; PED olmadıkları kanıtlanmış değil.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 3</div><h2 style="margin-top:6px">Dürüstlük puanı düşürdü, savunulabilir kıldı</h2>
+    <p>İlk modelde AUC 0,91'di. Bazı özellikler PED'in <i>sonucuydu</i> (inşaat hâlindeki çıplak alan, EV şarj, yeni haritalanmış kat bilgisi); bunlar çıkarıldı. Model, öğrendiği sahalara benzemeyen yerleri önermiyor (uygulanabilirlik alanı) ve havalimanını aday saymıyor (arazi kullanımı koruması).</p>
+    <div class="kpis"><div class="kpi"><b>0,91 → 0,80</b><span>sızıntı temizliği</span></div><div class="kpi"><b>AoA</b><span>Meyer ve Pebesma 2021</span></div><div class="kpi"><b>> %50</b><span>özel arazi elenir</span></div></div>
+    <p class="act-btns"><button type="button" data-go="area:istanbul">İstanbul'u göster</button> </p>
+    <p class="note"><b>Sınır:</b> Uygulanabilirlik alanı (AoA) eşiği 16 sahadan öğrenildi; yeni bir kent tipinde sınır geniş kalabilir.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 4</div><h2 style="margin-top:6px">Yöneylem: öğrenilmiş ağırlık mı, klasik MCDM mi?</h2>
+    <p>31 kriter TOPSIS, VIKOR, PROMETHEE, MARCOS, SPOTIS ve WSM ile; eşit, CRITIC, entropi ve kanıt ağırlıklarıyla aynı protokolde karşılaştırıldı. Ağırlık şemasının seçimi de çapraz doğrulamanın içine alındı (iç içe LOCO). Kazanan: <b>eşit ağırlık, yönleri gerçek PED'lerden öğrenilmiş</b>. Çekirdek buna geçti. VIKOR'un çöküşü, PED'lerin telafi edici profiller olduğunu gösteriyor.</p>
+    <div class="kpis"><div class="kpi"><b>0,84</b><span>iç içe LOCO AUC</span></div><div class="kpi"><b>9/16</b><span>katlamada eşit ağırlık seçildi</span></div><div class="kpi"><b>0,32</b><span>VIKOR (eşit): telafi etmeyen yöntem</span></div></div>
+    <p class="act-btns"><button type="button" data-go="view:kriter">MCDM tablosunu aç</button> </p>
+    <p class="note"><b>Sınır:</b> Eşit ağırlığın önceki modele üstünlüğü anlamlı değil (p = 0,31). Seçilme gerekçesi sadelik ve sağlamlık (Dawes 1979). Enerji dengesi artık puanın 1/31'i; fiziksel denge ayrıca raporlanıyor.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 5</div><h2 style="margin-top:6px">Daha çok veri, daha çok kesinlik getirmiyor</h2>
+    <p>Veri aileleri tek tek eklendiğinde AUC 0,82–0,88 bandında kalıyor ve güven aralıkları örtüşüyor. Laplace'ın cinine ilk ampirik cevap bu: bu problemde sınır verinin miktarı değil, etiketin (gerçek PED sayısının) azlığı.</p>
+    <div class="kpis"><div class="kpi"><b>0,82–0,88</b><span>veri ölçekleme eğrisi</span></div><div class="kpi"><b>16</b><span>etiket: asıl darboğaz</span></div><div class="kpi"><b>V0–V8</b><span>doğrulama protokolü</span></div></div>
+    <p class="act-btns"><button type="button" data-go="view:veri">Veri ve yöntemi aç</button> </p>
+    <p class="note"><b>Sınır:</b> Eğri 16 sahayla çizildi; PED veritabanı büyüdükçe yeniden çizilmeli.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 6</div><h2 style="margin-top:6px">Ölçek değişince sonuç değişir: karar çizilen sahada verilir</h2>
+    <p>Bina, yapı adası, H3 r11/r10/r9: bütün birimler binalardan kesin toplanıyor ve toplam denge her ölçekte 1,625. Ama “dengede yaşayan nüfus” yapı adasında %93, r10'da %77. Gerçek PED tanıma 10–92 ha arası saha boyutlarında dayanıklı.</p>
+    <div class="kpis"><div class="kpi"><b>1,625</b><span>her ölçekte aynı toplam denge</span></div><div class="kpi"><b>%93 / %77</b><span>yapı adası / r10'da dengedeki nüfus</span></div><div class="kpi"><b>0,79–0,83</b><span>saha boyutu değişince denge AUC'si</span></div></div>
+    <p class="act-btns"><button type="button" data-go="caf">Caferağa çok ölçekli görünümü aç</button> </p>
+    <p class="note"><b>Sınır:</b> MAUP ortadan kalkmıyor, yönetiliyor: karar kullanıcının çizdiği proje sahası üzerinden veriliyor.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 7</div><h2 style="margin-top:6px">Türkiye: Caferağa → Kadıköy → İstanbul</h2>
+    <p>Aynı model, eğitimde hiç görmediği Türkiye'de. Caferağa merkez sahası yerinde dengede (1,25), ama PED bağlamına benzerliği orta (41/100). Yerel verilerle (yalnız doğrulama için) karşılaştırma: açık veriyle İstanbul'da çatı FV'si tüketimin %33–79'u, Yıldırım (2021) %67. Bina sayısında OSM −%10,1, GHSL +%3,6 (Demirel 2025).</p>
+    <div class="kpis"><div class="kpi"><b>41/100</b><span>Caferağa merkez sahası</span></div><div class="kpi"><b>%33–79</b><span>çatı FV / tüketim (Yıldırım 2021: %67)</span></div><div class="kpi"><b>−%10,1</b><span>OSM bina eksikliği (Demirel 2025)</span></div></div>
+    <p class="act-btns"><button type="button" data-go="area:caferaa_istanbul">Caferağa'yı göster</button> <button type="button" data-go="area:kadikoy">Kadıköy'ü göster</button> </p>
+    <p class="note"><b>Sınır:</b> Hedef 70'e yalnız enerji kaldıraçlarıyla ulaşılamıyor. Tersine analiz şimdilik enerji kaldıraçlarıyla sınırlı ve maliyet verisi yok.</p></div>
+  <div class="sheet act"><div class="eyebrow">Perde 8</div><h2 style="margin-top:6px">Ajan: soru → araç → kaynaklı yanıt</h2>
+    <p>pedx-agent soruyu araç çağrılarına çeviriyor, yalnız araçların döndürdüğü sayılarla yanıt veriyor ve her yanıta literatür ekliyor. Yerel Qwen3-8B, çok turlu ReAct ile bağımsız sorularda planı %93 doğru kuruyor (kural tabanlı %73). Niyet koruması, istenmeden hedef uydurmayı 7/70'ten 0'a indirdi. Veriden kurulan 6.396 yer adlık sözlük “Moda”yı Caferağa'ya bağlıyor.</p>
+    <div class="kpis"><div class="kpi"><b>%93</b><span>8B ReAct, bağımsız set</span></div><div class="kpi"><b>0/70</b><span>istenmemiş tersine analiz</span></div><div class="kpi"><b>6.396</b><span>veriden yer adı</span></div></div>
+    <p class="act-btns"><button type="button" data-go="ask:Moda civarında kahvehane ve kafe kültürü güçlü noktalar">Ajana sor: Moda</button> <button type="button" data-go="ask:İstanbul'da PED için en uygun 3 sahayı bul ve en iyisini açıkla, 70 puana ne gerekir?">Ajana sor: İstanbul + hedef 70</button> </p>
+    <p class="note"><b>Sınır:</b> Ajan gerçek PED sahasını ortalama 0,71 yüzdelikte buluyor, ama ilk 5 önerisi rastgeleden yakın değil. Elverişlilik seçim değildir; seçim yönetişimle yapılır (Flyvbjerg 2014).</p></div>
+  <div class="sheet act"><div class="eyebrow">Kapanış</div><h2 style="margin-top:6px">Cine dönüş: neyi biliyoruz, neyi bilmiyoruz</h2>
+    <ul><li><b>Biliyoruz:</b> açık veri, gerçek PED'leri görmediği kentlerde tanıyor (AUC 0,84); model sınırını söylüyor; aynı kod her koordinatta çalışıyor.</li>
+      <li><b>Bilmiyoruz:</b> hangi elverişli sahanın seçileceğini (yönetişim), maliyeti ve saatlik eşleşmeyi. Sonraki adımlar: M2 kentsel dönüşüm baskısı (GHSL dönem değişimi), küresel K0 taraması, REopt ile bütçe.</li>
+      <li><b>Katkı:</b> (1) gerçek PED'lerden öğrenen ve kentler arası doğrulanan saha uygunluğu; (2) öğrenilmiş ve klasik MCDM ağırlıklandırmasının iç içe doğrulamayla karşılaştırılması; (3) sayı uydurmayan, sınırını bilen yerel bir planlama ajanı.</li></ul></div>
+ </div>
+</section>
+
 <!-- ================================================================ SUNUM -->
-<section class="view" id="v-sunum">
+<section class="view" id="v-sunum" hidden>
  <div class="doc">
   <div class="sheet title-block">
     <div class="eyebrow">Yüksek lisans tezi · danışman görüşmesi · Kasım 2026 · pedx v0.6</div>
@@ -238,7 +301,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div class="cell"><h3>Bulgu 5 · Kriter ağırlıklı PED puanı (ÇKKDS)</h3>8 kaynak ailesinden 41 kriter sınandı; sızıntı temizlendikten sonra 31 kriter kaldı. Ağırlık şeması iç içe LOCO ile seçildi: <b>eşit ağırlık, yönler gerçek PED'lerden öğrenildi</b> (16 katlamanın 9'unda seçildi; kanıt ağırlıkları hiçbirinde). Kent dışarıda AUC 0,84 (önceki seyrek kanıt ağırlıkları 0,80; fark anlamlı değil, p = 0,31). Enerji dengesi puanın 1/31'i; fiziksel denge ayrıca ve zorunlu olarak raporlanıyor. K-061.</div>
       <div class="cell"><h3>Bulgu 7 · pedx-agent: elverişlilik seçim değildir</h3>Ajan, görmediği kentlerde gerçek PED sahasını ortalama 0,71 yüzdelikte sıralıyor (13 kentin 5'inde ilk %10). Ama ilk 5 önerisi gerçek sahaya rastgeleden yakın değil: bir kentte pek çok uygun saha var, seçimi yönetişim yapıyor. Ajan bu yüzden "tek doğru"yu değil, gerekçeli kısa listeyi ve dayanak literatürü veriyor. Havalimanı hatası, veri × model etkileşimini gösterdi ve arazi denetimiyle kapatıldı. Ajan sekmesi.</div>
       <div class="cell"><h3>Bulgu 6 · Ölçek (MAUP) ve paylaşım</h3>Bütün birimler binalardan kesin toplanıyor; toplam denge her ölçekte 1,625. Ama "dengede yaşayan nüfus" yapı adasında %93, r11'de %79, r10'da %77, r9'da %100. Karar bu yüzden çizilen proje sahası üzerinden verilir. Gerçek PED tanıma 10–92 ha arası saha boyutunda dayanıklı (AUC 0,79–0,89). Komşu altıgen paylaşımı Caferağa'daki açığın %98'ini karşılıyor. Doğrulama protokolü: docs/19 (V0–V8).</div>
-      <div class="cell"><h3>Bulgu 4 · Caferağa: sonuç modele duyarlı</h3>Kriter ağırlıklı PED puanı 40/100, İstanbul içinde %74'lük dilim; hedef 70 için çatı %50, verim %25 ve talep −%26 yetiyor. 20 özellikli lojistik model ise 2/100 veriyor, çünkü yapı örtüsünü ve yaşlı payını cezalandırıyor; bu iki özellik çoklu test sonrası anlamlı değil. Tez iki sonucu da raporlar.</div>
+      <div class="cell"><h3>Bulgu 4 · Caferağa: sonuç modele duyarlı</h3>Eşit ağırlıklı çekirdekte Caferağa merkez sahası 41/100, pencere içinde %72'lik dilimde; yıllık denge 1,25 (yerinde dengede). Hedef 70'e yalnız enerji kaldıraçlarıyla ulaşılamıyor; bağlamın da değişmesi gerekiyor. Önceki seyrek modelde puan 40/100'dü ve hedef 70'e enerjiyle ulaşılabiliyordu. 20 özellikli lojistik model ise 2/100 veriyor, çünkü yapı örtüsünü ve yaşlı payını cezalandırıyor; bu iki özellik çoklu test sonrası anlamlı değil. Tez iki sonucu da raporlar.</div>
     </div>
     <p class="note">Veri aileleri sırayla eklenir; her adımda bir kent dışarıda bırakılarak AUC hesaplanır (gerçek bir PED'in kendi kentindeki yerleşik bir kontrolden yüksek puan alma olasılığı). Gölge: sahalar üzerinden bootstrap ile %90 aralık. Eğri düzleşiyorsa ek veri kararı artık değiştirmiyor demektir; aralığın genişliği ise bu örneklemle indirgenemeyen belirsizliktir.</p>
   </div>

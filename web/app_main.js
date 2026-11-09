@@ -19,16 +19,31 @@
   }
 
   // ------------------------------------------------------------------ routing
-  const VIEWS = ["mvp", "sunum", "kapsam", "mimari", "tez", "ajan", "kriter", "veri", "kaynakca"];
+  const VIEWS = ["hikaye", "mvp", "sunum", "kapsam", "mimari", "tez", "ajan", "kriter", "veri", "kaynakca"];
   let mapReady = false;
   function route() {
-    const h = (location.hash || "#mvp").slice(1);
-    const v = VIEWS.includes(h) ? h : "mvp";
+    const h = (location.hash || "#hikaye").slice(1);
+    const v = VIEWS.includes(h) ? h : "hikaye";
     VIEWS.forEach(n => { $("v-" + n).hidden = n !== v; });
     document.querySelectorAll("nav.views a").forEach(a => a.setAttribute("aria-current", a.getAttribute("href") === "#" + v ? "page" : "false"));
     if (v === "mvp") { if (!mapReady) initMap(); else map.invalidateSize(); }
   }
   window.addEventListener("hashchange", route);
+
+  // ---------- story buttons (K-063): every act opens its evidence in the live app
+  document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => {
+    const [kind, ...rest] = b.dataset.go.split(":"), arg = rest.join(":");
+    if (kind === "view") { location.hash = "#" + arg; return; }
+    if (kind === "ask") { location.hash = "#ajan"; setTimeout(() => { $("agentq").value = arg; $("agentgo").click(); window.scrollTo(0, 0); }, 150); return; }
+    location.hash = "#mvp";
+    setTimeout(() => {
+      if (kind === "caf") { $("mode").value = "caf"; $("mode").dispatchEvent(new Event("change")); return; }
+      $("mode").value = "atlas"; $("mode").dispatchEvent(new Event("change"));
+      if (kind === "world") { $("city").value = "world"; $("city").dispatchEvent(new Event("change")); return; }
+      const c = (P.atlas.cities || []).find(x => x.key === arg);
+      if (c && window.__pedxShow) window.__pedxShow(c.key, c.site_r9);
+    }, 300);
+  }));
 
   // ------------------------------------------------------------------ presentation
   const I = S.provenance.inputs;

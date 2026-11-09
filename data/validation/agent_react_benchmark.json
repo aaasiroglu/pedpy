@@ -2617,6 +2617,76 @@
    "area_ok": true,
    "arg_ok": true,
    "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Lakua'da meydanı ve yaya alanı olan sahalar",
+   "seconds": 117.14195132255554,
+   "n_calls": 2,
+   "extra_calls": 1,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"coronacin\", \"k\": 5, \"objective\": \"plaza_m2_per_1000\"}], [\"assess_site\", {\"area\": \"coronacin\", \"cell\": \"89184b74c07ffff\"}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Luthagen'de en iyi adayın puanını 80'e çıkarmak için ne lazım?",
+   "seconds": 16.762991189956665,
+   "n_calls": 2,
+   "extra_calls": 0,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"rosendal\", \"k\": 5, \"objective\": \"score\"}], [\"inverse\", {\"area\": \"rosendal\", \"cell\": \"890880cb5cbffff\", \"target\": 80}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Chantenay'da bankacılık ve finans yoğun yerler",
+   "seconds": 49.68606638908386,
+   "n_calls": 2,
+   "extra_calls": 1,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"le_de_nantes\", \"k\": 5, \"objective\": \"finance_ha\"}], [\"assess_site\", {\"area\": \"le_de_nantes\", \"cell\": \"89184584ec7ffff\"}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Port Arthur'da sosyal donatısı güçlü sahalar",
+   "seconds": 60.37873911857605,
+   "n_calls": 2,
+   "extra_calls": 1,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"linnakaupunki\", \"k\": 5, \"objective\": \"social_infra_per_1000\"}], [\"assess_site\", {\"area\": \"linnakaupunki\", \"cell\": \"89089d06d7bffff\"}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Moda ile Lyon'u kıyasla",
+   "seconds": 55.13943815231323,
+   "n_calls": 1,
+   "extra_calls": 0,
+   "explored": 0,
+   "plan": "[[\"compare_areas\", {\"a\": \"caferaa_istanbul\", \"b\": \"confluence\"}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
   }
  ]
 }

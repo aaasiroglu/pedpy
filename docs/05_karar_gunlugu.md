@@ -539,6 +539,14 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - `/score` artık modelin kendi kriter listesiyle kent istatistiği kuruyor.
 - **Durum:** Kabul
 
+### K-063: Sunum anlatısı: Hikâye sayfası ve konuşma notları
+- **Bağlam:** Danışman sunumu; bulguların tek bir hikâyede, tutarlı sayılarla anlatılması gerekiyor.
+- **Karar:**
+  - Uygulamanın açılış sayfası **Hikâye** oldu. Dokuz perde var; her birinde iddia, sayı, kanıtı uygulamada açan bir düğme ve dürüst bir sınır.
+  - Konuşma notları, 15 zor soru ve yedek planlar `docs/24`'te.
+  - Bütün sayılar doğrulama dosyalarından alındı. Eşit ağırlığa geçişle değişen sayılar (Caferağa 41/100, iç içe AUC 0,84) güncellendi.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
