@@ -109,6 +109,15 @@
     $("kr-corr").innerHTML = svg + "</svg>";
   })();
 
+  // ---------- classic MCDM vs the PED score (K-060)
+  (function mcdm() {
+    const B = P.mcdm_benchmark;
+    if (!B || !$("mcdm-tbl")) return;
+    $("mcdm-sheet").hidden = false;
+    $("mcdm-tbl").innerHTML = `<table><tr><th>Yöntem</th><th>Ağırlık</th><th class="num">AUC</th><th class="num">İlk %10'da</th></tr>` +
+      B.summary.map(r => `<tr${r.method.startsWith("PED") ? ' style="font-weight:600"' : ""}><td>${r.method}</td><td>${r.weights}</td><td class="num">${nf(r.auc, 2)}</td><td class="num">${r.hit_top10}/${r.n}</td></tr>`).join("") + `</table>`;
+  })();
+
   // ---------- pedx-agent in the browser (K-054): same planner, tools and grounded answers as pedx.agent
   (function agentView() {
     const AT = P.atlas, KB = P.agent_kb;

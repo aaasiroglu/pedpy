@@ -120,6 +120,8 @@ def main() -> None:
         "features_analysis": json.loads((ROOT / "data" / "validation" / "feature_analysis.json").read_text())
         if (ROOT / "data" / "validation" / "feature_analysis.json").exists() else None,
         "agent_kb": _agent_kb(),
+        "mcdm_benchmark": ({k: v for k, v in json.loads((ROOT / "data" / "validation" / "mcdm_benchmark.json").read_text()).items() if k != "per_city"}
+                           if (ROOT / "data" / "validation" / "mcdm_benchmark.json").exists() else None),
         "scales": json.loads((D / "scales.json").read_text()) if (D / "scales.json").exists() else None,
         "basemap": json.loads((D / "basemap.json").read_text()) if (D / "basemap.json").exists() else None,
         "atlas": json.loads((D / "atlas.json").read_text()) if (D / "atlas.json").exists() else None,

@@ -478,6 +478,31 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Küresel hücreler üç katmanlı: K0 küresel tarama, K1 kent penceresi, K2 saha. OSM küresi olarak gezegen dosyası değil, sürümü sabitlenmiş Overture GeoParquet kullanılıyor.
 - **Durum:** Kabul
 
+### K-060: Benzer araçlar sınandı; klasik MCDM, PED skoruyla aynı protokolde karşılaştırıldı
+- **Bağlam:** Kullanıcı CEA, URBANopt, Ladybug ve MCDM kütüphanelerini içeren bir karşılaştırma metni paylaştı ve bize ne katabileceklerini sordu.
+- **İddialar sınandı** (docs/23 §1):
+  - CEA'da optimizasyon ve çok kriterli analiz modülü **var**.
+  - Ladybug SDK'ları grafik arayüz olmadan çalışıyor, ama **AGPL-3.0**.
+  - pedx'te PU-learning, Nash füzyonu ve bütçe kısıtlı tersine analiz **yok**; metin bunları varmış gibi yazıyordu.
+- **Kıyaslama** (pymcdm 1.4, MIT; 16 PED, LOCO, yönler eğitim kentlerinden):
+
+  | Model | AUC |
+  |---|---|
+  | Eşit ağırlıklı WSM | 0,88 |
+  | Eşit ağırlıklı MARCOS | 0,88 |
+  | PED skoru | 0,80 |
+
+  Fark anlamlı değil (Wilcoxon p = 0,31). Büyük kısmı tek bir kentten (Coronación) geliyor. 25 kombinasyonun en iyisi olduğu için iyimser.
+- **Diğer bulgular:**
+  - VIKOR eşit ağırlıkla 0,32'ye düşüyor; telafi etmeyen yöntemler bu probleme uygun değil.
+  - pedx.mcdm.topsis, pymcdm ile birebir aynı çıktı. CRITIC ve entropi farkları tanım farkından geliyor (K-008).
+- **Karar:** Çekirdek skor değişmiyor. Eşit ağırlık + öğrenilmiş yön modeli tezde temel karşılaştırma olarak raporlanacak. Ağırlık şemasını LOCO içinde seçen iç içe doğrulama sonraki adım; çekirdeğin değişip değişmeyeceği o sonuca ve kullanıcıya bağlı.
+- **Diğer araçlar:**
+  - CEA (radyasyon ve talep doğrulaması, arketip fikri) ve Ladybug (gölgeli çatı doğrulaması; AGPL nedeniyle yalnız harici kullanım) planlı.
+  - URBANopt GeoJSON dışa aktarımı ve REopt (bütçe boşluğu) teyit edilecek.
+  - pyDecision (GPL) ve scikit-criteria alınmıyor.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

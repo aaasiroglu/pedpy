@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>pedx Caferağa</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -452,6 +453,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <!-- ================================================================ KRİTERLER -->
 <section class="view" id="v-kriter" hidden>
  <div class="doc">
+  <div class="sheet" id="mcdm-sheet" hidden><div class="eyebrow">Yöneylem araştırması · K-060</div><h2 style="margin-top:6px">Klasik MCDM ile öğrenilmiş PED skoru, aynı protokolde</h2>
+    <p>16 gerçek PED, 31 temiz kriter, kentler arası dışarıda bırakma. Kriter yönleri yalnız eğitim kentlerinden geliyor; eşit, CRITIC ve entropi ağırlıkları dışarıda bırakılan kentin kendi matrisinde, etiket görmeden hesaplanıyor. Ölçüt: gerçek PED'in kendi kentinin kontrolleri arasındaki yüzdeliği (ortalaması AUC).</p>
+    <div class="tbl" id="mcdm-tbl"></div>
+    <p class="note"><b>Okuma:</b> Eşit ağırlıklı toplam (WSM, MARCOS), seyrek öğrenilmiş ağırlıklardan kötü değil; ortalamada daha iyi. Ama fark anlamlı değil (Wilcoxon p = 0,31; n = 16) ve büyük kısmı tek bir kentten geliyor. 25 kombinasyonun en iyisi iyimser bir üst sınırdır. Bu, "uygunsuz doğrusal modeller" bulgusunun kentsel PED karşılığıdır (Dawes 1979). VIKOR'un çöküşü telafi etmeyen yöntemlerin bu probleme uymadığını gösteriyor. PED skorunun üstünlüğü sıralamada değil: kalibrasyon, kesin katkılar, kapalı biçimli tersine analiz ve kümeye göreli olmayan mutlak puan. pedx.mcdm.topsis, pymcdm ile birebir aynı çıktıyı veriyor.</p></div>
   <div class="sheet"><div class="eyebrow">Bütün veri kaynakları × gerçek PED'ler</div><h2 style="margin-top:6px">Hangi veri PED projelerini etkiliyor ve nasıl ağırlıklandırılmalı?</h2>
     <p>Varsayım: veri gölündeki her katman PED projelerini etkileyebilir. 8 kaynak ailesinden 41 özellik, 16 gerçek PED sahası ve kent başına 30 yerleşik kontrolle sınandı.</p>
     <ol>
