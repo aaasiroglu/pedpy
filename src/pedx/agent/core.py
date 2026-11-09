@@ -122,7 +122,7 @@ def compose(q: str, trace: List[dict]) -> str:
             s = o["sites"]
             out.append(f"**{o['name']}** içinde {o['n_candidates']} aday saha incelendi; {'PED puanına' if o['objective'] == 'score' else o['objective'] + ' göstergesine'} göre en iyi {len(s)} saha:"
                        + (f" ({o['n_outside_applicability']} saha, modelin doğrulandığı sahalara benzemediği için önerilmedi: uygulanabilirlik alanı dışı.)" if o.get("n_outside_applicability") else "")
-                       + (f" ({o['n_non_residential_excluded']} saha, alanının yarısından fazlası havalimanı, sanayi, liman ya da askeri arazi olduğu için elendi; OSM.)" if o.get("n_non_residential_excluded") else ""))
+                       + (f" ({o['n_non_residential_excluded']} saha, alanının yarısından fazlası havalimanı, sanayi, liman ya da askeri arazi olduğu için elendi; OSM, yoksa Overture havalimanı kümeleri.)" if o.get("n_non_residential_excluded") else ""))
             for i, x in enumerate(s, 1):
                 warn = " ⚠️ uygulanabilirlik alanı dışında" if x["applicability"] is False else ""
                 out.append(f"{i}. `{x['cell']}`: PED puanı {x['score']:.0f} (kent içi {_pct(x['city_percentile'])}), denge {x['balance']:.2f}, "

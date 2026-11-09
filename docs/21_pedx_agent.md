@@ -20,7 +20,7 @@ Kullanıcı Türkçe ya da İngilizce bir soru sorar. Örnek: "İstanbul'da PED 
 | Erişimle güçlendirilmiş üretim (RAG) | Lewis vd. (2020) | Literatür haritası (docs/20) bir bilgi tabanı; her araç kendi dayanak kaynaklarını getiriyor |
 | Uydurma riski | Ji vd. (2023) | LLM sayı üretmez; yanıt gözlemlerden yazılıyor. Testte, yanıttaki her sayının gözlemlerde bulunduğu doğrulanıyor |
 | Uygulanabilirlik alanı | Meyer ve Pebesma (2021) | Doğrulanmış sahalara ağırlıklı en yakın komşu uzaklığı; eşik, bir kent dışarıda bırakılarak hesaplanan uzaklıkların 95. yüzdeliği (0,41). Dışarıdaki sahalar önerilmiyor ve sayıları raporlanıyor (İstanbul'da 667) |
-| Arazi kullanımı denetimi | Pesaresi vd. (2024), GHSL BUILT-S NRES | Yapı yüzeyinin %80'inden fazlası konut dışı olan sahalar (havalimanı, liman, sanayi) önerilmiyor |
+| Arazi kullanımı denetimi | OSM (havalimanı, sanayi, liman, askeri); yedek: Overture havalimanı kümeleri | Alanının %50'sinden fazlası özel arazide olan sahalar önerilmiyor; GHSL NRES bu iş için yetersiz kaldı |
 | Referans sınıfı ve dış bakış | Flyvbjerg (2014) | Puan "gerçek PED'lere benzerlik" olarak sunuluyor; seçimle elverişlilik ayrımı açıkça yazılıyor |
 | Kesin açıklama, karşı-olgusal | Lundberg ve Lee (2017); Wachter vd. (2018) | Kesin logit katkıları; hedef puan için kapalı biçim tersine analiz |
 | Kentsel işlev ve mekânın ruhu | Jacobs (1961); Oldenburg (1989); Klinenberg (2018) | Hedef göstergeye göre sıralama: üçüncü mekân, sosyal altyapı, kültür, meydan, inşaat (dönüşüm) |
@@ -71,7 +71,7 @@ Araç, alan ve argüman doğruluğu %100. **Sınırlılık:** sorular planlayıc
 1. HRSL nüfus haritası terminal binasına 1.757 kişi yazmış.
 2. Dev çatılar bu "nüfusu" fazlasıyla dengelemiş.
 
-Uygulanabilirlik alanı denetimi bunu yakalamadı, çünkü kriter uzayında bu saha brownfield PED'lere benziyor. Overture arazi kullanımında havalimanı poligonu yoktu. Önlem olarak GHSL konut dışı yapı payı denetimi eklendi (§2). Bu vaka tezde "veri hatası × model" etkileşiminin örneği olarak anlatılacak.
+Uygulanabilirlik alanı denetimi bunu yakalamadı, çünkü kriter uzayında bu saha brownfield PED'lere benziyor. Overture arazi kullanımında havalimanı poligonu yoktu. İlk önlem GHSL konut dışı yapı payıydı, ama GHSL de havalimanı sahasında yalnızca %4 konut dışı gösterdi. Bu yüzden önlem OSM özel arazi katmanı oldu: havalimanı, sanayi, liman, askeri alan ve demiryolu alanı (sahanın %50'sinden fazlası bu arazideyse öneri yok). Overpass sunucusu dört kentte (İstanbul, Fontaine d'Ouche, Fornebu, Kaukovainio) yanıt vermediği için orada yedek kural uygulandı: güven puanı ≥ 0,7 olan en az 5 Overture "airport" noktasının ~400 m çevresi özel arazi sayıldı. Bu yedek kural sanayi ve liman alanlarını kapsamaz; bu sınırlılık kayıtlı. İstanbul'da 202 saha elendi; Atatürk ve İstanbul havalimanları ilk sıralardan çıktı. Bu vaka tezde "veri hatası × model" etkileşiminin örneği olarak anlatılacak.
 
 ## 6. Sıradaki adımlar
 
