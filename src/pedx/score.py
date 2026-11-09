@@ -46,6 +46,9 @@ LABELS_TR = {
     "transit_per_km2": "Toplu taşıma yoğunluğu", "grid_assets_per_km2": "Şebeke varlığı yoğunluğu", "ev_chargers_per_km2": "EV şarj yoğunluğu",
     "ov_bld_n": "Bina sayısı", "ov_gfa_m2": "Brüt kat alanı (bilinen)", "gfa_per_capita_m2": "Kişi başı kat alanı", "vul_pop_hrsl": "Nüfus",
     "vul_elderly60_n": "60+ sayısı", "vul_children0_5_n": "0–5 yaş sayısı",
+    "ov_bld_footprint_m2": "Bina taban alanı", "env_lst_mean_c": "Yüzey sıcaklığı", "env_wc_built_share": "Yapılı alan payı (WorldCover)",
+    "env_wc_crop_share": "Tarım alanı payı", "env_elev_m": "Yükselti", "ov_places_n": "Mekân sayısı",
+    "ov_grid_assets_n": "Şebeke varlığı sayısı", "ov_transit_stops_n": "Toplu taşıma durağı sayısı",
 }
 
 

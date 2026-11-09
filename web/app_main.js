@@ -10,6 +10,14 @@
   const $ = id => document.getElementById(id);
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
+  // ------------------------------------------------------------------ atlas z-scores (K-061): int8 base64 → r[4]
+  if (P.atlas) {
+    const q = P.atlas.model.zq_scale || 10, n = P.atlas.model.features.length;
+    P.atlas.cities.forEach(c => { if (!c.zq) return;
+      const b = atob(c.zq), bytes = new Int8Array(b.length); for (let i = 0; i < b.length; i++) bytes[i] = (b.charCodeAt(i) << 24) >> 24;
+      c.cells.forEach((r, i) => { r[4] = Array.from(bytes.subarray(i * n, (i + 1) * n), v => v / q); }); delete c.zq; });
+  }
+
   // ------------------------------------------------------------------ routing
   const VIEWS = ["mvp", "sunum", "kapsam", "mimari", "tez", "ajan", "kriter", "veri", "kaynakca"];
   let mapReady = false;
@@ -697,15 +705,26 @@
     if (m === "caf") { draw(sel.value); map.fitBounds(bnd.getBounds(), { padding: [10, 10] }); }
   }
 
-  // ---------- on-demand assessment anywhere (K-040): needs `make api`; otherwise disabled, never faked
-  const API = "http://127.0.0.1:8766";
-  let liveLayer = null;
+  // ---------- on-demand assessment anywhere (K-040): needs the local API; otherwise disabled, never faked
+  // Same origin when the page is served by the API itself (make demo → http://127.0.0.1:8766); a page published on
+  // claude.ai cannot reach the visitor's 127.0.0.1 (browser sandbox), so there the 19 precomputed areas stay clickable.
+  const API = location.origin === "http://127.0.0.1:8766" ? "" : "http://127.0.0.1:8766";
+  let liveLayer = null, apiUp = false;
+  const inAtlasArea = (lat, lon) => (P.atlas ? P.atlas.cities : []).some(c => {
+    if (!c._bb) { const ll = c.cells.map(r => h3.cellToLatLng(r[0])); c._bb = [Math.min(...ll.map(x => x[0])), Math.min(...ll.map(x => x[1])), Math.max(...ll.map(x => x[0])), Math.max(...ll.map(x => x[1]))]; }
+    return lat >= c._bb[0] && lat <= c._bb[2] && lon >= c._bb[1] && lon <= c._bb[3]; });
   function initLive() {
-    fetch(API + "/health").then(r => r.json()).then(h => {
-      $("livestatus").textContent = `API hazır (pedx ${h.version}). Caferağa dışında haritada herhangi bir yere tıklayın; dünya üzerinde gezinmek için uzaklaştırın.`;
-      map.on("click", ev => { if (!window.__pedxDrawing) live(ev.latlng.lat, ev.latlng.lng); });
+    const ctl = new AbortController(); setTimeout(() => ctl.abort(), 2500);
+    fetch(API + "/health", { signal: ctl.signal }).then(r => r.json()).then(h => {
+      apiUp = true;
+      $("livestatus").textContent = `Yerel API bağlı (pedx ${h.version}). 19 alanın dışında haritada herhangi bir yere tıklayın: o noktanın kent ızgarası açık verilerden hesaplanır (ilk seferde ~1–3 dk).`;
+      map.on("click", ev => { if (!window.__pedxDrawing && !inAtlasArea(ev.latlng.lat, ev.latlng.lng)) live(ev.latlng.lat, ev.latlng.lng); });
     }).catch(() => {
-      $("livestatus").innerHTML = "Yerel API çalışmıyor. Açmak için terminalde <code>make api</code>; bu sayfa yalnız önceden hesaplanmış Caferağa'yı gösterir.";
+      $("livestatus").innerHTML = "Bu sürümde <b>19 alanın tamamı sayfanın içinde hesaplanıyor</b>: alan seçip altıgenlere tıklayın. " +
+        "Dünyanın <i>başka</i> bir noktasını canlı hesaplamak için pedx'i kendi bilgisayarınızda çalıştırın: <code>make demo</code> → <code>http://127.0.0.1:8766</code>. " +
+        "(claude.ai'da yayımlanan sayfa, tarayıcı güvenliği gereği ziyaretçinin bilgisayarına bağlanamaz.)";
+      map.on("click", ev => { if (!window.__pedxDrawing && !inAtlasArea(ev.latlng.lat, ev.latlng.lng) && $("mode").value === "atlas")
+        $("liveout").innerHTML = `<p class="note">${ev.latlng.lat.toFixed(3)}, ${ev.latlng.lng.toFixed(3)} 19 alanın dışında. Burayı hesaplamak için yerel sürüm gerekir (<code>make demo</code>); sayfa sahte değer üretmez.</p>`; });
     });
   }
   function live(lat, lon) {

@@ -16,7 +16,7 @@ from . import __version__
 from .service import assess_point
 
 app = FastAPI(title="pedx — on-demand PED suitability", version=__version__)
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "OPTIONS"], allow_headers=["*"])
 
 
 def _geojson(cells):
@@ -27,6 +27,27 @@ def _geojson(cells):
         ring = [[lon, lat] for lat, lon in h3.cell_to_boundary(r["cell"])]
         feats.append({"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [ring + ring[:1]]}, "properties": r})
     return {"type": "FeatureCollection", "features": feats}
+
+
+@app.middleware("http")
+async def _private_network(request, call_next):
+    """Chrome's Private Network Access: a public page (claude.ai) may only reach 127.0.0.1 if the server opts in."""
+    resp = await call_next(request)
+    resp.headers["Access-Control-Allow-Private-Network"] = "true"
+    return resp
+
+
+@app.get("/", include_in_schema=False)
+def page():
+    """The web app itself, served from the API origin (make demo): same origin, so no browser blocks the API calls."""
+    from pathlib import Path
+
+    from fastapi.responses import FileResponse, PlainTextResponse
+
+    f = Path(__file__).resolve().parents[2] / "web" / "pedx_app.html"
+    if not f.exists():
+        return PlainTextResponse("web/pedx_app.html yok: önce `make build`.", status_code=404)
+    return FileResponse(f, media_type="text/html; charset=utf-8")
 
 
 @app.get("/health")
@@ -57,7 +78,7 @@ def score(lat: float = Query(..., ge=-85, le=85), lon: float = Query(..., ge=-18
     model_path = Path(__file__).resolve().parents[2] / "data" / "validation" / "ped_score_model.json"
     model = PEDScore.from_json(model_path)
     F, prov = city_grid(lat, lon, f"pt_{lat:.2f}_{lon:.2f}".replace("-", "m").replace(".", "p"))
-    st = city_stats(candidate_discs(F))
+    st = city_stats(candidate_discs(F), model.features)
     x = candidate_discs(F, centres=[h3.latlng_to_cell(lat, lon, 10)]).iloc[0].to_dict()
     x = {k: (None if isinstance(v, float) and not np.isfinite(v) else v) for k, v in x.items()}
     xf = {k: (np.nan if v is None else v) for k, v in x.items()}

@@ -11,7 +11,9 @@
     python scripts/build_atlas.py
 """
 
+import base64
 import json
+import os
 import re
 from pathlib import Path
 
@@ -28,6 +30,11 @@ ROOT = Path(__file__).resolve().parents[1]
 VAL = ROOT / "data" / "validation"
 GRID = ROOT / "data" / "cache" / "citygrid"
 OUT = ROOT / "web" / "data" / "atlas.json"
+
+
+# K-061: nested leave-one-city-out chose equal weights (9/16 folds; evidence weights 0/16): nested AUC 0.84 vs 0.80.
+# PEDX_WEIGHTING=evidence rebuilds the previous core (K-050) for comparison.
+WEIGHTING = os.environ.get("PEDX_WEIGHTING", "equal")
 
 
 def slug(s: str) -> str:
@@ -63,8 +70,11 @@ def main():
         p = np.array([wilcoxon(dz[:, j]).pvalue if np.any(dz[:, j] != 0) else 1.0 for j in range(dz.shape[1])])
         o = np.argsort(p); q = p[o] * len(p) / (np.arange(len(p)) + 1); q = np.minimum.accumulate(q[::-1])[::-1]
         qq = np.empty_like(q); qq[o] = np.minimum(q, 1)
-        w = np.where(qq < 0.10, np.abs(d), 0.0)
-        w = w / w.sum() if w.sum() > 0 else np.full(len(d), 1 / len(d))
+        if WEIGHTING == "equal":  # unit weights, directions learned (Dawes 1979; K-061)
+            w = np.full(len(d), 1 / len(d))
+        else:
+            w = np.where(qq < 0.10, np.abs(d), 0.0)
+            w = w / w.sum() if w.sum() > 0 else np.full(len(d), 1 / len(d))
         return w, np.where(d >= 0, 1.0, -1.0), d, qq
 
     keys = list(D["key"].unique())
@@ -82,7 +92,8 @@ def main():
     model = PEDScore.from_weights(FEATS, w, dr, Z, y, n_cases=int(y.sum()), n_controls=int((1 - y).sum()), auc_loco=auc,
                                   loco_percentiles=pct, effect_d=[float(v) for v in d], q_bh=[float(v) for v in q],
                                   standardisation="within-city over inhabited k=2 candidate discs",
-                                  weighting="evidence: |d| of criteria with BH q<0.10; reverse-causal suspects excluded")
+                                  weighting=("equal weights, directions = sign(d) on training cities; chosen by nested LOCO (K-061)" if WEIGHTING == "equal"
+                                             else "evidence: |d| of criteria with BH q<0.10; reverse-causal suspects excluded"))
     keep = np.flatnonzero(w > 0)  # export only criteria that carry weight
     model = PEDScore(model.coef[keep], model.intercept, [FEATS[j] for j in keep],
                      meta=dict(model.meta, weights=[float(w[j]) for j in keep], direction=[float(dr[j]) for j in keep]))
@@ -104,7 +115,9 @@ def main():
     atlas = {"model": {"features": FEATS, "coef": [round(float(b), 5) for b in model.coef], "intercept": round(model.intercept, 5),
                        "weights": [round(x, 4) for x in model.meta["weights"]], "direction": model.meta["direction"],
                        "labels_tr": LABELS_TR, "auc_loco": auc, "n_cases": int(y.sum()), "n_controls": int((1 - y).sum()),
-                       "form": "MCDM: kanıta dayalı kriter ağırlıkları + Platt kalibrasyonu", "aoa": aoa},
+                       "form": ("MCDM: eşit ağırlık, yönler gerçek PED'lerden öğrenildi (iç içe LOCO ile seçildi) + Platt kalibrasyonu" if WEIGHTING == "equal"
+                                else "MCDM: kanıta dayalı kriter ağırlıkları + Platt kalibrasyonu"), "weighting": WEIGHTING,
+                       "zq_scale": 10, "aoa": aoa},
              "report": REPORT,
              "cities": []}
     for c in cities:
@@ -121,11 +134,14 @@ def main():
         def rnd(v):
             return None if v is None or not np.isfinite(v) else float(f"{v:.3g}")
 
-        cells = []
+        cells, zs = [], []
         for centre, r in C.iterrows():
             z = _z(r.to_dict(), st, FEATS)
+            zs.append(np.clip(np.round(np.nan_to_num(z) * 10), -127, 127).astype(np.int8))
             cells.append([h3.cell_to_parent(centre, 9), round(float(r["energy_balance"]), 3), round(float(r["vul_pop_hrsl"])),
-                          round(float(r["ov_bld_footprint_m2"])), [round(float(v), 2) for v in z], [rnd(v) for v in RM.loc[centre].to_numpy(float)]])
+                          round(float(r["ov_bld_footprint_m2"])), 0, [rnd(v) for v in RM.loc[centre].to_numpy(float)]])
+        # z-scores of all criteria as int8 (z·10, |z| ≤ 12.7), row-major cells × criteria, base64: keeps the page < 16 MB
+        zq = base64.b64encode(np.vstack(zs).tobytes()).decode() if zs else ""
         site_cell = h3.latlng_to_cell(c["lat"], c["lon"], 10)
         sx = candidate_discs(F, centres=[site_cell]).iloc[0].to_dict()
         e = model.explain(sx, st)
@@ -138,7 +154,7 @@ def main():
             "stats": {f: {"mean": round(st[f]["mean"], 5), "sd": round(st[f]["sd"], 5)} for f in FEATS},
             "country": (prov.get("country") or {}).get("name"), "kwh_per_capita": (prov.get("demand") or {}).get("kwh_per_capita"),
             "pv_yield": (prov.get("pv_yield") or {}).get("kwh_per_kwp"), "failures": list((prov.get("failures") or {}).keys()),
-            "cells": cells})
+            "zq": zq, "cells": cells})
         print(c["key"], len(cells), "site score", round(e["score"], 1))
     OUT.write_text(json.dumps(atlas, ensure_ascii=False, separators=(",", ":")))
     print(OUT, round(OUT.stat().st_size / 1e6, 2), "MB")

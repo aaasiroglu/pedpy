@@ -29,7 +29,20 @@ TOOL_CITATIONS = {
 
 @lru_cache(maxsize=1)
 def atlas() -> dict:
-    return json.loads((ROOT / "web" / "data" / "atlas.json").read_text())
+    """Atlas with z-scores decoded: int8 base64 (z·10) per city → cell[4] as a list of floats (K-061)."""
+    import base64
+
+    import numpy as np
+
+    A = json.loads((ROOT / "web" / "data" / "atlas.json").read_text())
+    n, q = len(A["model"]["features"]), A["model"].get("zq_scale", 10)
+    for c in A["cities"]:
+        zq = c.pop("zq", None)
+        if zq:
+            Z = np.frombuffer(base64.b64decode(zq), dtype=np.int8).reshape(-1, n) / q
+            for r, z in zip(c["cells"], Z):
+                r[4] = z.tolist()
+    return A
 
 
 @lru_cache(maxsize=1)

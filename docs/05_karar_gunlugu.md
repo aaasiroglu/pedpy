@@ -503,6 +503,42 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - pyDecision (GPL) ve scikit-criteria alınmıyor.
 - **Durum:** Kabul
 
+### K-061: İç içe LOCO ile ağırlık şeması seçildi; çekirdek eşit ağırlığa geçti
+- **Bağlam:** K-060'ta eşit ağırlık 0,88 ile en iyi çıktı, ama bu 25 kombinasyonun en iyisiydi, yani iyimser.
+- **Yöntem** (`scripts/nested_loco.py`):
+  - Dış döngü bir kenti dışarıda bırakıyor.
+  - İç döngü kalan 15 kentte her şemayı ayrıca LOCO ile sınıyor ve en iyisini seçiyor; eşitlikte daha basit şema kazanıyor.
+  - Seçilen şema 15 kentle kurulup dışarıdaki kentte ölçülüyor.
+  - Adaylar yalnız çekirdek sözleşmesine uyan şemalar: z-puanlarının küresel ağırlıklı toplamı + Platt kalibrasyonu. Ağırlık seçenekleri eşit, kanıt (K-050), havuzlanmış eğitim verisinde CRITIC ve entropi.
+- **Sonuç:**
+
+  | Şema | Seçildiği katlama | Düz LOCO AUC |
+  |---|---|---|
+  | Eşit | 9/16 | 0,837 |
+  | Entropi | 7/16 | 0,856 |
+  | Kanıt (önceki çekirdek) | 0/16 | 0,802 |
+  | CRITIC | 0/16 | 0,815 |
+
+  - **İç içe AUC 0,842.**
+  - Kanıt ağırlıklarına karşı fark anlamlı değil: eşit p = 0,31, entropi p = 0,55.
+- **Karar:** Kural sağlandı (katlamaların çoğunda seçilme ve düz AUC ≥ kanıt). Çekirdek **eşit ağırlık + eğitim kentlerinden öğrenilen yön** oldu; LOCO AUC 0,837.
+  - Gerekçe: daha iyi olduğu kanıtlanmış değil. İç içe prosedür onu seçiyor, daha basit (öğrenilen yalnız 31 yön) ve az örnekte daha sağlam (Dawes 1979).
+  - Entropi düz AUC'de biraz daha yüksek, ama daha az katlamada seçildi ve veri bağımlı ağırlık getiriyor.
+- **Sonuçları:**
+  - Puan artık 31 kriterin hepsini kullanıyor. Enerji dengesi puanın 1/31'i; puan "PED bağlamına benzerlik" ölçüyor. Fiziksel yıllık denge (≥ 1) ayrı ve zorunlu bir koşul olarak raporlanıyor.
+  - Tersine analizdeki enerji kaldıraçlarının puana etkisi küçüldü: "enerji kaldıraçları yetmiyor" sonucu daha sık çıkacak. Bu dürüst bir sonuç; puanı yükseltmek bağlamı da değiştirmeyi gerektiriyor.
+  - Sayfa boyutu: 31 z-puanı kent başına int8 (z·10) base64 olarak taşınıyor; tarayıcı ve `knowledge.atlas()` açıyor. Sayfa 15,35 MB.
+  - Eski çekirdek `PEDX_WEIGHTING=evidence python scripts/build_atlas.py` ile yeniden üretilebilir.
+- **Durum:** Kabul
+
+### K-062: "Tıkla → hesapla" iki kipte çalışıyor
+- **Sorun:** claude.ai'da yayımlanan sayfa, tarayıcı güvenliği gereği ziyaretçinin 127.0.0.1'ine bağlanamıyor. Panel bu yüzden hep "API çalışmıyor" diyordu. Ayrıca `/score` yeni modelin kriterleri için kent istatistiği üretmiyordu.
+- **Karar:**
+  - **`make demo`:** API sayfanın kendisini de sunuyor (`GET /`). Aynı köken olduğu için 19 alanın dışındaki her tıklama canlı hesaplanıyor. Private Network Access başlığı eklendi.
+  - **Yayımlanan sürüm:** 19 alan sayfada hesaplanıyor. Dışarıya tıklanınca yerel sürümün nasıl açılacağı yazıyor; sahte değer üretilmiyor.
+  - `/score` artık modelin kendi kriter listesiyle kent istatistiği kuruyor.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

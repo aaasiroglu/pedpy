@@ -2,7 +2,7 @@
 PY ?= python3
 PORT ?= 8765
 
-.PHONY: help install data epias build serve api prepare agent-qwen test docker docker-run clean
+.PHONY: help install data epias build serve api demo prepare agent-qwen test docker docker-run clean
 
 help:
 	@echo "make install    # Python paketlerini kur (pedx + h3 + jax + scipy + rasterio + pytest)"
@@ -35,6 +35,11 @@ build:
 serve:
 	@echo "Uygulama: http://localhost:$(PORT)/pedx_app.html"
 	$(PY) -m http.server $(PORT) -d web
+
+# demo: the web app and the API on one origin → http://127.0.0.1:8766 (clicks anywhere on Earth are computed live)
+demo:
+	@echo "pedx demo: tarayıcıda http://127.0.0.1:8766 adresini açın"
+	$(PY) -m uvicorn pedx.api:app --host 127.0.0.1 --port 8766
 
 api:
 	@echo "API: http://127.0.0.1:8766/assess?lat=40.986&lon=29.028&k=3"
