@@ -3051,6 +3051,20 @@
    "area_ok": true,
    "arg_ok": true,
    "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız (30)",
+   "q": "Turku'da sağlık hizmetine yakın aday sahalar",
+   "seconds": 81.29485583305359,
+   "n_calls": 2,
+   "extra_calls": 1,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"linnakaupunki\", \"k\": 5, \"objective\": \"health_per_1000\"}], [\"assess_site\", {\"area\": \"linnakaupunki\", \"cell\": \"89089d06d67ffff\"}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
   }
  ]
 }
