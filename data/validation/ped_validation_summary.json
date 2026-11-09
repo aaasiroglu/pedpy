@@ -131,7 +131,9 @@
     "landuse": 6.3,
     "wikidata": 22.3,
     "commons": 161.8,
-    "osm_transit": 70.2
+    "osm_transit": 70.2,
+    "ghsl_nres": 6.7,
+    "osm_special": 68.1
    },
    "sentinel2": {
     "scene": "S2A_31UFT_20230614_0_L2A",
@@ -155,7 +157,9 @@
     "place_profile": 2.9,
     "landuse": 4.7,
     "wikidata": 3.6,
-    "osm_transit": 22.9
+    "osm_transit": 22.9,
+    "ghsl_nres": 0.1,
+    "osm_special": 48.6
    },
    "sentinel2": {
     "scene": "S2B_30TVN_20230821_0_L2A",
@@ -179,7 +183,9 @@
     "place_profile": 2.0,
     "landuse": 4.6,
     "wikidata": 2.1,
-    "osm_transit": 41.4
+    "osm_transit": 41.4,
+    "ghsl_nres": 0.1,
+    "osm_special": 252.1
    },
    "sentinel2": {
     "scene": "S2A_34VFM_20230613_0_L2A",
@@ -189,7 +195,9 @@
    "landsat_scenes": 3
   },
   "Fornebu": {
-   "failures": {},
+   "failures": {
+    "osm_special": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   },
    "timing_s": {
     "hrsl": 2.9,
     "overture_buildings": 8.4,
@@ -203,7 +211,9 @@
     "place_profile": 2.7,
     "landuse": 3.6,
     "wikidata": 4.3,
-    "osm_transit": 31.8
+    "osm_transit": 31.8,
+    "ghsl_nres": 0.0,
+    "osm_special": 58.1
    },
    "sentinel2": {
     "scene": "S2A_32VNM_20230604_0_L2A",
@@ -213,7 +223,9 @@
    "landsat_scenes": 4
   },
   "Kaukovainio": {
-   "failures": {},
+   "failures": {
+    "osm_special": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
+   },
    "timing_s": {
     "hrsl": 2.0,
     "overture_buildings": 4.3,
@@ -227,7 +239,9 @@
     "place_profile": 1.6,
     "landuse": 3.7,
     "wikidata": 1.3,
-    "osm_transit": 25.0
+    "osm_transit": 25.0,
+    "ghsl_nres": 0.1,
+    "osm_special": 126.4
    },
    "sentinel2": {
     "scene": "S2A_35WMN_20230818_0_L2A",
@@ -251,7 +265,9 @@
     "place_profile": 2.3,
     "landuse": 5.9,
     "wikidata": 2.7,
-    "osm_transit": 33.7
+    "osm_transit": 33.7,
+    "ghsl_nres": 0.1,
+    "osm_special": 44.0
    },
    "sentinel2": {
     "scene": "S2A_32ULD_20230909_0_L2A",
@@ -262,7 +278,8 @@
   },
   "Fontaine d'Ouche": {
    "failures": {
-    "landsat": "RuntimeError: no usable Landsat scene"
+    "landsat": "RuntimeError: no usable Landsat scene",
+    "osm_special": "URLError: <urlopen error [Errno 104] Connection reset by peer>"
    },
    "timing_s": {
     "hrsl": 4.2,
@@ -277,7 +294,9 @@
     "place_profile": 1.7,
     "landuse": 1.7,
     "wikidata": 1.6,
-    "osm_transit": 24.6
+    "osm_transit": 24.6,
+    "ghsl_nres": 0.1,
+    "osm_special": 91.5
    },
    "sentinel2": {
     "scene": "S2B_31TFN_20230924_0_L2A",
@@ -301,7 +320,9 @@
     "place_profile": 1.4,
     "landuse": 3.5,
     "wikidata": 1.1,
-    "osm_transit": 31.6
+    "osm_transit": 31.6,
+    "ghsl_nres": 0.1,
+    "osm_special": 60.9
    },
    "sentinel2": {
     "scene": "S2B_34VEM_20230607_0_L2A",
@@ -325,7 +346,9 @@
     "place_profile": 3.5,
     "landuse": 2.9,
     "wikidata": 3.8,
-    "osm_transit": 52.5
+    "osm_transit": 52.5,
+    "ghsl_nres": 6.9,
+    "osm_special": 261.7
    },
    "sentinel2": {
     "scene": "S2A_31TFL_20230909_0_L2A",
@@ -349,7 +372,9 @@
     "place_profile": 1.9,
     "landuse": 2.2,
     "wikidata": 5.1,
-    "osm_transit": 39.4
+    "osm_transit": 39.4,
+    "ghsl_nres": 7.4,
+    "osm_special": 235.5
    },
    "sentinel2": {
     "scene": "S2B_33UXP_20230909_1_L2A",
@@ -373,7 +398,9 @@
     "place_profile": 1.5,
     "landuse": 2.4,
     "wikidata": 2.1,
-    "osm_transit": 37.2
+    "osm_transit": 37.2,
+    "ghsl_nres": 12.1,
+    "osm_special": 55.2
    },
    "sentinel2": {
     "scene": "S2B_33UUB_20230921_0_L2A",
@@ -399,7 +426,9 @@
     "place_profile": 1.8,
     "landuse": 3.3,
     "wikidata": 2.3,
-    "osm_transit": 30.2
+    "osm_transit": 30.2,
+    "ghsl_nres": 6.0,
+    "osm_special": 60.4
    },
    "sentinel2": {
     "scene": "S2B_30TWN_20230811_0_L2A",
@@ -425,7 +454,9 @@
     "place_profile": 2.0,
     "landuse": 2.9,
     "wikidata": 2.2,
-    "osm_transit": 24.8
+    "osm_transit": 24.8,
+    "ghsl_nres": 0.0,
+    "osm_special": 47.4
    },
    "sentinel2": {
     "scene": "S2B_34VCM_20230607_0_L2A",
@@ -449,7 +480,9 @@
     "place_profile": 3.1,
     "landuse": 4.7,
     "wikidata": 4.3,
-    "osm_transit": 39.4
+    "osm_transit": 39.4,
+    "ghsl_nres": 4.2,
+    "osm_special": 36.0
    },
    "sentinel2": {
     "scene": "S2A_35VLG_20230613_0_L2A",
@@ -473,7 +506,9 @@
     "place_profile": 3.3,
     "landuse": 2.1,
     "wikidata": 3.7,
-    "osm_transit": 21.9
+    "osm_transit": 21.9,
+    "ghsl_nres": 0.1,
+    "osm_special": 62.9
    },
    "sentinel2": {
     "scene": "S2B_30TXT_20230602_0_L2A",
@@ -497,7 +532,9 @@
     "place_profile": 2.8,
     "landuse": 5.3,
     "wikidata": 10.7,
-    "osm_transit": 32.5
+    "osm_transit": 32.5,
+    "ghsl_nres": 0.1,
+    "osm_special": 53.9
    },
    "sentinel2": {
     "scene": "S2A_34VFM_20230613_0_L2A",
