@@ -41,7 +41,7 @@ if __name__ == "__main__":
     out_path = ROOT / "data" / "validation" / "agent_react_benchmark.json"
     rows = json.loads(out_path.read_text())["per_question"] if out_path.exists() else []
     for path, which in runs:
-        name = Path(path).stem + " · ReAct"
+        name = Path(path).stem + " · ReAct" + os.environ.get("PEDX_REACT_LABEL", "")
         for key in which.split("+"):
             sname, items = sets[key]
             for q, tool, area, extra in items:
