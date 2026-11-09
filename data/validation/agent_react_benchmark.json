@@ -2701,6 +2701,34 @@
    "area_ok": false,
    "arg_ok": true,
    "all_ok": false
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Rasimpaşa'da hedef 65 puan için ne yapılmalı?",
+   "seconds": 39.23548436164856,
+   "n_calls": 2,
+   "extra_calls": 0,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"caferaa_istanbul\", \"k\": 5, \"objective\": \"score\"}], [\"inverse\", {\"area\": \"caferaa_istanbul\", \"cell\": \"891ec9029b3ffff\", \"target\": 65}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Kadıköy'de ısınan, sıcaklık anomalisi yüksek sahalar",
+   "seconds": 39.275983810424805,
+   "n_calls": 2,
+   "extra_calls": 1,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"kadikoy\", \"objective\": \"env_lst_anomaly_c\"}], [\"assess_site\", {\"area\": \"kadikoy\", \"cell\": \"891ec915e83ffff\"}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
   }
  ]
 }
