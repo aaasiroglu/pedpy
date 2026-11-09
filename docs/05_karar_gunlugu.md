@@ -445,7 +445,7 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 
   Geliştirme setinde 8B ReAct %95.
 - **Bedel:** soru başına ~1 gereksiz çağrı ve ~1 dakika.
-- **Niyet uydurma:** 8B, 7/70 soruda kendiliğinden hedef puan uydurdu. Önlem: hedef istenmedikçe tersine analiz yürütülmüyor (yeniden ölçülmedi).
+- **Niyet uydurma:** 8B, 7/70 soruda kendiliğinden hedef puan uydurdu. Önlem: hedef istenmedikçe tersine analiz yürütülmüyor. Yeniden ölçüm: istenmemiş tersine analiz 7/70 → 0/70, gereksiz çağrı/soru 0,93 → 0,77 (bağımsız), tam doğruluk değişmedi (%93 / %95).
 - **Okuma:** Sonucu görerek ilerlemek yalnızca büyük modelde fayda sağlıyor. Model kapasitesi ile ajan döngüsü birlikte seçilmeli.
 - **Durum:** Kabul
 

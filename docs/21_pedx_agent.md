@@ -111,13 +111,20 @@ Araç, alan ve argüman doğruluğu %100. **Sınırlılık:** sorular planlayıc
 | Qwen3-4B, tek seferlik + onarım | %83 | %87 | 1–3 | ~0 | 5,4 s |
 | Qwen3-8B, tek seferlik + onarım | %90 | %83 | 1–3 | ~0 | 8,3 s |
 | Qwen3-4B, ReAct | — | %87 | 2,5 | 1,4 | 37 s |
-| **Qwen3-8B, ReAct** | **%95** | **%93** | 2,2–2,4 | 0,9–1,3 | 54–59 s |
+| Qwen3-8B, ReAct | %95 | %93 | 2,2–2,4 | 0,9–1,3 | 54–59 s |
+| **Qwen3-8B, ReAct + niyet koruması** | **%95** | **%93** | 2,0–2,3 | 0,8–1,2 | 54–59 s |
 
 **Okuma:**
 1. **Hipotez doğrulandı.** 8B'nin tek seferlik düzende ceza yiyen "önce kontrol et" davranışı, sonucu görerek ilerleyince avantaja dönüyor. Bağımsız sette %77 → %93; en iyi planlayıcı bu.
 2. **4B ReAct'ten kazanmıyor** (%87 → %87), ama daha çok gereksiz çağrı yapıyor (1,4). Sonucu görerek ilerlemenin faydası model kapasitesine bağlı.
-3. **Bedel:** soru başına ~1 gereksiz çağrı ve 54–59 s. 8B, 70 sorunun 7'sinde kullanıcı istemediği hâlde **bir hedef puan uydurdu** ("70", "95") ve tersine analiz yaptı (niyet uydurma; Ji vd. 2023). Yanıt gözlemlerden yazıldığı için sahte sayı söylenmedi, ama istenmemiş bir analiz yapıldı. **Önlem:** soruda sayı ya da hedef ifadesi yoksa tersine analiz çağrısı yürütülmüyor. Bu önlem eklendikten sonra kıyaslama yeniden çalıştırılmadı.
-4. **Kalan hatalar anlamsal:**
+3. **Bedel:** soru başına ~1 gereksiz çağrı ve 54–59 s. 8B, 70 sorunun 7'sinde kullanıcı istemediği hâlde **bir hedef puan uydurdu** ("70", "95") ve tersine analiz yaptı (niyet uydurma; Ji vd. 2023). Yanıt gözlemlerden yazıldığı için sahte sayı söylenmedi, ama istenmemiş bir analiz yapıldı. **Önlem:** soruda sayı ya da hedef ifadesi yoksa tersine analiz çağrısı yürütülmüyor.
+4. **Niyet korumasıyla yeniden ölçüm (aynı 70 soru, aynı model):**
+   - İstenmemiş tersine analiz: 7/70 → **0/70**.
+   - Gereksiz çağrı/soru: bağımsız 0,93 → 0,77; geliştirme 1,30 → 1,18.
+   - Tam doğruluk değişmedi (%93 / %95). Koruma doğru planları bozmadı; yalnız fazladan, istenmemiş analizi kesti. Doğruluk aynı kaldı, çünkü puanlama ilk aracı ve argümanları ölçüyor; uydurulan hedef bu ölçüye girmiyordu.
+   - Koruma bir kuraldır, öğrenilmiş bir davranış değildir: hedefi sayı ya da hedef sözcüğü olmadan dile getiren bir soru ("daha iyi bir saha için ne gerekir?") tersine analize gidemez. Bu bilinçli bir tercih: istenmemiş bir analiz yapmaktansa eksik kalmak.
+   - Süreler aynı makinede eşzamanlı başka iş (altlık harita derlemesi) varken ölçüldü; süre farkları anlamlı değil.
+5. **Kalan 4 hata her iki koşuda da aynı ve anlamsal:**
    - "ısı adası" → enerji dengesi ve öteki göstergeler denendi;
    - "Moda" → İstanbul;
    - "kendi elektriğini karşılayan yerler" → `energy_balance` (tartışmalı etiket).
