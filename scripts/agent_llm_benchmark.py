@@ -58,6 +58,45 @@ HELDOUT = [
 ]
 
 
+# Held-out set 2 (K-058): written after the glossary was built but BEFORE any planner was run on it. Set 1 was used
+# to diagnose the glossary's four target errors, so it is no longer independent. Mostly neighbourhood names (not
+# city names) and paraphrased objectives. Gold area = the most specific pilot window containing the place; a set
+# where two pilot windows are equally right (a Kadıköy neighbourhood is in both the Caferağa and Kadıköy windows).
+KDK = {"caferaa_istanbul", "kadikoy"}
+HELDOUT2 = [
+    ("Bahariye çevresinde PED'e en uygun 3 saha", "find_sites", KDK, "score"),
+    ("Kalamış'ta yeşil alanı bol yerler", "find_sites", KDK, "green_share"),
+    ("Beşiktaş ve çevresinde gece hayatının canlı olduğu yerler", "find_sites", "istanbul", "night_ha"),
+    ("Üsküdar'da yaşlıların yoğun yaşadığı sahalar", "find_sites", "istanbul", "elderly_share"),
+    ("Fenerbahçe'de güneşten kendi enerjisini üretip yetebilecek sahalar", "find_sites", KDK, "score"),
+    ("Where in Kallio are the hottest blocks?", "find_sites", "kalasatama", "env_lst_anomaly_c"),
+    ("Vallila'da toplu taşıma erişimi iyi sahalar", "find_sites", "kalasatama", "transit_per_km2"),
+    ("Croix-Rousse'ta kültürel miras yoğun yerler", "find_sites", "confluence", "culture_ha"),
+    ("Best PED candidates near Part-Dieu", "find_sites", "confluence", "score"),
+    ("Deusto'da yeniden yapılanma ve inşaat faaliyeti olan alanlar", "find_sites", "zorrotzaurre", "construction_share"),
+    ("Tapiola'da en iyi 4 PED adayı", "find_sites", {"kera", "leppvaara"}, "score"),
+    ("Amsterdam-Noord'da çocuklu ailelerin yaşadığı sahalar", "find_sites", "buiksloterham", "children_share"),
+    ("Lysaker'de hangi sahalar PED olabilir, neden?", "find_sites", "fornebu", "score"),
+    ("Tuira'da sağlık tesislerine yakın yerler", "find_sites", "kaukovainio", "health_per_1000"),
+    ("Selwerd'deki okul ve eğitim yoğunluğu yüksek sahalar", "find_sites", "paddepoel", "education_per_1000"),
+    ("Donaustadt'ta kafe ve buluşma mekânı zengin yerler", "find_sites", "seestadt_aspern", "third_places_per_1000"),
+    ("Klostergården çevresinde PED için en uygun saha", "find_sites", "brunnshg", "score"),
+    ("Lakua'da meydanı ve yaya alanı olan sahalar", "find_sites", "coronacin", "plaza_m2_per_1000"),
+    ("Luthagen'de en iyi adayın puanını 80'e çıkarmak için ne lazım?", "find_sites", "rosendal", 80.0),
+    ("Chantenay'da bankacılık ve finans yoğun yerler", "find_sites", "le_de_nantes", "finance_ha"),
+    ("Port Arthur'da sosyal donatısı güçlü sahalar", "find_sites", "linnakaupunki", "social_infra_per_1000"),
+    ("Moda ile Lyon'u kıyasla", "compare_areas", KDK, None),
+    ("Göztepe ile Kalasatama arasındaki fark", "compare_areas", KDK, None),
+    ("Rasimpaşa'da hedef 65 puan için ne yapılmalı?", "find_sites", KDK, 65.0),
+    ("Kadıköy'de ısınan, sıcaklık anomalisi yüksek sahalar", "find_sites", "kadikoy", "env_lst_anomaly_c"),
+    ("Show sites in Kadıköy that could be energy-positive on their own", "find_sites", "kadikoy", "score"),
+    ("Hangi bölgeleri inceleyebiliyorsun?", "list_areas", None, None),
+    ("Bu skorun doğruluğu nasıl test edildi?", "validation", None, None),
+    ("Kentsel ısı adası literatürü", "literature", None, None),
+    ("İstanbul'da kentsel yenileme potansiyeli yüksek sahalar", "find_sites", "istanbul", "construction_share"),
+]
+
+
 def score(plan, tool, area, extra):
     if not plan:
         return dict(tool_ok=False, area_ok=False, arg_ok=False, all_ok=False)
@@ -92,7 +131,7 @@ def evaluate(name, planner, items):
 if __name__ == "__main__":
     models = [m for m in os.environ.get("PEDX_QWEN_MODELS", "").split(",") if m]
     planners = {"kural tabanlı": lambda q: plan_rule(q)[0]}
-    sets = {"geliştirme (40)": INTENTS, "bağımsız (30)": HELDOUT}
+    sets = {"geliştirme (40)": INTENTS, "bağımsız (30)": HELDOUT, "bağımsız-2 (30)": HELDOUT2}
     rows = []
     for sname, items in sets.items():
         for r in evaluate("kural tabanlı", planners["kural tabanlı"], items):

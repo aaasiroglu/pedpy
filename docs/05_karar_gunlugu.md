@@ -458,6 +458,26 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Bedel:** Sayfa 14,6 MB oldu; 16 MB sınırına yakın. Yeni alan eklenirse basitleştirme toleransı artırılmalı.
 - **Durum:** Kabul
 
+### K-058: Ajan için alan sözlüğü: veriden yer adları + hedef sözcükleri
+- **Bağlam:** 8B ReAct'in kalan 4 hatası anlamsaldı: "Moda" → İstanbul, "ısı adası" → enerji dengesi, "kentsel dönüşüm" → PED puanı, "kendi elektriğini karşılayan" → enerji dengesi. Model alanın sözlüğünü bilmiyor.
+- **Karar:** Tek kaynaklı bir alan sözlüğü (`pedx.agent.glossary`) kuruldu. Kural planlayıcı, LLM planlayıcılar ve tarayıcıdaki ajan aynı sözlüğü kullanıyor:
+  - **Yer adları veriden geliyor, elle yazılmıyor** (`scripts/build_gazetteer.py`): Overture divisions (ODbL) ve Wikidata yer öğeleri (CC0). 19 pencerede 6.396 ad. Her ad, içinde bulunduğu pencereler arasında saha merkezi en yakın olana (en özgül pilot) atanıyor; iki farklı alanda geçen 111 ad belirsiz sayılıp atılıyor. Overpass bu oturumda bağlantıyı reddettiği ve Overture'da "Moda" bulunmadığı için ikinci kaynak Wikidata oldu.
+  - Yer adı yalnız büyük harfle başlayan bir sözcükte eşleşiyor. Böylece aynı zamanda mahalle adı olan "kültür", "güven", "site" gibi sözcükler tetiklemiyor. Elle yazılmış şehir takma adları önce geliyor.
+  - Hedef sözcükleri (TR/EN) rapor metriklerinin tanımlarından elle yazıldı. Yer adları önce çıkarılıyor ("Caferağa" "cafe" diye okunmasın).
+  - LLM'e sözlüğün tamamı verilmiyor; yalnız soruyla eşleşen satırlar kullanıcı mesajına ekleniyor (geri getirmeyle zenginleştirilmiş planlama; Lewis vd. 2020).
+- **Yöntem uyarısı:** Bağımsız set-1, sözlüğün hedeflediği hatalara bakılarak kullanıldı; artık bağımsız değil. Bu yüzden planlayıcılar çalıştırılmadan önce, çoğu mahalle adı içeren 30 soruluk **bağımsız set-2** yazıldı. Kural planlayıcı set-2'yi ilk kez çalıştırdığında iki tutarlılık hatası bulundu: tireli adlar ("Croix-Rousse") sözlükte bitişik yazılmıştı, ve "energy-positive" Python ile web'de farklı ayrıştırılıyordu. İkisi de düzeltildi ve bu açıkça raporlanıyor: kural planlayıcının set-2 sonucu düzeltmeden önce 24/30, sonra 26/30.
+- **Kural planlayıcı:** geliştirme 40/40, set-1 25/30 (önce 22/30), set-2 26/30. Python ile tarayıcı aynı 100 soruda birebir aynı planı üretiyor.
+- **Durum:** Kabul; 8B ReAct sonucu docs/21 §E'de.
+
+### K-059: Kapsam: pedx · Açık Kentsel Zekâ; bir çekirdek, kapsama girme kuralıyla sınırlı modüller
+- **Bağlam:** Kullanıcı kapsamı kentsel dönüşüm, emlak değerleme ve başka konulara genişletmek istedi, ama dallanıp budaklanmadan.
+- **Karar:** docs/22.
+  - Çekirdek: küresel H3 özellik deposu ve M1 PED.
+  - Modüller: M2 dönüşüm baskısı (etiket: GHSL dönem değişimi), M3 konum değeri (etiket: yalnız açık fiyatın olduğu FR/FI/NL), M4 kırılganlık (tanımlayıcı).
+  - Kapsama girme kuralı: açık ve küresel girdi + gerçek doğrulama etiketi + aynı sözleşme. Biri eksikse modül keşif olarak kalır.
+  - Küresel hücreler üç katmanlı: K0 küresel tarama, K1 kent penceresi, K2 saha. OSM küresi olarak gezegen dosyası değil, sürümü sabitlenmiş Overture GeoParquet kullanılıyor.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

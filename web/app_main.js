@@ -116,20 +116,35 @@
     const M = AT.model, sig = x => 100 / (1 + Math.exp(-x)), REP = AT.report;
     const norm = t => t.toLowerCase().replace(/ı/g, "i").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]/g, " ");
     const has = (t, w) => new RegExp("(^|[^a-z0-9])" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).test(t);
-    const ALIAS = { istanbul: "istanbul", kadikoy: "kadikoy", caferaga: "caferaa_istanbul", moda: "caferaa_istanbul", amsterdam: "buiksloterham", bilbao: "zorrotzaurre",
-      espoo: "kera", oslo: "fornebu", baerum: "fornebu", oulu: "kaukovainio", groningen: "paddepoel", dijon: "fontaine_d_ouche", turku: "linnakaupunki", lyon: "confluence",
-      wien: "seestadt_aspern", viyana: "seestadt_aspern", vienna: "seestadt_aspern", aspern: "seestadt_aspern", lund: "brunnshg", vitoria: "coronacin", uppsala: "rosendal",
-      helsinki: "kalasatama", nantes: "le_de_nantes", leppavaara: "leppvaara" };
+    // domain glossary (K-058): aliases + data gazetteer (Overture divisions, Wikidata) + objective vocabulary
+    const GL = KB.glossary || { objectives: {}, balance: [], aliases: {}, gazetteer: {} };
     const city = k => AT.cities.find(c => c.key === k);
-    const resolve = t => { const a = Object.keys(ALIAS).sort((x, y) => y.length - x.length).find(x => t.includes(x) && city(ALIAS[x])); if (a) return ALIAS[a];
-      const c = AT.cities.find(c => [c.site, c.city.split("·")[0]].some(n => { const m = norm(n).trim(); return m && t.includes(m); })); return c ? c.key : null; };
-    const OBJ = [[["kentsel donusum", "insaat", "donusum"], "construction_share"], [["sosyal altyapi", "sosyal"], "social_infra_per_1000"], [["kultur", "miras", "tarih"], "culture_ha"],
-      [["yesil"], "green_share"], [["ucuncu mekan", "kafe", "cay"], "third_places_per_1000"], [["egitim", "okul"], "education_per_1000"], [["saglik"], "health_per_1000"],
-      [["finans", "banka", "emlak"], "finance_ha"], [["meydan", "yaya"], "plaza_m2_per_1000"], [["yasli", "kirilgan"], "elderly_share"], [["cocuk"], "children_share"],
-      [["toplu tasima", "metro", "otobus", "ulasim"], "transit_per_km2"], [["gece"], "night_ha"], [["isi adasi", "sicaklik"], "env_lst_anomaly_c"]];
+    const words = q => (q.match(/\p{L}+/gu) || []).map(w => [norm(w).trim(), w[0] !== w[0].toLowerCase()]);
+    function matchPlaces(q) {
+      const W = words(q), out = [], used = new Set();
+      for (let i = 0; i < W.length;) {
+        let hit = null;
+        for (let L = 4; L >= 1 && !hit; L--) {
+          if (i + L > W.length) continue;
+          const name = W.slice(i, i + L).map(x => x[0]).join(" ");
+          if (GL.aliases[name]) hit = [L, name, GL.aliases[name]];
+          else if (GL.gazetteer[name] && W[i][1]) hit = [L, name, GL.gazetteer[name]];
+        }
+        if (hit) { if (city(hit[2]) && !used.has(hit[2])) { out.push([hit[1], hit[2]]); used.add(hit[2]); } i += hit[0]; } else i++;
+      }
+      return out;
+    }
+    function matchObjective(q) {
+      const place = new Set(matchPlaces(q).flatMap(([n]) => n.split(" "))), t = words(q).map(x => x[0]).filter(w => !place.has(w)).join(" ");
+      let best = null;
+      for (const [k, ps] of Object.entries(GL.objectives)) for (const p of ps) if (has(t, p) && (!best || p.length > best[1].length)) best = [k, p];
+      return best;
+    }
+    const resolve = t => { const m = matchPlaces(t); if (m.length) return m[0][1];
+      const c = AT.cities.find(c => [c.site, c.city.split("·")[0]].some(n => { const m = norm(n).trim(); return m && norm(t).includes(m); })); return c ? c.key : null; };
     function plan(q) {
-      const t = norm(q), areas = [];
-      t.split(/\bile\b|\bve\b|\bvs\b|,/).forEach(ch => { const a = resolve(ch); if (a && !areas.includes(a)) areas.push(a); });
+      const t = norm(q), areas = matchPlaces(q).map(x => x[1]);
+      if (!areas.length) t.split(/\bile\b|\bve\b|\bvs\b|,/).forEach(ch => { const a = resolve(ch); if (a && !areas.includes(a)) areas.push(a); });
       const area = areas[0];
       if (["dogrula", "guvenilir", "auc", "validation", "kanit", "ne kadar dogru"].some(w => has(t, w))) return [[["validation", {}]], "Soru modelin güvenilirliği hakkında: doğrulama kanıtı çağrılıyor."];
       if (["literatur", "kaynak", "makale", "reference", "atif"].some(w => has(t, w))) return [[["literature", { query: q }]], "Literatür sorusu: proje literatür haritasında arama yapılıyor."];
@@ -138,14 +153,15 @@
       let target = null;
       if (["hedef", "ne gerek", "nasil ulas", "kac puan", "puana", "target", "yukselt", "artir"].some(w => has(t, w))) {
         const m = t.match(/(\d+(?:[.,]\d+)?)\s*puan/) || t.match(/hedef\D{0,12}(\d+(?:[.,]\d+)?)/); target = m ? +m[1].replace(",", ".") : 70; }
-      let objective = "score"; for (const [ws, k] of OBJ) if (ws.some(w => has(t, w))) { objective = k; break; }
+      const mo = matchObjective(q), objective = mo ? mo[0] : "score";
       const km = t.match(/(?:en (?:iyi|uygun)|top|best)\D{0,10}(\d{1,2})|(\d{1,2})\s*(?:saha|aday|yer|site)/), k = km ? Math.max(1, Math.min(20, +(km[1] || km[2]))) : 5;
-      const P = [["find_sites", { area, k, objective, require_balance: ["dengede", "kendine yeten", "pozitif"].some(w => has(t, w)) }]];
+      const P = [["find_sites", { area, k, objective, require_balance: GL.balance.concat(["pozitif"]).some(w => has(t, w)) }]];
       let th = `${city(area).site} alanında en uygun ${k} saha aranıyor (sıralama: ${objective === "score" ? "PED puanı" : objective}).`;
       if (["neden", "acikla", "why", "explain", "rapor", "analiz"].some(w => has(t, w)) || target !== null) { P.push(["assess_site", { area, cell: "@best" }]); th += " En iyi saha ayrıntılı açıklanacak."; }
       if (target !== null) { P.push(["inverse", { area, cell: "@best", target }]); th += ` Hedef puan ${target} için tersine analiz yapılacak.`; }
       return [P, th];
     }
+    window.__pedxPlan = q => plan(q)[0];  // parity test with pedx.agent.core.plan_rule
     const logits = c => c._L || (c._L = c.cells.map(r => M.intercept + r[4].reduce((a, v, i) => a + v * M.coef[i], 0)));
     const pctOf = (arr, v) => arr.filter(x => x < v).length / arr.length + 0.5 * arr.filter(x => x === v).length / arr.length;
     const aoaMask = c => c._aoa || (c._aoa = c.cells.map(r => { const T = M.aoa.train_z; let best = 1e9;

@@ -19,7 +19,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from agent_benchmark import INTENTS  # noqa: E402
-from agent_llm_benchmark import HELDOUT, score  # noqa: E402
+from agent_llm_benchmark import HELDOUT, HELDOUT2, score  # noqa: E402
 
 from pedx.agent.llm import react_gguf  # noqa: E402
 
@@ -37,7 +37,7 @@ def gold_len(tool, extra):
 
 if __name__ == "__main__":
     runs = [r.split(":") for r in os.environ.get("PEDX_REACT_RUNS", "").split(",") if r]
-    sets = {"dev": ("geliştirme (40)", INTENTS), "heldout": ("bağımsız (30)", HELDOUT)}
+    sets = {"dev": ("geliştirme (40)", INTENTS), "heldout": ("bağımsız (30)", HELDOUT), "heldout2": ("bağımsız-2 (30)", HELDOUT2)}
     out_path = ROOT / "data" / "validation" / "agent_react_benchmark.json"
     rows = json.loads(out_path.read_text())["per_question"] if out_path.exists() else []
     for path, which in runs:

@@ -31,6 +31,11 @@ ALIASES = {"istanbul": "istanbul", "kadikoy": "kadikoy", "caferaga": "caferaa_is
 
 
 def resolve_area(text: str) -> Optional[str]:
+    from .glossary import match_places
+
+    hits = match_places(text)
+    if hits:
+        return hits[0][1]
     t = _norm(text)
     keys = {c["key"]: c for c in atlas()["cities"]}
     for alias, key in sorted(ALIASES.items(), key=lambda kv: -len(kv[0])):

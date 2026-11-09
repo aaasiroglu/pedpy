@@ -65,7 +65,9 @@ def _agent_kb() -> dict:
     import sys
 
     sys.path.insert(0, str(ROOT / "src"))
+    from pedx.agent.glossary import BALANCE_TERMS, OBJECTIVE_TERMS, gazetteer
     from pedx.agent.knowledge import TOOL_CITATIONS, literature
+    from pedx.agent.tools import ALIASES
 
     bench = ROOT / "data" / "validation" / "agent_benchmark.json"
     llm = ROOT / "data" / "validation" / "agent_llm_benchmark.json"
@@ -73,7 +75,10 @@ def _agent_kb() -> dict:
     return {"themes": literature(), "tool_citations": {k: [[t, i] for t, i in v] for k, v in TOOL_CITATIONS.items()},
             "benchmark": json.loads(bench.read_text()) if bench.exists() else None,
             "llm_benchmark": (json.loads(llm.read_text())["summary"] if llm.exists() else None),
-            "react_benchmark": (json.loads(react.read_text()).get("summary") if react.exists() else None)}
+            "react_benchmark": (json.loads(react.read_text()).get("summary") if react.exists() else None),
+            # domain glossary (K-058): one source for the Python and the in-browser planner
+            "glossary": {"objectives": OBJECTIVE_TERMS, "balance": list(BALANCE_TERMS), "aliases": ALIASES,
+                         "gazetteer": {n: g["area"] for n, g in gazetteer().items()}}}
 
 
 def _ped_validation() -> dict:

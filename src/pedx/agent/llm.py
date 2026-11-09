@@ -17,6 +17,7 @@ import urllib.request
 from functools import lru_cache
 from typing import List, Optional, Tuple
 
+from .glossary import hint_text
 from .knowledge import atlas
 from .tools import SCHEMAS
 
@@ -79,7 +80,7 @@ def plan_gguf(q: str, path: Optional[str] = None) -> Optional[Tuple[List[Tuple[s
         return None
     llm = _llama(path)
     out = llm.create_chat_completion(messages=[{"role": "system", "content": system_prompt()},
-                                               {"role": "user", "content": q + " /no_think"}],
+                                               {"role": "user", "content": q + hint_text(q) + " /no_think"}],
                                      temperature=0.0, max_tokens=400)
     text = out["choices"][0]["message"]["content"] or ""
     calls = parse_tool_calls(text)
@@ -90,7 +91,7 @@ def plan_openai(q: str) -> Optional[Tuple[List[Tuple[str, dict]], str]]:
     base, model = os.environ.get("PEDX_LLM_BASE_URL"), os.environ.get("PEDX_LLM_MODEL")
     if not base or not model:
         return None
-    body = {"model": model, "temperature": 0, "messages": [{"role": "system", "content": system_prompt()}, {"role": "user", "content": q}],
+    body = {"model": model, "temperature": 0, "messages": [{"role": "system", "content": system_prompt()}, {"role": "user", "content": q + hint_text(q)}],
             "tools": [{"type": "function", "function": s} for s in SCHEMAS], "tool_choice": "auto"}
     rq = urllib.request.Request(base.rstrip("/") + "/chat/completions", data=json.dumps(body).encode(),
                                 headers={"Content-Type": "application/json", "Authorization": "Bearer " + os.environ.get("PEDX_LLM_API_KEY", "none")})
@@ -133,7 +134,7 @@ def react_gguf(q: str, path: Optional[str] = None, max_turns: int = 4):
     llm = _llama(path)
     msgs = [{"role": "system", "content": system_prompt() + "\nWork step by step: call a tool, read its result, then decide the next call. "
              "When the result answers the question, reply with the single word DONE."},
-            {"role": "user", "content": q + " /no_think"}]
+            {"role": "user", "content": q + hint_text(q) + " /no_think"}]
     executed, best = [], None
     import re as _re
 

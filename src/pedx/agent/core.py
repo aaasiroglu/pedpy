@@ -25,13 +25,9 @@ from .tools import SCHEMAS, _norm, call, resolve_area
 
 __all__ = ["plan_rule", "run", "compose"]
 
-OBJECTIVES = [  # phrase → report metric used as ranking objective
-    (("kentsel donusum", "insaat", "donusum"), "construction_share"), (("sosyal altyapi", "sosyal"), "social_infra_per_1000"),
-    (("kultur", "miras", "tarih"), "culture_ha"), (("yesil",), "green_share"), (("ucuncu mekan", "kafe", "cay"), "third_places_per_1000"),
-    (("egitim", "okul"), "education_per_1000"), (("saglik",), "health_per_1000"), (("finans", "banka", "emlak"), "finance_ha"),
-    (("meydan", "yaya"), "plaza_m2_per_1000"), (("yasli", "kirilgan"), "elderly_share"), (("cocuk",), "children_share"),
-    (("toplu tasima", "metro", "otobus", "ulasim"), "transit_per_km2"), (("gece",), "night_ha"), (("isi adasi", "sicaklik"), "env_lst_anomaly_c"),
-]
+from .glossary import OBJECTIVE_TERMS, match_objective, match_places, wants_balance  # noqa: E402
+
+OBJECTIVES = [(v, k) for k, v in OBJECTIVE_TERMS.items()]  # kept for callers; the glossary is the source (K-058)
 
 
 def _has(t: str, phrase: str) -> bool:
@@ -58,11 +54,12 @@ def _number(t: str, default=None):
 def plan_rule(q: str) -> Tuple[List[Tuple[str, dict]], str]:
     """Return (plan, thought). Deterministic; covers the decision questions of the thesis."""
     t = _norm(q)
-    areas = []
-    for chunk in re.split(r"\bile\b|\bve\b|\bvs\b|\bversus\b|,", t):
-        a = resolve_area(chunk)
-        if a and a not in areas:
-            areas.append(a)
+    areas = [k for _, k, _ in match_places(q)]  # aliases + data gazetteer (K-058)
+    if not areas:
+        for chunk in re.split(r"\bile\b|\bve\b|\bvs\b|\bversus\b|,", t):
+            a = resolve_area(chunk)
+            if a and a not in areas:
+                areas.append(a)
     area = areas[0] if areas else None
     if any(_has(t, w) for w in ("dogrula", "guvenilir", "auc", "validation", "kanit", "ne kadar dogru")):
         return [("validation", {})], "Soru modelin güvenilirliği hakkında: doğrulama kanıtı çağrılıyor."
@@ -75,13 +72,10 @@ def plan_rule(q: str) -> Tuple[List[Tuple[str, dict]], str]:
     target = None
     if any(_has(t, w) for w in ("hedef", "ne gerek", "nasil ulas", "kac puan", "puana", "target", "yukselt", "artir")):
         target = _target(t)
-    objective = "score"
-    for words, key in OBJECTIVES:
-        if any(_has(t, w) for w in words):
-            objective = key
-            break
+    mo = match_objective(q)
+    objective = mo[0] if mo else "score"
     k = _k(t)
-    plan = [("find_sites", {"area": area, "k": k, "objective": objective, "require_balance": any(_has(t, w) for w in ("dengede", "kendine yeten", "pozitif"))})]
+    plan = [("find_sites", {"area": area, "k": k, "objective": objective, "require_balance": wants_balance(q) or _has(t, "pozitif")})]
     thought = f"{area} alanında en uygun {k} saha aranıyor (sıralama: {objective})."
     if any(_has(t, w) for w in ("neden", "acikla", "why", "explain", "rapor", "analiz")) or target is not None:
         plan.append(("assess_site", {"area": area, "cell": "@best"}))

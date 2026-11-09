@@ -86,3 +86,17 @@ def test_react_intent_guard_drops_unrequested_inverse(monkeypatch):
     assert [n for n, _ in calls] == ["find_sites"]
     calls, _ = llm.react_gguf("Kadıköy'de 70 puana ne gerekir?", "x.gguf")
     assert [n for n, _ in calls] == ["find_sites", "inverse"] and calls[1][1]["cell"] != "@best"
+
+
+# ---------------------------------------------------------------- domain glossary (K-058)
+def test_glossary_places_and_objectives():
+    from pedx.agent.glossary import hint_text, match_objective, match_places, wants_balance
+
+    assert match_places("Moda civarında kahvehaneler")[0][1] == "caferaa_istanbul"
+    assert match_places("Fenerbahçe'de en iyi 3 saha")[0][1] == "caferaa_istanbul"  # data gazetteer, not an alias
+    assert match_places("Kadıköy ile Lyon")[0][1] == "kadikoy"  # curated alias wins over the gazetteer
+    assert match_places("Model ne kadar güvenilir?") == []  # "güven" is a neighbourhood, but not capitalised here
+    assert match_objective("Caferağa'da gece hayatı")[0] == "night_ha"  # "Caferağa" must not read as "cafe"
+    assert match_objective("İstanbul'da ısı adası en yüksek sahalar")[0] == "env_lst_anomaly_c"
+    assert wants_balance("kendi elektriğini karşılayabilecek yerler") and wants_balance("energy-positive on their own")
+    assert "caferaa_istanbul" in hint_text("Moda'da en iyi saha") and hint_text("Hangi şehirler var?") == ""
