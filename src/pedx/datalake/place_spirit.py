@@ -196,3 +196,38 @@ def commons_photos(bbox: BBox, tile_deg: float = 0.03, sleep: float = 1.0) -> Tu
     df = pd.DataFrame(rows, columns=["lat", "lon"]).drop_duplicates()
     return df, {"tiles": tiles, "saturated_tiles": saturated, "photos": int(len(df)), "tile_deg": tile_deg,
                 "note": "tiles with 500 results are lower bounds (API cap)"}
+
+
+SPECIAL_QUERY = ('[out:json][timeout:240];(way["aeroway"="aerodrome"]({bb});relation["aeroway"="aerodrome"]({bb});'
+                 'way["landuse"~"^(industrial|military|port|railway|landfill|quarry)$"]({bb});'
+                 'relation["landuse"~"^(industrial|military|port|railway|landfill|quarry)$"]({bb}););out geom;')
+
+
+def special_landuse_cells(payload: dict, resolution: int) -> dict:
+    """H3 cells (centroid inside) of OSM non-residential special land: aerodromes, industrial, military, ports, rail yards,
+    landfills, quarries. Land-use sanity guard for site recommendation (K-054)."""
+    import h3
+    import shapely
+
+    polys = []
+    for el in payload.get("elements", []):
+        if el["type"] == "way" and el.get("geometry") and len(el["geometry"]) >= 4:
+            pts = [(p["lon"], p["lat"]) for p in el["geometry"]]
+            if pts[0] == pts[-1]:
+                polys.append(shapely.Polygon(pts))
+        elif el["type"] == "relation":
+            lines = [shapely.LineString([(p["lon"], p["lat"]) for p in m["geometry"]]) for m in el.get("members", [])
+                     if m.get("role") == "outer" and m.get("geometry") and len(m["geometry"]) >= 2]
+            if lines:
+                polys += list(shapely.get_parts(shapely.polygonize(shapely.get_parts(shapely.line_merge(shapely.union_all(lines))))))
+    cells = {}
+    for pg in polys:
+        if not pg.is_valid:
+            pg = pg.buffer(0)
+        for part in shapely.get_parts(pg):
+            if part.geom_type != "Polygon" or part.area <= 0:
+                continue
+            ring = [(y, x) for x, y in part.exterior.coords]
+            for c in h3.polygon_to_cells(h3.LatLngPoly(ring), resolution):
+                cells[c] = 1.0
+    return cells

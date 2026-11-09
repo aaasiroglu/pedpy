@@ -215,3 +215,31 @@ class PEDScore:
             out["reason_tr"] = ("Enerji kaldıraçları üst sınırda bile hedefe yetmiyor; skoru taşıyan öteki özellikler (yapı örtüsü, yeşil, su, işlev) "
                                 "kentsel dönüşüm ölçeğinde değişiklik gerektirir.")
         return out
+
+
+def evidence_weights(Z: np.ndarray, y: np.ndarray, keys: np.ndarray, train_keys, q_max: float = 0.10):
+    """Criteria weights ∝ |effect d| of features with Benjamini–Hochberg q < q_max over the training cities (K-050).
+
+    Z: z-scores (rows = sites, cols = criteria); y: 1 = real PED case; keys: city of each row.
+    Effect d per city = case z − mean control z; Wilcoxon signed-rank across cities. Returns (w, direction, d, q).
+    """
+    from scipy.stats import wilcoxon
+
+    keys = np.asarray(keys)
+    dz = []
+    for k in train_keys:
+        m = keys == k
+        if (y[m] == 1).sum() == 0:
+            continue
+        dz.append(Z[m & (y == 1)][0] - Z[m & (y == 0)].mean(axis=0))
+    dz = np.vstack(dz)
+    d = dz.mean(axis=0)
+    p = np.array([wilcoxon(dz[:, j]).pvalue if np.any(dz[:, j] != 0) else 1.0 for j in range(dz.shape[1])])
+    o = np.argsort(p)
+    q = p[o] * len(p) / (np.arange(len(p)) + 1)
+    q = np.minimum.accumulate(q[::-1])[::-1]
+    qq = np.empty_like(q)
+    qq[o] = np.minimum(q, 1)
+    w = np.where(qq < q_max, np.abs(d), 0.0)
+    w = w / w.sum() if w.sum() > 0 else np.full(len(d), 1 / len(d))
+    return w, np.where(d >= 0, 1.0, -1.0), d, qq

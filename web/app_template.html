@@ -118,7 +118,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <header class="bar">
   <div class="brand"><b>pedx</b><span>Küresel, açık veriye dayalı PED karar destek sistemi</span></div>
   <nav class="views" aria-label="Bölümler">
-    <a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
+    <a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#mvp">MVP</a><a href="#ajan">Ajan</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
   </nav>
 </header>
 
@@ -235,6 +235,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div class="cell"><h3>Bulgu 2 · Daha çok veri, kesinlik getirmiyor</h3>Veri aileleri eklendikçe AUC 0,82–0,88 arasında kalıyor ve güven aralıkları örtüşüyor. 16 vakayla 20 özellikte model aşırı öğrenmeye başlıyor. Belirsizliği daraltan şey veri katmanı değil, öğrenilecek gerçek PED sayısı.</div>
       <div class="cell"><h3>Bulgu 3 · Gerçek bir PED neye benziyor?</h3>Kentinin ortalamasına göre daha düşük yapı örtüsü, kişi başı daha çok çatı, daha yüksek enerji dengesi, daha az yeşil, daha çok su yüzeyi. Tipik örnek: kıyıda dönüşen liman ve sanayi alanları.</div>
       <div class="cell"><h3>Bulgu 5 · Kriter ağırlıklı PED puanı (ÇKKDS)</h3>8 kaynak ailesinden 41 kriter sınandı. Sızıntı temizlendikten sonra 5 kriter ağırlık taşıyor: enerji dengesi (0,27), kişi başı çatı tabanı (0,27), kişi başı mekân (0,16), daha az bina (0,16), daha az yeşil (0,15). Kent dışarıda AUC 0,79–0,80. Kriterler ve SHAP sayfasında kaynak kaynak.</div>
+      <div class="cell"><h3>Bulgu 7 · pedx-agent: elverişlilik seçim değildir</h3>Ajan, görmediği kentlerde gerçek PED sahasını ortalama 0,71 yüzdelikte sıralıyor (13 kentin 5'inde ilk %10). Ama ilk 5 önerisi gerçek sahaya rastgeleden yakın değil: bir kentte pek çok uygun saha var, seçimi yönetişim yapıyor. Ajan bu yüzden "tek doğru"yu değil, gerekçeli kısa listeyi ve dayanak literatürü veriyor. Havalimanı hatası, veri × model etkileşimini gösterdi ve arazi denetimiyle kapatıldı. Ajan sekmesi.</div>
       <div class="cell"><h3>Bulgu 6 · Ölçek (MAUP) ve paylaşım</h3>Bütün birimler binalardan kesin toplanıyor; toplam denge her ölçekte 1,625. Ama "dengede yaşayan nüfus" yapı adasında %93, r11'de %79, r10'da %77, r9'da %100. Karar bu yüzden çizilen proje sahası üzerinden verilir. Gerçek PED tanıma 10–92 ha arası saha boyutunda dayanıklı (AUC 0,79–0,89). Komşu altıgen paylaşımı Caferağa'daki açığın %98'ini karşılıyor. Doğrulama protokolü: docs/19 (V0–V8).</div>
       <div class="cell"><h3>Bulgu 4 · Caferağa: sonuç modele duyarlı</h3>Kriter ağırlıklı PED puanı 40/100, İstanbul içinde %74'lük dilim; hedef 70 için çatı %50, verim %25 ve talep −%26 yetiyor. 20 özellikli lojistik model ise 2/100 veriyor, çünkü yapı örtüsünü ve yaşlı payını cezalandırıyor; bu iki özellik çoklu test sonrası anlamlı değil. Tez iki sonucu da raporlar.</div>
     </div>
@@ -386,6 +387,23 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div id="liveout"></div>
     </div>
   </aside>
+ </div>
+</section>
+
+<!-- ================================================================ AJAN -->
+<section class="view" id="v-ajan" hidden>
+ <div class="doc">
+  <div class="sheet"><div class="eyebrow">pedx-agent · otonom CBS'ye doğru (Li ve Ning 2023) · ReAct (Yao vd. 2023)</div>
+    <h2 style="margin-top:6px">Karar destek ajanına sorun</h2>
+    <p class="note">Ajan soruyu bir plana çevirir, pedx araçlarını çağırır ve yalnızca araçların döndürdüğü sayılarla yanıt verir; sayı uydurmaz. Modelin doğrulandığı sahalara benzemeyen yerleri önermez (uygulanabilirlik alanı; Meyer ve Pebesma 2021). Her yanıt dayandığı literatürü gösterir. Bu sürüm tarayıcıda, kural tabanlı planlayıcıyla çalışır; yerelde açık bir LLM (Qwen3) takılabilir: <code>PEDX_LLM_BASE_URL</code>.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
+      <input id="agentq" type="text" style="flex:1;min-width:260px;font:inherit;padding:8px 10px;border:1px solid var(--rule);border-radius:4px;background:var(--sheet);color:var(--ink)" placeholder="Örn. İstanbul'da PED için en uygun 3 sahayı bul ve en iyisini açıkla, 70 puana ne gerekir?">
+      <button id="agentgo" type="button">Sor</button>
+    </div>
+    <div id="agentex" class="btns"></div>
+  </div>
+  <div id="agentout"></div>
+  <div class="sheet"><h2>Ajanın kıyaslama sonuçları</h2><div id="agentbench"></div></div>
  </div>
 </section>
 

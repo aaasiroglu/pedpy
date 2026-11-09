@@ -75,3 +75,15 @@ def score(lat: float = Query(..., ge=-85, le=85), lon: float = Query(..., ge=-18
     return {"site": x, "report": report, "explain": model.explain(xf, st), "inverse": model.inverse(xf, st, target),
             "model": {"auc_loco": model.meta.get("auc_loco"), "n_cases": model.meta.get("n_cases")},
             "city": {"country": (prov.get("country") or {}).get("name"), "failures": prov.get("failures"), "timing_s": prov.get("timing_s")}}
+
+
+
+@app.get("/agent")
+def agent(q: str = Query(..., min_length=2, max_length=500), planner: str = Query("auto", pattern="^(auto|rule|llm)$")):
+    """pedx-agent: tool-grounded answer with plan, ReAct trace and literature citations (K-054)."""
+    from .agent import run
+
+    r = run(q, planner=planner)
+    for step in r["trace"]:  # keep the response light: drop the 36-metric report arrays from the trace
+        step["observation"] = {k: v for k, v in step["observation"].items() if k not in ("report",)}
+    return r

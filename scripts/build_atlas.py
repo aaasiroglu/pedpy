@@ -88,6 +88,15 @@ def main():
                      meta=dict(model.meta, weights=[float(w[j]) for j in keep], direction=[float(dr[j]) for j in keep]))
     FEATS = model.features
     stats = {k: {f: v[f] for f in FEATS} for k, v in stats.items()}
+    # area of applicability (Meyer & Pebesma 2021): weighted nearest-neighbour distance to training sites of OTHER cities;
+    # threshold = 95th percentile of those leave-one-city-out distances over the training sites themselves
+    Ztr, wk = Z[:, keep], np.asarray(model.meta["weights"])
+    keys_arr = D["key"].to_numpy()
+    dmin = []
+    for i in range(len(Ztr)):
+        other = keys_arr != keys_arr[i]
+        dmin.append(float(np.sqrt(((Ztr[other] - Ztr[i]) ** 2 * wk).sum(axis=1)).min()))
+    aoa = {"train_z": np.round(Ztr, 2).tolist(), "threshold": float(np.percentile(dmin, 95)), "method": "Meyer & Pebesma 2021, weighted NN distance, LOCO 95th pct"}
     model.to_json(VAL / "ped_score_model.json")
     print(f"LOCO AUC = {auc:.3f}", {k: round(v, 2) for k, v in pct.items()})
     print([(f, round(wt, 3)) for f, wt in zip(FEATS, model.meta["weights"])])
@@ -95,7 +104,7 @@ def main():
     atlas = {"model": {"features": FEATS, "coef": [round(float(b), 5) for b in model.coef], "intercept": round(model.intercept, 5),
                        "weights": [round(x, 4) for x in model.meta["weights"]], "direction": model.meta["direction"],
                        "labels_tr": LABELS_TR, "auc_loco": auc, "n_cases": int(y.sum()), "n_controls": int((1 - y).sum()),
-                       "form": "MCDM: kanıta dayalı kriter ağırlıkları + Platt kalibrasyonu"},
+                       "form": "MCDM: kanıta dayalı kriter ağırlıkları + Platt kalibrasyonu", "aoa": aoa},
              "report": REPORT,
              "cities": []}
     for c in cities:

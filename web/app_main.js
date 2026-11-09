@@ -11,7 +11,7 @@
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
   // ------------------------------------------------------------------ routing
-  const VIEWS = ["sunum", "mimari", "tez", "mvp", "kriter", "veri", "kaynakca"];
+  const VIEWS = ["sunum", "mimari", "tez", "mvp", "ajan", "kriter", "veri", "kaynakca"];
   let mapReady = false;
   function route() {
     const h = (location.hash || "#sunum").slice(1);
@@ -107,6 +107,125 @@
     R.forEach((row, i) => row.forEach((v, j) => { const a = Math.min(1, Math.abs(v));
       svg += `<rect x="${off + j * cs}" y="${off + i * cs}" width="${cs - 1}" height="${cs - 1}" fill="${v >= 0 ? "#b2182b" : "#2166ac"}" fill-opacity="${a}"><title>${lab(F[i])} × ${lab(F[j])}: ${nf(v, 2)}</title></rect>`; }));
     $("kr-corr").innerHTML = svg + "</svg>";
+  })();
+
+  // ---------- pedx-agent in the browser (K-054): same planner, tools and grounded answers as pedx.agent
+  (function agentView() {
+    const AT = P.atlas, KB = P.agent_kb;
+    if (!AT || !KB || !$("agentq")) return;
+    const M = AT.model, sig = x => 100 / (1 + Math.exp(-x)), REP = AT.report;
+    const norm = t => t.toLowerCase().replace(/ı/g, "i").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]/g, " ");
+    const has = (t, w) => new RegExp("(^|[^a-z0-9])" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).test(t);
+    const ALIAS = { istanbul: "istanbul", kadikoy: "kadikoy", caferaga: "caferaa_istanbul", moda: "caferaa_istanbul", amsterdam: "buiksloterham", bilbao: "zorrotzaurre",
+      espoo: "kera", oslo: "fornebu", baerum: "fornebu", oulu: "kaukovainio", groningen: "paddepoel", dijon: "fontaine_d_ouche", turku: "linnakaupunki", lyon: "confluence",
+      wien: "seestadt_aspern", viyana: "seestadt_aspern", vienna: "seestadt_aspern", aspern: "seestadt_aspern", lund: "brunnshg", vitoria: "coronacin", uppsala: "rosendal",
+      helsinki: "kalasatama", nantes: "le_de_nantes", leppavaara: "leppvaara" };
+    const city = k => AT.cities.find(c => c.key === k);
+    const resolve = t => { const a = Object.keys(ALIAS).sort((x, y) => y.length - x.length).find(x => t.includes(x) && city(ALIAS[x])); if (a) return ALIAS[a];
+      const c = AT.cities.find(c => [c.site, c.city.split("·")[0]].some(n => { const m = norm(n).trim(); return m && t.includes(m); })); return c ? c.key : null; };
+    const OBJ = [[["kentsel donusum", "insaat", "donusum"], "construction_share"], [["sosyal altyapi", "sosyal"], "social_infra_per_1000"], [["kultur", "miras", "tarih"], "culture_ha"],
+      [["yesil"], "green_share"], [["ucuncu mekan", "kafe", "cay"], "third_places_per_1000"], [["egitim", "okul"], "education_per_1000"], [["saglik"], "health_per_1000"],
+      [["finans", "banka", "emlak"], "finance_ha"], [["meydan", "yaya"], "plaza_m2_per_1000"], [["yasli", "kirilgan"], "elderly_share"], [["cocuk"], "children_share"],
+      [["toplu tasima", "metro", "otobus", "ulasim"], "transit_per_km2"], [["gece"], "night_ha"], [["isi adasi", "sicaklik"], "env_lst_anomaly_c"]];
+    function plan(q) {
+      const t = norm(q), areas = [];
+      t.split(/\bile\b|\bve\b|\bvs\b|,/).forEach(ch => { const a = resolve(ch); if (a && !areas.includes(a)) areas.push(a); });
+      const area = areas[0];
+      if (["dogrula", "guvenilir", "auc", "validation", "kanit", "ne kadar dogru"].some(w => has(t, w))) return [[["validation", {}]], "Soru modelin güvenilirliği hakkında: doğrulama kanıtı çağrılıyor."];
+      if (["literatur", "kaynak", "makale", "reference", "atif"].some(w => has(t, w))) return [[["literature", { query: q }]], "Literatür sorusu: proje literatür haritasında arama yapılıyor."];
+      if (["karsilastir", "kiyasla", "compare", "fark"].some(w => has(t, w)) && areas.length >= 2) return [[["compare_areas", { a: areas[0], b: areas[1] }]], `İki alan karşılaştırılıyor: ${areas[0]} ve ${areas[1]}.`];
+      if (["hangi alan", "alanlar", "liste", "list"].some(w => has(t, w)) || !area) return [[["list_areas", {}]], "Alan belirtilmedi ya da liste istendi: analiz edilebilir alanlar listeleniyor."];
+      let target = null;
+      if (["hedef", "ne gerek", "nasil ulas", "kac puan", "puana", "target", "yukselt", "artir"].some(w => has(t, w))) {
+        const m = t.match(/(\d+(?:[.,]\d+)?)\s*puan/) || t.match(/hedef\D{0,12}(\d+(?:[.,]\d+)?)/); target = m ? +m[1].replace(",", ".") : 70; }
+      let objective = "score"; for (const [ws, k] of OBJ) if (ws.some(w => has(t, w))) { objective = k; break; }
+      const km = t.match(/(?:en (?:iyi|uygun)|top|best)\D{0,10}(\d{1,2})|(\d{1,2})\s*(?:saha|aday|yer|site)/), k = km ? Math.max(1, Math.min(20, +(km[1] || km[2]))) : 5;
+      const P = [["find_sites", { area, k, objective, require_balance: ["dengede", "kendine yeten", "pozitif"].some(w => has(t, w)) }]];
+      let th = `${city(area).site} alanında en uygun ${k} saha aranıyor (sıralama: ${objective === "score" ? "PED puanı" : objective}).`;
+      if (["neden", "acikla", "why", "explain", "rapor", "analiz"].some(w => has(t, w)) || target !== null) { P.push(["assess_site", { area, cell: "@best" }]); th += " En iyi saha ayrıntılı açıklanacak."; }
+      if (target !== null) { P.push(["inverse", { area, cell: "@best", target }]); th += ` Hedef puan ${target} için tersine analiz yapılacak.`; }
+      return [P, th];
+    }
+    const logits = c => c._L || (c._L = c.cells.map(r => M.intercept + r[4].reduce((a, v, i) => a + v * M.coef[i], 0)));
+    const pctOf = (arr, v) => arr.filter(x => x < v).length / arr.length + 0.5 * arr.filter(x => x === v).length / arr.length;
+    const aoaMask = c => c._aoa || (c._aoa = c.cells.map(r => { const T = M.aoa.train_z; let best = 1e9;
+      for (const tz of T) { let d = 0; for (let j = 0; j < tz.length; j++) d += (tz[j] - r[4][j]) ** 2 * M.weights[j]; if (d < best) best = d; } return Math.sqrt(best) <= M.aoa.threshold; }));
+    const repOf = (c, i) => REP.map((m, j) => { const col = c.cells.map(r => r[5][j]).filter(x => x !== null && isFinite(x)); const v = c.cells[i][5][j];
+      return { ...m, value: v, p: v === null || !col.length ? null : pctOf(col, v) }; });
+    const T = {
+      list_areas: () => ({ areas: AT.cities.map(c => { const L = logits(c).map(sig).sort((a, b) => a - b); return { area: c.key, name: c.site, real: c.is_ped, med: L[Math.floor(L.length / 2)], bal: c.cells.filter(r => r[1] >= 1).length / c.cells.length }; }) }),
+      find_sites: ({ area, k, objective, require_balance }) => { const c = city(area), L = logits(c), ins = aoaMask(c), j = REP.findIndex(m => m.key === objective);
+        const jr = REP.findIndex(m => m.key === "special_share"), resOk = c.cells.map(r => jr < 0 || r[5][jr] === null || !(r[5][jr] > 50));
+        const val = c.cells.map((r, i) => objective === "score" ? L[i] : r[5][j]);
+        const ok0 = c.cells.map((r, i) => r[2] >= 100 && (!require_balance || r[1] >= 1) && val[i] !== null && isFinite(val[i]));
+        const nonres = ok0.filter((o, i) => o && !resOk[i]).length, ok = ok0.map((o, i) => o && resOk[i]);
+        const outside = ok.filter((o, i) => o && !ins[i]).length;
+        const idx = c.cells.map((_, i) => i).filter(i => ok[i] && ins[i]).sort((a, b) => val[b] - val[a]).slice(0, k);
+        return { area, name: c.site, objective, outside, nonres, n: ok.filter((o, i) => o && ins[i]).length, sites: idx.map(i => { const r = c.cells[i];
+          const top = repOf(c, i).filter(x => x.p !== null && x.key !== "nonosm_share").sort((a, b) => b.p - a.p).slice(0, 3);
+          return { cell: r[0], i, score: sig(L[i]), pct: pctOf(L, L[i]), bal: r[1], pop: r[2], top: top.map(x => `${x.label} (%${nf(100 * x.p, 0)})`) }; }) }; },
+      assess_site: ({ area, cell }) => { const c = city(area), i = c.cells.findIndex(r => r[0] === cell), r = c.cells[i], L = logits(c);
+        const p = S.provenance.params, thr = c.kwh_per_capita / (p.roof_utilization.value * p.module_efficiency.value * c.pv_yield);
+        return { area, cell, i, score: sig(L[i]), pct: pctOf(L, L[i]), bal: r[1], fpc: r[3] / Math.max(r[2], 1), thr,
+          con: M.features.map((f, j) => [M.labels_tr[f] || f, M.coef[j] * r[4][j]]).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1])), rep: repOf(c, i), inside: aoaMask(c)[i] }; },
+      inverse: ({ area, cell, target }) => { const c = city(area), r = c.cells.find(x => x[0] === cell), p = S.provenance.params, ib = M.features.indexOf("log_energy_balance");
+        const L0 = M.intercept + r[4].reduce((a, v, i) => a + v * M.coef[i], 0); if (sig(L0) >= target) return { above: true, now: sig(L0) };
+        const t = target / 100, need = Math.exp((Math.log(t / (1 - t)) - L0) * c.stats.log_energy_balance.sd / M.coef[ib]);
+        const fu = Math.min(need, p.roof_utilization.high / p.roof_utilization.value), fe = Math.min(need / fu, p.module_efficiency.high / p.module_efficiency.value), fd = Math.min(need / (fu * fe), 2), got = fu * fe * fd;
+        const z2 = r[4].slice(); z2[ib] += Math.log(got) / c.stats.log_energy_balance.sd;
+        return { target, u: p.roof_utilization.value * fu, eta: p.module_efficiency.value * fe, cut: 1 - 1 / fd, b0: r[1], b1: r[1] * got, after: sig(M.intercept + z2.reduce((a, v, i) => a + v * M.coef[i], 0)), ok: got >= need * (1 - 1e-9) }; },
+      compare_areas: ({ a, b }) => { const L = T.list_areas().areas; return { a: L.find(x => x.area === a), b: L.find(x => x.area === b) }; },
+      validation: () => { const s = (P.ped_validation || {}).summary || {}; return { auc: s.auc_pooled, above: s.sites_above_median, n: s.n_sites, matched: s.auc_matched, loco: M.auc_loco }; },
+      literature: ({ query }) => { const q = new Set(norm(query).split(/\s+/).filter(w => w.length > 2)), hits = [];
+        Object.entries(KB.themes).forEach(([tid, th]) => th.refs.forEach(ref => { const ws = new Set(norm(ref + " " + th.title).split(/\s+/)); let sc = 0; q.forEach(w => { if (ws.has(w)) sc++; }); if (sc) hits.push([sc, tid, ref]); }));
+        hits.sort((a, b) => b[0] - a[0]); return { refs: hits.slice(0, 6).map(h => `[${h[1]}] ${h[2]}`), trends: [...new Set(hits.slice(0, 6).map(h => h[1]))].map(t => `[${t}] ${KB.themes[t].title}: ${KB.themes[t].trend}`) }; },
+    };
+    const cite = tool => (KB.tool_citations[tool] || []).flatMap(([tid, idx]) => idx.map(i => (KB.themes[tid] || { refs: [] }).refs[i - 1]).filter(Boolean).map(r => `[${tid}] ${r}`));
+    const P_ = x => x === null || x === undefined ? "—" : `%${nf(100 * x, 0)}`;
+    function compose(name, o, area) {
+      if (o.error) return `<p>⚠️ ${o.error}</p>`;
+      if (name === "find_sites") return `<p><b>${o.name}</b> içinde ${nf(o.n)} aday saha incelendi; ${o.objective === "score" ? "PED puanına" : (REP.find(m => m.key === o.objective) || {}).label + " göstergesine"} göre en iyi ${o.sites.length} saha${o.outside ? ` (${nf(o.outside)} saha, doğrulanmış sahalara benzemediği için önerilmedi)` : ""}${o.nonres ? ` (${nf(o.nonres)} saha, alanının yarısından fazlası havalimanı, sanayi, liman ya da askeri arazi olduğu için elendi; OSM)` : ""}:</p><ol>` +
+        o.sites.map(x => `<li><code>${x.cell}</code>: PED puanı <b>${nf(x.score, 0)}</b> (kent içi ${P_(x.pct)}), denge ${nf(x.bal, 2)}, ${nf(x.pop)} kişi; öne çıkan: ${x.top.join(", ")} <button type="button" class="ghost" data-show="${area}|${x.cell}" style="padding:1px 7px;font-size:12px">haritada göster</button></li>`).join("") + "</ol>";
+      if (name === "assess_site") { const hi = o.rep.filter(x => x.p !== null).sort((a, b) => b.p - a.p).slice(0, 3), lo = o.rep.filter(x => x.p !== null).sort((a, b) => a.p - b.p).slice(0, 3);
+        return `<p><b>Saha <code>${o.cell}</code></b>: PED puanı ${nf(o.score, 0)}, kent içi ${P_(o.pct)}, yıllık denge ${nf(o.bal, 2)} (kişi başı çatı tabanı ${nf(o.fpc, 1)} m², eşik ${nf(o.thr, 1)} m²).</p>
+          <p>Puanı oluşturanlar (kesin katkı): ${o.con.map(([l, v]) => `${l} ${v >= 0 ? "+" : ""}${nf(v, 2)}`).join("; ")}.</p>
+          <p>Kentinde öne çıkan: ${hi.map(x => `${x.label} ${P_(x.p)}`).join(", ")}. Geride kalan: ${lo.map(x => `${x.label} ${P_(x.p)}`).join(", ")}.</p>${o.inside ? "" : "<p>⚠️ Uygulanabilirlik alanı dışında.</p>"}`; }
+      if (name === "inverse") return o.above ? `<p>Saha zaten hedefin üstünde (puan ${nf(o.now, 0)}).</p>` :
+        `<p>Hedef ${o.target} için: çatı kullanımı %${nf(100 * o.u, 0)}, modül verimi %${nf(100 * o.eta, 1)}, talep azaltımı %${nf(100 * o.cut, 0)} → denge ${nf(o.b0, 2)} → ${nf(o.b1, 2)}, puan ${nf(o.after, 0)} ${o.ok ? "✓" : "— enerji kaldıraçları yetmiyor; kentsel dönüşüm ölçeğinde değişiklik gerekir."}</p>`;
+      if (name === "compare_areas") return `<p><b>${o.a.name}</b>: PED puanı medyanı ${nf(o.a.med, 0)}, dengedeki saha payı ${P_(o.a.bal)} · <b>${o.b.name}</b>: ${nf(o.b.med, 0)}, ${P_(o.b.bal)}.</p>`;
+      if (name === "list_areas") return "<p>Analiz edilebilir alanlar: " + o.areas.map(x => `${x.name} (${x.real ? "gerçek PED" : "pilot"}, medyan ${nf(x.med, 0)})`).join("; ") + "</p>";
+      if (name === "validation") return `<p>Gerçek PED doğrulaması: yalnız denge AUC ${nf(o.auc, 2)} (${o.above}/${o.n} saha kontrollerin medyanı üstünde); nüfus yoğunluğu eşlemeli ${nf(o.matched, 2)}; PED puanı (kent dışarıda) ${nf(o.loco, 2)}.</p>`;
+      if (name === "literature") return o.refs.length ? "<ul>" + o.refs.map(r => `<li>${r}</li>`).join("") + "</ul>" + (o.trends.length ? "<p class='note'>" + o.trends.join("<br>") + "</p>" : "") : "<p>Eşleşme yok.</p>";
+      return "";
+    }
+    function ask(q) {
+      const [pl, th] = plan(q); let best = null; const steps = [], cits = new Set();
+      for (const [name, a0] of pl) { const a = { ...a0 }; if (a.cell === "@best") a.cell = best;
+        let o; try { o = T[name](a); } catch (e) { o = { error: String(e) }; }
+        if (name === "find_sites" && o.sites && o.sites.length) best = o.sites[0].cell;
+        steps.push({ name, a, o }); cite(name).forEach(c => cits.add(c)); }
+      $("agentout").innerHTML = `<div class="sheet"><div class="eyebrow">Soru</div><h3 style="margin:4px 0 10px">${q.replace(/</g, "&lt;")}</h3>
+        <p class="note"><b>Düşünce:</b> ${th} · <b>Planlayıcı:</b> kural tabanlı (tarayıcı)</p>
+        ${steps.map(st => compose(st.name, st.o, st.a.area)).join("")}
+        <details style="margin-top:10px"><summary>Plan ve araç izi (ReAct)</summary><ol class="note">${steps.map(st => `<li><b>Eylem</b> <code>${st.name}</code>(${Object.entries(st.a).filter(([k]) => k !== "query").map(([k, v]) => `${k}=${v}`).join(", ")}) → <b>Gözlem</b> ${st.o.error ? "hata" : "alındı"}</li>`).join("")}</ol></details>
+        ${cits.size ? `<details open style="margin-top:6px"><summary>Dayanak literatür (${cits.size})</summary><ul class="refs">${[...cits].map(c => `<li>${c}</li>`).join("")}</ul></details>` : ""}</div>`;
+      document.querySelectorAll("[data-show]").forEach(b => b.addEventListener("click", () => { const [k, cell] = b.dataset.show.split("|"); location.hash = "#mvp";
+        setTimeout(() => window.__pedxShow && window.__pedxShow(k, cell), 600); }));
+    }
+    const EX = ["İstanbul'da PED için en uygun 3 sahayı bul ve en iyisini açıkla, 70 puana ne gerekir?", "Kadıköy'de kentsel dönüşüm için aday sahalar",
+      "Kadıköy ile Lyon'u karşılaştır", "Caferağa'da üçüncü mekân yoğun sahalar", "Model ne kadar güvenilir?", "MAUP ve mekânsal doğrulama literatürü"];
+    $("agentex").innerHTML = EX.map(e => `<button type="button" class="ghost" style="font-size:12.5px">${e}</button>`).join("");
+    $("agentex").querySelectorAll("button").forEach(b => b.addEventListener("click", () => { $("agentq").value = b.textContent; ask(b.textContent); }));
+    $("agentgo").addEventListener("click", () => $("agentq").value.trim() && ask($("agentq").value.trim()));
+    $("agentq").addEventListener("keydown", e => { if (e.key === "Enter" && $("agentq").value.trim()) ask($("agentq").value.trim()); });
+    const B = KB.benchmark;
+    if (B) { const a = B.site_finding.summary, b = B.intent.summary;
+      $("agentbench").innerHTML = `<table><tr><th>Görev</th><th>Ölçü</th><th class="num">Sonuç</th></tr>
+        <tr><td>Gerçek PED'i bulma (kent dışarıda, ${a.n_cities} kent)</td><td>Gerçek sahanın ajan sıralamasındaki ortalama yüzdeliği</td><td class="num">${nf(a.mean_percentile, 2)}</td></tr>
+        <tr><td></td><td>Gerçek saha ilk %10'da</td><td class="num">${a.hit10}/${a.n_cities}</td></tr>
+        <tr><td></td><td>İlk 5 önerinin gerçek sahaya uzaklığı (medyan) · rastgele</td><td class="num">${nf(a.median_dist_agent_km, 1)} km · ${nf(a.median_dist_random_km, 1)} km</td></tr>
+        <tr><td>Soru anlama (${b.n} Türkçe soru)</td><td>Araç · alan · argüman doğruluğu</td><td class="num">${nf(100 * b.tool_acc, 0)}% · ${nf(100 * b.area_acc, 0)}% · ${nf(100 * b.arg_acc, 0)}%</td></tr></table>
+        <p class="note">Okuma: ajan gerçek PED sahasını genelde üst sıralara koyuyor (yüzdelik ${nf(a.mean_percentile, 2)}), ama ilk 5 önerisi gerçek sahaya rastgeleden daha yakın değil: bir kentte gerçek PED kadar uygun pek çok saha var ve seçim yönetişimle yapılıyor (Flyvbjerg 2014). Soru anlama sonucu, planlayıcıyla birlikte yazılan sorularda ölçüldü; bağımsız sorularla yeniden sınanacak.</p>`; }
   })();
 
   // ---------- presentation: pilot hierarchy vs real-PED cities (K-053)
@@ -474,6 +593,8 @@
       else { if (atlasLayer) map.removeLayer(atlasLayer); if (atlasLegend) map.removeControl(atlasLegend); if (siteMarker) map.removeLayer(siteMarker); map.removeLayer(tiles); }
     }
     window.__pedxAtlasMode = setModeAtlas;
+    window.__pedxShow = (key, r9) => { $("mode").value = "atlas"; setMode("atlas", bnd); const i = AT.cities.findIndex(c => c.key === key); if (i < 0) return;
+      $("city").value = String(i); drawCity(); const c = AT.cities[i], j = c.cells.findIndex(r => r[0] === r9); if (j >= 0) { showCell(c, j); map.setView(h3.cellToLatLng(r9), 14); } };
     setMode($("mode").value, bnd);
   }
   function setMode(m, bnd) {

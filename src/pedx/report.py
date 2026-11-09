@@ -52,6 +52,8 @@ REPORT: List[Dict[str, str]] = [
     {"key": "construction_share", "label": "Aktif inşaat alanı payı", "unit": "%", "section": "Kentsel dönüşüm", "ref": "Overture land_use"},
     {"key": "residential_share", "label": "Konut arazisi payı", "unit": "%", "section": "Kentsel dönüşüm", "ref": "Overture land_use"},
     {"key": "nonosm_share", "label": "OSM dışı bina payı (veri boşluğu)", "unit": "%", "section": "Kentsel dönüşüm", "ref": "Overture"},
+    {"key": "nres_share", "label": "Konut dışı yapı yüzeyi payı (GHSL)", "unit": "%", "section": "Kentsel dönüşüm", "ref": "Pesaresi vd. 2024"},
+    {"key": "special_share", "label": "Özel arazi payı (havalimanı, sanayi, liman, askeri; OSM)", "unit": "%", "section": "Kentsel dönüşüm", "ref": "OSM"},
 ]
 GROUPS = ["pl_arts", "pl_crafts", "pl_culture", "pl_daily", "pl_education", "pl_faith", "pl_finance", "pl_food", "pl_health", "pl_heritage",
           "pl_night", "pl_office", "pl_park", "pl_personal", "pl_public", "pl_retail", "pl_social", "pl_sport", "pl_third", "pl_tourism"]
@@ -98,4 +100,6 @@ def report_metrics(C: pd.DataFrame, area_ha: float) -> pd.DataFrame:
     out["construction_share"] = 100 * g("lu_construction_m2") / m2
     out["residential_share"] = 100 * g("lu_residential_m2") / m2
     out["nonosm_share"] = 100 * g("ov_nonosm_share")
+    out["nres_share"] = 100 * g("ghsl_nres_m2") / g("ghsl_built_m2").where(g("ghsl_built_m2") > 0)
+    out["special_share"] = 100 * g("osm_special").fillna(0.0)
     return out[[r["key"] for r in REPORT]]

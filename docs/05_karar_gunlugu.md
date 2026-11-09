@@ -398,6 +398,20 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Kaçınılacaklar: NC lisanslı (StreetCLIP) ve kapılı lisanslı (Llama, Gemma) modeller.
 - **Durum:** Kabul
 
+### K-054: pedx-agent: araç tabanlı, kaynak gösteren, sınırını bilen karar destek ajanı
+- **Karar** (`pedx.agent`, `/agent`, uygulamada "Ajan" sekmesi):
+  - ReAct döngüsü (Yao vd. 2023); JSON şemalı 8 araç (Schick vd. 2023).
+  - Kural tabanlı planlayıcı varsayılan; isteğe bağlı OpenAI uyumlu LLM (yerel Qwen3).
+  - Yanıtlar yalnızca gözlemlerden yazılıyor; yanıttaki her sayının gözlemlerde olduğu bir testle denetleniyor (Ji vd. 2023).
+  - Her araç kendi dayanak literatürünü docs/20'den getiriyor (RAG; Lewis vd. 2020).
+  - Uygulanabilirlik alanı denetimi (Meyer ve Pebesma 2021).
+  - Arazi kullanımı denetimi (OSM özel arazi).
+- **Kıyaslama** (`scripts/agent_benchmark.py`):
+  - Gerçek PED'i bulma (kent dışarıda, 13 kent): yüzdelik 0,71; ilk %10'da 5/13; ilk 5 önerinin uzaklığı rastgeleden iyi değil. Okuma: elverişlilik seçim değildir.
+  - Soru anlama: 40/40, ama sorular planlayıcıyla birlikte yazıldı; bağımsız setle yeniden ölçülecek.
+- **Başarısızlık vakası:** İstanbul'un ilk önerisi havalimanı terminali çıktı. Nedenler: HRSL hatası, GHSL NRES'in %4 vermesi, Overture'da poligon olmaması. Önlem: OSM özel arazi katmanı (havalimanı, sanayi, liman, askeri).
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

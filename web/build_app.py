@@ -60,6 +60,18 @@ def _round_geo(gj: dict, nd: int = 5) -> dict:
     return gj
 
 
+def _agent_kb() -> dict:
+    """Literature map (docs/20) and tool → citation map for the in-browser pedx-agent."""
+    import sys
+
+    sys.path.insert(0, str(ROOT / "src"))
+    from pedx.agent.knowledge import TOOL_CITATIONS, literature
+
+    bench = ROOT / "data" / "validation" / "agent_benchmark.json"
+    return {"themes": literature(), "tool_citations": {k: [[t, i] for t, i in v] for k, v in TOOL_CITATIONS.items()},
+            "benchmark": json.loads(bench.read_text()) if bench.exists() else None}
+
+
 def _ped_validation() -> dict:
     """Real-PED case–control results (scripts/validate_ped_sites.py), if they have been run."""
     v = ROOT / "data" / "validation"
@@ -98,6 +110,7 @@ def main() -> None:
     bundle = {
         "features_analysis": json.loads((ROOT / "data" / "validation" / "feature_analysis.json").read_text())
         if (ROOT / "data" / "validation" / "feature_analysis.json").exists() else None,
+        "agent_kb": _agent_kb(),
         "scales": json.loads((D / "scales.json").read_text()) if (D / "scales.json").exists() else None,
         "atlas": json.loads((D / "atlas.json").read_text()) if (D / "atlas.json").exists() else None,
         "ped_validation": _ped_validation(), "cells": cells, "summary": summary, "agg": agg, "adj": adj, "district": district,

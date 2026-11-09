@@ -43,10 +43,10 @@ EXTENSIVE = ["vul_pop_hrsl", "vul_elderly60_n", "vul_children0_5_n", "ov_bld_n",
              "pl_heritage", "pl_night", "pl_office", "pl_other", "pl_park", "pl_personal", "pl_public", "pl_retail", "pl_social",
              "pl_sport", "pl_third", "pl_tourism",
              "lu_plaza_m2", "lu_green_m2", "lu_construction_m2", "lu_religious_m2", "lu_residential_m2", "lu_commercial_m2",
-             "wd_items_n", "wd_sitelinks", "wd_heritage_n", "wd_square_n", "wd_photo_n", "cm_photos_n", "osm_transit_n"]
+             "wd_items_n", "wd_sitelinks", "wd_heritage_n", "wd_square_n", "wd_photo_n", "cm_photos_n", "osm_transit_n", "ghsl_built_m2", "ghsl_nres_m2"]
 INTENSIVE = ["env_ndvi_mean", "env_ndbi_mean", "env_lst_mean_c", "env_lst_anomaly_c", "env_elev_m", "env_slope_deg",
              "env_relief_m", "ov_floors_coverage", "ov_nonosm_share", "ov_places_categories",
-             "env_wc_green_share", "env_wc_built_share", "env_wc_water_share", "env_wc_crop_share", "env_wc_bare_share"]
+             "env_wc_green_share", "env_wc_built_share", "env_wc_water_share", "env_wc_crop_share", "env_wc_bare_share", "osm_special"]
 
 
 def city_bbox(lat: float, lon: float, half_km: float) -> Tuple[float, float, float, float]:
@@ -224,6 +224,43 @@ def _addons(F: pd.DataFrame, prov: dict, bbox, resolution: int, cache: Path) -> 
                                    "why": "Overture base/infrastructure misses most stops in Istanbul (1 vs 40 OSM in the Caferağa box)"}
             return {"osm_transit_n": ps.per_cell_points(la, lo, F.index, resolution)}
         add("osm_transit", _tr)
+    if "ghsl_nres_m2" not in F and "ghsl_nres" not in fails:
+        def _nres():
+            from .datalake.raster import fetch_ghsl_tile, zonal_h3
+
+            w, s_, e, n = bbox
+            la, lo = (s_ + n) / 2, (w + e) / 2
+            gh = cache / "ghsl"
+            gh.mkdir(parents=True, exist_ok=True)
+            tot = zonal_h3(fetch_ghsl_tile("built_s_2020", la, lo, gh), (s_, w, n, e), resolution, "sum", name="t")
+            nres = zonal_h3(fetch_ghsl_tile("built_s_nres_2020", la, lo, gh), (s_, w, n, e), resolution, "sum", name="n")
+            prov["ghsl_nres"] = {"product": "JRC GHS-BUILT-S (total, NRES) R2023A E2020", "license": "CC BY 4.0",
+                                 "why": "land-use guard: HRSL puts people in airport terminals; GHSL NRES identifies non-residential fabric"}
+            return {"ghsl_built_m2": tot, "ghsl_nres_m2": nres}
+        add("ghsl_nres", _nres)
+    if "osm_special" not in F and "osm_special" not in fails:
+        def _sp():
+            import urllib.parse as up
+
+            from .service import OVERPASS, _get
+
+            w, s_, e, n = bbox
+            # tile large windows (~15 km) so that the public Overpass server answers; a tile that still fails raises
+            nt = max(1, math.ceil(max((n - s_) * 111.32, (e - w) * 111.32 * math.cos(math.radians((s_ + n) / 2))) / 15))
+            cells, n_el = {}, 0
+            for i in range(nt):
+                for j in range(nt):
+                    a, b = s_ + (n - s_) * i / nt, w + (e - w) * j / nt
+                    c_, d_ = s_ + (n - s_) * (i + 1) / nt, w + (e - w) * (j + 1) / nt
+                    q = ps.SPECIAL_QUERY.format(bb=f"{a},{b},{c_},{d_}")
+                    pay = json.loads(_get(OVERPASS, up.urlencode({"data": q}).encode(), timeout=300, tries=5))
+                    n_el += len(pay.get("elements", []))
+                    cells.update(ps.special_landuse_cells(pay, resolution))
+                    time.sleep(2)
+            prov["osm_special"] = {"polygons": n_el, "cells": len(cells), "tiles": nt * nt, "license": "ODbL 1.0",
+                                   "why": "land-use guard; GHSL NRES classifies Istanbul Airport as 4 % non-residential, Overture has no aerodrome polygon"}
+            return {"osm_special": pd.Series(cells, dtype=float)}
+        add("osm_special", _sp)
     import os
 
     if "cm_photos_n" not in F and "commons" not in fails and os.environ.get("PEDX_COMMONS") == "1":
