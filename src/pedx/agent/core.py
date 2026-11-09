@@ -93,18 +93,44 @@ def plan_rule(q: str) -> Tuple[List[Tuple[str, dict]], str]:
 
 
 def _llm_plan(q: str) -> Optional[Tuple[List[Tuple[str, dict]], str]]:
-    base, model = os.environ.get("PEDX_LLM_BASE_URL"), os.environ.get("PEDX_LLM_MODEL")
-    if not base or not model:
-        return None
-    body = {"model": model, "messages": [
-        {"role": "system", "content": "You are pedx-agent. Choose tools to answer PED / urban transformation questions. Never state numbers yourself."},
-        {"role": "user", "content": q}], "tools": [{"type": "function", "function": s} for s in SCHEMAS], "tool_choice": "auto"}
-    rq = urllib.request.Request(base.rstrip("/") + "/chat/completions", data=json.dumps(body).encode(),
-                                headers={"Content-Type": "application/json", "Authorization": "Bearer " + os.environ.get("PEDX_LLM_API_KEY", "none")})
-    with urllib.request.urlopen(rq, timeout=120) as r:  # noqa: S310
-        msg = json.load(r)["choices"][0]["message"]
-    calls = [(c["function"]["name"], json.loads(c["function"]["arguments"] or "{}")) for c in msg.get("tool_calls") or []]
-    return (calls, msg.get("content") or "LLM planı") if calls else None
+    from .llm import plan_llm
+
+    return plan_llm(q)
+
+
+VALID_TOOLS = {"list_areas", "find_sites", "assess_site", "inverse", "compare_areas", "validation", "applicability", "literature"}
+
+
+def repair(plan: List[Tuple[str, dict]]) -> List[Tuple[str, dict]]:
+    """Deterministic plan repair for LLM plans (K-055): a step that refers to the best site must be preceded by
+    find_sites in the same area; 'best'/'en iyi' spellings are normalised to '@best'."""
+    out, have_find = [], set()
+    for name, args in plan:
+        args = dict(args or {})
+        if str(args.get("cell", "")).lower().strip("@ ") in ("best", "en iyi", "en_iyi"):
+            args["cell"] = "@best"
+        if args.get("cell") == "@best" and args.get("area") and args["area"] not in have_find:
+            out.append(("find_sites", {"area": args["area"], "k": 5, "objective": "score"}))
+            have_find.add(args["area"])
+        if name == "find_sites" and args.get("area"):
+            have_find.add(args["area"])
+        out.append((name, args))
+    return out
+
+
+def _sanitize(plan: List[Tuple[str, dict]]) -> List[Tuple[str, dict]]:
+    """Drop unknown tools / arguments an LLM may invent (schema guard); keep the order."""
+    import inspect
+
+    from .tools import TOOLS
+
+    out = []
+    for name, args in plan:
+        if name not in VALID_TOOLS:
+            continue
+        sig = inspect.signature(TOOLS[name]).parameters
+        out.append((name, {k: v for k, v in (args or {}).items() if k in sig}))
+    return out
 
 
 def _pct(x):
@@ -168,8 +194,8 @@ def run(q: str, planner: str = "auto") -> Dict:
     if planner in ("auto", "llm"):
         try:
             r = _llm_plan(q)
-            if r:
-                plan, thought, used = r[0], r[1], "llm"
+            if r and _sanitize(r[0]):
+                plan, thought, used = repair(_sanitize(r[0])), r[1], "llm"
         except Exception as exc:  # noqa: BLE001
             thought = f"LLM planlayıcı kullanılamadı ({type(exc).__name__}); kural tabanlı planlayıcıya geçildi. "
     if plan is None:

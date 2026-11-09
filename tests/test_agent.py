@@ -51,3 +51,17 @@ def test_inverse_reaches_target_when_feasible():
     o = inverse("kadikoy", cell, target=50.0)
     if o.get("feasible") and not o.get("note"):
         assert o["score_after"] == pytest.approx(50.0, abs=1e-6)
+
+
+def test_qwen_tool_call_parsing_and_plan_repair():
+    from pedx.agent.core import _sanitize, repair
+    from pedx.agent.llm import parse_tool_calls, system_prompt
+
+    text = '<think>\n</think>\n<tool_call>\n{"name": "inverse", "arguments": {"area": "kadikoy", "cell": "best", "target": 85}}\n</tool_call>' \
+           '<tool_call>{"name": "made_up_tool", "arguments": {}}</tool_call><tool_call>{bad json}</tool_call>'
+    calls = parse_tool_calls(text)
+    assert calls == [("inverse", {"area": "kadikoy", "cell": "best", "target": 85}), ("made_up_tool", {})]
+    plan = repair(_sanitize(calls))  # unknown tool dropped; best-site step gets its find_sites
+    assert [n for n, _ in plan] == ["find_sites", "inverse"] and plan[1][1]["cell"] == "@best"
+    sp = system_prompt()
+    assert "<tools>" in sp and "istanbul" in sp and "third_places_per_1000" in sp and "Never answer with numbers" in sp

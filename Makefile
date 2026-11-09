@@ -2,13 +2,14 @@
 PY ?= python3
 PORT ?= 8765
 
-.PHONY: help install data epias build serve api prepare test docker docker-run clean
+.PHONY: help install data epias build serve api prepare agent-qwen test docker docker-run clean
 
 help:
 	@echo "make install    # Python paketlerini kur (pedx + h3 + jax + scipy + rasterio + pytest)"
 	@echo "make serve      # uygulamayı aç: http://localhost:$(PORT)/pedx_app.html"
 	@echo "make api        # tıkla→hesapla API: http://127.0.0.1:8766/assess?lat=40.986&lon=29.028 (uygulama bunu otomatik bulur)"
 	@echo "make prepare LAT=.. LON=..  # bir bölgenin GHS-POP/GHSL döşemelerini önbelleğe al (data/cache)"
+	@echo "make agent-qwen # ajan API'si yerel Qwen3 planlayıcıyla (CPU); QWEN=Qwen3-8B ile 8B"
 	@echo "make data       # tüm ham açık verileri indir (data/raw)"
 	@echo "make epias      # EPİAŞ ulusal saatlik tüketim (EPIAS_USERNAME/EPIAS_PASSWORD gerekli)"
 	@echo "make build      # H3 özellik deposunu ve web verisini yeniden üret"
@@ -38,6 +39,14 @@ serve:
 api:
 	@echo "API: http://127.0.0.1:8766/assess?lat=40.986&lon=29.028&k=3"
 	$(PY) -m uvicorn pedx.api:app --host 127.0.0.1 --port 8766
+
+# pedx-agent with a local Qwen3 planner (CPU, llama.cpp): downloads the official GGUF once (~2.5 GB)
+QWEN ?= Qwen3-4B
+agent-qwen:
+	mkdir -p data/models
+	test -f data/models/$(QWEN)-Q4_K_M.gguf || curl -L -o data/models/$(QWEN)-Q4_K_M.gguf https://huggingface.co/Qwen/$(QWEN)-GGUF/resolve/main/$(QWEN)-Q4_K_M.gguf
+	$(PY) -m pip install llama-cpp-python
+	PEDX_LLM_GGUF=data/models/$(QWEN)-Q4_K_M.gguf $(PY) -m uvicorn pedx.api:app --host 127.0.0.1 --port 8766
 
 LAT ?= 40.986
 LON ?= 29.028
