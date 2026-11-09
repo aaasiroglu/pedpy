@@ -225,6 +225,10 @@
         <tr><td></td><td>Gerçek saha ilk %10'da</td><td class="num">${a.hit10}/${a.n_cities}</td></tr>
         <tr><td></td><td>İlk 5 önerinin gerçek sahaya uzaklığı (medyan) · rastgele</td><td class="num">${nf(a.median_dist_agent_km, 1)} km · ${nf(a.median_dist_random_km, 1)} km</td></tr>
         <tr><td>Soru anlama (${b.n} Türkçe soru)</td><td>Araç · alan · argüman doğruluğu</td><td class="num">${nf(100 * b.tool_acc, 0)}% · ${nf(100 * b.area_acc, 0)}% · ${nf(100 * b.arg_acc, 0)}%</td></tr></table>
+        ${KB.llm_benchmark ? `<h3 style="margin-top:12px">Planlayıcı karşılaştırması: kural tabanlı ve Qwen3 (yerel, 4 CPU çekirdeği)</h3><table><tr><th>Planlayıcı</th><th class="num">Geliştirme (40)</th><th class="num">Bağımsız (30)</th><th class="num">sn/soru</th></tr>` +
+          [...new Set(KB.llm_benchmark.map(r => r.planner))].map(pn => { const g = KB.llm_benchmark.find(r => r.planner === pn && r.set.startsWith("geli")), h = KB.llm_benchmark.find(r => r.planner === pn && r.set.startsWith("bağ"));
+            return `<tr><td>${pn.replace("-Q4_K_M", "")}</td><td class="num">%${nf(100 * g.exact, 0)}</td><td class="num"><b>%${nf(100 * h.exact, 0)}</b></td><td class="num">${pn.includes("onarım") ? "—" : nf(h.sec_per_q, 1)}</td></tr>`; }).join("") +
+          `</table><p class="note">Tam plan doğruluğu (araç, alan, argüman). Bağımsız set kurallar ayarlanmadan yazıldı. Kurallar yazıldıkları sorularda kusursuz, ama genellemede Qwen3-4B + plan onarımı daha iyi; 8B, 4B'den iyi değil. Tarayıcıdaki ajan kural tabanlıdır; Qwen3 için: <code>make agent-qwen</code>.</p>` : ""}
         <p class="note">Okuma: ajan gerçek PED sahasını genelde üst sıralara koyuyor (yüzdelik ${nf(a.mean_percentile, 2)}), ama ilk 5 önerisi gerçek sahaya rastgeleden daha yakın değil: bir kentte gerçek PED kadar uygun pek çok saha var ve seçim yönetişimle yapılıyor (Flyvbjerg 2014). Soru anlama sonucu, planlayıcıyla birlikte yazılan sorularda ölçüldü; bağımsız sorularla yeniden sınanacak.</p>`; }
   })();
 

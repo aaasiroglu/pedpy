@@ -68,8 +68,10 @@ def _agent_kb() -> dict:
     from pedx.agent.knowledge import TOOL_CITATIONS, literature
 
     bench = ROOT / "data" / "validation" / "agent_benchmark.json"
+    llm = ROOT / "data" / "validation" / "agent_llm_benchmark.json"
     return {"themes": literature(), "tool_citations": {k: [[t, i] for t, i in v] for k, v in TOOL_CITATIONS.items()},
-            "benchmark": json.loads(bench.read_text()) if bench.exists() else None}
+            "benchmark": json.loads(bench.read_text()) if bench.exists() else None,
+            "llm_benchmark": (json.loads(llm.read_text())["summary"] if llm.exists() else None)}
 
 
 def _ped_validation() -> dict:

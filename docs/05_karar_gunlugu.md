@@ -412,6 +412,26 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Başarısızlık vakası:** İstanbul'un ilk önerisi havalimanı terminali çıktı. Nedenler: HRSL hatası, GHSL NRES'in %4 vermesi, Overture'da poligon olmaması. Önlem: OSM özel arazi katmanı (havalimanı, sanayi, liman, askeri).
 - **Durum:** Kabul
 
+### K-055: Qwen3 LLM planlayıcı (yerel, CPU) ve bağımsız soru seti
+- **Karar:**
+  - Qwen3-4B/8B GGUF (Apache-2.0) llama.cpp ile CPU'da çalışıyor.
+  - Hermes araç çağırma istemi; şema koruması; deterministik plan onarımı; kural tabanlı yedek.
+  - Bağımsız 30 soruluk set kurallar ayarlanmadan önce yazıldı.
+- **Sonuç (bağımsız set, tam plan doğruluğu):**
+
+  | Planlayıcı | Doğruluk |
+  |---|---|
+  | Kural tabanlı | %73 |
+  | Qwen3-4B | %83 |
+  | Qwen3-4B + onarım | %87 |
+  | Qwen3-8B | %77 |
+  | Qwen3-8B + onarım | %83 |
+
+  Geliştirme setinde kurallar %100. Önerilen yapılandırma: 4B + onarım (~5 s/soru, 4 çekirdek).
+- **Bulgu:** Daha büyük model genellemede daha iyi değil (8B önce `list_areas` çağırıyor). Çok turlu ReAct ile yeniden sınanacak.
+- **Ağ:** Hugging Face CDN (us.aws.cdn.hf.co) ortam izin listesine eklendi.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

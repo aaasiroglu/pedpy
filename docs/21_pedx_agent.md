@@ -65,6 +65,39 @@ Her gerçek PED kenti için PED puanının ağırlıkları, yönleri ve kalibras
 
 Araç, alan ve argüman doğruluğu %100. **Sınırlılık:** sorular planlayıcıyla birlikte yazıldı. Bağımsız sorularla (Hande Hoca ve İBB uzmanları, en az 50 soru) yeniden ölçülecek. LLM planlayıcısı da aynı setle karşılaştırılacak.
 
+### C. LLM planlayıcı: Qwen3 (yerel, CPU) ile kural tabanlı planlayıcı (K-055)
+
+**Kurulum:**
+- Qwen'in resmî GGUF modelleri: Qwen3-4B ve Qwen3-8B, Q4_K_M nicemleme, Apache-2.0.
+- llama.cpp (llama-cpp-python 0.3.36), 4 CPU çekirdeği, GPU yok.
+- İstem Qwen3/Hermes araç çağırma biçiminde. Alan kataloğu ve gösterge sözlüğü bağlam olarak veriliyor; sayı verilmiyor.
+- Sıcaklık 0, düşünme kapalı (`/no_think`).
+- LLM yalnızca planı üretiyor. Şema koruması uydurulan araçları ve argümanları atıyor; yanıt gözlemlerden yazılıyor.
+
+**Plan onarımı (deterministik):** "@best" kullanan bir adımdan önce aynı alanda `find_sites` yoksa ekleniyor; "best" yazımı "@best" olarak düzeltiliyor. Ham ve onarımlı sonuçlar aynı LLM çıktısından ölçüldü.
+
+**Soru setleri:**
+- **Geliştirme (40):** kural tabanlı planlayıcıyla birlikte yazıldı.
+- **Bağımsız (30):** önceden yazıldı ve kural tabanlı planlayıcıyı ayarlamak için kullanılmadı. Türkçe ve İngilizce, dolaylı ifadeler içeriyor ("Moda", "kahvehane", "metro ve otobüs").
+
+| Planlayıcı | Geliştirme: tam doğru | Bağımsız: tam doğru | Bağımsız: araç / alan / argüman | Soru başına süre |
+|---|---|---|---|---|
+| Kural tabanlı | **%100** | %73 | %87 / %93 / %80 | ~0 s |
+| Qwen3-4B | %78 | %83 | %93 / %93 / %97 | 5,4 s |
+| **Qwen3-4B + plan onarımı** | %83 | **%87** | %97 / %93 / %97 | 5,4 s |
+| Qwen3-8B | %85 | %77 | %83 / %87 / %90 | 8,3 s |
+| Qwen3-8B + plan onarımı | **%90** | %83 | %90 / %87 / %90 | 8,3 s |
+
+**Okuma:**
+1. **Genelleme:** Kurallar yazıldıkları sorularda kusursuz, bağımsız sorularda %73'e düşüyor. Qwen3-4B bağımsız sette %87'ye çıkıyor; LLM'in katkısı ifade çeşitliliğine dayanıklılık.
+2. **Büyük model her zaman daha iyi değil:** 8B bağımsız sette 4B'den kötü. 8B sık sık önce `list_areas` çağırıyor; "önce kontrol et" davranışı tek seferlik plan-ve-uygula döngüsünde cezalandırılıyor. Çok turlu ReAct döngüsünde bu davranış avantaja dönebilir; bir sonraki deney bu.
+3. **Hataların çoğu yapısal ve onarılabilir:** en iyi sahayı bulmadan tersine analize atlamak. Deterministik onarım bunu kapatıyor. Kalan hatalar anlamsal: "ısı adası" yerine "enerji dengesi", "Moda" yerine "İstanbul" ya da "Kadıköy".
+4. **Önerilen yapılandırma:** Qwen3-4B + plan onarımı + kural tabanlı yedek (LLM boş plan döndürürse). 4 çekirdekli bir dizüstünde soru başına ~5 s, GPU gerekmiyor.
+
+**Tartışmalı etiketler:** "Kendi elektriğini karşılayabilecek yerler" için LLM `objective=energy_balance, require_balance=true` seçti; altın etiket `score`. Bu seçim anlamca belki daha doğru. "Moda" da gerçekte Kadıköy'de, Caferağa'ya komşu bir semt. Altın etiketleri değiştirmedik; sonuçlar katı ölçüyle verildi.
+
+**Çalıştırma:** `make agent-qwen` (4B) ya da `make agent-qwen QWEN=Qwen3-8B` ile modeli indirir ve ajan API'sini Qwen planlayıcıyla açar. Sonuç dosyası: `data/validation/agent_llm_benchmark.json`.
+
 ## 5. Başarısızlıktan öğrenilen: havalimanı vakası
 
 İlk sürümde İstanbul'un en yüksek puanlı sahası **İstanbul Havalimanı terminali** çıktı. Nedeni zincirleme iki hata:
