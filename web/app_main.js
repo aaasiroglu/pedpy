@@ -11,7 +11,7 @@
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
   // ------------------------------------------------------------------ routing
-  const VIEWS = ["mvp", "sunum", "mimari", "tez", "ajan", "kriter", "veri", "kaynakca"];
+  const VIEWS = ["mvp", "sunum", "kapsam", "mimari", "tez", "ajan", "kriter", "veri", "kaynakca"];
   let mapReady = false;
   function route() {
     const h = (location.hash || "#mvp").slice(1);

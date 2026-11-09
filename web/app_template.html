@@ -116,9 +116,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
 </style>
 
 <header class="bar">
-  <div class="brand"><b>pedx</b><span>Küresel, açık veriye dayalı PED karar destek sistemi</span></div>
+  <div class="brand"><b>pedx</b><span>Açık Kentsel Zekâ · küresel açık veriyle PED karar destek sistemi</span></div>
   <nav class="views" aria-label="Bölümler">
-    <a href="#mvp">PED Haritası</a><a href="#ajan">Ajan</a><a href="#sunum">Sunum</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
+    <a href="#mvp">PED Haritası</a><a href="#ajan">Ajan</a><a href="#sunum">Sunum</a><a href="#kapsam">Kapsam</a><a href="#mimari">Mimari ve adımlar</a><a href="#tez">Tez planı</a><a href="#kriter">Kriterler ve SHAP</a><a href="#veri">Veri ve yöntem</a><a href="#kaynakca">Kaynakça</a>
   </nav>
 </header>
 
@@ -284,6 +284,48 @@ button:disabled{opacity:.45;cursor:not-allowed}
   </table></div></div>
   <div class="sheet"><h2>Hava duyarlı talep bileşeni (Demand.ninja, ERA5 2023)</h2><div id="dnchart"></div><p class="note">Göreli ısıtma (kırmızı) ve soğutma (mavi) talep indeksleri, aylık toplam. Saatlik konut talebinin hava bileşeni; taban şekli EPİAŞ ulusal yükünden gelecek.</p></div>
   <div class="sheet"><h2>Veri gölü kataloğu</h2><div class="tbl" id="lake"></div></div>
+ </div>
+</section>
+
+<!-- ================================================================ KAPSAM (K-059, docs/22) -->
+<section class="view" id="v-kapsam" hidden>
+ <div class="doc">
+  <div class="sheet"><div class="eyebrow">Kapsam · K-059</div><h2 style="margin-top:6px">pedx · Açık Kentsel Zekâ</h2>
+    <p><b>Dünyanın her yerinde aynı H3 altıgen ızgarası üzerinde, yalnız açık ve küresel verilerle çalışan, her kararını gerçek örneklerle doğrulanmış bir kentsel yapay zekâ karar destek sistemi. Çekirdek karar problemi pozitif enerji bölgesi (PED) planlamasıdır.</b></p>
+    <p class="note">Bir çekirdek, ona takılan sayılı karar modülü ve bir modülün kapsama girip giremeyeceğini belirleyen tek kural. Amaç dallanmak değil: eldeki veri ve şehirlerle doğrulanabilen her kararı aynı altyapıdan üretmek.</p></div>
+  <div class="sheet"><h2>Kapsama girme kuralı</h2>
+    <p>Bir karar modülü ancak üç koşulun üçünü de sağlarsa kapsama girer. Biri eksikse "keşif" olarak kalır ve tezde bulgu olarak sunulmaz.</p>
+    <ol><li>Girdileri <b>açık ve küresel</b>.</li><li>En az bir ülkede <b>açık ve gerçek bir doğrulama etiketi</b> var. Sentetik etiket kabul edilmez.</li><li>Aynı <b>H3 özellik deposunu</b> ve aynı modül sözleşmesini kullanıyor: puan 0–100, kesin katkılar, uygulanabilirlik alanı, tersine analiz.</li></ol></div>
+  <div class="sheet"><h2>Modüller</h2><div class="tbl"><table>
+    <tr><th>Modül</th><th>Karar sorusu</th><th>Etiket</th><th>Doğrulama</th><th>Durum</th></tr>
+    <tr><td><b>M1 PED uygunluğu</b> (çekirdek)</td><td>Bu saha PED olabilir mi, ne gerekir?</td><td>16 gerçek PED ve kontroller</td><td>kentler arası dışarıda bırakma: AUC 0,80</td><td><span class="badge ok">çalışıyor</span></td></tr>
+    <tr><td><b>M2 Kentsel dönüşüm baskısı</b></td><td>Yapı stoku dönüşüyor mu, dönüşecek mi?</td><td>GHSL yapı yüzeyi değişimi 2000→2020</td><td>zamansal ayırma, 19 alan</td><td><span class="badge warn">sıradaki; veri elde</span></td></tr>
+    <tr><td><b>M3 Konum değeri</b></td><td>Açık verilerle açıklanan değer; hangi kaldıraçlar etkiler?</td><td>DVF (FR) · İstatistik Finlandiya posta kodu fiyatları · CBS WOZ (NL)</td><td>ülkeler arası, 10 alan</td><td><span class="badge">planlı; erişim teyidi</span></td></tr>
+    <tr><td><b>M4 Kırılganlık</b></td><td>Yaşlı, çocuk, ısı ve hizmet erişimi açısından kim risk altında?</td><td>tanımlayıcı gösterge, tahmin değil</td><td>ölçülen katmanlar (HRSL, Landsat)</td><td><span class="badge">katmanlar var</span></td></tr>
+  </table></div>
+  <p class="note">M2–M4 ayrı ürünler değil. M1'in kararını zenginleştiriyorlar: "Bu saha PED olabilir; dönüşüm baskısı yüksek; konum değeri şu kaldıraçlarla artar; yaşlı nüfus payı yüksek." Türkiye'de açık, işlem düzeyinde konut fiyatı yok; M3 burada yalnız Faz 2'de yerel doğrulamayla çalışır.</p></div>
+  <div class="sheet"><h2>Küresel altıgenler: üç katman</h2><div class="tbl"><table>
+    <tr><th>Katman</th><th>Ne zaman</th><th>Kapsam</th><th>Veri</th></tr>
+    <tr><td><b>K0</b> Küresel tarama</td><td>bir kez, toplu</td><td>GHSL SMOD kentsel kümelerinin tamamı, r7–r8</td><td>raster: GHS-POP, GHS-BUILT, WorldCover, PVGIS, ülke enerjisi</td></tr>
+    <tr><td><b>K1</b> Kent penceresi</td><td>istendiğinde, sonuç önbelleğe yazılır</td><td>her kent, 16×16 km, r9/r10</td><td>bütün katmanlar (bugünkü 19 alan)</td></tr>
+    <tr><td><b>K2</b> Saha</td><td>tıklandığında</td><td>hücre, r11, bina, yapı adası</td><td>dasimetrik dağıtım</td></tr>
+  </table></div>
+  <p class="note"><b>OSM küresi:</b> gezegen ölçeğinde OSM dosyası indirilmiyor. Küresel OSM katmanı, sürümü sabitlenmiş Overture GeoParquet. Satır grubu dizini sayesinde yalnız istenen pencere okunuyor (Kadıköy: 256 satır grubundan 1'i). Overpass yalnız eksik katmanlar için kullanılıyor ve her Overpass katmanının bir yedeği var. Dünyanın bütün karası r10'da ~10 milyar hücre ettiği için her şeyi önceden hesaplamak hedeflenmiyor.</p></div>
+  <div class="sheet"><h2>Kapsam dışı</h2><div class="tbl"><table>
+    <tr><th>Konu</th><th>Neden</th></tr>
+    <tr><td>Trafik tahmini, suç, sağlık sonucu</td><td>küresel açık etiket yok</td></tr>
+    <tr><td>Google yorumları ve popüler saatler</td><td>kullanım koşulları; KVKK/GDPR (K-031)</td></tr>
+    <tr><td>Gerçek zamanlı dijital ikiz</td><td>çekirdek karar sorusuna katkısı yok</td></tr>
+    <tr><td>Bina enerji simülasyonu</td><td>tez kapsamı yıllık denge; saatlik eşleşme Faz 2</td></tr>
+    <tr><td>Emlak fiyat tahmini ürünü</td><td>M3 bir açıklama modülüdür, değerleme raporu değil</td></tr>
+  </table></div></div>
+  <div class="sheet"><h2>Yol haritası</h2><ol>
+    <li><b>K0 küresel tarama</b>: gerçek 16 PED'in küresel yüzdeliği.</li>
+    <li><b>M2 dönüşüm baskısı</b>: aynı <span class="mono">PEDScore</span> sınıfı, GHSL dönem etiketi.</li>
+    <li><b>Ajan sözlüğü</b> (K-058): veriden 6.396 yer adı; bağımsız set-2.</li>
+    <li><b>M3</b> erişim teyidi (FR/FI/NL) → hedonik açıklama modeli.</li>
+    <li><b>M4</b> kırılganlık skoru (tanımlayıcı).</li></ol>
+    <p class="note">Tezin iddiaları değişmiyor. M1 tezin kendisi; M2 yöntemin aktarılabildiğini gösteren genelleme kanıtı; M3 ve M4 doğrulandıkları ölçüde yazılan ileri çalışma.</p></div>
  </div>
 </section>
 
