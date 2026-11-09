@@ -379,6 +379,7 @@
   });
   sel.value = "energy_balance";
 
+  let cafCtl = null;
   function initMap() {
     mapReady = true;
     map = L.map("map", { preferCanvas: true, zoomSnap: 0.25 });
@@ -387,7 +388,7 @@
     const bld = L.geoJSON(P.buildings, { style: { color: css("--bldg"), weight: 0.4, fillColor: css("--bldg"), fillOpacity: 0.18 }, interactive: false }).addTo(base);
     const bnd = L.geoJSON(P.boundary, { style: { color: css("--ink"), weight: 2, fill: false, dashArray: "6 4" }, interactive: false }).addTo(map);
     const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap katkıcıları" });
-    L.control.layers(null, { "OSM sokakları ve binaları (vektör)": base, "OSM karoları (yerel çalıştırmada)": tiles }, { collapsed: true }).addTo(map);
+    cafCtl = L.control.layers(null, { "OSM sokakları ve binaları (vektör)": base, "OSM karoları (yerel çalıştırmada)": tiles }, { collapsed: true }).addTo(map);
     map.attributionControl.addAttribution("Veri © OpenStreetMap katkıcıları (ODbL) · JRC GHS-POP (CC BY 4.0) · EU JRC PVGIS");
     map.fitBounds(bnd.getBounds(), { padding: [10, 10] });
     draw(sel.value);
@@ -501,6 +502,31 @@
     const BR = [5, 10, 20, 30, 40, 50, 65, 80];
     const colOf = v => { let i = 0; while (i < BR.length && v >= BR[i]) i++; return SC[i]; };
     const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap katkıcıları" });
+    // embedded vector basemap (K-057): artifacts cannot load raster tiles, so land/water/roads ship inside the page
+    const BM = P.basemap;
+    if (!map.getPane("basemap")) { map.createPane("basemap"); map.getPane("basemap").style.zIndex = 250; }
+    const baseGroup = L.layerGroup(), cityBase = {};
+    if (BM) {
+      map.getContainer().style.background = css("--water") || "#cfe1ec";
+      L.geoJSON(BM.world, { pane: "basemap", interactive: false, style: { color: css("--rule"), weight: 0.6, fillColor: css("--land") || "#f3f1ea", fillOpacity: 1 } }).addTo(baseGroup);
+      map.attributionControl.addAttribution(BM.attribution);
+    }
+    function cityBaseLayer(c) {
+      if (!BM || !BM.areas[c.key]) return null;
+      if (cityBase[c.key]) return cityBase[c.key];
+      const a = BM.areas[c.key], g = L.layerGroup(), b = L.geoJSON({ type: "FeatureCollection", features: [] });
+      const lats = c.cells.map(r => h3.cellToLatLng(r[0])[0]), lons = c.cells.map(r => h3.cellToLatLng(r[0])[1]);
+      const pad = 0.12, bb = [[Math.min(...lats) - pad, Math.min(...lons) - pad], [Math.max(...lats) + pad, Math.max(...lons) + pad]];
+      L.rectangle(bb, { pane: "basemap", interactive: false, stroke: false, fillColor: css("--land") || "#f3f1ea", fillOpacity: 1 }).addTo(g);
+      if (a.water) L.geoJSON(a.water, { pane: "basemap", interactive: false, style: { stroke: false, fillColor: css("--water") || "#cfe1ec", fillOpacity: 1 } }).addTo(g);
+      if (a.roads) L.geoJSON(a.roads, { pane: "basemap", interactive: false, style: { color: css("--street") || "#9aa7b1", weight: 1.1, opacity: 0.9 } }).addTo(g);
+      return (cityBase[c.key] = g);
+    }
+    let shownCityBase = null;
+    function showCityBase(c) { if (shownCityBase) baseGroup.removeLayer(shownCityBase); shownCityBase = c ? cityBaseLayer(c) : null; if (shownCityBase) shownCityBase.addTo(baseGroup); }
+    const baseOn = () => { if (BM) baseGroup.addTo(map); else tiles.addTo(map); if (cafCtl) map.removeControl(cafCtl); atlasCtl.addTo(map); };
+    const baseOff = () => { map.removeLayer(baseGroup); map.removeLayer(tiles); map.getContainer().style.background = ""; map.removeControl(atlasCtl); if (cafCtl) cafCtl.addTo(map); };
+    const atlasCtl = L.control.layers(null, { "OSM karoları (yalnız yerelde yüklenir)": tiles }, { collapsed: true, position: "topright" });
 
     // world overview: every area as a ring (size ∝ candidate sites, colour = median PED score); click flies into the city
     function cityStats(c) {
@@ -511,7 +537,7 @@
     const worldCol = v => { const ms = AT.cities.map(c => cityStats(c)._med), lo = Math.min(...ms), hi = Math.max(...ms);
       return SC[Math.max(1, Math.min(8, Math.round(1 + 7 * (v - lo) / Math.max(hi - lo, 1e-9))))]; };
     function drawWorld() {
-      if (atlasLayer) map.removeLayer(atlasLayer); if (siteMarker) map.removeLayer(siteMarker);
+      if (atlasLayer) map.removeLayer(atlasLayer); if (siteMarker) map.removeLayer(siteMarker); showCityBase(null);
       if (!worldLayer) worldLayer = L.layerGroup(AT.cities.map((c, i) => { cityStats(c);
         return L.circleMarker([c.lat, c.lon], { radius: 6 + Math.sqrt(c.cells.length) / 6, color: c.is_ped ? css("--ink") : css("--sun"), weight: c.is_ped ? 2 : 4,
           fillColor: worldCol(c._med), fillOpacity: 0.92 })
@@ -537,6 +563,7 @@
       if ($("city").value === "world") { drawWorld(); return; }
       if (!worldLayer) drawWorld();
       const c = AT.cities[+$("city").value];
+      showCityBase(c);
       $("atlasout").innerHTML = `<p class="note">Bir altıgene tıklayın: o noktayı merkez alan ~28 ha'lık aday saha puanlanır, kapsamlı rapor ve tersine reçete açılır. Dünya görünümüne dönmek için "Alan" listesinden "Dünya"yı seçin.</p>`;
       c.logits = c.logits || c.cells.map(r => logitOf(r[4]));
       const sorted = c.logits.slice().sort((a, b) => a - b);
@@ -631,8 +658,8 @@
     $("city").addEventListener("change", drawCity);
     $("mode").addEventListener("change", e => setMode(e.target.value, bnd));
     function setModeAtlas(on) {
-      if (on) { if (cellLayer) map.removeLayer(cellLayer); if (legend) map.removeControl(legend); tiles.addTo(map); drawCity(); }
-      else { if (atlasLayer) map.removeLayer(atlasLayer); if (atlasLegend) map.removeControl(atlasLegend); if (siteMarker) map.removeLayer(siteMarker); if (worldLayer) map.removeLayer(worldLayer); map.removeLayer(tiles); }
+      if (on) { if (cellLayer) map.removeLayer(cellLayer); if (legend) map.removeControl(legend); baseOn(); drawCity(); }
+      else { if (atlasLayer) map.removeLayer(atlasLayer); if (atlasLegend) map.removeControl(atlasLegend); if (siteMarker) map.removeLayer(siteMarker); if (worldLayer) map.removeLayer(worldLayer); baseOff(); }
     }
     window.__pedxAtlasMode = setModeAtlas;
     window.__pedxShow = (key, r9) => { $("mode").value = "atlas"; setMode("atlas", bnd); const i = AT.cities.findIndex(c => c.key === key); if (i < 0) return;

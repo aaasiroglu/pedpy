@@ -449,6 +449,15 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Okuma:** Sonucu görerek ilerlemek yalnızca büyük modelde fayda sağlıyor. Model kapasitesi ile ajan döngüsü birlikte seçilmeli.
 - **Durum:** Kabul
 
+### K-057: Altlık harita sayfanın içine gömülü vektör olarak taşınıyor
+- **Bağlam:** Yayımlanan claude.ai artifact'ında haritanın arkası boş görünüyordu. Sebep: artifact sayfası dış kaynaklardan raster karo (tile.openstreetmap.org) yükleyemiyor. OSM karo politikası da bu tür gömülü, toplu kullanımı önermiyor. Yerelde çalışırken karolar yükleniyordu, bu yüzden sorun yalnız yayında görüldü.
+- **Karar:** Altlık harita sayfanın içinde vektör olarak taşınır (`scripts/build_basemap.py` → `web/data/basemap.json`, 4,6 MB):
+  - Dünya ölçeği: Natural Earth 1:110m ülke sınırları (kamu malı), basitleştirilmiş.
+  - Her alan penceresi: Overture `base/water` su poligonları ve `transportation/segment` ana yolları (motorway/trunk/primary/secondary; ODbL). Pencereye kırpılır ve ~30 m'de basitleştirilir. İstanbul'un 60 km'lik penceresinde secondary yollar çıkarılır ve basitleştirme daha kaba tutulur.
+- **OSM karoları:** Yerel çalıştırmada kullanılabilsin diye isteğe bağlı katman olarak kaldı.
+- **Bedel:** Sayfa 14,6 MB oldu; 16 MB sınırına yakın. Yeni alan eklenirse basitleştirme toleransı artırılmalı.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
