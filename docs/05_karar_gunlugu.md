@@ -547,6 +547,32 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - Bütün sayılar doğrulama dosyalarından alındı. Eşit ağırlığa geçişle değişen sayılar (Caferağa 41/100, iç içe AUC 0,84) güncellendi.
 - **Durum:** Kabul
 
+### K-064: Dönüşüm alanı tehdidi sınandı: bileşik skor kısmen dönüşüm alanını öğreniyor
+- **Bağlam:** Gerçek PED'ler çoğunlukla belediyenin zaten dönüştürdüğü araziye kuruldu. Skor "PED'e uygun yer" yerine "dönüşüm alanı"nı öğreniyor olabilir.
+- **Sınama** (`scripts/transformation_threat.py` → `data/validation/transformation_threat.json`):
+  - Skora girmeyen göstergelerle dönüşüm endeksi T kuruldu (GHSL konut dışı pay, OSM inşaat alanı, WorldCover çıplak alan, konut alanı azlığı).
+  - PED'ler proje tanımlarından elle iki türe ayrıldı: 11 yeni gelişim, 5 mevcut mahalle (kaynakla doğrulanacak).
+- **Bulgu** (AUC, tümü / yeni / mevcut):
+  - T tek başına: 0,77 / 0,87 / 0,55.
+  - Bileşik skor: 0,84 / 0,89 / 0,72. T'ye göre artık: 0,72; T'de en yakın 10 kontrol: 0,82.
+  - Yalnız enerji dengesi: 0,82 / 0,83 / 0,81 (mevcut mahallede 5/5).
+  - Kontrollerde skor ile T arasında Spearman ρ = 0,47.
+- **Karar:** Bileşik skor "PED kurulmuş yerlere benzerlik" olarak adlandırılır ve öyle yorumlanır. Tezin savunulan çekirdeği enerji dengesidir. İki sayı her zaman ayrı raporlanır.
+- **Sınır:** Mevcut mahalle grubu 5 saha; aralıklar geniş.
+- **Durum:** Kabul
+
+### K-065: Belirsizlik aralıkları ve özdeş ölçüt
+- **Bulgu** (`scripts/uncertainty.py` → `data/validation/uncertainty.json`):
+  - %95 bootstrap aralıkları: enerji dengesi 0,82 [0,76–0,89]; eşit ağırlık 0,84 [0,75–0,91]; iç içe 0,84 [0,75–0,91]; kanıt 0,80 [0,68–0,90].
+  - Eşleştirilmiş permütasyon testi: şemalar arasında fark yok (p = 0,41–0,80); bileşik skor ile yalnız enerji dengesi arasında fark yok (p = 0,82).
+  - `log_energy_balance` ve `log_footprint_per_capita_m2` kent içi z-puanında özdeş (r = 1,00): kent içinde ışınım ve kişi başı talep sabit. Bağımsız ölçüt sayısı 30; enerji dengesi eşit ağırlıkta fiilen iki kez sayılıyor. 30 ölçütle AUC 0,825.
+- **Karar:** Tüm AUC'ler aralıkla raporlanır; "kazanan şema" denmez. Özdeş ölçüt bir sonraki model kurulumunda çıkarılacak; danışman toplantısından önce atlas yeniden kurulmadı, çünkü uygulamadaki bütün saha puanları değişir.
+- **Durum:** Kabul (yeniden kurulum bekliyor)
+
+### K-066: Tez çerçevesi geomatik eksenine sabitlendi
+- **Karar:** Çalışma başlığı "Açık küresel mekânsal veriyle PED uygunluğu: yeterlilik, ölçek duyarlılığı ve gerçek PED'lerle doğrulama". Dört alt soru (`docs/25`). Ajan, dil modeli, alan sözlüğü ve kapsam modülleri tezin eki. Uygulamada Hikâye ve Tez planı buna göre yeniden yazıldı; gezinme çekirdek ve ekler olarak ayrıldı.
+- **Durum:** Danışman onayı bekliyor
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

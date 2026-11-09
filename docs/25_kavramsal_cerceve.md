@@ -21,8 +21,8 @@ Sayılar `data/validation/` altındaki dosyalardan gelir; karar numaraları `doc
 
 | | Soru | Hipotez | Sınama | Sonuç |
 |---|---|---|---|---|
-| AS1 | Fiziksel enerji dengesi (çatı PV ÷ konut elektrik talebi) gerçek PED'leri ayırır mı? | PED'ler kendi şehirlerinin medyanının üstündedir | 16 PED × 30 kontrol, AUC | 16/16 medyan üstü, AUC 0,82 (p = 1,5e-5); yoğunluk eşlemeli 0,79 |
-| AS2 | Bağlam göstergeleri eklemek ayrımı iyileştirir mi, hangi ağırlıkla? | Basit (eşit) ağırlık, karmaşık şemalardan kötü değildir | Şehir-dışarıda-bırak (LOCO), iç içe LOCO | Düz LOCO 0,837; iç içe 0,842 |
+| AS1 | Fiziksel enerji dengesi (çatı PV ÷ konut elektrik talebi) gerçek PED'leri ayırır mı? | PED'ler kendi şehirlerinin medyanının üstündedir | 16 PED × 30 kontrol, AUC | 16/16 medyan üstü, AUC 0,82 [0,76–0,89]; yoğunluk eşlemeli 0,79 |
+| AS2 | Bağlam göstergeleri eklemek ayrımı iyileştirir mi, hangi ağırlıkla? | Basit (eşit) ağırlık, karmaşık şemalardan kötü değildir | Şehir-dışarıda-bırak (LOCO), iç içe LOCO | İç içe LOCO 0,84 [0,75–0,91]; şemalar ve yalnız denge arasında fark yok (p = 0,41–0,82) |
 | AS3 | Sonuç mekânsal ölçeğe ve veri kaynağına duyarlı mı? | Denge ölçekten bağımsız, nüfus ataması bağımlıdır | MAUP (blok / r9 / r10 / r11), İstanbul G2 | Denge AUC 0,79–0,83; nüfus payı %93 (blok) ↔ %77 (r10) |
 | AS4 | Yöntem eğitim şehirlerinin dışına (İstanbul) taşınabilir mi? | Uygulanabilirlik alanı içinde evet | AOA + yerel veriyle G2 | Çatı PV tüketimin %33–79'u; Yıldırım 2021: %67 |
 
@@ -75,14 +75,17 @@ açık küresel veri ─→ H3 ızgarası ─→ ~28 ha aday diskler ─→ 31 g
 ### Zayıf olan (toplantıda biz söylemeliyiz)
 1. **n = 16.** Güven aralıkları geniştir; 0,80 ile 0,88 arasındaki fark istatistiksel olarak ayrılamaz.
    Şemalar arasında "kazanan" ilan edilemez; yalnızca "eşit ağırlık daha kötü değil" denebilir.
-2. **Ölçtüğümüz şey tarihsel yer seçimi.** PED'ler belediyenin dönüştürmek istediği yerlere (eski sanayi,
-   liman, yeni gelişim) kuruldu. Skor kısmen "kentsel dönüşüm alanı"nı öğreniyor olabilir. Çalışmanın en
-   ciddi kavramsal tehdidi budur.
+2. **Ölçtüğümüz şey kısmen tarihsel yer seçimi (sınandı, K-064).** Skora girmeyen göstergelerden kurulan
+   dönüşüm endeksi, yeni gelişim PED'lerini (11) skor kadar iyi buluyor (0,87 ve 0,89); mevcut mahalle
+   PED'lerinde (5) yazı-tura (0,55), skor da zayıflıyor (0,72). Enerji dengesi iki grupta aynı (0,83 ve
+   0,81). Bileşik skor "PED kurulmuş yerlere benzerlik"tir; savunulan çekirdek enerji dengesidir.
 3. **Enerji dengesi dar.** Yalnızca çatı PV ve konut elektriği; ısıtma, ulaşım, depolama, verimlilik yok.
    Talep ülke ortalaması kişi başı değerden gelir. PED tanımının (üretim + verimlilik + esneklik) yalnız
    bir ayağıdır.
-4. **Eşit ağırlıkta fizik 31'de 1.** Bileşik skorda enerji dengesinin payı küçüktür; skor daha çok
-   "PED benzeri kentsel bağlam" ölçer. İki sayı (denge, skor) ayrı raporlanmalı, tek sayıya indirgenmemeli.
+4. **Kent içinde enerji dengesi = kişi başına çatı alanı (K-065).** İki ölçüt z-puanında özdeş; bağımsız
+   ölçüt sayısı 30. Talep yalnız konut elektriği olduğu için konut dışı yapıların çatısı sayılıyor,
+   tüketimi sayılmıyor; bu, dengeyi sanayi ve ticaret alanlarında şişirir. İlk düzeltilecek yöntem
+   eksiği budur.
 5. **Aktarım.** Eğitim şehirleri dışındaki kent dokularında (İstanbul) skorun anlamı yalnızca
    uygulanabilirlik alanı içinde savunulabilir.
 6. **Maliyet ve mülkiyet yok.** Uygulanabilirlik (kim sahip, ne kadar tutar) kapsam dışıdır.
@@ -126,13 +129,14 @@ karşılaştırması) danışmanın kendi çalışma alanıyla doğrudan örtü�
 
 Ajan yalnızca sorulursa, bir dakika gösterilir.
 
-## 10. Sonraki altı hafta (danışman kararına göre ayarlanır)
+## 10. Sonraki adımlar
 
-| Hafta | İş | Çıktı |
+| Durum | İş | Çıktı |
 |---|---|---|
-| 1 | Toplantı kararlarını işle; kapsamı dondur | Güncel tez planı |
-| 1–2 | §6.2 tehdidini sına: kontrolleri arazi kullanımı/dönüşüm alanı ile eşle | "Skor dönüşüm alanını mı öğreniyor?" cevabı |
-| 2–3 | AUC için bootstrap güven aralıkları; şema farkları için permütasyon testi | Tüm tablolarda GA |
-| 3–4 | Isıtma talebini dengeye ekle (karar 2 evet ise) | Genişletilmiş denge, AS1 tekrarı |
-| 4–5 | PED kümesini genişlet (karar 4) | n > 16 ile tekrar |
-| 5–6 | Yöntem ve bulgular bölümlerinin ilk taslağı | Makale iskeleti dolu |
+| Yapıldı | Dönüşüm alanı tehdidi sınandı (K-064) | `data/validation/transformation_threat.json` |
+| Yapıldı | Bootstrap aralıkları, permütasyon testleri, özdeş ölçüt tespiti (K-065) | `data/validation/uncertainty.json` |
+| Yapıldı | Tez çerçevesi ve uygulama geomatik eksenine çekildi (K-066) | Hikâye, Tez planı |
+| Sırada | Özdeş ölçütü çıkar, atlası 30 ölçütle yeniden kur | Güncel saha puanları |
+| Sırada | Konut dışı talebi dengeye ekle (GHSL konut dışı hacim × yoğunluk) | Düzeltilmiş denge, AS1 tekrarı |
+| Sırada | PED türünü kaynakla etiketle; PED kümesini büyüt | n > 16, tür ayrımı doğrulanmış |
+| Danışman kararı | Isıtma talebi; İstanbul'un rolü; ajanın tezdeki yeri | — |
