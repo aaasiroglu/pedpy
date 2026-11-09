@@ -2491,6 +2491,20 @@
    "area_ok": true,
    "arg_ok": true,
    "all_ok": true
+  },
+  {
+   "planner": "Qwen3-8B-Q4_K_M · ReAct + niyet koruması + sözlük",
+   "set": "bağımsız-2 (30)",
+   "q": "Best PED candidates near Part-Dieu",
+   "seconds": 63.20485711097717,
+   "n_calls": 2,
+   "extra_calls": 1,
+   "explored": 0,
+   "plan": "[[\"find_sites\", {\"area\": \"confluence\", \"k\": 5, \"objective\": \"score\"}], [\"assess_site\", {\"area\": \"confluence\", \"cell\": \"891f902ec13ffff\"}]]",
+   "tool_ok": true,
+   "area_ok": true,
+   "arg_ok": true,
+   "all_ok": true
   }
  ]
 }
