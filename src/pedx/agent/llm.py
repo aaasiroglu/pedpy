@@ -104,3 +104,52 @@ def plan_openai(q: str) -> Optional[Tuple[List[Tuple[str, dict]], str]]:
 
 def plan_llm(q: str):
     return plan_openai(q) or plan_gguf(q)
+
+
+def _compact(name: str, obs: dict) -> str:
+    """Short observation for the model's context (the full observation stays in the trace)."""
+    if "error" in obs:
+        return json.dumps({"error": obs["error"]}, ensure_ascii=False)
+    if name == "list_areas":
+        o = [{"area": a["area"], "name": a["name"]} for a in obs["areas"]]
+    elif name == "find_sites":
+        o = {"area": obs["area"], "objective": obs["objective"], "n_candidates": obs["n_candidates"],
+             "sites": [{"cell": s["cell"], "score": round(s["score"]), "balance": round(s["balance"], 2)} for s in obs["sites"][:3]]}
+    elif name == "assess_site":
+        o = {"cell": obs["cell"], "score": round(obs["score"]), "balance": round(obs["balance"], 2),
+             "top_contributions": sorted(obs["contributions"].items(), key=lambda kv: -abs(kv[1]))[:3]}
+    else:
+        o = {k: v for k, v in obs.items() if not k.startswith("_")}
+    return json.dumps(o, ensure_ascii=False, default=str)[:1200]
+
+
+def react_gguf(q: str, path: Optional[str] = None, max_turns: int = 4):
+    """Multi-turn ReAct (Yao et al. 2023): the model calls tools, sees compact observations, decides the next step.
+    Returns (executed calls, transcript). Ends when the model answers without a tool call or after max_turns."""
+    from .core import _sanitize, repair
+    from .tools import call
+
+    path = path or os.environ.get("PEDX_LLM_GGUF")
+    llm = _llama(path)
+    msgs = [{"role": "system", "content": system_prompt() + "\nWork step by step: call a tool, read its result, then decide the next call. "
+             "When the result answers the question, reply with the single word DONE."},
+            {"role": "user", "content": q + " /no_think"}]
+    executed, best = [], None
+    for _ in range(max_turns):
+        text = llm.create_chat_completion(messages=msgs, temperature=0.0, max_tokens=400)["choices"][0]["message"]["content"] or ""
+        calls = repair(_sanitize(parse_tool_calls(text)))
+        if not calls:
+            break
+        msgs.append({"role": "assistant", "content": text})
+        for name, args in calls:
+            if args.get("cell") == "@best":
+                args["cell"] = best
+            try:
+                obs = call(name, args)
+            except Exception as exc:  # noqa: BLE001
+                obs = {"error": f"{type(exc).__name__}: {exc}"}
+            if name == "find_sites" and obs.get("sites"):
+                best = obs["sites"][0]["cell"]
+            executed.append((name, args))
+            msgs.append({"role": "tool", "content": _compact(name, obs)})
+    return executed, msgs
