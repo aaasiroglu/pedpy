@@ -113,8 +113,11 @@ Araç, alan ve argüman doğruluğu %100. **Sınırlılık:** sorular planlayıc
 | Qwen3-4B, ReAct | — | %87 | 2,5 | 1,4 | 37 s |
 | Qwen3-8B, ReAct | %95 | %93 | 2,2–2,4 | 0,9–1,3 | 54–59 s |
 | **Qwen3-8B, ReAct + niyet koruması** | **%95** | **%93** | 2,0–2,3 | 0,8–1,2 | 54–59 s |
+| **Qwen3-8B, ReAct + niyet koruması + alan sözlüğü** | **%100** | **%100** (2. bağımsız set: **%93**) | 1,8–2,2 | 0,7–1,1 | 50–65 s |
 
 **Okuma:**
+Alan sözlüğü (K-058) eklenince geliştirme ve ilk bağımsız sette kalan 4 anlamsal hata kapandı (%100 / %100). Sözlük bu iki setteki hatalara bakılarak yazıldığı için bu sayılar iyimserdir; dürüst ölçü, sözlükten sonra yazılan ikinci bağımsız settir (30 soru): **%93** (2 hata: 1 alan, 1 argüman).
+
 1. **Hipotez doğrulandı.** 8B'nin tek seferlik düzende ceza yiyen "önce kontrol et" davranışı, sonucu görerek ilerleyince avantaja dönüyor. Bağımsız sette %77 → %93; en iyi planlayıcı bu.
 2. **4B ReAct'ten kazanmıyor** (%87 → %87), ama daha çok gereksiz çağrı yapıyor (1,4). Sonucu görerek ilerlemenin faydası model kapasitesine bağlı.
 3. **Bedel:** soru başına ~1 gereksiz çağrı ve 54–59 s. 8B, 70 sorunun 7'sinde kullanıcı istemediği hâlde **bir hedef puan uydurdu** ("70", "95") ve tersine analiz yaptı (niyet uydurma; Ji vd. 2023). Yanıt gözlemlerden yazıldığı için sahte sayı söylenmedi, ama istenmemiş bir analiz yapıldı. **Önlem:** soruda sayı ya da hedef ifadesi yoksa tersine analiz çağrısı yürütülmüyor.
