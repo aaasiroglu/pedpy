@@ -601,6 +601,16 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Bulgu:** Veritabanı sınırın türünü (52 coğrafi, 14 işlevsel, 9 sanal) tutuyor ama geometrisini tutmuyor. K-068'deki engel kalktı.
 - **Durum:** Sürüyor
 
+
+### K-070: Çerçeve bina tabanlı fazla hesabına çevrildi
+- **Bağlam:** Kullanıcı çalışmayı "üretim − tüketim fazlası olan kentsel alanların tespiti" olarak yeniden tarif etti: bina bina hesap, yapı adası düzeyinde bulanık PED bölgesi, geniş çatılı kamusal yapılar çapa, İBB verisiyle doğrulama.
+- **Karar (öneri, `docs/29`):**
+  - Çekirdek büyüklük bina başına fazla (üretim − tüketim); bölge, çapa binadan büyüyen bitişik yapı adası kümesi; bulanık üyelik parametre aralıklarından.
+  - Tüketim tarafı konut dışı yapılar için kurulmadan çapa iddiası sınanmaz; ilk iş bu.
+  - Açıklanabilir yapay zekâ etiketi değil, hesaplanan fazlayı açıklar (örnek sayısı milyonlar). Gerçek PED'ler yalnız doğrulama.
+  - 31 ölçütlü bileşik skor skor olarak bırakıldı.
+- **Durum:** Danışman onayı bekliyor
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
