@@ -28,7 +28,7 @@ büyüklük, arazi kullanımı, finansman, kaynak, konum, sınır geometrisi, s�
 | # | Kaynak | Kapsam | Durum |
 |---|---|---|---|
 | 1 | PED Booklet, Şubat 2020 (Gollner vd., JPI Urban Europe) | 61 proje, Avrupa | **Alındı** (`data/inventory/ped_booklet_2020.csv`) |
-| 2 | PED veritabanı (PED-EU-NET, Annex 83, JPI UE; pedeu.net/map) | PED, PED ile ilgili, PED laboratuvarı | Site bu ortamdan bağlantıyı kesiyor; dışa aktarımın elle indirilmesi gerekiyor |
+| 2 | PED veritabanı (PED-EU-NET, Annex 83, JPI UE/DUT; peddatabase.dutpartnership.eu) | 114 saha, 24 ülke | **Alındı** (`data/inventory/ped_database_2026.csv`) |
 | 3 | IEA EBC Annex 83 raporları (STA–STD) | Vaka çalışmaları | Erişim açık; sırada |
 | 4 | Horizon 2020 / Horizon Europe öncü projeleri | ATELIER, SPARCS, MAKING-CITY, POCITYF, +CityxChange, RESPONSE, syn.ikia ve diğerleri | Sırada; mevcut 16 saha buradan |
 | 5 | Norveç ZEN pilotları | 9 pilot bölge | Bir kısmı 1'de; sırada |
@@ -69,15 +69,53 @@ projede birden çok saha var).
 mahallenin küçük bir parçası. Bu, danışmanın "sınır tanımlamak zor" tespitinin sayısal karşılığı ve
 AS1'in gerekçesi: sınır, mahalle adından değil proje belgesinden ve yapı adalarından çıkarılmalı.
 
-## 4. Sıradaki adımlar
+## 4. İkinci kaynak: PED veritabanı (114 saha, K-069)
+
+Veritabanı yeni adresinde açık: peddatabase.dutpartnership.eu. `scripts/fetch_ped_database.py` her sahanın
+açık sayfasından yalnız saha özniteliklerini alır (iletişim kişileri ve e-postalar kişisel veridir, alınmaz).
+Çıktı: `data/inventory/ped_database_2026.csv`.
+
+- **Sayı:** 114 kayıt, 24 ülke. Annex 83'ün Mart 2025 raporu 110 PED, 35 proje diyor.
+- **Sınıf:** 38 PED vaka çalışması, 44 PED ile ilgili vaka, 18 PED laboratuvarı, 8 karma, 6 sınıfsız (yeni, eksik kayıt).
+- **Aşama:** 45 planlama, 27 uygulama, 18 işletmede, 18 tamamlandı.
+- **Ülke:** Norveç 14, İsveç 10, Avusturya 9, Finlandiya 9, İtalya 8, İspanya 8, Hollanda 8, Romanya 6.
+  **Türkiye 4:** Kadıköy Caferağa, Özyeğin Üniversitesi kampüsü, Ankara Çamlık, İzmir Karşıyaka.
+- **Sınır türü veritabanında kayıtlı** (79 saha): 52 coğrafi, 14 işlevsel, 9 sanal, 4 diğer.
+  Sınırın geometrisi yok; yalnız türü ve tek bir nokta var.
+- **Alan** (59 saha): ortanca 6,2 ha; çeyrekler arası 2,9–72,5 ha.
+- **Finansman** (81 saha): en sık AB araştırma fonu (38); 27 sahada özel finansman var (19'unda gayrimenkul).
+- **Koordinat kalitesi:** 65 kayıtta enlem ve boylam kaynakta yer değiştirmiş (düzeltildi ve işaretlendi),
+  7 kayıtta koordinat eksik.
+- **Booklet ile örtüşme:** ada göre yaklaşık eşleştirmede en az 26 ortak saha; gerçek örtüşme daha yüksek.
+  İki kaynağın birleşimi kabaca 140 saha. Kesin sayı elle birleştirmeden sonra belli olur.
+
+## 5. Avrupa dışı ve "PED demeyen" adaylar (C sınıfı)
+
+`data/inventory/ped_candidates_class_c.csv`: 12 aday, her biri bu çalışmada okunan bir kaynağa bağlı;
+hiçbiri henüz dört koşula karşı doğrulanmadı.
+
+| Yer | Aday | Neden ilgili |
+|---|---|---|
+| Kanada | West 5 / EVE Park (London, Ontario) | 28 ha, net sıfır hedefi; geliştirici + dağıtım şirketi ortaklığıyla **mikro-kamu hizmeti** finansman modeli |
+| Kanada | Drake Landing | Annex 83 sunumunda net sıfır vakası olarak anılıyor |
+| Japonya | Ishikari, Higashi-Matsushima, Kitakyushu | Belediye pilot alanları; **yerel ekonomiyi canlandırma** açık hedef; PED denmiyor |
+| Japonya | 74 pilot alan (ulusal program) | 2023'e kadar seçilmiş; saha listesi alınacak |
+| Japonya | Fujisawa Sustainable Smart Town | 19 ha eski fabrika arazisi, ~1.000 konut |
+| ABD | Peña Station NEXT, National Western Center (Denver), FortZED (Fort Collins), UC Davis West Village | Sıfır enerji bölgesi çalışmaları (DOE programı, 2016) |
+| Çin | Shenzhen sıfıra yakın karbon toplulukları | 113 gösterim projesi; bölge ölçeğindekiler seçilecek |
+
+Ekonomiyi kaldıraç olarak kullananlar için ilk işaretler: West 5 (mikro-kamu hizmeti), Japonya pilotları
+(istihdam ve sanayi canlandırma), veritabanında özel/gayrimenkul finansmanlı 19 saha.
+
+## 6. Sıradaki adımlar
 
 1. Kaynak 3–5'i aynı şemaya ekle; yinelenenleri birleştir (hedef: 100+ kayıt, A ve B sınıfı).
-2. PED veritabanı dışa aktarımını al (elle indirme ya da proje ekibinden).
+2. Booklet ile veritabanını tek tabloda birleştir; yinelenenleri elle çöz.
 3. Her saha için proje belgesindeki sınır haritasını bul; yapı adası kümesi olarak sayısallaştır.
    Önce booklet'te alanı ha olarak verilen sahalar (alan, sayısallaştırmanın denetimi olur).
 4. C sınıfı için kaynak taraması ve aynı dört koşulla eleme.
 
-## 5. Yeniden üretim
+## 7. Yeniden üretim
 
 ```bash
 pdftotext -layout PED-Booklet-Update-Feb-2020_2.pdf booklet.txt
@@ -89,6 +127,10 @@ python scripts/build_ped_inventory.py booklet.txt
 
 ```bash
 python scripts/geocode_ped_inventory.py booklet.txt
+```
+
+```bash
+python scripts/fetch_ped_database.py
 ```
 
 Booklet: https://jpi-urbaneurope.eu/wp-content/uploads/2020/06/PED-Booklet-Update-Feb-2020_2.pdf

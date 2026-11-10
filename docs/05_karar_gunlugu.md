@@ -592,6 +592,15 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Bulgu:** OSM'deki adlı alan proje sınırı değil (Kaukovainio 490 ha ↔ 4 ha; Pietralata 587 ha ↔ 7 ha). 13 adaydan yalnız biri örtüşüyor. Sınır proje belgesinden sayısallaştırılmalı.
 - **Engel:** pedeu.net bu ortamdan bağlantıyı kesiyor; PED veritabanı dışa aktarımı elle indirilecek.
 - **Durum:** Sürüyor
+
+### K-069: PED veritabanı alındı (114 saha); Avrupa dışı adaylar kaydedildi
+- **Karar:**
+  - PED veritabanı (peddatabase.dutpartnership.eu) açık sayfalarından ayrıştırıldı: 114 saha, 24 ülke; sınır türü, alan, finansman, mülkiyet alanlarıyla. Kişisel veriler (iletişim adı, e-posta) alınmadı.
+  - Kaynakta yer değiştirmiş 65 koordinat düzeltildi ve işaretlendi.
+  - Avrupa dışı 12 aday (Kanada, Japonya, ABD, Çin) kaynaklarıyla `ped_candidates_class_c.csv` içinde; doğrulanmadı.
+- **Bulgu:** Veritabanı sınırın türünü (52 coğrafi, 14 işlevsel, 9 sanal) tutuyor ama geometrisini tutmuyor. K-068'deki engel kalktı.
+- **Durum:** Sürüyor
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
