@@ -582,6 +582,16 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - K-066'daki alt sorular AS3'ün içine taşınır. Bileşik skor ve ajan üzerinde yeni geliştirme durduruldu.
 - **Durum:** Danışman onayı bekliyor
 
+
+### K-068: Küresel PED envanteri başlatıldı; ilk kaynak PED Booklet (61 proje)
+- **Bağlam:** 16 saha yetmiyor; kendine PED diyen ya da demeyen bütün sahalar konum ve sınırlarıyla gerekli.
+- **Karar:**
+  - Envantere giriş koşulları ve üç sınıf (A PED, B PED'e doğru, C PED demeyen benzer) `docs/28`'de sabitlendi.
+  - PED Booklet (Şubat 2020) ayrıştırıldı: 61 proje, her alan kaynaktan kopya (`scripts/build_ped_inventory.py`).
+  - Saha adı yalnız booklet metninde geçiyorsa kabul edilip OSM'de arandı (`scripts/geocode_ped_inventory.py`): 13 aday alan, 21 nokta, 25 yalnız kent, 4 bulunamadı.
+- **Bulgu:** OSM'deki adlı alan proje sınırı değil (Kaukovainio 490 ha ↔ 4 ha; Pietralata 587 ha ↔ 7 ha). 13 adaydan yalnız biri örtüşüyor. Sınır proje belgesinden sayısallaştırılmalı.
+- **Engel:** pedeu.net bu ortamdan bağlantıyı kesiyor; PED veritabanı dışa aktarımı elle indirilecek.
+- **Durum:** Sürüyor
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
