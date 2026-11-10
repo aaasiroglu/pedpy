@@ -1,0 +1,140 @@
+name,family,label_tr,unit,source,license,status,role,note
+energy_demand_res_kwh,energy,Konut elektriği talebi,kWh/yıl,GHS-POP × UNSD hane tüketimi / UN nüfusu (2023),CC BY 4.0; UNdata,active,G1,
+energy_pv_kwh,energy,Çatı PV potansiyeli,kWh/yıl,OSM taban alanı × parametreler × PVGIS 5.3 (2023),ODbL; AB,active,G1,
+energy_balance,energy,Yıllık denge (PV/talep),-,türetilmiş,-,active,G1,
+energy_balance_low,energy,"Yıllık denge, alt senaryo",-,türetilmiş,-,active,G1,
+energy_balance_high,energy,"Yıllık denge, üst senaryo",-,türetilmiş,-,active,G1,
+energy_roof_share_needed,energy,Denge = 1 için gereken çatı payı,-,"türetilmiş (tersine, fiziksel)",-,active,G1,
+energy_pv_kwp,energy,PV kurulu güç potansiyeli,kWp,türetilmiş,-,active,G1,
+xai_logbal_built,energy,XAI: dengeye yapı (taban alanı) katkısı,log birim,kesin ayrıştırma: Δln B = Δln A − Δln P,-,active,G1,Mahalle ortalamasına göre; toplamı Δln(denge)
+xai_logbal_population,energy,XAI: dengeye nüfus katkısı,log birim,kesin ayrıştırma,-,active,G1,
+built_n_buildings,built,Bina sayısı,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_footprint_m2,built,Toplam taban alanı,m²,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_coverage,built,Taban alanı / hücre alanı,-,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_mean_footprint_m2,built,Ortalama bina taban alanı,m²,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_levels_known_share,built,Kat bilgisi olan bina payı (OSM tamlığı),-,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_mean_levels,built,Ortalama kat (bilinenler),kat,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_share_residential,built,Konut etiketli taban alanı payı,-,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_share_nonresidential,built,Konut dışı etiketli taban alanı payı,-,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+built_share_untyped,built,Türü belirsiz ('yes') taban alanı payı,-,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+demo_population,demography,Nüfus,kişi,JRC GHS-POP R2023A E2020 3″,CC BY 4.0,active,G1,
+demo_density_per_ha,demography,Nüfus yoğunluğu,kişi/ha,JRC GHS-POP R2023A E2020 3″,CC BY 4.0,active,G1,
+demo_m2_footprint_per_capita,demography,Kişi başı taban alanı,m²/kişi,OSM + GHS-POP,ODbL; CC BY 4.0,active,G1,
+poi_total,poi,POI sayısı,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_density_per_ha,poi,POI yoğunluğu,adet/ha,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_diversity,poi,POI çeşitliliği (normalize Shannon),0–1,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_per_1000_pop,poi,1000 kişi başına POI,adet,OSM + GHS-POP,ODbL; CC BY 4.0,active,G1,
+poi_daytime_share,poi,"Gündüz işlevli POI payı (perakende, ofis, sağlık, eğitim, finans)",-,OpenStreetMap (Overpass),ODbL 1.0,active,G1,Yük tamamlayıcılığı için vekil gösterge; gündüz ve gece işlev dengesi
+poi_night_share,poi,"Akşam ve gece işlevli POI payı (bar, pub, gece kulübü, restoran)",-,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+morph_shared_wall_ratio,morphology,Ortak duvar oranı (bitişik nizam),-,"OSM + momepy (Fleischmann 2019); 0,3 m tolerans",ODbL; BSD-3,active,G1,Isı kaybı ve kabuk alanı için fiziksel gösterge
+morph_perimeter_area_ratio,morphology,"Çevre / alan oranı (kabuk kompaktlığı, 2B)",1/m,OSM + momepy,ODbL; BSD-3,active,G1,
+morph_compactness_mean,morphology,Ortalama dairesel kompaktlık,0–1,OSM + momepy,ODbL; BSD-3,active,G1,
+morph_elongation_mean,morphology,Ortalama uzama,0–1,OSM + momepy,ODbL; BSD-3,active,G1,
+morph_rectangularity_mean,morphology,Ortalama dikdörtgensellik,0–1,OSM + momepy,ODbL; BSD-3,active,G1,
+morph_corners_mean,morphology,Ortalama köşe sayısı,adet,OSM + momepy,ODbL; BSD-3,active,G1,
+morph_orientation_std,morphology,Yönelim sapması (ızgara düzensizliği),°,OSM + momepy,ODbL; BSD-3,active,G1,Çatı azimutu dağılımı → PV verimi değişkenliği
+ghsl_built_surface_m2,built,Yapı alanı (GHSL),m²,GHS-BUILT-S E2020,CC BY 4.0,active,G1,
+ghsl_nres_surface_m2,built,Konut dışı yapı alanı (GHSL),m²,GHS-BUILT-S NRES E2020,CC BY 4.0,active,G1,
+ghsl_nres_share,built,Konut dışı yapı payı (GHSL),-,GHS-BUILT-S NRES / S,CC BY 4.0,active,G1,Zemin kat ticareti gibi karma kullanımı eksik sayar (POI ile karşılaştırın)
+ghsl_volume_m3,built,Yapı hacmi (GHSL),m³,GHS-BUILT-V E2020,CC BY 4.0,active,G1,
+ghsl_nres_volume_m3,built,Konut dışı yapı hacmi (GHSL),m³,GHS-BUILT-V NRES E2020,CC BY 4.0,active,G1,
+ghsl_mean_height_m,built,"Ortalama yapı yüksekliği (hacim/alan, GHSL)",m,GHS-BUILT-V / GHS-BUILT-S,CC BY 4.0,active,G1,
+ghsl_agbh_m,built,"Ortalama brüt bina yüksekliği (AGBH, GHSL)",m,GHS-BUILT-H AGBH E2018,CC BY 4.0,active,G1,
+osm_vs_ghsl_surface,built,OSM taban alanı / GHSL yapı alanı (OSM tamlığı),-,OSM + GHS-BUILT-S,ODbL; CC BY 4.0,active,G1,1'in altı: OSM'de eksik bina; G1 içi çapraz kontrol
+env_lst_mean_c,environment,Yaz yüzey sıcaklığı (LST) ortalaması,°C,"Landsat 8/9 C2 L2 ST, Haz–Eyl 2023, bulut < %20 (Planetary Computer)",USGS kamu malı,active,G1,Hava sıcaklığı değil; yüzey sıcaklığı
+env_lst_std_c,environment,LST hücre içi sapma (ısıl doku),°C,"Landsat 8/9 C2 L2 ST, Haz–Eyl 2023, bulut < %20 (Planetary Computer)",USGS kamu malı,active,G1,
+env_lst_anomaly_c,environment,LST anomalisi (mahalle ortancasına göre),°C,"Landsat 8/9 C2 L2 ST, Haz–Eyl 2023, bulut < %20 (Planetary Computer)",USGS kamu malı,active,G1,Mahalle içi anomali; kırsal referanslı SUHII kent ölçeğinde hesaplanacak
+env_ndvi_mean,environment,NDVI ortalaması (bitki örtüsü),-,"Sentinel-2 L2A, en az bulutlu Haz–Eyl 2023 sahnesi (Earth Search)",Copernicus açık,active,G1,
+env_ndvi_std,environment,NDVI hücre içi sapma (yeşil doku),-,"Sentinel-2 L2A, en az bulutlu Haz–Eyl 2023 sahnesi (Earth Search)",Copernicus açık,active,G1,
+env_ndbi_mean,environment,NDBI ortalaması (yapılaşma),-,"Sentinel-2 L2A, en az bulutlu Haz–Eyl 2023 sahnesi (Earth Search)",Copernicus açık,active,G1,
+env_elev_m,environment,Ortalama yükseklik,m,Copernicus DEM GLO-30 (AWS),Copernicus DEM lisansı,active,G1,
+env_slope_deg,environment,Ortalama eğim,°,Copernicus DEM GLO-30 (AWS),Copernicus DEM lisansı,active,G1,
+env_relief_m,environment,Yükseklik sapması (rölyef),m,Copernicus DEM GLO-30 (AWS),Copernicus DEM lisansı,active,G1,
+mob_orientation_entropy,mobility,Sokak yönelim entropisi,nat,OSM; Boeing 2019,ODbL,active,G1,
+mob_orientation_order,mobility,Sokak yönelim düzeni φ (1 = ızgara),0–1,OSM; Boeing 2019,ODbL,active,G1,
+mob_circuity,mobility,Sokak dolambaçlılığı (yol/düz mesafe),-,OSM,ODbL,active,G1,
+mob_deadend_share,mobility,Çıkmaz sokak payı,-,OSM,ODbL,active,G1,
+mob_streets_per_node,mobility,Düğüm başına sokak,-,OSM,ODbL,active,G1,
+emb_pca_1,embedding,"Hücre imzası, 1. bileşen (PCA)",-,"Tüm G1 özellikleri, standartlaştırılmış",türetilmiş,active,G1,Yorum için bileşen yükleri: Veri ve yöntem bölümü
+emb_pca_2,embedding,"Hücre imzası, 2. bileşen (PCA)",-,"Tüm G1 özellikleri, standartlaştırılmış",türetilmiş,active,G1,Yorum için bileşen yükleri: Veri ve yöntem bölümü
+emb_pca_3,embedding,"Hücre imzası, 3. bileşen (PCA)",-,"Tüm G1 özellikleri, standartlaştırılmış",türetilmiş,active,G1,Yorum için bileşen yükleri: Veri ve yöntem bölümü
+emb_pca_4,embedding,"Hücre imzası, 4. bileşen (PCA)",-,"Tüm G1 özellikleri, standartlaştırılmış",türetilmiş,active,G1,Yorum için bileşen yükleri: Veri ve yöntem bölümü
+emb_pca_5,embedding,"Hücre imzası, 5. bileşen (PCA)",-,"Tüm G1 özellikleri, standartlaştırılmış",türetilmiş,active,G1,Yorum için bileşen yükleri: Veri ve yöntem bölümü
+mob_walk800_pois,mobility,10 dk yürüme (800 m ağ) içinde POI,adet,OSM yaya ağı + POI; Dijkstra,ODbL,active,G1,
+mob_walk800_daily_needs,mobility,10 dk yürümede günlük ihtiyaç POI'si,adet,"OSM; aileler: yeme-içme, perakende, sağlık, eğitim, finans",ODbL,active,G1,
+mob_walk800_daily_completeness,mobility,10 dk yürümede günlük ihtiyaç tamlığı (5 aile),0–1,OSM ('15 dakika kenti' vekili),ODbL,active,G1,
+mob_walk800_transit_stops,mobility,10 dk yürümede toplu taşıma durağı,adet,"OSM bus_stop, platform, istasyon, iskele",ODbL,active,G1,
+mob_walk800_network_km,mobility,10 dk yürümede erişilen yaya ağı uzunluğu,km,OSM yaya ağı,ODbL,active,G1,
+mob_street_density_km_per_km2,mobility,Yaya sokak yoğunluğu,km/km²,OSM highway (yaya erişimli),ODbL,active,G1,
+mob_intersection_density_per_km2,mobility,Kavşak yoğunluğu (derece ≥ 3),adet/km²,OSM,ODbL,active,G1,
+poi_n_food_drink,poi,POI: Yeme-içme,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_retail,poi,POI: Perakende,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_health,poi,POI: Sağlık,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_education,poi,POI: Eğitim,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_finance,poi,POI: Finans,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_leisure_culture,poi,POI: Eğlence / kültür,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_office_business,poi,POI: Ofis / iş,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_tourism,poi,POI: Turizm / konaklama,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_public_civic,poi,POI: Kamu / sivil,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_transport,poi,POI: Ulaşım hizmeti,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_religion,poi,POI: İbadet,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_street_furniture,poi,POI: Kent mobilyası,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_craft,poi,POI: Zanaat,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+poi_n_other,poi,POI: Diğer,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+vul_pop_hrsl,vulnerability,"Nüfus (HRSL, ham toplam; G2 karşılaştırması için)",kişi,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,Caferağa'da TÜİK'e göre +%66; ticari çekirdekte yerleşim pikseline nüfus atar → nüfus tabanı GHS-POP kalır
+vul_elderly60_n,vulnerability,60 yaş ve üstü kişi,kişi,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,GHS-POP × HRSL payı
+vul_children0_5_n,vulnerability,0–5 yaş çocuk,kişi,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,GHS-POP × HRSL payı
+vul_youth15_24_n,vulnerability,15–24 yaş genç,kişi,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,GHS-POP × HRSL payı
+vul_women15_49_n,vulnerability,15–49 yaş kadın,kişi,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,GHS-POP × HRSL payı
+vul_elderly60_share,vulnerability,60+ payı,-,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,Sayım birimi içinde sabit (ilçe düzeyi oran)
+vul_children0_5_share,vulnerability,0–5 yaş payı,-,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,Sayım birimi içinde sabit
+vul_youth15_24_share,vulnerability,15–24 yaş payı,-,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,Sayım birimi içinde sabit
+vul_women15_49_share,vulnerability,15–49 yaş kadın payı,-,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,Sayım birimi içinde sabit
+vul_dependent_n,vulnerability,Bakıma bağımlı kişi (60+ ve 0–5),kişi,"Meta Data for Good HRSL demografik haritaları (1″, COG/AWS)",CC BY 4.0,active,G1,
+vul_heat_exposed_vulnerable,vulnerability,Isıya maruz kırılgan nüfus (60+ ve 0–5 × LST anomalisi⁺),kişi·°C,HRSL × Landsat C2 L2 LST,CC BY 4.0 / kamu malı,active,G1,Tehlike × maruziyet × duyarlılık (IPCC AR5); bileşik endeks değil
+vul_built_pre1975_share,vulnerability,2020 yapılı alanın 1975'te var olan payı,-,JRC GHS-BUILT-S R2023A çok zamanlı (E1975/E1990/E2000/E2020),CC BY 4.0,active,G1,Kent dokusunun yaşı vekili; aynı parselde yeniden yapım görünmez
+vul_built_pre1990_share,vulnerability,2020 yapılı alanın 1990'da var olan payı,-,JRC GHS-BUILT-S R2023A çok zamanlı (E1975/E1990/E2000/E2020),CC BY 4.0,active,G1,
+vul_built_pre2000_share,vulnerability,2020 yapılı alanın 2000'de var olan payı,-,JRC GHS-BUILT-S R2023A çok zamanlı (E1975/E1990/E2000/E2020),CC BY 4.0,active,G1,Türkiye'de 1998/2007 deprem yönetmeliklerinden önceki doku vekili
+res_hospital_dist_m,vulnerability,En yakın hastaneye kuş uçuşu uzaklık,m,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+res_fire_station_dist_m,vulnerability,En yakın itfaiyeye kuş uçuşu uzaklık,m,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+res_assembly_point_dist_m,vulnerability,En yakın afet toplanma alanına uzaklık,m,OpenStreetMap (Overpass),ODbL 1.0,active,G1,İstanbul'da OSM'de emergency=assembly_point yok → boş; İBB toplanma alanları G2
+res_health_within800,vulnerability,800 m içinde hastane/klinik,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+res_school_within800,vulnerability,800 m içinde okul/anaokulu,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+res_care_within800,vulnerability,800 m içinde sosyal tesis/huzurevi,adet,OpenStreetMap (Overpass),ODbL 1.0,active,G1,
+ov_bld_n,built,Bina sayısı (Overture),adet,Overture Maps buildings (sürüm overture.RELEASE),ODbL 1.0,active,G1,
+ov_bld_footprint_m2,built,Taban alanı (Overture),m²,Overture Maps buildings (sürüm overture.RELEASE),ODbL 1.0,active,G1,
+ov_height_coverage,built,Yükseklik bilgisi olan bina payı (Overture),-,Overture Maps buildings (sürüm overture.RELEASE),ODbL 1.0,active,G1,
+ov_floors_coverage,built,Kat bilgisi olan bina payı (Overture),-,Overture Maps buildings (sürüm overture.RELEASE),ODbL 1.0,active,G1,
+ov_height_mean_m,built,Alan ağırlıklı yükseklik (Overture),m,Overture Maps buildings (sürüm overture.RELEASE),ODbL 1.0,active,G1,
+ov_gfa_m2,built,Brüt kat alanı (kat ya da yükseklik/3 m bilinen binalar),m²,Overture Maps buildings (sürüm overture.RELEASE),ODbL 1.0,active,G1,
+ov_nonosm_share,built,OSM dışı (ML) taban alanı kaynağının payı,-,Overture Maps buildings (sürüm overture.RELEASE),ODbL 1.0,active,G1,OSM eksikliğinin küresel göstergesi; Caferağa'da 0
+ov_places_n,poi,"Mekân sayısı (Overture, güven ≥ 0,5)",adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_categories,poi,Farklı mekân kategorisi sayısı (Overture),adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_food_and_drink,poi,Overture mekân: Yeme-içme,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_shopping,poi,Overture mekân: Alışveriş,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_services_and_business,poi,Overture mekân: Hizmet ve iş,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_education,poi,Overture mekân: Eğitim,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_lifestyle_services,poi,Overture mekân: Kişisel hizmet,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_arts_and_entertainment,poi,Overture mekân: Sanat ve eğlence,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_community_and_government,poi,Overture mekân: Toplum ve kamu,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_health_care,poi,Overture mekân: Sağlık,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_travel_and_transportation,poi,Overture mekân: Seyahat ve ulaşım,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_sports_and_recreation,poi,Overture mekân: Spor ve rekreasyon,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_lodging,poi,Overture mekân: Konaklama,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_cultural_and_historic,poi,Overture mekân: Kültür ve tarih,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+ov_places_geographic_entities,poi,Overture mekân: Coğrafi öğe,adet,"Overture Maps places (Meta, Foursquare OS Places, Microsoft, AllThePlaces)",CDLA-Permissive-2.0,active,G1,
+img_albedo_mean,imagery,Yüzey albedosu (çatı ve zemin),-,"Sentinel-2 / Landsat 8-9 (USGS, kamu malı)",açık,planned,G1,
+img_emb_pca_1,imagery,"Uydu gömme vektörü, 1. bileşen (64-B AlphaEarth ya da açık temel model)",-,AlphaEarth Satellite Embedding (Earth Engine; lisans teyit) veya Clay/Prithvi + Sentinel-2,teyit edilecek,planned,G1,Tam gömmeler ayrı bir vektör deposunda tutulur; tabloya PCA ile yorumlanabilir bileşenler girer
+img_svi_levels_est,imagery,Sokak görüntüsünden kat sayısı tahmini,kat,"Mapillary (CC BY-SA 4.0), erişim anahtarı gerekli",CC BY-SA 4.0,planned,G1,OSM'de %83 eksik olan kat bilgisini tamamlar → kat alanı ve talep
+img_svi_wwr_est,imagery,Cephe pencere/duvar oranı tahmini,-,Mapillary + segmentasyon modeli,CC BY-SA 4.0,planned,G1,
+soc_gdelt_energy_tone,social,Enerji ve iklim haberlerinin tonu,-,GDELT (açık),açık; teyit,planned,G1,
+econ_gdp_ppp,economy,Izgara GSYH (SGP),USD,"Kummu vd. 2018, Dryad doi:10.5061/dryad.dk1j0 (30″/5′)",CC0 1.0 (2018 sürümü),planned,G1,
+econ_hdi,economy,İnsani Gelişme Endeksi,0–1,Kummu vd. 2018 (5′),CC0 1.0,planned,G1,
+econ_gdp_1km,economy,1 km gerçek GSYH (gece ışığına kalibre),USD,"Chen vd. 2022, figshare doi:10.6084/m9.figshare.17004523",lisans teyit edilecek,planned,G1,
+econ_elec_1km,economy,1 km elektrik tüketimi (gece ışığına kalibre),kWh,Chen vd. 2022,lisans teyit edilecek,planned,G1,Talep modelinin bağımsız G1 sınaması
+econ_poi_commercial_intensity,economy,Ticari yoğunluk (POI tabanlı vekil),adet/ha,OSM,ODbL,planned,G1,
+mob_ev_chargers,mobility,EV şarj noktası,adet,OSM amenity=charging_station,ODbL,planned,G1,
+env_green_share,environment,Yeşil alan payı,-,ESA WorldCover 10 m,CC BY 4.0,planned,G1,
+clim_hdd,climate,Isıtma derece-gün,°C·gün,ERA5 (Open-Meteo veya PVGIS T2m),Copernicus lisansı,planned,G1,
+clim_cdd,climate,Soğutma derece-gün,°C·gün,ERA5,Copernicus lisansı,planned,G1,
+energy_grid_substations,energy,Trafo merkezi yakınlığı,m,OSM power=substation,ODbL,planned,G1,

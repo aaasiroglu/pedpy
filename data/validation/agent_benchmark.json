@@ -1,0 +1,551 @@
+{
+ "site_finding": {
+  "summary": {
+   "n_cities": 13,
+   "mean_percentile": 0.7127159925619139,
+   "hit10": 5,
+   "median_dist_agent_km": 2.966184014068412,
+   "median_dist_random_km": 2.471087279756554,
+   "cities_agent_closer": 4
+  },
+  "per_city": [
+   {
+    "site": "Buiksloterham",
+    "candidates": 1865,
+    "rank": 148,
+    "percentile": 0.9212,
+    "hit10": true,
+    "dist_top5_km": 2.3302,
+    "dist_random5_km": 2.9102
+   },
+   {
+    "site": "Zorrotzaurre",
+    "candidates": 1125,
+    "rank": 342,
+    "percentile": 0.6969,
+    "hit10": false,
+    "dist_top5_km": 5.1046,
+    "dist_random5_km": 2.4711
+   },
+   {
+    "site": "Kera",
+    "candidates": 1756,
+    "rank": 598,
+    "percentile": 0.66,
+    "hit10": false,
+    "dist_top5_km": 2.3684,
+    "dist_random5_km": 2.8632
+   },
+   {
+    "site": "Kaukovainio",
+    "candidates": 809,
+    "rank": 391,
+    "percentile": 0.5179,
+    "hit10": false,
+    "dist_top5_km": 2.9276,
+    "dist_random5_km": 2.15
+   },
+   {
+    "site": "Paddepoel",
+    "candidates": 811,
+    "rank": 525,
+    "percentile": 0.3539,
+    "hit10": false,
+    "dist_top5_km": 3.4829,
+    "dist_random5_km": 1.8998
+   },
+   {
+    "site": "Fontaine d'Ouche",
+    "candidates": 748,
+    "rank": 237,
+    "percentile": 0.6845,
+    "hit10": false,
+    "dist_top5_km": 4.3334,
+    "dist_random5_km": 2.0991
+   },
+   {
+    "site": "Linnakaupunki",
+    "candidates": 1226,
+    "rank": 77,
+    "percentile": 0.938,
+    "hit10": true,
+    "dist_top5_km": 2.5705,
+    "dist_random5_km": 2.3979
+   },
+   {
+    "site": "Confluence",
+    "candidates": 2078,
+    "rank": 336,
+    "percentile": 0.8388,
+    "hit10": false,
+    "dist_top5_km": 8.0001,
+    "dist_random5_km": 3.0362
+   },
+   {
+    "site": "Coronación",
+    "candidates": 639,
+    "rank": 632,
+    "percentile": 0.0125,
+    "hit10": false,
+    "dist_top5_km": 2.9662,
+    "dist_random5_km": 1.7353
+   },
+   {
+    "site": "Rosendal",
+    "candidates": 678,
+    "rank": 35,
+    "percentile": 0.9499,
+    "hit10": true,
+    "dist_top5_km": 4.899,
+    "dist_random5_km": 1.9759
+   },
+   {
+    "site": "Kalasatama",
+    "candidates": 1552,
+    "rank": 100,
+    "percentile": 0.9362,
+    "hit10": true,
+    "dist_top5_km": 2.6732,
+    "dist_random5_km": 2.9956
+   },
+   {
+    "site": "Île de Nantes",
+    "candidates": 1647,
+    "rank": 393,
+    "percentile": 0.762,
+    "hit10": false,
+    "dist_top5_km": 5.7481,
+    "dist_random5_km": 2.7903
+   },
+   {
+    "site": "Leppävaara",
+    "candidates": 2014,
+    "rank": 14,
+    "percentile": 0.9935,
+    "hit10": true,
+    "dist_top5_km": 0.3315,
+    "dist_random5_km": 3.1035
+   }
+  ]
+ },
+ "intent": {
+  "summary": {
+   "n": 40,
+   "tool_acc": 1.0,
+   "area_acc": 1.0,
+   "arg_acc": 1.0,
+   "exact": 1.0
+  },
+  "per_question": [
+   {
+    "q": "İstanbul'da PED için en uygun 5 sahayı bul",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy'de en iyi 3 aday saha hangileri?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Caferağa'da PED'e en uygun yerleri öner",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Lyon Confluence'ta en uygun sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Viyana'da PED adayı sahaları bul",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Helsinki'de en iyi 10 saha",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Amsterdam için aday sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy'de kentsel dönüşüm için aday sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "İstanbul'da sosyal altyapısı güçlü sahaları bul",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy'de kültür ve miras açısından öne çıkan yerler",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "İstanbul'da yeşil alanı yüksek sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Caferağa'da üçüncü mekân, kafe yoğun sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "İstanbul'da toplu taşıma erişimi yüksek sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy'de yaşlı nüfusu kırılgan sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "İstanbul'da ısı adası en yüksek sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy'de eğitim tesisi yoğun sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "İstanbul'da finans ve emlak yoğun sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy'de meydan ve yaya alanı olan sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy'de dengede olan pozitif sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "İstanbul'da gece yaşamı yoğun yerler",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Kadıköy ile Lyon'u karşılaştır",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "compare_areas"
+    ]
+   },
+   {
+    "q": "İstanbul ve Helsinki karşılaştır",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "compare_areas"
+    ]
+   },
+   {
+    "q": "Caferağa ile Kadıköy arasındaki fark",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "compare_areas"
+    ]
+   },
+   {
+    "q": "Bilbao ile Nantes'ı kıyasla",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "compare_areas"
+    ]
+   },
+   {
+    "q": "Model ne kadar güvenilir?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "validation"
+    ]
+   },
+   {
+    "q": "Doğrulama sonuçları nedir, AUC kaç?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "validation"
+    ]
+   },
+   {
+    "q": "Bu sonuçlar gerçek PED'lerle doğrulandı mı?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "validation"
+    ]
+   },
+   {
+    "q": "MAUP konusunda literatür kaynakları",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "literature"
+    ]
+   },
+   {
+    "q": "Açıklanabilir yapay zekâ için kaynak öner",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "literature"
+    ]
+   },
+   {
+    "q": "Otonom CBS makale önerisi",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "literature"
+    ]
+   },
+   {
+    "q": "Hangi alanları analiz edebilirsin?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "list_areas"
+    ]
+   },
+   {
+    "q": "Alanları listele",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "list_areas"
+    ]
+   },
+   {
+    "q": "İstanbul'da en iyi sahayı açıkla",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites",
+     "assess_site"
+    ]
+   },
+   {
+    "q": "Kadıköy'de en uygun sahayı bul, neden uygun?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites",
+     "assess_site"
+    ]
+   },
+   {
+    "q": "Caferağa'da puanı 70'e çıkarmak için ne gerekir?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites",
+     "assess_site",
+     "inverse"
+    ]
+   },
+   {
+    "q": "Kadıköy'de en iyi saha için hedef 80 puan",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites",
+     "assess_site",
+     "inverse"
+    ]
+   },
+   {
+    "q": "İstanbul'da 60 puana nasıl ulaşırım?",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites",
+     "assess_site",
+     "inverse"
+    ]
+   },
+   {
+    "q": "Uppsala'da aday sahaları analiz et",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites",
+     "assess_site"
+    ]
+   },
+   {
+    "q": "Oslo Fornebu'da en uygun 2 saha",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   },
+   {
+    "q": "Dijon'da sağlık tesisi yoğun sahalar",
+    "tool_ok": true,
+    "area_ok": true,
+    "arg_ok": true,
+    "all_ok": true,
+    "got": [
+     "find_sites"
+    ]
+   }
+  ]
+ }
+}
