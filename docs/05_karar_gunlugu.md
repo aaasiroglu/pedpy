@@ -573,6 +573,15 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
 - **Karar:** Çalışma başlığı "Açık küresel mekânsal veriyle PED uygunluğu: yeterlilik, ölçek duyarlılığı ve gerçek PED'lerle doğrulama". Dört alt soru (`docs/25`). Ajan, dil modeli, alan sözlüğü ve kapsam modülleri tezin eki. Uygulamada Hikâye ve Tez planı buna göre yeniden yazıldı; gezinme çekirdek ve ekler olarak ayrıldı.
 - **Durum:** Danışman onayı bekliyor
 
+### K-067: Danışman görüşmesi: önce araştırma soruları, ilk sorun PED sınırı
+- **Bağlam:** Prof. Dr. Hande Demirel ile ilk görüşme. Sınırların tanımlanması zor; birim yapı adası olmalı; hedef dünyadaki bütün PED sahaları (60+); 60 saha makine öğrenmesi için yetmez.
+- **Karar (öneri, `docs/27`):**
+  - Dört araştırma sorusu: AS1 sınır tanımı, AS2 küresel PED envanteri, AS3 gerçek sınırlarda enerji dengesi doğrulaması, AS4 ekonomi kaldıraçlı PED tipolojisi.
+  - Yapı adası karar ve sınır birimi; altıgen tarama ve indeks birimi.
+  - Model eğitilmez; önceden sabitlenmiş fiziksel ölçüt ve sınır yöntemi 60 sahaya karşı sınanır.
+  - K-066'daki alt sorular AS3'ün içine taşınır. Bileşik skor ve ajan üzerinde yeni geliştirme durduruldu.
+- **Durum:** Danışman onayı bekliyor
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.
