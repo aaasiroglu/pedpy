@@ -1,0 +1,2699 @@
+{
+ "summary": [
+  {
+   "method": "MARCOS",
+   "weights": "CRITIC",
+   "auc": 0.8792,
+   "hit_top10": 10,
+   "n": 16
+  },
+  {
+   "method": "MARCOS",
+   "weights": "eşit",
+   "auc": 0.8792,
+   "hit_top10": 10,
+   "n": 16
+  },
+  {
+   "method": "WSM",
+   "weights": "eşit",
+   "auc": 0.8771,
+   "hit_top10": 11,
+   "n": 16
+  },
+  {
+   "method": "WSM",
+   "weights": "CRITIC",
+   "auc": 0.875,
+   "hit_top10": 11,
+   "n": 16
+  },
+  {
+   "method": "MARCOS",
+   "weights": "entropi",
+   "auc": 0.8667,
+   "hit_top10": 9,
+   "n": 16
+  },
+  {
+   "method": "TOPSIS",
+   "weights": "eşit",
+   "auc": 0.8458,
+   "hit_top10": 9,
+   "n": 16
+  },
+  {
+   "method": "WSM",
+   "weights": "entropi",
+   "auc": 0.8438,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "MARCOS",
+   "weights": "kanıt (öğrenilmiş)",
+   "auc": 0.8417,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "TOPSIS",
+   "weights": "entropi",
+   "auc": 0.8354,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "SPOTIS",
+   "weights": "eşit",
+   "auc": 0.8354,
+   "hit_top10": 8,
+   "n": 16
+  },
+  {
+   "method": "SPOTIS",
+   "weights": "entropi",
+   "auc": 0.8333,
+   "hit_top10": 8,
+   "n": 16
+  },
+  {
+   "method": "WSM",
+   "weights": "kanıt (öğrenilmiş)",
+   "auc": 0.8312,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "SPOTIS",
+   "weights": "CRITIC",
+   "auc": 0.8167,
+   "hit_top10": 8,
+   "n": 16
+  },
+  {
+   "method": "TOPSIS",
+   "weights": "kanıt (öğrenilmiş)",
+   "auc": 0.8125,
+   "hit_top10": 6,
+   "n": 16
+  },
+  {
+   "method": "PROMETHEE II",
+   "weights": "eşit",
+   "auc": 0.8052,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "VIKOR",
+   "weights": "entropi",
+   "auc": 0.8021,
+   "hit_top10": 6,
+   "n": 16
+  },
+  {
+   "method": "PED skoru (lojistik)",
+   "weights": "kanıt (öğrenilmiş)",
+   "auc": 0.8021,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "SPOTIS",
+   "weights": "kanıt (öğrenilmiş)",
+   "auc": 0.8,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "PROMETHEE II",
+   "weights": "entropi",
+   "auc": 0.7979,
+   "hit_top10": 7,
+   "n": 16
+  },
+  {
+   "method": "TOPSIS",
+   "weights": "CRITIC",
+   "auc": 0.7938,
+   "hit_top10": 8,
+   "n": 16
+  },
+  {
+   "method": "PROMETHEE II",
+   "weights": "CRITIC",
+   "auc": 0.7938,
+   "hit_top10": 9,
+   "n": 16
+  },
+  {
+   "method": "VIKOR",
+   "weights": "kanıt (öğrenilmiş)",
+   "auc": 0.7833,
+   "hit_top10": 6,
+   "n": 16
+  },
+  {
+   "method": "PROMETHEE II",
+   "weights": "kanıt (öğrenilmiş)",
+   "auc": 0.7667,
+   "hit_top10": 4,
+   "n": 16
+  },
+  {
+   "method": "VIKOR",
+   "weights": "CRITIC",
+   "auc": 0.675,
+   "hit_top10": 5,
+   "n": 16
+  },
+  {
+   "method": "VIKOR",
+   "weights": "eşit",
+   "auc": 0.3208,
+   "hit_top10": 3,
+   "n": 16
+  }
+ ],
+ "per_city": [
+  {
+   "city": "buiksloterham",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.6333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.8
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.7
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.6667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.8333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.9333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.7667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.6667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.7333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.8
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.7667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.7667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.8333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.7667
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.8
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.7333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.8333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "buiksloterham",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.8
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.9
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.9
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.9333
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.9
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.8333
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.8
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.8667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "zorrotzaurre",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "kera",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.9333
+  },
+  {
+   "city": "kera",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.5667
+  },
+  {
+   "city": "kera",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.9
+  },
+  {
+   "city": "kera",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.8
+  },
+  {
+   "city": "kera",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.7667
+  },
+  {
+   "city": "kera",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.7
+  },
+  {
+   "city": "kera",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.8333
+  },
+  {
+   "city": "kera",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "kera",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "kera",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.8667
+  },
+  {
+   "city": "fornebu",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "fornebu",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.9
+  },
+  {
+   "city": "fornebu",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "fornebu",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.6
+  },
+  {
+   "city": "fornebu",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9333
+  },
+  {
+   "city": "fornebu",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "fornebu",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9
+  },
+  {
+   "city": "fornebu",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.6
+  },
+  {
+   "city": "fornebu",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.4333
+  },
+  {
+   "city": "fornebu",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.6
+  },
+  {
+   "city": "fornebu",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9
+  },
+  {
+   "city": "fornebu",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.7667
+  },
+  {
+   "city": "fornebu",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.8667
+  },
+  {
+   "city": "fornebu",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.7333
+  },
+  {
+   "city": "fornebu",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.7667
+  },
+  {
+   "city": "fornebu",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.4
+  },
+  {
+   "city": "fornebu",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.8
+  },
+  {
+   "city": "fornebu",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.7333
+  },
+  {
+   "city": "fornebu",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "fornebu",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "fornebu",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.9333
+  },
+  {
+   "city": "fornebu",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.7333
+  },
+  {
+   "city": "fornebu",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "fornebu",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "fornebu",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 1.0
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.7333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.7
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.6333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.5667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.8
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.6667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.7
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.6333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.5333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.5667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.7667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.6333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.5667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.5333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.4667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.3333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.6
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.5667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.9
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.9
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.9333
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "kaukovainio",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.9333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.7667
+  },
+  {
+   "city": "paddepoel",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.8
+  },
+  {
+   "city": "paddepoel",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.7667
+  },
+  {
+   "city": "paddepoel",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "paddepoel",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.8
+  },
+  {
+   "city": "paddepoel",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.8
+  },
+  {
+   "city": "paddepoel",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.7
+  },
+  {
+   "city": "paddepoel",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.6333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.9
+  },
+  {
+   "city": "paddepoel",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.8
+  },
+  {
+   "city": "paddepoel",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.8
+  },
+  {
+   "city": "paddepoel",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.7333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.7667
+  },
+  {
+   "city": "paddepoel",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.7333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.9333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.8
+  },
+  {
+   "city": "paddepoel",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.8
+  },
+  {
+   "city": "paddepoel",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.4667
+  },
+  {
+   "city": "paddepoel",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.5333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.5667
+  },
+  {
+   "city": "paddepoel",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.5333
+  },
+  {
+   "city": "paddepoel",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.5
+  },
+  {
+   "city": "paddepoel",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.5
+  },
+  {
+   "city": "paddepoel",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.5
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.8
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.8833
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.8333
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.7333
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.6333
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.8333
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.8
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.8667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.9
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.8333
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.7667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.7
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.6667
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.8333
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.7
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.7
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.9667
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.9667
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.9333
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.9333
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "linnakaupunki",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.9333
+  },
+  {
+   "city": "confluence",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "confluence",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "confluence",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "confluence",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "confluence",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "confluence",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "confluence",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "confluence",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "confluence",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.9
+  },
+  {
+   "city": "confluence",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "confluence",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "confluence",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "confluence",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "confluence",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "confluence",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.7
+  },
+  {
+   "city": "confluence",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.9667
+  },
+  {
+   "city": "confluence",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.9333
+  },
+  {
+   "city": "confluence",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "confluence",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "confluence",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "confluence",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.8667
+  },
+  {
+   "city": "confluence",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "confluence",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "confluence",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.9
+  },
+  {
+   "city": "confluence",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.9
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.9
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.8333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.9
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.9
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.9333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.7667
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.7333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.7333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.8333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.7667
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.7333
+  },
+  {
+   "city": "seestadt_aspern",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.7667
+  },
+  {
+   "city": "brunnshg",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "brunnshg",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.6333
+  },
+  {
+   "city": "brunnshg",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "brunnshg",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.3
+  },
+  {
+   "city": "brunnshg",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.7
+  },
+  {
+   "city": "brunnshg",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.5667
+  },
+  {
+   "city": "brunnshg",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "brunnshg",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.4333
+  },
+  {
+   "city": "brunnshg",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.2667
+  },
+  {
+   "city": "brunnshg",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.3
+  },
+  {
+   "city": "brunnshg",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.7
+  },
+  {
+   "city": "brunnshg",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.4667
+  },
+  {
+   "city": "brunnshg",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 1.0
+  },
+  {
+   "city": "brunnshg",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "brunnshg",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "brunnshg",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.4667
+  },
+  {
+   "city": "brunnshg",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "brunnshg",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.9
+  },
+  {
+   "city": "brunnshg",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.7667
+  },
+  {
+   "city": "brunnshg",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "brunnshg",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.6
+  },
+  {
+   "city": "brunnshg",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.5
+  },
+  {
+   "city": "brunnshg",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.8333
+  },
+  {
+   "city": "brunnshg",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.8
+  },
+  {
+   "city": "brunnshg",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.8333
+  },
+  {
+   "city": "coronacin",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "coronacin",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.4333
+  },
+  {
+   "city": "coronacin",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "coronacin",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.3333
+  },
+  {
+   "city": "coronacin",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "coronacin",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.3333
+  },
+  {
+   "city": "coronacin",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "coronacin",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.3333
+  },
+  {
+   "city": "coronacin",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.1667
+  },
+  {
+   "city": "coronacin",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.2667
+  },
+  {
+   "city": "coronacin",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "coronacin",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.3
+  },
+  {
+   "city": "coronacin",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.8667
+  },
+  {
+   "city": "coronacin",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "coronacin",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.6333
+  },
+  {
+   "city": "coronacin",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.5
+  },
+  {
+   "city": "coronacin",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.9
+  },
+  {
+   "city": "coronacin",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.6333
+  },
+  {
+   "city": "coronacin",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.4
+  },
+  {
+   "city": "coronacin",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.2333
+  },
+  {
+   "city": "coronacin",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.1
+  },
+  {
+   "city": "coronacin",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.1667
+  },
+  {
+   "city": "coronacin",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.4667
+  },
+  {
+   "city": "coronacin",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.0333
+  },
+  {
+   "city": "coronacin",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.0333
+  },
+  {
+   "city": "rosendal",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.6333
+  },
+  {
+   "city": "rosendal",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.6667
+  },
+  {
+   "city": "rosendal",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "rosendal",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.8333
+  },
+  {
+   "city": "rosendal",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.6333
+  },
+  {
+   "city": "rosendal",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.7
+  },
+  {
+   "city": "rosendal",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.6333
+  },
+  {
+   "city": "rosendal",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.5667
+  },
+  {
+   "city": "rosendal",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.7
+  },
+  {
+   "city": "rosendal",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.7333
+  },
+  {
+   "city": "rosendal",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.6333
+  },
+  {
+   "city": "rosendal",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.6667
+  },
+  {
+   "city": "rosendal",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.5333
+  },
+  {
+   "city": "rosendal",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.5
+  },
+  {
+   "city": "rosendal",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.4667
+  },
+  {
+   "city": "rosendal",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.8333
+  },
+  {
+   "city": "rosendal",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.6
+  },
+  {
+   "city": "rosendal",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.6
+  },
+  {
+   "city": "rosendal",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.8667
+  },
+  {
+   "city": "rosendal",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "rosendal",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.9667
+  },
+  {
+   "city": "rosendal",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "rosendal",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.8667
+  },
+  {
+   "city": "rosendal",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "rosendal",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.9333
+  },
+  {
+   "city": "kalasatama",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "kalasatama",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.9667
+  },
+  {
+   "city": "kalasatama",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "kalasatama",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "kalasatama",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "kalasatama",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "kalasatama",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "kalasatama",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 1.0
+  },
+  {
+   "city": "kalasatama",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 1.0
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 0.0
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.9
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 0.8667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 1.0
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 1.0
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 0.9333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.9
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.8333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.8333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.9
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "le_de_nantes",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.8333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "eşit",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "eşit",
+   "method": "TOPSIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "eşit",
+   "method": "VIKOR",
+   "pct": 1.0
+  },
+  {
+   "city": "leppvaara",
+   "weights": "eşit",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "leppvaara",
+   "weights": "eşit",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "eşit",
+   "method": "SPOTIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "CRITIC",
+   "method": "WSM",
+   "pct": 0.9667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "CRITIC",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "CRITIC",
+   "method": "VIKOR",
+   "pct": 0.4333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "CRITIC",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "leppvaara",
+   "weights": "CRITIC",
+   "method": "MARCOS",
+   "pct": 0.9667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "CRITIC",
+   "method": "SPOTIS",
+   "pct": 0.9667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "entropi",
+   "method": "WSM",
+   "pct": 0.8333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "entropi",
+   "method": "TOPSIS",
+   "pct": 0.8333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "entropi",
+   "method": "VIKOR",
+   "pct": 0.8667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "entropi",
+   "method": "PROMETHEE II",
+   "pct": 1.0
+  },
+  {
+   "city": "leppvaara",
+   "weights": "entropi",
+   "method": "MARCOS",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "entropi",
+   "method": "SPOTIS",
+   "pct": 0.8667
+  },
+  {
+   "city": "leppvaara",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "WSM",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "TOPSIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "VIKOR",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PROMETHEE II",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "MARCOS",
+   "pct": 0.9
+  },
+  {
+   "city": "leppvaara",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "SPOTIS",
+   "pct": 0.9333
+  },
+  {
+   "city": "leppvaara",
+   "weights": "kanıt (öğrenilmiş)",
+   "method": "PED skoru (lojistik)",
+   "pct": 0.9333
+  }
+ ],
+ "implementation_check": [
+  {
+   "city": "buiksloterham",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.01581654,
+   "entropy_max_abs_diff": 0.10342502
+  },
+  {
+   "city": "zorrotzaurre",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02392186,
+   "entropy_max_abs_diff": 0.18474522
+  },
+  {
+   "city": "kera",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.01611262,
+   "entropy_max_abs_diff": 0.221914
+  },
+  {
+   "city": "fornebu",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.01711225,
+   "entropy_max_abs_diff": 0.06509337
+  },
+  {
+   "city": "kaukovainio",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02732175,
+   "entropy_max_abs_diff": 0.1580218
+  },
+  {
+   "city": "paddepoel",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02433174,
+   "entropy_max_abs_diff": 0.08248358
+  },
+  {
+   "city": "fontaine_d_ouche",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.01851912,
+   "entropy_max_abs_diff": 0.26061261
+  },
+  {
+   "city": "linnakaupunki",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02146042,
+   "entropy_max_abs_diff": 0.13087164
+  },
+  {
+   "city": "confluence",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02519105,
+   "entropy_max_abs_diff": 0.16210592
+  },
+  {
+   "city": "seestadt_aspern",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.01381201,
+   "entropy_max_abs_diff": 0.11619577
+  },
+  {
+   "city": "brunnshg",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.01672492,
+   "entropy_max_abs_diff": 0.09695345
+  },
+  {
+   "city": "coronacin",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02577862,
+   "entropy_max_abs_diff": 0.12855517
+  },
+  {
+   "city": "rosendal",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02279754,
+   "entropy_max_abs_diff": 0.16609492
+  },
+  {
+   "city": "kalasatama",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.0246852,
+   "entropy_max_abs_diff": 0.17285218
+  },
+  {
+   "city": "le_de_nantes",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.02228317,
+   "entropy_max_abs_diff": 0.14527215
+  },
+  {
+   "city": "leppvaara",
+   "topsis_max_abs_diff": 0.0,
+   "topsis_kendall": 1.0,
+   "critic_max_abs_diff": 0.01673766,
+   "entropy_max_abs_diff": 0.11328118
+  }
+ ],
+ "n_cities": 16,
+ "n_criteria": 31,
+ "protocol": "leave-one-city-out; directions from training cities; objective weights on the held-out city matrix",
+ "library": "pymcdm 1.4.0 (MIT)"
+}

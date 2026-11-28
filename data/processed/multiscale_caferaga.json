@@ -1,0 +1,70 @@
+{
+ "inputs": {
+  "kwh_per_capita": 751.009774184638,
+  "pv_yield": 1267.74944,
+  "u": 0.26,
+  "eta": 0.2
+ },
+ "population_total_ghs": 22005.06378,
+ "population_allocated": 21665.921179999998,
+ "unallocated_population": 339.14260000000286,
+ "zones_without_buildings": 8,
+ "n_blocks": 150,
+ "buildings_in_streets_or_open": 188,
+ "spearman_block_vs_r10": 0.8169167165136458,
+ "maup": [
+  {
+   "scale": "Yapı adası",
+   "n_units": 113,
+   "median_area_ha": 0.4603,
+   "total_balance": 1.6252,
+   "pv_share_in_unpopulated_units": 0.0028,
+   "share_units_B_ge_1": 0.9646,
+   "share_pop_in_B_ge_1": 0.9339,
+   "B_p10": 1.1814,
+   "B_median": 1.9209,
+   "B_p90": 2.6099,
+   "gini_balance": 0.1721
+  },
+  {
+   "scale": "H3 r11 (~0,2 ha)",
+   "n_units": 391,
+   "median_area_ha": 0.2378,
+   "total_balance": 1.6252,
+   "pv_share_in_unpopulated_units": 0.0049,
+   "share_units_B_ge_1": 0.8568,
+   "share_pop_in_B_ge_1": 0.7887,
+   "B_p10": 0.921,
+   "B_median": 1.8112,
+   "B_p90": 2.8378,
+   "gini_balance": 0.2924
+  },
+  {
+   "scale": "H3 r10 (~1,5 ha)",
+   "n_units": 78,
+   "median_area_ha": 1.6646,
+   "total_balance": 1.6252,
+   "pv_share_in_unpopulated_units": 0.0117,
+   "share_units_B_ge_1": 0.7821,
+   "share_pop_in_B_ge_1": 0.7667,
+   "B_p10": 0.6401,
+   "B_median": 1.6045,
+   "B_p90": 3.072,
+   "gini_balance": 0.3621
+  },
+  {
+   "scale": "H3 r9 (~10 ha)",
+   "n_units": 18,
+   "median_area_ha": 11.6518,
+   "total_balance": 1.6252,
+   "pv_share_in_unpopulated_units": 0.0,
+   "share_units_B_ge_1": 1.0,
+   "share_pop_in_B_ge_1": 1.0,
+   "B_p10": 1.2495,
+   "B_median": 1.6142,
+   "B_p90": 3.4989,
+   "gini_balance": 0.3216
+  }
+ ],
+ "note": "Bina ölçeğinde denge, nüfus taban alanına orantılı dağıtıldığı için bölge dengesine eşittir; bilgi taşımaz, raporlanmaz."
+}

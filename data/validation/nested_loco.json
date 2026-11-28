@@ -1,0 +1,237 @@
+{
+ "plain_loco_auc": {
+  "eşit": 0.8374999999999999,
+  "CRITIC": 0.8145833333333333,
+  "entropi": 0.85625,
+  "kanıt": 0.8020833333333333
+ },
+ "nested_auc": 0.8416666666666667,
+ "chosen_per_fold": {
+  "buiksloterham": "entropi",
+  "zorrotzaurre": "entropi",
+  "kera": "eşit",
+  "fornebu": "eşit",
+  "kaukovainio": "eşit",
+  "paddepoel": "entropi",
+  "fontaine_d_ouche": "eşit",
+  "linnakaupunki": "entropi",
+  "confluence": "entropi",
+  "seestadt_aspern": "eşit",
+  "brunnshg": "eşit",
+  "coronacin": "eşit",
+  "rosendal": "eşit",
+  "kalasatama": "entropi",
+  "le_de_nantes": "entropi",
+  "leppvaara": "eşit"
+ },
+ "chosen_counts": {
+  "eşit": 9,
+  "CRITIC": 0,
+  "entropi": 7,
+  "kanıt": 0
+ },
+ "inner_auc": {
+  "buiksloterham": {
+   "eşit": 0.84,
+   "CRITIC": 0.8200000000000001,
+   "entropi": 0.8511111111111112,
+   "kanıt": 0.7533333333333333
+  },
+  "zorrotzaurre": {
+   "eşit": 0.7733333333333334,
+   "CRITIC": 0.7511111111111111,
+   "entropi": 0.8288888888888888,
+   "kanıt": 0.7844444444444444
+  },
+  "kera": {
+   "eşit": 0.8622222222222222,
+   "CRITIC": 0.8333333333333335,
+   "entropi": 0.86,
+   "kanıt": 0.7755555555555556
+  },
+  "fornebu": {
+   "eşit": 0.8555555555555556,
+   "CRITIC": 0.8266666666666667,
+   "entropi": 0.8533333333333335,
+   "kanıt": 0.8000000000000002
+  },
+  "kaukovainio": {
+   "eşit": 0.8911111111111112,
+   "CRITIC": 0.8533333333333334,
+   "entropi": 0.8822222222222222,
+   "kanıt": 0.7777777777777779
+  },
+  "paddepoel": {
+   "eşit": 0.8422222222222222,
+   "CRITIC": 0.8311111111111111,
+   "entropi": 0.8533333333333334,
+   "kanıt": 0.8177777777777778
+  },
+  "fontaine_d_ouche": {
+   "eşit": 0.8777777777777779,
+   "CRITIC": 0.8377777777777777,
+   "entropi": 0.86,
+   "kanıt": 0.7977777777777778
+  },
+  "linnakaupunki": {
+   "eşit": 0.788888888888889,
+   "CRITIC": 0.7511111111111112,
+   "entropi": 0.82,
+   "kanıt": 0.7511111111111111
+  },
+  "confluence": {
+   "eşit": 0.8400000000000001,
+   "CRITIC": 0.8311111111111111,
+   "entropi": 0.8444444444444446,
+   "kanıt": 0.7755555555555556
+  },
+  "seestadt_aspern": {
+   "eşit": 0.8555555555555556,
+   "CRITIC": 0.828888888888889,
+   "entropi": 0.8488888888888889,
+   "kanıt": 0.7777777777777778
+  },
+  "brunnshg": {
+   "eşit": 0.8622222222222223,
+   "CRITIC": 0.8222222222222222,
+   "entropi": 0.8400000000000002,
+   "kanıt": 0.8133333333333334
+  },
+  "coronacin": {
+   "eşit": 0.8755555555555555,
+   "CRITIC": 0.86,
+   "entropi": 0.84,
+   "kanıt": 0.8422222222222222
+  },
+  "rosendal": {
+   "eşit": 0.8622222222222223,
+   "CRITIC": 0.84,
+   "entropi": 0.8600000000000001,
+   "kanıt": 0.7911111111111111
+  },
+  "kalasatama": {
+   "eşit": 0.8,
+   "CRITIC": 0.7866666666666667,
+   "entropi": 0.8333333333333334,
+   "kanıt": 0.7644444444444445
+  },
+  "le_de_nantes": {
+   "eşit": 0.8177777777777778,
+   "CRITIC": 0.7933333333333333,
+   "entropi": 0.8266666666666667,
+   "kanıt": 0.7755555555555557
+  },
+  "leppvaara": {
+   "eşit": 0.851111111111111,
+   "CRITIC": 0.8200000000000001,
+   "entropi": 0.8511111111111112,
+   "kanıt": 0.8022222222222223
+  }
+ },
+ "outer_pct": {
+  "buiksloterham": 0.8,
+  "zorrotzaurre": 0.9333333333333333,
+  "kera": 0.9,
+  "fornebu": 0.9333333333333333,
+  "kaukovainio": 0.6666666666666666,
+  "paddepoel": 0.8333333333333334,
+  "fontaine_d_ouche": 0.8666666666666667,
+  "linnakaupunki": 0.9666666666666667,
+  "confluence": 0.9666666666666667,
+  "seestadt_aspern": 0.9333333333333333,
+  "brunnshg": 0.7333333333333333,
+  "coronacin": 0.3333333333333333,
+  "rosendal": 0.6666666666666666,
+  "kalasatama": 0.9666666666666667,
+  "le_de_nantes": 1.0,
+  "leppvaara": 0.9666666666666667
+ },
+ "plain_pct": {
+  "eşit": {
+   "buiksloterham": 0.8,
+   "zorrotzaurre": 0.9666666666666667,
+   "kera": 0.9,
+   "fornebu": 0.9333333333333333,
+   "kaukovainio": 0.6666666666666666,
+   "paddepoel": 0.7666666666666667,
+   "fontaine_d_ouche": 0.8666666666666667,
+   "linnakaupunki": 1.0,
+   "confluence": 0.9333333333333333,
+   "seestadt_aspern": 0.9333333333333333,
+   "brunnshg": 0.7333333333333333,
+   "coronacin": 0.3333333333333333,
+   "rosendal": 0.6666666666666666,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.9333333333333333,
+   "leppvaara": 0.9666666666666667
+  },
+  "CRITIC": {
+   "buiksloterham": 0.7333333333333333,
+   "zorrotzaurre": 0.9666666666666667,
+   "kera": 0.9,
+   "fornebu": 0.9666666666666667,
+   "kaukovainio": 0.7,
+   "paddepoel": 0.5666666666666667,
+   "fontaine_d_ouche": 0.9,
+   "linnakaupunki": 0.9666666666666667,
+   "confluence": 0.9666666666666667,
+   "seestadt_aspern": 0.9666666666666667,
+   "brunnshg": 0.9,
+   "coronacin": 0.03333333333333333,
+   "rosendal": 0.6,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.9,
+   "leppvaara": 0.9666666666666667
+  },
+  "entropi": {
+   "buiksloterham": 0.8,
+   "zorrotzaurre": 0.9333333333333333,
+   "kera": 0.7666666666666667,
+   "fornebu": 0.8333333333333334,
+   "kaukovainio": 0.43333333333333335,
+   "paddepoel": 0.8333333333333334,
+   "fontaine_d_ouche": 0.8,
+   "linnakaupunki": 0.9666666666666667,
+   "confluence": 0.9666666666666667,
+   "seestadt_aspern": 0.8666666666666667,
+   "brunnshg": 1.0,
+   "coronacin": 0.9666666666666667,
+   "rosendal": 0.7333333333333333,
+   "kalasatama": 0.9666666666666667,
+   "le_de_nantes": 1.0,
+   "leppvaara": 0.8333333333333334
+  },
+  "kanıt": {
+   "buiksloterham": 0.8,
+   "zorrotzaurre": 0.8666666666666667,
+   "kera": 0.8666666666666667,
+   "fornebu": 1.0,
+   "kaukovainio": 0.9333333333333333,
+   "paddepoel": 0.5,
+   "fontaine_d_ouche": 0.7,
+   "linnakaupunki": 0.9333333333333333,
+   "confluence": 0.9,
+   "seestadt_aspern": 0.7666666666666667,
+   "brunnshg": 0.8333333333333334,
+   "coronacin": 0.03333333333333333,
+   "rosendal": 0.9333333333333333,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.8333333333333334,
+   "leppvaara": 0.9333333333333333
+  }
+ },
+ "wilcoxon_vs_evidence": {
+  "eşit": 0.31397954428533936,
+  "CRITIC": 0.37711071011986663,
+  "entropi": 0.5501296144670439
+ },
+ "n_cities": 16,
+ "n_criteria": 31,
+ "candidates": [
+  "eşit",
+  "CRITIC",
+  "entropi",
+  "kanıt"
+ ],
+ "rule": "adopt the nested winner as core only if it is chosen in the majority of folds and its plain LOCO AUC >= evidence"
+}

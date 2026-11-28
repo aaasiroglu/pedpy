@@ -1,0 +1,4 @@
+pedx patches to upstream Demand.ninja (github.com/renewables-ninja/demand-ninja, BSD-3):
+1. core.py: absolute import "demand_ninja.util" -> relative ".util" (vendoring).
+2. util.py: positional access lag[0] -> lag.iloc[0] (pandas >= 2 compatibility).
+No model logic changed.

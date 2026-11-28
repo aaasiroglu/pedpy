@@ -1,0 +1,426 @@
+{
+ "summary": [
+  {
+   "k": 1,
+   "auc_balance": 0.8333,
+   "auc_score": 0.8729,
+   "above_half_balance": 13,
+   "above_half_score": 16,
+   "n": 16,
+   "site_area_ha": 10.5333
+  },
+  {
+   "k": 2,
+   "auc_balance": 0.8229,
+   "auc_score": 0.8917,
+   "above_half_balance": 16,
+   "above_half_score": 16,
+   "n": 16,
+   "site_area_ha": 28.5903
+  },
+  {
+   "k": 3,
+   "auc_balance": 0.8083,
+   "auc_score": 0.8792,
+   "above_half_balance": 16,
+   "above_half_score": 16,
+   "n": 16,
+   "site_area_ha": 55.6758
+  },
+  {
+   "k": 4,
+   "auc_balance": 0.7854,
+   "auc_score": 0.8438,
+   "above_half_balance": 15,
+   "above_half_score": 16,
+   "n": 16,
+   "site_area_ha": 91.7898
+  }
+ ],
+ "per_site": [
+  {
+   "k": 1,
+   "site": "Buiksloterham",
+   "pct_balance": 0.6333,
+   "pct_score": 0.8
+  },
+  {
+   "k": 1,
+   "site": "Zorrotzaurre",
+   "pct_balance": 0.6667,
+   "pct_score": 0.6667
+  },
+  {
+   "k": 1,
+   "site": "Kera",
+   "pct_balance": 0.9667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 1,
+   "site": "Fornebu",
+   "pct_balance": NaN,
+   "pct_score": 0.6
+  },
+  {
+   "k": 1,
+   "site": "Kaukovainio",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 1,
+   "site": "Paddepoel",
+   "pct_balance": 0.5,
+   "pct_score": 0.5667
+  },
+  {
+   "k": 1,
+   "site": "Fontaine d'Ouche",
+   "pct_balance": 0.8667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 1,
+   "site": "Linnakaupunki",
+   "pct_balance": 0.9667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 1,
+   "site": "Confluence",
+   "pct_balance": 0.9667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 1,
+   "site": "Seestadt Aspern",
+   "pct_balance": 0.8,
+   "pct_score": 0.9333
+  },
+  {
+   "k": 1,
+   "site": "Brunnshög",
+   "pct_balance": NaN,
+   "pct_score": 0.7667
+  },
+  {
+   "k": 1,
+   "site": "Coronación",
+   "pct_balance": 0.7,
+   "pct_score": 0.9
+  },
+  {
+   "k": 1,
+   "site": "Rosendal",
+   "pct_balance": 0.9667,
+   "pct_score": 1.0
+  },
+  {
+   "k": 1,
+   "site": "Kalasatama",
+   "pct_balance": 0.9,
+   "pct_score": 1.0
+  },
+  {
+   "k": 1,
+   "site": "Île de Nantes",
+   "pct_balance": 0.7333,
+   "pct_score": 0.8667
+  },
+  {
+   "k": 1,
+   "site": "Leppävaara",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 2,
+   "site": "Buiksloterham",
+   "pct_balance": 0.6667,
+   "pct_score": 0.7667
+  },
+  {
+   "k": 2,
+   "site": "Zorrotzaurre",
+   "pct_balance": 0.7333,
+   "pct_score": 0.8
+  },
+  {
+   "k": 2,
+   "site": "Kera",
+   "pct_balance": 0.8333,
+   "pct_score": 0.8667
+  },
+  {
+   "k": 2,
+   "site": "Fornebu",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 2,
+   "site": "Kaukovainio",
+   "pct_balance": 1.0,
+   "pct_score": 0.9333
+  },
+  {
+   "k": 2,
+   "site": "Paddepoel",
+   "pct_balance": 0.5667,
+   "pct_score": 0.6
+  },
+  {
+   "k": 2,
+   "site": "Fontaine d'Ouche",
+   "pct_balance": 0.8333,
+   "pct_score": 0.9
+  },
+  {
+   "k": 2,
+   "site": "Linnakaupunki",
+   "pct_balance": 0.9333,
+   "pct_score": 0.9333
+  },
+  {
+   "k": 2,
+   "site": "Confluence",
+   "pct_balance": 0.7333,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 2,
+   "site": "Seestadt Aspern",
+   "pct_balance": 0.7333,
+   "pct_score": 0.8667
+  },
+  {
+   "k": 2,
+   "site": "Brunnshög",
+   "pct_balance": 0.9667,
+   "pct_score": 1.0
+  },
+  {
+   "k": 2,
+   "site": "Coronación",
+   "pct_balance": 0.7667,
+   "pct_score": 0.9
+  },
+  {
+   "k": 2,
+   "site": "Rosendal",
+   "pct_balance": 0.8667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 2,
+   "site": "Kalasatama",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 2,
+   "site": "Île de Nantes",
+   "pct_balance": 0.6667,
+   "pct_score": 0.8333
+  },
+  {
+   "k": 2,
+   "site": "Leppävaara",
+   "pct_balance": 0.8667,
+   "pct_score": 0.9333
+  },
+  {
+   "k": 3,
+   "site": "Buiksloterham",
+   "pct_balance": 0.8667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 3,
+   "site": "Zorrotzaurre",
+   "pct_balance": 0.5333,
+   "pct_score": 0.7
+  },
+  {
+   "k": 3,
+   "site": "Kera",
+   "pct_balance": 0.6,
+   "pct_score": 0.8333
+  },
+  {
+   "k": 3,
+   "site": "Fornebu",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 3,
+   "site": "Kaukovainio",
+   "pct_balance": 0.8,
+   "pct_score": 0.6667
+  },
+  {
+   "k": 3,
+   "site": "Paddepoel",
+   "pct_balance": 0.6,
+   "pct_score": 0.5667
+  },
+  {
+   "k": 3,
+   "site": "Fontaine d'Ouche",
+   "pct_balance": 0.8333,
+   "pct_score": 0.9333
+  },
+  {
+   "k": 3,
+   "site": "Linnakaupunki",
+   "pct_balance": 0.8667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 3,
+   "site": "Confluence",
+   "pct_balance": 0.6667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 3,
+   "site": "Seestadt Aspern",
+   "pct_balance": 0.7333,
+   "pct_score": 0.8333
+  },
+  {
+   "k": 3,
+   "site": "Brunnshög",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 3,
+   "site": "Coronación",
+   "pct_balance": 0.8333,
+   "pct_score": 0.9
+  },
+  {
+   "k": 3,
+   "site": "Rosendal",
+   "pct_balance": 0.9667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 3,
+   "site": "Kalasatama",
+   "pct_balance": 0.9667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 3,
+   "site": "Île de Nantes",
+   "pct_balance": 0.6667,
+   "pct_score": 0.8333
+  },
+  {
+   "k": 3,
+   "site": "Leppävaara",
+   "pct_balance": 1.0,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 4,
+   "site": "Buiksloterham",
+   "pct_balance": 0.8333,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 4,
+   "site": "Zorrotzaurre",
+   "pct_balance": 0.3,
+   "pct_score": 0.7
+  },
+  {
+   "k": 4,
+   "site": "Kera",
+   "pct_balance": 0.8667,
+   "pct_score": 0.9
+  },
+  {
+   "k": 4,
+   "site": "Fornebu",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 4,
+   "site": "Kaukovainio",
+   "pct_balance": 0.7,
+   "pct_score": 0.5333
+  },
+  {
+   "k": 4,
+   "site": "Paddepoel",
+   "pct_balance": 0.6,
+   "pct_score": 0.5667
+  },
+  {
+   "k": 4,
+   "site": "Fontaine d'Ouche",
+   "pct_balance": 0.7333,
+   "pct_score": 0.6333
+  },
+  {
+   "k": 4,
+   "site": "Linnakaupunki",
+   "pct_balance": 0.8333,
+   "pct_score": 0.9333
+  },
+  {
+   "k": 4,
+   "site": "Confluence",
+   "pct_balance": 0.6333,
+   "pct_score": 0.9333
+  },
+  {
+   "k": 4,
+   "site": "Seestadt Aspern",
+   "pct_balance": 0.7667,
+   "pct_score": 0.8667
+  },
+  {
+   "k": 4,
+   "site": "Brunnshög",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  },
+  {
+   "k": 4,
+   "site": "Coronación",
+   "pct_balance": 0.8,
+   "pct_score": 0.8
+  },
+  {
+   "k": 4,
+   "site": "Rosendal",
+   "pct_balance": 0.9667,
+   "pct_score": 0.9667
+  },
+  {
+   "k": 4,
+   "site": "Kalasatama",
+   "pct_balance": 0.9,
+   "pct_score": 0.9
+  },
+  {
+   "k": 4,
+   "site": "Île de Nantes",
+   "pct_balance": 0.6333,
+   "pct_score": 0.8
+  },
+  {
+   "k": 4,
+   "site": "Leppävaara",
+   "pct_balance": 1.0,
+   "pct_score": 1.0
+  }
+ ]
+}

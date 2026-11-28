@@ -1,0 +1,5 @@
+[
+ {"key": "caferaa_istanbul", "site": "Caferağa", "city": "İstanbul · Pilot 1 (mahalle)", "lat": 40.9857, "lon": 29.0245, "osm": "relation/9441032"},
+ {"key": "kadikoy", "site": "Kadıköy", "city": "İstanbul · Pilot 2 (ilçe)", "lat": 40.985, "lon": 29.065, "osm": "Kadıköy ilçesi (OSM)"},
+ {"key": "istanbul", "site": "İstanbul", "city": "İstanbul · Pilot 3 (il, 60 × 60 km)", "lat": 41.03, "lon": 28.98, "osm": "İstanbul il sınırı (OSM)"}
+]

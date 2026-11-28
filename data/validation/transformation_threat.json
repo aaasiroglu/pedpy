@@ -1,0 +1,971 @@
+{
+ "summary": {
+  "skor": {
+   "tümü": {
+    "auc": 0.8374999999999999,
+    "ci95": [
+     0.7479166666666667,
+     0.9125
+    ],
+    "n": 16,
+    "above_half": 15
+   },
+   "yeni": {
+    "auc": 0.890909090909091,
+    "ci95": [
+     0.8242424242424242,
+     0.9484848484848485
+    ],
+    "n": 11,
+    "above_half": 11
+   },
+   "mevcut": {
+    "auc": 0.72,
+    "ci95": [
+     0.5066666666666667,
+     0.8866666666666667
+    ],
+    "n": 5,
+    "above_half": 4
+   }
+  },
+  "T": {
+   "tümü": {
+    "auc": 0.7697916666666667,
+    "ci95": [
+     0.6302083333333333,
+     0.8916666666666667
+    ],
+    "n": 16,
+    "above_half": 12
+   },
+   "yeni": {
+    "auc": 0.8712121212121211,
+    "ci95": [
+     0.7348484848484849,
+     0.9727272727272728
+    ],
+    "n": 11,
+    "above_half": 10
+   },
+   "mevcut": {
+    "auc": 0.5466666666666666,
+    "ci95": [
+     0.36666666666666664,
+     0.78
+    ],
+    "n": 5,
+    "above_half": 2
+   }
+  },
+  "denge": {
+   "tümü": {
+    "auc": 0.8229166666666666,
+    "ci95": [
+     0.7583333333333333,
+     0.8854166666666667
+    ],
+    "n": 16,
+    "above_half": 16
+   },
+   "yeni": {
+    "auc": 0.8303030303030302,
+    "ci95": [
+     0.7575757575757577,
+     0.9030303030303031
+    ],
+    "n": 11,
+    "above_half": 11
+   },
+   "mevcut": {
+    "auc": 0.8066666666666666,
+    "ci95": [
+     0.6733333333333332,
+     0.9199999999999999
+    ],
+    "n": 5,
+    "above_half": 5
+   }
+  },
+  "skor|T artık": {
+   "tümü": {
+    "auc": 0.7229166666666667,
+    "ci95": [
+     0.6270833333333333,
+     0.8166666666666667
+    ],
+    "n": 16,
+    "above_half": 12
+   },
+   "yeni": {
+    "auc": 0.7636363636363637,
+    "ci95": [
+     0.6484848484848486,
+     0.8727272727272727
+    ],
+    "n": 11,
+    "above_half": 9
+   },
+   "mevcut": {
+    "auc": 0.6333333333333332,
+    "ci95": [
+     0.4865000000000001,
+     0.78
+    ],
+    "n": 5,
+    "above_half": 3
+   }
+  },
+  "skor|T en yakın 10": {
+   "tümü": {
+    "auc": 0.81875,
+    "ci95": [
+     0.7,
+     0.91875
+    ],
+    "n": 16,
+    "above_half": 13
+   },
+   "yeni": {
+    "auc": 0.8636363636363636,
+    "ci95": [
+     0.7545454545454546,
+     0.9454545454545454
+    ],
+    "n": 11,
+    "above_half": 10
+   },
+   "mevcut": {
+    "auc": 0.72,
+    "ci95": [
+     0.45999999999999996,
+     0.9800000000000001
+    ],
+    "n": 5,
+    "above_half": 3
+   }
+  },
+  "denge|T artık": {
+   "tümü": {
+    "auc": 0.7625,
+    "ci95": [
+     0.6479166666666667,
+     0.8604166666666666
+    ],
+    "n": 16,
+    "above_half": 14
+   },
+   "yeni": {
+    "auc": 0.7454545454545456,
+    "ci95": [
+     0.5939393939393939,
+     0.8757575757575757
+    ],
+    "n": 11,
+    "above_half": 9
+   },
+   "mevcut": {
+    "auc": 0.7999999999999999,
+    "ci95": [
+     0.6599999999999999,
+     0.9400000000000001
+    ],
+    "n": 5,
+    "above_half": 5
+   }
+  },
+  "denge|konut dışı pay artık": {
+   "tümü": {
+    "auc": 0.7520833333333333,
+    "ci95": [
+     0.6395833333333334,
+     0.8541666666666667
+    ],
+    "n": 16,
+    "above_half": 13
+   },
+   "yeni": {
+    "auc": 0.7151515151515151,
+    "ci95": [
+     0.5757575757575758,
+     0.8515151515151514
+    ],
+    "n": 11,
+    "above_half": 8
+   },
+   "mevcut": {
+    "auc": 0.8333333333333334,
+    "ci95": [
+     0.7,
+     0.96
+    ],
+    "n": 5,
+    "above_half": 5
+   }
+  },
+  "konut dışı yapı payı (GHSL)": {
+   "tümü": {
+    "auc": 0.7333333333333334,
+    "ci95": [
+     0.6020833333333333,
+     0.8541666666666666
+    ],
+    "n": 16,
+    "above_half": 11
+   },
+   "yeni": {
+    "auc": 0.8333333333333335,
+    "ci95": [
+     0.7242424242424242,
+     0.9272727272727274
+    ],
+    "n": 11,
+    "above_half": 9
+   },
+   "mevcut": {
+    "auc": 0.5133333333333334,
+    "ci95": [
+     0.2666666666666667,
+     0.76
+    ],
+    "n": 5,
+    "above_half": 2
+   }
+  },
+  "inşaat alanı (OSM)": {
+   "tümü": {
+    "auc": 0.7270833333333334,
+    "ci95": [
+     0.5833333333333334,
+     0.8677343749999997
+    ],
+    "n": 16,
+    "above_half": 9
+   },
+   "yeni": {
+    "auc": 0.8075757575757575,
+    "ci95": [
+     0.6363636363636364,
+     0.9636363636363636
+    ],
+    "n": 11,
+    "above_half": 8
+   },
+   "mevcut": {
+    "auc": 0.55,
+    "ci95": [
+     0.42333333333333323,
+     0.78
+    ],
+    "n": 5,
+    "above_half": 1
+   }
+  },
+  "çıplak alan payı (WorldCover)": {
+   "tümü": {
+    "auc": 0.80625,
+    "ci95": [
+     0.675,
+     0.9208333333333334
+    ],
+    "n": 16,
+    "above_half": 12
+   },
+   "yeni": {
+    "auc": 0.8757575757575757,
+    "ci95": [
+     0.7454545454545454,
+     0.9757575757575758
+    ],
+    "n": 11,
+    "above_half": 10
+   },
+   "mevcut": {
+    "auc": 0.6533333333333333,
+    "ci95": [
+     0.42000000000000004,
+     0.8866666666666667
+    ],
+    "n": 5,
+    "above_half": 2
+   }
+  },
+  "konut alanı azlığı (OSM)": {
+   "tümü": {
+    "auc": 0.5104166666666666,
+    "ci95": [
+     0.3541666666666667,
+     0.6635416666666667
+    ],
+    "n": 16,
+    "above_half": 9
+   },
+   "yeni": {
+    "auc": 0.4954545454545455,
+    "ci95": [
+     0.29390151515151514,
+     0.6969696969696971
+    ],
+    "n": 11,
+    "above_half": 5
+   },
+   "mevcut": {
+    "auc": 0.5433333333333333,
+    "ci95": [
+     0.30666666666666675,
+     0.7066666666666667
+    ],
+    "n": 5,
+    "above_half": 4
+   }
+  },
+  "skor, T-yüklü özellikler yok": {
+   "tümü": {
+    "auc": 0.8020833333333333,
+    "ci95": [
+     0.6708333333333334,
+     0.9041666666666667
+    ],
+    "n": 16,
+    "above_half": 15
+   },
+   "yeni": {
+    "auc": 0.8545454545454546,
+    "ci95": [
+     0.7666666666666667,
+     0.9272727272727272
+    ],
+    "n": 11,
+    "above_half": 11
+   },
+   "mevcut": {
+    "auc": 0.6866666666666668,
+    "ci95": [
+     0.32666666666666666,
+     0.9333333333333333
+    ],
+    "n": 5,
+    "above_half": 4
+   }
+  },
+  "skor, yalnız T-yüklü özellikler": {
+   "tümü": {
+    "auc": 0.7895833333333334,
+    "ci95": [
+     0.6770833333333333,
+     0.8833333333333334
+    ],
+    "n": 16,
+    "above_half": 13
+   },
+   "yeni": {
+    "auc": 0.8121212121212121,
+    "ci95": [
+     0.6727272727272727,
+     0.9151515151515153
+    ],
+    "n": 11,
+    "above_half": 10
+   },
+   "mevcut": {
+    "auc": 0.74,
+    "ci95": [
+     0.5666666666666667,
+     0.9133333333333333
+    ],
+    "n": 5,
+    "above_half": 3
+   }
+  }
+ },
+ "percentiles": {
+  "skor": {
+   "buiksloterham": 0.8,
+   "zorrotzaurre": 0.9666666666666667,
+   "kera": 0.9,
+   "fornebu": 0.9333333333333333,
+   "kaukovainio": 0.6666666666666666,
+   "paddepoel": 0.7666666666666667,
+   "fontaine_d_ouche": 0.8666666666666667,
+   "linnakaupunki": 1.0,
+   "confluence": 0.9333333333333333,
+   "seestadt_aspern": 0.9333333333333333,
+   "brunnshg": 0.7333333333333333,
+   "coronacin": 0.3333333333333333,
+   "rosendal": 0.6666666666666666,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.9333333333333333,
+   "leppvaara": 0.9666666666666667
+  },
+  "T": {
+   "buiksloterham": 1.0,
+   "zorrotzaurre": 0.8666666666666667,
+   "kera": 0.9333333333333333,
+   "fornebu": 0.9666666666666667,
+   "kaukovainio": 0.6,
+   "paddepoel": 0.43333333333333335,
+   "fontaine_d_ouche": 0.4,
+   "linnakaupunki": 1.0,
+   "confluence": 1.0,
+   "seestadt_aspern": 0.9666666666666667,
+   "brunnshg": 0.9333333333333333,
+   "coronacin": 0.3,
+   "rosendal": 0.6,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.31666666666666665,
+   "leppvaara": 1.0
+  },
+  "denge": {
+   "buiksloterham": 0.6666666666666666,
+   "zorrotzaurre": 0.7333333333333333,
+   "kera": 0.8333333333333334,
+   "fornebu": 1.0,
+   "kaukovainio": 1.0,
+   "paddepoel": 0.5666666666666667,
+   "fontaine_d_ouche": 0.8333333333333334,
+   "linnakaupunki": 0.9333333333333333,
+   "confluence": 0.7333333333333333,
+   "seestadt_aspern": 0.7333333333333333,
+   "brunnshg": 0.9666666666666667,
+   "coronacin": 0.7666666666666667,
+   "rosendal": 0.8666666666666667,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.6666666666666666,
+   "leppvaara": 0.8666666666666667
+  },
+  "skor|T artık": {
+   "buiksloterham": 0.7666666666666667,
+   "zorrotzaurre": 0.8666666666666667,
+   "kera": 0.4666666666666667,
+   "fornebu": 0.8666666666666667,
+   "kaukovainio": 0.4666666666666667,
+   "paddepoel": 0.7333333333333333,
+   "fontaine_d_ouche": 0.8666666666666667,
+   "linnakaupunki": 0.9,
+   "confluence": 0.6,
+   "seestadt_aspern": 0.9,
+   "brunnshg": 0.4666666666666667,
+   "coronacin": 0.4,
+   "rosendal": 0.6,
+   "kalasatama": 0.9666666666666667,
+   "le_de_nantes": 1.0,
+   "leppvaara": 0.7
+  },
+  "skor|T en yakın 10": {
+   "buiksloterham": 0.9,
+   "zorrotzaurre": 0.9,
+   "kera": 0.8,
+   "fornebu": 0.9,
+   "kaukovainio": 0.4,
+   "paddepoel": 1.0,
+   "fontaine_d_ouche": 1.0,
+   "linnakaupunki": 1.0,
+   "confluence": 0.9,
+   "seestadt_aspern": 0.9,
+   "brunnshg": 0.4,
+   "coronacin": 0.3,
+   "rosendal": 0.8,
+   "kalasatama": 1.0,
+   "le_de_nantes": 1.0,
+   "leppvaara": 0.9
+  },
+  "denge|T artık": {
+   "buiksloterham": 0.8333333333333334,
+   "zorrotzaurre": 0.43333333333333335,
+   "kera": 0.16666666666666666,
+   "fornebu": 1.0,
+   "kaukovainio": 1.0,
+   "paddepoel": 0.5666666666666667,
+   "fontaine_d_ouche": 0.8333333333333334,
+   "linnakaupunki": 0.6666666666666666,
+   "confluence": 0.8666666666666667,
+   "seestadt_aspern": 0.7333333333333333,
+   "brunnshg": 0.9666666666666667,
+   "coronacin": 0.9333333333333333,
+   "rosendal": 0.9,
+   "kalasatama": 0.9333333333333333,
+   "le_de_nantes": 0.7,
+   "leppvaara": 0.6666666666666666
+  },
+  "denge|konut dışı pay artık": {
+   "buiksloterham": 0.6666666666666666,
+   "zorrotzaurre": 0.4,
+   "kera": 0.36666666666666664,
+   "fornebu": 1.0,
+   "kaukovainio": 1.0,
+   "paddepoel": 0.5666666666666667,
+   "fontaine_d_ouche": 0.8,
+   "linnakaupunki": 0.8,
+   "confluence": 0.7333333333333333,
+   "seestadt_aspern": 0.7,
+   "brunnshg": 0.9666666666666667,
+   "coronacin": 1.0,
+   "rosendal": 0.8666666666666667,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.36666666666666664,
+   "leppvaara": 0.8
+  },
+  "konut dışı yapı payı (GHSL)": {
+   "buiksloterham": 0.9666666666666667,
+   "zorrotzaurre": 0.9,
+   "kera": 0.9666666666666667,
+   "fornebu": 0.5,
+   "kaukovainio": 0.23333333333333334,
+   "paddepoel": 0.8,
+   "fontaine_d_ouche": 0.4,
+   "linnakaupunki": 0.9333333333333333,
+   "confluence": 0.9666666666666667,
+   "seestadt_aspern": 0.7,
+   "brunnshg": 0.9,
+   "coronacin": 0.23333333333333334,
+   "rosendal": 0.5,
+   "kalasatama": 0.8666666666666667,
+   "le_de_nantes": 0.9666666666666667,
+   "leppvaara": 0.9
+  },
+  "inşaat alanı (OSM)": {
+   "buiksloterham": 0.9333333333333333,
+   "zorrotzaurre": 0.9333333333333333,
+   "kera": 1.0,
+   "fornebu": 1.0,
+   "kaukovainio": 0.4666666666666667,
+   "paddepoel": 0.43333333333333335,
+   "fontaine_d_ouche": 0.45,
+   "linnakaupunki": 0.9666666666666667,
+   "confluence": 1.0,
+   "seestadt_aspern": 1.0,
+   "brunnshg": 0.31666666666666665,
+   "coronacin": 0.4,
+   "rosendal": 0.36666666666666664,
+   "kalasatama": 0.9666666666666667,
+   "le_de_nantes": 0.4,
+   "leppvaara": 1.0
+  },
+  "çıplak alan payı (WorldCover)": {
+   "buiksloterham": 0.9666666666666667,
+   "zorrotzaurre": 0.9666666666666667,
+   "kera": 0.6,
+   "fornebu": 1.0,
+   "kaukovainio": 0.9666666666666667,
+   "paddepoel": 0.4666666666666667,
+   "fontaine_d_ouche": 0.3333333333333333,
+   "linnakaupunki": 0.9,
+   "confluence": 1.0,
+   "seestadt_aspern": 1.0,
+   "brunnshg": 0.9333333333333333,
+   "coronacin": 0.5,
+   "rosendal": 0.9333333333333333,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.3333333333333333,
+   "leppvaara": 1.0
+  },
+  "konut alanı azlığı (OSM)": {
+   "buiksloterham": 0.6499999999999999,
+   "zorrotzaurre": 0.0,
+   "kera": 0.9833333333333334,
+   "fornebu": 0.3,
+   "kaukovainio": 0.5666666666666667,
+   "paddepoel": 0.1,
+   "fontaine_d_ouche": 0.6666666666666666,
+   "linnakaupunki": 0.7,
+   "confluence": 0.23333333333333334,
+   "seestadt_aspern": 0.43333333333333335,
+   "brunnshg": 0.9,
+   "coronacin": 0.6166666666666667,
+   "rosendal": 0.3,
+   "kalasatama": 0.9500000000000001,
+   "le_de_nantes": 0.0,
+   "leppvaara": 0.7666666666666667
+  },
+  "skor, T-yüklü özellikler yok": {
+   "buiksloterham": 0.7,
+   "zorrotzaurre": 0.8,
+   "kera": 0.9,
+   "fornebu": 1.0,
+   "kaukovainio": 0.8,
+   "paddepoel": 0.7,
+   "fontaine_d_ouche": 0.9333333333333333,
+   "linnakaupunki": 0.8333333333333334,
+   "confluence": 0.8666666666666667,
+   "seestadt_aspern": 0.9,
+   "brunnshg": 1.0,
+   "coronacin": 0.0,
+   "rosendal": 0.5333333333333333,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.8666666666666667,
+   "leppvaara": 1.0
+  },
+  "skor, yalnız T-yüklü özellikler": {
+   "buiksloterham": 0.7666666666666667,
+   "zorrotzaurre": 0.7666666666666667,
+   "kera": 0.9666666666666667,
+   "fornebu": 0.7,
+   "kaukovainio": 0.5,
+   "paddepoel": 0.8666666666666667,
+   "fontaine_d_ouche": 0.5,
+   "linnakaupunki": 0.9333333333333333,
+   "confluence": 0.9666666666666667,
+   "seestadt_aspern": 0.9,
+   "brunnshg": 0.2,
+   "coronacin": 1.0,
+   "rosendal": 0.8333333333333334,
+   "kalasatama": 1.0,
+   "le_de_nantes": 0.9,
+   "leppvaara": 0.8333333333333334
+  }
+ },
+ "rho_score_T_controls": {
+  "mean": 0.47296477818487304,
+  "per_city": {
+   "buiksloterham": 0.06701549401940765,
+   "zorrotzaurre": 0.44570539599219877,
+   "kera": 0.6852120110272177,
+   "fornebu": 0.4354848197262258,
+   "kaukovainio": 0.7832665970506938,
+   "paddepoel": 0.3157543469360609,
+   "fontaine_d_ouche": 0.26724522245962595,
+   "linnakaupunki": 0.6085892451516044,
+   "confluence": 0.5258355153469466,
+   "seestadt_aspern": 0.09323542731938657,
+   "brunnshg": 0.530262585446535,
+   "coronacin": 0.42728387826315634,
+   "rosendal": 0.6537324950605953,
+   "kalasatama": 0.6311457174638487,
+   "le_de_nantes": 0.4673417418503272,
+   "leppvaara": 0.6303259578441386
+  }
+ },
+ "features": [
+  {
+   "feature": "log_footprint_per_capita_m2",
+   "direction": 1,
+   "d": 1.469829933686008,
+   "gap_share": 0.08889847101151471,
+   "rho_T_controls": 0.2526241518681479,
+   "family": "Bina (Overture)"
+  },
+  {
+   "feature": "log_energy_balance",
+   "direction": 1,
+   "d": 1.4698298917012973,
+   "gap_share": 0.08889846847218925,
+   "rho_T_controls": 0.2526241518681479,
+   "family": "Enerji (PVGIS, UNSD, fizik)"
+  },
+  {
+   "feature": "env_wc_water_share",
+   "direction": 1,
+   "d": 1.3821492209257675,
+   "gap_share": 0.08359535319975683,
+   "rho_T_controls": 0.16168340250577773,
+   "family": "Arazi örtüsü (ESA WorldCover)"
+  },
+  {
+   "feature": "places_per_1000",
+   "direction": 1,
+   "d": 0.8746651121805,
+   "gap_share": 0.052901624424647305,
+   "rho_T_controls": 0.33958231024596364,
+   "family": "Kentsel işlev (Overture mekânlar)"
+  },
+  {
+   "feature": "ov_bld_n",
+   "direction": -1,
+   "d": -0.8654416964356739,
+   "gap_share": 0.052343772432095814,
+   "rho_T_controls": 0.40136062250701304,
+   "family": "Bina (Overture)"
+  },
+  {
+   "feature": "ov_nonosm_share",
+   "direction": 1,
+   "d": 0.82081807711857,
+   "gap_share": 0.0496448401016444,
+   "rho_T_controls": 0.12309779729101902,
+   "family": "Bina (Overture)"
+  },
+  {
+   "feature": "env_wc_green_share",
+   "direction": -1,
+   "d": -0.8180793310615937,
+   "gap_share": 0.04947919485835871,
+   "rho_T_controls": 0.42261875014819755,
+   "family": "Arazi örtüsü (ESA WorldCover)"
+  },
+  {
+   "feature": "ov_floors_coverage",
+   "direction": 1,
+   "d": 0.7914502101608731,
+   "gap_share": 0.04786860843730372,
+   "rho_T_controls": 0.06994402167617637,
+   "family": "Bina (Overture)"
+  },
+  {
+   "feature": "env_ndvi_mean",
+   "direction": -1,
+   "d": -0.7041052060878497,
+   "gap_share": 0.042585795007920216,
+   "rho_T_controls": 0.45426599434351494,
+   "family": "Uydu: Sentinel-2 ve Landsat"
+  },
+  {
+   "feature": "env_ndbi_mean",
+   "direction": 1,
+   "d": 0.638769501146479,
+   "gap_share": 0.03863415125742078,
+   "rho_T_controls": 0.4051623951619926,
+   "family": "Uydu: Sentinel-2 ve Landsat"
+  },
+  {
+   "feature": "ov_places_categories",
+   "direction": 1,
+   "d": 0.615286574845204,
+   "gap_share": 0.037213853442540794,
+   "rho_T_controls": 0.3229943688775854,
+   "family": "Kentsel işlev (Overture mekânlar)"
+  },
+  {
+   "feature": "vul_elderly60_n",
+   "direction": -1,
+   "d": -0.5710745091425161,
+   "gap_share": 0.03453981275854611,
+   "rho_T_controls": 0.001041432861068694,
+   "family": "Nüfus ve kırılganlık (Meta HRSL)"
+  },
+  {
+   "feature": "vul_children0_5_n",
+   "direction": -1,
+   "d": -0.5416338572737331,
+   "gap_share": 0.032759178906469316,
+   "rho_T_controls": -0.004964355373935197,
+   "family": "Nüfus ve kırılganlık (Meta HRSL)"
+  },
+  {
+   "feature": "vul_pop_hrsl",
+   "direction": -1,
+   "d": -0.5206727987357098,
+   "gap_share": 0.03149140906990046,
+   "rho_T_controls": -0.021022300869904073,
+   "family": "Nüfus ve kırılganlık (Meta HRSL)"
+  },
+  {
+   "feature": "pop_density_per_ha",
+   "direction": -1,
+   "d": -0.5206727987357098,
+   "gap_share": 0.03149140906990046,
+   "rho_T_controls": -0.021022300869904073,
+   "family": "Nüfus ve kırılganlık (Meta HRSL)"
+  },
+  {
+   "feature": "env_lst_mean_c",
+   "direction": 1,
+   "d": 0.45077885249560834,
+   "gap_share": 0.027264073096326946,
+   "rho_T_controls": 0.2523858626290029,
+   "family": "Uydu: Sentinel-2 ve Landsat"
+  },
+  {
+   "feature": "env_lst_anomaly_c",
+   "direction": 1,
+   "d": 0.450778802147412,
+   "gap_share": 0.027264070051159904,
+   "rho_T_controls": 0.2523858626290029,
+   "family": "Uydu: Sentinel-2 ve Landsat"
+  },
+  {
+   "feature": "env_elev_m",
+   "direction": -1,
+   "d": -0.43019697834128556,
+   "gap_share": 0.026019237145624655,
+   "rho_T_controls": 0.14941128126873332,
+   "family": "Arazi (Copernicus DEM)"
+  },
+  {
+   "feature": "env_wc_built_share",
+   "direction": 1,
+   "d": 0.3684937419537359,
+   "gap_share": 0.022287292894387883,
+   "rho_T_controls": 0.3944936725426855,
+   "family": "Arazi örtüsü (ESA WorldCover)"
+  },
+  {
+   "feature": "ov_places_n",
+   "direction": 1,
+   "d": 0.3588748302002961,
+   "gap_share": 0.021705520453864053,
+   "rho_T_controls": 0.3032795960650451,
+   "family": "Kentsel işlev (Overture mekânlar)"
+  },
+  {
+   "feature": "ov_transit_stops_n",
+   "direction": 1,
+   "d": 0.30869260541476395,
+   "gap_share": 0.01867039172696268,
+   "rho_T_controls": 0.10347139408288196,
+   "family": "Altyapı (Overture: şebeke, EV, toplu taşıma)"
+  },
+  {
+   "feature": "ov_grid_assets_n",
+   "direction": 1,
+   "d": 0.27201856105336264,
+   "gap_share": 0.016452266762422726,
+   "rho_T_controls": NaN,
+   "family": "Altyapı (Overture: şebeke, EV, toplu taşıma)"
+  },
+  {
+   "feature": "grid_assets_per_km2",
+   "direction": 1,
+   "d": 0.27201856105336264,
+   "gap_share": 0.016452266762422726,
+   "rho_T_controls": NaN,
+   "family": "Altyapı (Overture: şebeke, EV, toplu taşıma)"
+  },
+  {
+   "feature": "elderly_share",
+   "direction": -1,
+   "d": -0.23787094918653207,
+   "gap_share": 0.014386945860947338,
+   "rho_T_controls": 0.0069846655973386206,
+   "family": "Nüfus ve kırılganlık (Meta HRSL)"
+  },
+  {
+   "feature": "transit_per_km2",
+   "direction": 1,
+   "d": 0.2036116788984879,
+   "gap_share": 0.012314871618358156,
+   "rho_T_controls": 0.06606730261047711,
+   "family": "Altyapı (Overture: şebeke, EV, toplu taşıma)"
+  },
+  {
+   "feature": "env_wc_crop_share",
+   "direction": 1,
+   "d": 0.13281346961626725,
+   "gap_share": 0.008032843873992482,
+   "rho_T_controls": 0.12596511931857124,
+   "family": "Arazi örtüsü (ESA WorldCover)"
+  },
+  {
+   "feature": "footprint_coverage",
+   "direction": 1,
+   "d": 0.11690215294200748,
+   "gap_share": 0.007070493270222643,
+   "rho_T_controls": 0.2175678426736766,
+   "family": "Bina (Overture)"
+  },
+  {
+   "feature": "ov_bld_footprint_m2",
+   "direction": 1,
+   "d": 0.1169021529420073,
+   "gap_share": 0.007070493270222631,
+   "rho_T_controls": 0.2175678426736766,
+   "family": "Bina (Overture)"
+  },
+  {
+   "feature": "env_slope_deg",
+   "direction": -1,
+   "d": -0.10037260268326838,
+   "gap_share": 0.006070750571538561,
+   "rho_T_controls": -0.004864134959175058,
+   "family": "Arazi (Copernicus DEM)"
+  },
+  {
+   "feature": "env_relief_m",
+   "direction": -1,
+   "d": -0.07832158521354189,
+   "gap_share": 0.004737057677973057,
+   "rho_T_controls": 0.005609398240787208,
+   "family": "Arazi (Copernicus DEM)"
+  },
+  {
+   "feature": "children_share",
+   "direction": -1,
+   "d": -0.030678184996244418,
+   "gap_share": 0.0018554825133647924,
+   "rho_T_controls": -0.03133352694417439,
+   "family": "Nüfus ve kırılganlık (Meta HRSL)"
+  }
+ ],
+ "T_loaded_features": [
+  "ov_bld_n",
+  "env_ndvi_mean",
+  "env_ndbi_mean",
+  "env_wc_green_share",
+  "env_wc_built_share",
+  "ov_places_n",
+  "ov_places_categories",
+  "places_per_1000"
+ ],
+ "families": {
+  "Enerji (PVGIS, UNSD, fizik)": {
+   "n": 1,
+   "gap_share": 0.08889846847218925,
+   "auc_only": 0.8229166666666666,
+   "auc_without": 0.825
+  },
+  "Bina (Overture)": {
+   "n": 6,
+   "gap_share": 0.2528966785230039,
+   "auc_only": 0.7708333333333334,
+   "auc_without": 0.8354166666666667
+  },
+  "Nüfus ve kırılganlık (Meta HRSL)": {
+   "n": 6,
+   "gap_share": 0.14652423817912846,
+   "auc_only": 0.6666666666666666,
+   "auc_without": 0.8354166666666667
+  },
+  "Uydu: Sentinel-2 ve Landsat": {
+   "n": 4,
+   "gap_share": 0.13574808941282784,
+   "auc_only": 0.71875,
+   "auc_without": 0.8416666666666667
+  },
+  "Arazi örtüsü (ESA WorldCover)": {
+   "n": 4,
+   "gap_share": 0.1633946848264959,
+   "auc_only": 0.75,
+   "auc_without": 0.81875
+  },
+  "Arazi (Copernicus DEM)": {
+   "n": 3,
+   "gap_share": 0.03682704539513628,
+   "auc_only": 0.4708333333333333,
+   "auc_without": 0.8708333333333333
+  },
+  "Kentsel işlev (Overture mekânlar)": {
+   "n": 3,
+   "gap_share": 0.11182099832105215,
+   "auc_only": 0.7291666666666667,
+   "auc_without": 0.8187500000000001
+  },
+  "Altyapı (Overture: şebeke, EV, toplu taşıma)": {
+   "n": 4,
+   "gap_share": 0.06388979687016627,
+   "auc_only": 0.5927083333333333,
+   "auc_without": 0.8374999999999999
+  }
+ },
+ "type": {
+  "buiksloterham": "yeni",
+  "zorrotzaurre": "yeni",
+  "confluence": "yeni",
+  "le_de_nantes": "yeni",
+  "kalasatama": "yeni",
+  "linnakaupunki": "yeni",
+  "seestadt_aspern": "yeni",
+  "fornebu": "yeni",
+  "brunnshg": "yeni",
+  "kera": "yeni",
+  "rosendal": "yeni",
+  "leppvaara": "mevcut",
+  "coronacin": "mevcut",
+  "fontaine_d_ouche": "mevcut",
+  "kaukovainio": "mevcut",
+  "paddepoel": "mevcut"
+ },
+ "notes": [
+  "T yalnız skora girmeyen göstergelerden kurulur; şehir içi sıra ortalaması.",
+  "PED türü proje tanımlarından elle etiketlenmiştir; kaynakla doğrulanmalıdır.",
+  "GA: şehirler üzerinden bootstrap (10 000)."
+ ]
+}
