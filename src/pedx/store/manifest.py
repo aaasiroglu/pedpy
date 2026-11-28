@@ -31,7 +31,7 @@ def sha256(path: Path) -> str:
 def _commit() -> str:
     try:
         sha = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "--short", "HEAD"], capture_output=True, text=True, timeout=10).stdout.strip()
-        dirty = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "--untracked-files=no"], capture_output=True, text=True, timeout=10).stdout.strip()
+        dirty = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain", "--untracked-files=no", "--", "src", "scripts", "Makefile", "pyproject.toml"], capture_output=True, text=True, timeout=10).stdout.strip()
         return sha + ("+dirty" if dirty else "")
     except Exception:
         return "unknown"
