@@ -1,0 +1,385 @@
+{
+ "inventory/ped_sites": {
+  "file": "data/inventory/ped_sites.csv",
+  "schema": "ped_sites",
+  "schema_version": "1.0",
+  "rows": 155,
+  "sha256": "41c06a179344e4db8b63a9cab922454c1c00246972b38d68d3ab7cb6fcb2d5ed",
+  "bytes": 52036,
+  "created_utc": "2026-11-28T08:20:18Z",
+  "code": "17edbed+dirty",
+  "inputs": [
+   {
+    "source": "ped_database",
+    "file": "data/inventory/ped_database_2026.csv",
+    "licence": "public web pages; attributes only, no personal data"
+   },
+   {
+    "source": "ped_booklet_2020",
+    "file": "data/inventory/ped_booklet_2020.csv",
+    "licence": "JPI Urban Europe publication"
+   },
+   {
+    "source": "osm_nominatim",
+    "file": "data/inventory/ped_sites_global.csv",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "core16",
+    "file": "data/validation/ped_sites.json",
+    "licence": "ODbL 1.0 (OSM ids)"
+   },
+   {
+    "source": "class_c",
+    "file": "data/inventory/ped_candidates_class_c.csv",
+    "licence": "cited sources"
+   }
+  ],
+  "params": {
+   "match": "same country and distinctive name token, or ≤1.5 km",
+   "overrides": "ped_merge_overrides.csv"
+  },
+  "stats": {
+   "by_class": {
+    "B": 68,
+    "A": 57,
+    "Lab": 18,
+    "C": 12
+   },
+   "by_coord_src": {
+    "database_corrected": 65,
+    "database": 42,
+    "missing": 22,
+    "osm_city": 12,
+    "core16": 8,
+    "osm_site": 6
+   },
+   "countries": 30,
+   "in_core16": 16,
+   "with_area": 80,
+   "booklet_merged_into_database": 39
+  }
+ },
+ "lake/caferaga/blocks": {
+  "file": "data/lake/caferaga/blocks.parquet",
+  "schema": "blocks",
+  "schema_version": "1.0",
+  "rows": 155,
+  "sha256": "631e2a912e5b49ee297a08fb5dddbc69d4f2068bbca02145ef698aad4468595a",
+  "bytes": 34538,
+  "created_utc": "2026-11-28T08:18:46Z",
+  "code": "17edbed+dirty",
+  "inputs": [
+   {
+    "source": "osm_boundary",
+    "id": "R9441032",
+    "via": "Nominatim",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_buildings",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0 (mixed sources, see data_src)"
+   },
+   {
+    "source": "overture_land_use",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_transportation",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "ghs_built_h_agbh_2018",
+    "file": "GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R5_C21.tif",
+    "licence": "CC BY 4.0"
+   }
+  ],
+  "params": {
+   "floor_height_m": 3.0,
+   "min_height_m": 2.0,
+   "ghsl_min_height_m": 2.5,
+   "block_roads": [
+    "busway",
+    "living_street",
+    "motorway",
+    "motorway_link",
+    "pedestrian",
+    "primary",
+    "primary_link",
+    "residential",
+    "secondary",
+    "secondary_link",
+    "tertiary",
+    "tertiary_link",
+    "trunk",
+    "trunk_link",
+    "unclassified"
+   ],
+   "bbox_pad_deg": 0.002
+  },
+  "stats": {
+   "problems": [],
+   "median_area_m2": 4017,
+   "empty_blocks": 41
+  }
+ },
+ "lake/caferaga/buildings": {
+  "file": "data/lake/caferaga/buildings.parquet",
+  "schema": "buildings",
+  "schema_version": "1.0",
+  "rows": 2070,
+  "sha256": "573673d685bc5a876d9ba9d12800c96ae48f41f6d8903287efe3198cdb47a2a1",
+  "bytes": 302803,
+  "created_utc": "2026-11-28T08:18:46Z",
+  "code": "17edbed+dirty",
+  "inputs": [
+   {
+    "source": "osm_boundary",
+    "id": "R9441032",
+    "via": "Nominatim",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_buildings",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0 (mixed sources, see data_src)"
+   },
+   {
+    "source": "overture_land_use",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_transportation",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "ghs_built_h_agbh_2018",
+    "file": "GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R5_C21.tif",
+    "licence": "CC BY 4.0"
+   }
+  ],
+  "params": {
+   "floor_height_m": 3.0,
+   "min_height_m": 2.0,
+   "ghsl_min_height_m": 2.5,
+   "block_roads": [
+    "busway",
+    "living_street",
+    "motorway",
+    "motorway_link",
+    "pedestrian",
+    "primary",
+    "primary_link",
+    "residential",
+    "secondary",
+    "secondary_link",
+    "tertiary",
+    "tertiary_link",
+    "trunk",
+    "trunk_link",
+    "unclassified"
+   ],
+   "bbox_pad_deg": 0.002
+  },
+  "stats": {
+   "problems": [],
+   "height_src": {
+    "ghsl_built_h": 1686,
+    "overture_floors": 340,
+    "none": 39,
+    "overture_height": 5
+   },
+   "use_src": {
+    "land_use": 1424,
+    "overture_class": 576,
+    "none": 49,
+    "overture_subtype": 21
+   },
+   "use_class": {
+    "residential": 1680,
+    "commercial": 263,
+    "unknown": 49,
+    "education": 35,
+    "religious": 14,
+    "other": 11,
+    "office": 5,
+    "civic": 4,
+    "transport": 4,
+    "sport": 2,
+    "agricultural": 2,
+    "health": 1
+   },
+   "data_src": {
+    "OpenStreetMap": 2070
+   },
+   "in_block": 1.0,
+   "footprint_m2": 400405
+  }
+ },
+ "lake/kalasatama/blocks": {
+  "file": "data/lake/kalasatama/blocks.parquet",
+  "schema": "blocks",
+  "schema_version": "1.0",
+  "rows": 132,
+  "sha256": "976e2644b366133cae6304cdbbdd4fa20e111f1809e7649598d3c2ca029a389b",
+  "bytes": 37590,
+  "created_utc": "2026-11-28T08:18:40Z",
+  "code": "17edbed+dirty",
+  "inputs": [
+   {
+    "source": "osm_boundary",
+    "id": "R5688992",
+    "via": "Nominatim",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_buildings",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0 (mixed sources, see data_src)"
+   },
+   {
+    "source": "overture_land_use",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_transportation",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "ghs_built_h_agbh_2018",
+    "file": "GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R3_C21.tif",
+    "licence": "CC BY 4.0"
+   }
+  ],
+  "params": {
+   "floor_height_m": 3.0,
+   "min_height_m": 2.0,
+   "ghsl_min_height_m": 2.5,
+   "block_roads": [
+    "busway",
+    "living_street",
+    "motorway",
+    "motorway_link",
+    "pedestrian",
+    "primary",
+    "primary_link",
+    "residential",
+    "secondary",
+    "secondary_link",
+    "tertiary",
+    "tertiary_link",
+    "trunk",
+    "trunk_link",
+    "unclassified"
+   ],
+   "bbox_pad_deg": 0.002
+  },
+  "stats": {
+   "problems": [],
+   "median_area_m2": 1033,
+   "empty_blocks": 91
+  }
+ },
+ "lake/kalasatama/buildings": {
+  "file": "data/lake/kalasatama/buildings.parquet",
+  "schema": "buildings",
+  "schema_version": "1.0",
+  "rows": 207,
+  "sha256": "04bf01d009baf69f3ceb4d0862456a63a18569cadea43da8b71f68e2111ea60d",
+  "bytes": 70586,
+  "created_utc": "2026-11-28T08:18:40Z",
+  "code": "17edbed+dirty",
+  "inputs": [
+   {
+    "source": "osm_boundary",
+    "id": "R5688992",
+    "via": "Nominatim",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_buildings",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0 (mixed sources, see data_src)"
+   },
+   {
+    "source": "overture_land_use",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "overture_transportation",
+    "release": "2026-10-21.0",
+    "licence": "ODbL 1.0"
+   },
+   {
+    "source": "ghs_built_h_agbh_2018",
+    "file": "GHS_BUILT_H_AGBH_E2018_GLOBE_R2023A_4326_3ss_V1_0_R3_C21.tif",
+    "licence": "CC BY 4.0"
+   }
+  ],
+  "params": {
+   "floor_height_m": 3.0,
+   "min_height_m": 2.0,
+   "ghsl_min_height_m": 2.5,
+   "block_roads": [
+    "busway",
+    "living_street",
+    "motorway",
+    "motorway_link",
+    "pedestrian",
+    "primary",
+    "primary_link",
+    "residential",
+    "secondary",
+    "secondary_link",
+    "tertiary",
+    "tertiary_link",
+    "trunk",
+    "trunk_link",
+    "unclassified"
+   ],
+   "bbox_pad_deg": 0.002
+  },
+  "stats": {
+   "problems": [],
+   "height_src": {
+    "overture_height": 72,
+    "overture_floors": 55,
+    "ghsl_built_h": 48,
+    "none": 32
+   },
+   "use_src": {
+    "overture_class": 145,
+    "land_use": 27,
+    "none": 27,
+    "overture_subtype": 8
+   },
+   "use_class": {
+    "residential": 110,
+    "unknown": 27,
+    "commercial": 24,
+    "other": 20,
+    "industrial": 8,
+    "office": 7,
+    "civic": 4,
+    "transport": 3,
+    "education": 3,
+    "health": 1
+   },
+   "data_src": {
+    "OpenStreetMap": 187,
+    "Microsoft ML Buildings": 18,
+    "Esri Community Maps": 2
+   },
+   "in_block": 0.9952,
+   "footprint_m2": 186764
+  }
+ }
+}

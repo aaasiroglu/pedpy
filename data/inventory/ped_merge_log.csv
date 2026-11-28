@@ -1,0 +1,49 @@
+key,merged_into,name,detail
+booklet-1,→ PEDDB-3000,Åland Island,Smart Energy Åland
+booklet-2,→ PEDDB-3003,Carquefou (Nantes),Fleuriaye West
+booklet-4,→ PEDDB-2932,Amsterdam,ATELIER
+booklet-5,→ PEDDB-3008,Bærum,Fornebu
+booklet-7,→ PEDDB-3011,Bodø,NyBy
+booklet-8,→ PEDDB-3014,Elverum,Ydalir project
+booklet-9,→ PEDDB-2299,Évora,POCITYF
+booklet-10,→ PEDDB-2653,Graz,City District Development Graz-Reininghaus
+booklet-11,→ PEDDB-2098,Groningen,MAKING CITY
+booklet-12,→ PEDDB-2049,Kadıköy (Istanbul),MAKING CITY
+booklet-14,→ PEDDB-2459,Lund,Lund Northeast
+booklet-15,→ PEDDB-3020,Măgurele,Laser Valley – Land of Lights
+booklet-16,→ PEDDB-3024,Oslo,Furuset project
+booklet-17,→ PEDDB-2562,Oulu,MAKING CITY
+booklet-18,→ PEDDB-2620,Stor-Elvdal,Campus Evenstad
+booklet-19,→ PEDDB-3028,Trondheim,NTNU Campus within the Knowledge Axis
+booklet-21,→ PEDDB-3031,Võru,+CityxChange
+booklet-22,→ PEDDB-3034,Bergen,Zero Village Bergen (ZVB)6
+booklet-25,→ PEDDB-3039,Paterna (Valencia),Barrio La Pinada
+booklet-27,→ PEDDB-2064,Tampere,Ilokkaanpuisto
+booklet-28,→ PEDDB-3044,Trento,Santa Chiara Urban District
+booklet-29,→ PEDDB-3048,Vienna,Zukunftsquartier
+booklet-30,→ PEDDB-3111,Drammen,Jacobs Borchs Gate
+booklet-31,→ PEDDB-3051,Espoo,Smart Otaniemi
+booklet-33,→ PEDDB-3115,Győr,Győr Geothermal District Heating Project
+booklet-34,→ PEDDB-3054,Lund,Cityfied
+booklet-35,→ PEDDB-3057,Mieres (Asturias),District Heating Pozo Barredo
+booklet-36,→ PEDDB-3060,Milano,Sharing Cities
+booklet-38,→ PEDDB-3063,Stockholm,Hammarby Sjöstad 2.0
+booklet-40,→ PEDDB-3067,Zurich,Hunziker Areal
+booklet-41,→ PEDDB-3071,Bolzano,Sinfonia
+booklet-42,→ PEDDB-3074,Florence,REPLICATE
+booklet-45,→ PEDDB-3078,Helsinki,mySMARTlife
+booklet-49,→ PEDDB-3081,Kaiserslautern,EnStadt:Pfaff
+booklet-50,→ PEDDB-2459,Lund,Brunnshög
+booklet-52,→ PEDDB-3086,Malmö,Klimatkontrakt Hyllie
+booklet-58,→ PEDDB-3107,Freiburg im Breisgau,Dietenbach
+booklet-59,→ PEDDB-3104,Lecce,"SmartEnCity,"
+booklet-60,→ PEDDB-3101,Trento,STARDUST
+core-Buiksloterham,→ PEDDB-2932,Buiksloterham,Amsterdam
+core-Zorrotzaurre,→ BKL-06,Zorrotzaurre,Bilbao
+core-Kera,→ PEDDB-2762,Kera,Espoo
+core-Fornebu,→ PEDDB-3008,Fornebu,Bærum
+core-Kaukovainio,→ PEDDB-2562,Kaukovainio,Oulu
+core-Paddepoel,→ PEDDB-2098,Paddepoel,Groningen
+core-Brunnshög,→ PEDDB-2459,Brunnshög,Lund
+core-Kalasatama,→ PEDDB-3078,Kalasatama,Helsinki
+core-Leppävaara,→ PEDDB-2038,Leppävaara,Espoo

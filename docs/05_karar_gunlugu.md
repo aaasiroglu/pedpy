@@ -611,6 +611,17 @@ Durumlar: `Önerildi` · `Kabul` · `Reddedildi` · `Değiştirildi (K-xxx)`.
   - 31 ölçütlü bileşik skor skor olarak bırakıldı.
 - **Durum:** Danışman onayı bekliyor
 
+
+### K-071: Tezin veri altyapısı: üç katman, yazılı şemalar, manifest
+- **Bağlam:** Kullanıcı kompakt ve sağlıklı bir veri altyapısı istedi; bina tabanlı çerçeve (K-070) ve küresel envanter (K-068, K-069) tek bir düzene oturmalı.
+- **Karar (`docs/32`):**
+  - Üç katman: ham/önbellek (değişmez, git dışı) → ürünler (yazılı şema) → `data/manifest.json` (satır, SHA-256, girdiler, lisans, parametre, kod sürümü).
+  - `pedx.store`: `schema` (sözleşmeler ve kapsama kuralları), `manifest`, `buildings` (yükseklik ve kullanım zinciri, kaynak sütunlarıyla), `units` (sokaklardan yapı adası).
+  - Ürünler: birleşik envanter `ped_sites.csv` (155 saha), alan başına `buildings.parquet` ve `blocks.parquet` (Caferağa, Kalasatama).
+  - `make inventory`, `make lake AREA=...`, `make check-data`; `tests/test_store.py`.
+- **Bulgu:** Caferağa'da bina yüksekliğinin %81'i GHSL piksel ortalamasından geliyor; en büyük veri açığı yükseklik.
+- **Durum:** Kabul
+
 ### K-009: Geliştirme, plan onaylanana kadar durduruldu
 - **Bağlam:** Kullanıcı "geliştirme yapmadan önce planlama" istedi.
 - **Karar:** Plan sohbetinden önce yazılan taslak kod dosyaları (`src/pedpy/_stats.py`, `energy/load_match.py`, `energy/records.py`, `mcdm/criteria.py`) kaybolmasın diye **"taslak" etiketiyle** commit edildi. Henüz paket hâline gelmediler (`__init__.py` ve `pyproject.toml` yok) ve test edilmediler. Plan onayından sonra Faz 2'de gözden geçirilip kullanılacaklar.

@@ -2,7 +2,7 @@
 PY ?= python3
 PORT ?= 8765
 
-.PHONY: help install data epias build serve api demo prepare agent-qwen test docker docker-run clean
+.PHONY: help install data epias build serve api demo prepare agent-qwen test docker docker-run clean inventory lake check-data
 
 help:
 	@echo "make install    # Python paketlerini kur (pedx + h3 + jax + scipy + rasterio + pytest)"
@@ -14,6 +14,9 @@ help:
 	@echo "make epias      # EPİAŞ ulusal saatlik tüketim (EPIAS_USERNAME/EPIAS_PASSWORD gerekli)"
 	@echo "make build      # H3 özellik deposunu ve web verisini yeniden üret"
 	@echo "make test       # testleri çalıştır"
+	@echo "make inventory  # birleşik küresel PED envanteri (data/inventory/ped_sites.csv)"
+	@echo "make lake AREA=caferaga  # bir çalışma alanının bina + yapı adası katmanı (data/lake/<alan>/)"
+	@echo "make check-data # tüm kayıtlı veri ürünlerini sözleşmelerine karşı denetle"
 	@echo "make docker     # Docker imajı oluştur;  make docker-run ile çalıştır"
 
 install:
@@ -69,3 +72,14 @@ docker-run:
 
 clean:
 	rm -rf data/processed .pytest_cache
+
+# thesis data infrastructure (K-071, docs/32)
+AREA ?= caferaga
+inventory:
+	$(PY) scripts/build_ped_sites.py
+
+lake:
+	$(PY) scripts/build_area.py $(AREA)
+
+check-data:
+	$(PY) scripts/check_data.py

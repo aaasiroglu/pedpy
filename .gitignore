@@ -5,3 +5,4 @@ data/raw/
 *.pyc
 data/cache/
 data/models/
+data/lake/
